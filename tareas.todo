@@ -1,0 +1,17 @@
+Autor : Alfredo Sánchez Alberca (asalber@ceu.es)
+
+Base de datos:
+  ☐ Unificar bases de datos de enfermos y sanos.
+  ☐ Limpiar la base de datos.
+
+Estudio Descriptivo:
+  ☐ Descripción de las distribuciones de las variables.
+  ☐ Análisis de la normalidad de las variables.
+  ☐ Estadísticos descriptivos de las principales variables.
+
+Modelos predictivos:
+  Redes Neuronales:
+    ☐ Definir conjuntos de entrenamiento y de evaluación.
+    ☐ Definir parámetros del modelo (estructura de la red).
+    ☐ Entrenar la red
+    ☐ Evaluar la red
