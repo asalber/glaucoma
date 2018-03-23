@@ -1,0 +1,306 @@
+---
+title: "Proyecto Glaucoma"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::material:
+    smart: false
+    highlight: kate
+    self_contained: true
+    #code_folding: show
+    thumbnails: false
+    gallery: true
+    #fig_width: 4
+    #fig_height: 4
+    df_print: kable
+---
+
+<!-- Autor: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo=FALSE,
+	             cache=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(gridExtra)
+library(ggpubr)
+library(DT)
+library(psych)
+datos <- read.csv(file="datos/datos.csv", header=T, sep=",")
+# Extract factors
+datos.factor <- datos[,sapply(datos, is.factor)]
+# Extract numeric
+datos.num <- datos[, !sapply(datos, is.factor)]
+datos.num$Glaucoma <- datos$Glaucoma
+```
+
+# Descripción
+
+## Objetivo
+
+Construir un modelo predictivo del glaucoma a partir de los datos de la tomografía de coherencia óptica mediante técnicas de aprendizaje automático.
+
+## Tipo de estudio
+
+Estudio transversal comparativo. 
+
+# Tamaño muestral
+
+- Pacientes con glaucoma: `r ftable(datos$Glaucoma)[2]`
+- Pacientes sin glaucoma: `r ftable(datos$Glaucoma)[1]`
+
+# Variables
+
+```{r}
+variables <- read.csv(file="datos/variables.csv", encoding="UTF-8", header=T, sep=",")
+datatable(variables, rownames = F, escape=F, class = 'display', options = list(pageLength = 10, dom="ltip", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+variables.Num <- variables[variables$Type=="Num",]
+variables.Factors <- variables[variables$Type=="Factor",]
+```
+
+# Estadística Descriptiva
+
+## Edad y Género
+
+```{r}
+result <- describeBy(datos[,c("Age", "Glaucoma")], datos$Glaucoma, mat = T, digits = 4)
+result$item <- NULL
+result$vars <- NULL
+result$range <- NULL
+result$mad <- NULL
+result$se <- NULL
+result$median <- NULL
+result$trimmed <- NULL
+colnames(result)[1] <- "Glaucoma"
+datatable(result[-c(3,4),], rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r}
+ggpairs(datos, mapping=aes(color=Glaucoma, alpha=0.5), columns=c("Gender", "Age", "Eye"))
+```
+
+## FoBMO.Angle, Displacement y BMO.Area
+
+```{r}
+result <- describeBy(datos[,c("FoBMO.Angle", "Displacement", "BMO.Area")], datos$Glaucoma, mat = T, digits = 4)
+result$item <- NULL
+result$vars <- NULL
+result$range <- NULL
+result$mad <- NULL
+result$se <- NULL
+result$median <- NULL
+result$trimmed <- NULL
+colnames(result)[1] <- "Glaucoma"
+datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r}
+overHist <- function(i){
+  p <- ggplot(datos, aes_string(x = i)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5)
+  return(p)
+}
+p <- lapply(c("FoBMO.Angle", "Displacement", "BMO.Area"), overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r}
+overBoxplot <- function(i){
+  p <- ggplot(datos, aes_string(x="Glaucoma", y = i)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+p <- lapply(c("FoBMO.Angle", "Displacement", "BMO.Area"), overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+## BMO
+
+```{r}
+datos.BMO <- select(datos, starts_with("BMO"))[-1]
+datos.BMO$Glaucoma <- datos$Glaucoma
+result <- describeBy(datos.BMO[,-ncol(datos.BMO)], datos.BMO$Glaucoma, mat = T, digits = 4)
+result$item <- NULL
+result$vars <- NULL
+result$range <- NULL
+result$mad <- NULL
+result$se <- NULL
+result$median <- NULL
+result$trimmed <- NULL
+colnames(result)[1] <- "Glaucoma"
+datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r}
+ggpairs(datos.BMO, mapping=aes(color=Glaucoma, alpha=0.5), columns =  colnames(datos.BMO)[-ncol(datos.BMO)])
+```
+
+
+```{r}
+overHist <- function(i){
+  p <- ggplot(datos.BMO, aes_string(x = i)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5)
+  return(p)
+}
+p <- lapply(colnames(datos.BMO)[-ncol(datos.BMO)], overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r}
+overBoxplot <- function(i){
+  p <- ggplot(datos.BMO, aes_string(x="Glaucoma", y = i)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+p <- lapply(colnames(datos.BMO)[-ncol(datos.BMO)], overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+## Anillo 3.5
+
+```{r}
+datos.3.5 <- select(datos, starts_with("Rim3.5"))
+datos.3.5$Glaucoma <- datos$Glaucoma
+result <- describeBy(datos.3.5[,-ncol(datos.3.5)], datos.3.5$Glaucoma, mat = T, digits = 4)
+result$item <- NULL
+result$vars <- NULL
+result$range <- NULL
+result$mad <- NULL
+result$se <- NULL
+result$median <- NULL
+result$trimmed <- NULL
+colnames(result)[1] <- "Glaucoma"
+datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r}
+ggpairs(datos.3.5, mapping=aes(color=Glaucoma, alpha=0.5), columns =  colnames(datos.3.5)[-ncol(datos.3.5)])
+```
+
+
+```{r}
+overHist <- function(i){
+  p <- ggplot(datos.3.5, aes_string(x = i)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5)
+  return(p)
+}
+p <- lapply(colnames(datos.3.5)[-ncol(datos.3.5)], overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r}
+overBoxplot <- function(i){
+  p <- ggplot(datos.3.5, aes_string(x="Glaucoma", y = i)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+p <- lapply(colnames(datos.3.5)[-ncol(datos.3.5)], overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+## Anillo 4.1
+
+```{r}
+datos.4.1 <- select(datos, starts_with("Rim4.1"))
+datos.4.1$Glaucoma <- datos$Glaucoma
+result <- describeBy(datos.4.1[,-ncol(datos.4.1)], datos.4.1$Glaucoma, mat = T, digits = 4)
+result$item <- NULL
+result$vars <- NULL
+result$range <- NULL
+result$mad <- NULL
+result$se <- NULL
+result$median <- NULL
+result$trimmed <- NULL
+colnames(result)[1] <- "Glaucoma"
+datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r}
+ggpairs(datos.4.1, mapping=aes(color=Glaucoma, alpha=0.5), columns =  colnames(datos.4.1)[-ncol(datos.4.1)])
+```
+
+
+```{r}
+overHist <- function(i){
+  p <- ggplot(datos.4.1, aes_string(x = i)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5)
+  return(p)
+}
+p <- lapply(colnames(datos.4.1)[-ncol(datos.4.1)], overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r}
+overBoxplot <- function(i){
+  p <- ggplot(datos.4.1, aes_string(x="Glaucoma", y = i)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+p <- lapply(colnames(datos.4.1)[-ncol(datos.4.1)], overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+## Anillo 4.7
+
+```{r}
+datos.4.7 <- select(datos, starts_with("Rim4.7"))
+datos.4.7$Glaucoma <- datos$Glaucoma
+result <- describeBy(datos.4.7[,-ncol(datos.4.7)], datos.4.7$Glaucoma, mat = T, digits = 4)
+result$item <- NULL
+result$vars <- NULL
+result$range <- NULL
+result$mad <- NULL
+result$se <- NULL
+result$median <- NULL
+result$trimmed <- NULL
+colnames(result)[1] <- "Glaucoma"
+datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r}
+ggpairs(datos.4.7, mapping=aes(color=Glaucoma, alpha=0.5), columns =  colnames(datos.4.7)[-ncol(datos.4.7)])
+```
+
+
+```{r}
+overHist <- function(i){
+  p <- ggplot(datos.4.7, aes_string(x = i)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5)
+  return(p)
+}
+p <- lapply(colnames(datos.4.7)[-ncol(datos.4.7)], overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r}
+overBoxplot <- function(i){
+  p <- ggplot(datos.4.7, aes_string(x="Glaucoma", y = i)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+p <- lapply(colnames(datos.4.7)[-ncol(datos.4.7)], overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+# Glosario
+
+- GCAA: Glaucoma de ángulo abierto
+- OCT: Optical coherence tomography (Tomografía de coherencia óptica)
+- BMO: Bruch Membrane Opening (Apertura de la membrana de Bruch)
+- MRW: Minimum Rim Width (Grosor mínimo del anillo neuroretiniano)
+- PRW: Perpendicular Rim Width (Grosor del anillo perpendicular)
+- HRW: Horizontal Rim Width (Grosor del anillo horizontal)
+- MRA: Minimum Rim Area within the neuroretinal tissue defined by the MRW (Area mínima del anillo neuroretiniano)
+- PRA: Perpendicular Rim Area (Area del anillo perpendicular) 
+- ONH: Optic Nerve Head (Cabeza del nervio óptico)
+- RNFL: Retinal Nerve Fiber Layer (Capa de fibra nerviosa retiniana)
+- INL: Inner Nuclear Layer (Capa nuclear interna de la retina)
+- IPL: Inner Plexiform Layer (Capa plexiforme interna de la retina)
+- OPL: Outer Plexiform Layer (Capa nuclear externa de la retina)
+- OPL: Outer Plexiform Layer (Capa plexiforme externa de la retina)
+- GCL: Ganglion Cell Layer (Capa de células ganglionares de la retina)
+- RPE: Retinal Pigment Epithelium (Epitelio pigmentario de la retina)
+
+

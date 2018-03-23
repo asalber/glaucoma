@@ -1,0 +1,11 @@
+base
+knitr
+rmdformats
+dplyr
+ggplot2
+GGally
+gridExtra
+magrittr
+ggpubr
+DT
+psych
