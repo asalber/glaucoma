@@ -39,11 +39,6 @@ library(ggpubr)
 library(DT)
 library(psych)
 datos <- read.csv(file="datos/datos.csv", header=T, sep=",")
-# Extract factors
-datos.factor <- datos[,sapply(datos, is.factor)]
-# Extract numeric
-datos.num <- datos[, !sapply(datos, is.factor)]
-datos.num$Glaucoma <- datos$Glaucoma
 ```
 
 # Descripción
@@ -283,6 +278,83 @@ overBoxplot <- function(i){
 p <- lapply(colnames(datos.4.7)[-ncol(datos.4.7)], overBoxplot)
 do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
 ```
+
+# Comparación de medias
+
+## BMO
+
+```{r}
+result <- data.frame(t(sapply(datos.BMO[-ncol(datos.BMO)], function(x) 
+     unlist(t.test(x~datos$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r}
+result$BMO <- c("G", "NS", "N", "NI", "TI", "T", "TS")
+ggplot(result, aes(x = BMO, y = Diferencia.medias)) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), col="red", width=.2)
+```
+
+## Anillo 3.5
+```{r}
+result <- data.frame(t(sapply(datos.3.5[-ncol(datos.3.5)], function(x) 
+     unlist(t.test(x~datos$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r}
+result$Rim3.5 <- c("G", "NS", "N", "NI", "TI", "T", "TS")
+ggplot(result, aes(x = Rim3.5, y = Diferencia.medias)) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), col="red", width=.2)
+```
+
+## Anillo 4.1
+```{r}
+result <- data.frame(t(sapply(datos.4.1[-ncol(datos.4.1)], function(x) 
+     unlist(t.test(x~datos$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r}
+result$Rim4.1 <- c("G", "NS", "N", "NI", "TI", "T", "TS")
+ggplot(result, aes(x = Rim4.1, y = Diferencia.medias)) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), col="red", width=.2)
+```
+
+## Anillo 4.7
+```{r}
+result <- data.frame(t(sapply(datos.4.7[-ncol(datos.4.7)], function(x) 
+     unlist(t.test(x~datos$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r}
+result$Rim4.7 <- c("G", "NS", "N", "NI", "TI", "T", "TS")
+ggplot(result, aes(x = Rim4.7, y = Diferencia.medias)) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), col="red", width=.2)
+```
+
+Se obsevan diferencias muy significativas entre las medias del grosos de todos los anillos de pacientes sanos y con glaucoma. Las diferencias mayores y más significativas se dan en el BMO, y dentro de los sectores las diferencias mayores se dan en el nasal superior e inferior, y las más significativas en el nasal superior y el global. 
 
 # Glosario
 
