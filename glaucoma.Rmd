@@ -65,6 +65,36 @@ variables.Num <- variables[variables$Type=="Num",]
 variables.Factors <- variables[variables$Type=="Factor",]
 ```
 
+# Transformación de datos
+
+Se ha comprobado que el grosor de los anillos depende linealmente de la edad y del área del anillo BMO, por lo que se ha optado por estandarizar los datos aplicando la siguiente transformación: 
+
+$$z_i=(x_i-\bar x-b_{xe}(e_i-\bar e)-b_{xa}(a_i-\bar a))/s_x$$
+donde:
+
+- $x_i$ es el valor del individuo $i$ en la variable $x$.
+- $\bar x$ es la media de la variable $x$.
+- $s_x$ es la desviación típica de la variable $x$.
+- $e_i$ es la edad del individuo $i$.
+- $\bar e$ es la media de la edad en la base normativa de individuos sanos.
+- $b_{xe}$ es la pendiente de la recta de regresión de la variable $x$ sobre la edad.
+- $a_i$ es el área del anillo BMO del individuo $i$.
+- $\bar a$ es la media del área del anillo BMO en la base normativa de individuos sanos.
+- $b_{xa}$ es la pendiente de la recta de regresión de la variable $x$ sobre el área del anillo BMO.
+- $z_i$ es el valor estandarizado del individuo $i$ en la variable $x$. 
+
+
+```{r}
+# Normalización de datos
+# El grosos de la capa nerviosa depende de la edad y del área del BMO, por lo que hay que aplicar un modelo de regresión para obtener la media y la desviación típica a utilizar en la normalización. 
+coef.norm <- read.csv(file="datos/tabla-normalizacion.csv", encoding = "UTF-8", header=T, row.names=1, sep=",")
+age.mean <- 52.17
+bmo.area.mean <- 1.781
+for (i in colnames(datos)[11:ncol(datos)]){
+   datos[[i]] <- (datos[[i]]-coef.norm[i,"Media"]-coef.norm[i,"Pendiente.edad"]*(datos$Age-age.mean)-coef.norm[i,"Pendiente.area.bmo"]*(datos$BMO.Area-bmo.area.mean))/coef.norm[i,"Desviacion"]
+}
+```
+
 # Estadística Descriptiva
 
 ## Edad y Género
@@ -280,6 +310,17 @@ do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
 ```
 
 # Comparación de medias
+## Edad y Área BMO
+
+```{r}
+result <- data.frame(t(sapply(datos[c("Age","BMO.Area")], function(x) 
+     unlist(t.test(x~datos$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
 
 ## BMO
 
@@ -354,7 +395,8 @@ ggplot(result, aes(x = Rim4.7, y = Diferencia.medias)) +
   geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), col="red", width=.2)
 ```
 
-Se obsevan diferencias muy significativas entre las medias del grosos de todos los anillos de pacientes sanos y con glaucoma. Las diferencias mayores y más significativas se dan en el BMO, y dentro de los sectores las diferencias mayores se dan en el nasal superior e inferior, y las más significativas en el nasal superior y el global. 
+Se obsevan diferencias muy significativas entre las medias del grosos de todos los anillos de pacientes sanos y con glaucoma. Las diferencias más significativas se dan en el BMO, pero las diferencias mayores se dan en el anillo 3.5. Por sectores las diferencias más significaivas se dan en el BMO global y nasal superior, y las mayores en el anillo 3.5 global y temporal inferior. 
+
 
 # Glosario
 
