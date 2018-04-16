@@ -9,6 +9,9 @@ Estudio Descriptivo:
   ☐ Análisis de la normalidad de las variables.
   ☐ Estadísticos descriptivos de las principales variables.
 
+Estudio Inferencial: 
+  Comparación de medias de los sectores entre enfermos y sanos.
+
 Modelos predictivos:
   Redes Neuronales:
     ☐ Definir conjuntos de entrenamiento y de evaluación.
