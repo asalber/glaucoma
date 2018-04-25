@@ -1,18 +1,37 @@
 Autor : Alfredo Sánchez Alberca (asalber@ceu.es)
 
 Base de datos:
-  ☐ Unificar bases de datos de enfermos y sanos.
-  ☐ Limpiar la base de datos.
+  ✔ Unificar bases de datos de enfermos y sanos. @done (2018-4-16 19:43:55)
+  ✔ Limpiar la base de datos. @done (2018-4-16 19:43:59)
 
 Estudio Descriptivo:
-  ☐ Descripción de las distribuciones de las variables.
-  ☐ Análisis de la normalidad de las variables.
-  ☐ Estadísticos descriptivos de las principales variables.
+  ✔ Descripción de las distribuciones de las variables del grosor de los anillos. @done (2018-4-16 19:44:05)
+  ✔ Análisis de la normalidad de las variables del grosor de los anillos. @done (2018-4-16 19:44:07)
+  ✔ Estadísticos descriptivos de las principales variables del grosor de los anillos. @done (2018-4-16 19:44:09)
+  ☐ Estadísticos descriptivos del grosor de los anillos por grupos de edad. 
+  ☐ Estadísticos descriptivos por ojos del grosor de los anillos.
+  ☐ Estadísticos descriptivos por ojos del cubo macular.
 
 Estudio Inferencial: 
-  Comparación de medias de los sectores entre enfermos y sanos.
+  ✔ Comparación de medias del grosor de los anillos entre enfermos y sanos. @done (2018-4-16 19:44:18)
+  ☐ Comparación de medias del grosor de los anillos por ojos. 
+  ☐ Comparación de las medias del cubo macular entre enfermos y sanos por ojos.
+
+Denifición de grados enfermedad:
+  ☐ Clusters basados en k-medias para los grados de enfermedad. 
 
 Modelos predictivos:
+  Análisis discriminante:
+    ☐ Análisis discriminante para discriminar enfernos y sanos.
+    ☐ Análisis discriminante para discriminar entre grados de la enfermedad.
+
+  Regresión logística:
+    ☐ Regresión logística para clasificar sanos y enfermos.
+
+  Árboles de decisión:
+    ☐ Árboles de decisión para clasificar sanos y enfermos.
+    ☐ Árboles de decisión para clasificar los grados de la enfermedad.
+
   Redes Neuronales:
     ☐ Definir conjuntos de entrenamiento y de evaluación.
     ☐ Definir parámetros del modelo (estructura de la red).

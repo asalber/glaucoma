@@ -1,0 +1,126 @@
+---
+title: "Proyecto Glaucoma"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::material:
+    smart: false
+    highlight: kate
+    self_contained: true
+    #code_folding: show
+    thumbnails: false
+    gallery: true
+    #fig_width: 4
+    #fig_height: 4
+    df_print: kable
+---
+
+<!-- Autor: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo=FALSE,
+	             cache=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(gridExtra)
+library(ggpubr)
+library(DT)
+library(psych)
+library(htmltools)
+datos <- read.csv(file="datos/datos.csv", header=T, sep=",")
+```
+
+# Descripción
+
+## Objetivo
+
+Construir un modelo predictivo del glaucoma a partir de los datos de la tomografía de coherencia óptica mediante técnicas de aprendizaje automático.
+
+## Tipo de estudio
+
+Estudio transversal comparativo. 
+
+# Tamaño muestral
+
+- Pacientes con glaucoma: `r ftable(datos$Glaucoma)[2]`
+- Pacientes sin glaucoma: `r ftable(datos$Glaucoma)[1]`
+
+# Variables
+
+```{r}
+variables <- read.csv(file="datos/variables.csv", encoding="UTF-8", header=T, sep=",")
+datatable(variables, rownames = F, escape=F, class = 'display', options = list(pageLength = 10, dom="ltip", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+variables.Num <- variables[variables$Type=="Num",]
+variables.Factors <- variables[variables$Type=="Factor",]
+```
+
+# Transformación de datos
+
+Se ha comprobado que el grosor de los anillos depende linealmente de la edad y del área del anillo BMO, por lo que se ha optado por estandarizar los datos aplicando la siguiente transformación: 
+
+$$z_i=(x_i-\bar x-b_{xe}(e_i-\bar e)-b_{xa}(a_i-\bar a))/s_x$$
+donde:
+
+- $x_i$ es el valor del individuo $i$ en la variable $x$.
+- $\bar x$ es la media de la variable $x$.
+- $s_x$ es la desviación típica de la variable $x$.
+- $e_i$ es la edad del individuo $i$.
+- $\bar e$ es la media de la edad en la base normativa de individuos sanos.
+- $b_{xe}$ es la pendiente de la recta de regresión de la variable $x$ sobre la edad.
+- $a_i$ es el área del anillo BMO del individuo $i$.
+- $\bar a$ es la media del área del anillo BMO en la base normativa de individuos sanos.
+- $b_{xa}$ es la pendiente de la recta de regresión de la variable $x$ sobre el área del anillo BMO.
+- $z_i$ es el valor estandarizado del individuo $i$ en la variable $x$. 
+
+
+```{r}
+# Normalización de datos
+# El grosos de la capa nerviosa depende de la edad y del área del BMO, por lo que hay que aplicar un modelo de regresión para obtener la media y la desviación típica a utilizar en la normalización. 
+coef.norm <- read.csv(file="datos/tabla-normalizacion.csv", encoding = "UTF-8", header=T, row.names=1, sep=",")
+age.mean <- 52.17
+bmo.area.mean <- 1.781
+for (i in colnames(datos)[11:ncol(datos)]){
+   datos[[i]] <- (datos[[i]]-coef.norm[i,"Media"]-coef.norm[i,"Pendiente.edad"]*(datos$Age-age.mean)-coef.norm[i,"Pendiente.area.bmo"]*(datos$BMO.Area-bmo.area.mean))/coef.norm[i,"Desviacion"]
+}
+```
+
+# Datos atípicos
+
+## Pacientes normales
+
+```{r}
+outliers.table <- function(i) {
+  outliers <- boxplot(datos[datos$Glaucoma=="N", i], plot=FALSE)$out
+  datos.outliers <- datos[datos[,i] %in% outliers, c(1,i)]
+  datatable(format(datos.outliers,4), rownames = F, escape=F, class = 'display', options = list(pageLength = 10, dom="ltip", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+}
+ot <- lapply(11:ncol(datos), outliers.table)
+do.call(div, ot)
+```
+
+## Pacientes con glaucoma
+
+```{r}
+outliers.table <- function(i) {
+  outliers <- boxplot(datos[datos$Glaucoma=="Y", i], plot=FALSE)$out
+  datos.outliers <- datos[datos[,i] %in% outliers, c(1,i)]
+  datatable(format(datos.outliers,4), rownames = F, escape=F, class = 'display', options = list(pageLength = 10, dom="ltip", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+}
+ot <- lapply(11:ncol(datos), outliers.table)
+do.call(div, ot)
+```
+
+
+
