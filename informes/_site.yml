@@ -1,0 +1,24 @@
+name: "glaucoma"
+output_dir: "../docs"
+navbar:
+  title: "Glaucoma"
+  type: inverse
+  left:
+    - text: "Descripción"
+      href: index.html
+    - text: "Análisis anillos"
+      href: glaucoma-anillos.html
+    - text: "Análisis mácula"
+      href: glaucoma-macula.html
+  right:
+    - icon: fa-home fa-lg
+      href: http://aprendeconalf.es/
+output:
+  html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    fig_width: 8
+    fig_height: 6
+    df_print: paged
+    

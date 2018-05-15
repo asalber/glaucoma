@@ -1,0 +1,745 @@
+---
+title: "Análisis del cubo macular"
+date: "`r Sys.Date()`"
+---
+
+```{r knitr_init, echo=F}
+library(knitr)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
+```
+
+```{r carga-paquetes, results='hide'}
+.packages <- c("readxl", "tidyverse", "reshape2", "GGally", "gridExtra", "ggpubr", "DT", "psych", "pander")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+```
+
+```{r carga-datos}
+# Grosor RPE
+col.types = c(rep("text",3),"date", rep("text",3), rep("date",2), rep("numeric",2), rep("text",4), rep("numeric",64)) 
+datos.RPE <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_EPR", col_types = col.types)
+datos.RPE$Layer <- "RPE"
+# Grosor GCL
+datos.GCL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_GCL", col_types = col.types)
+datos.GCL$Layer <- "GCL"
+# Grosor INL
+datos.INL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_INL", col_types = col.types)
+datos.INL$Layer <- "INL"
+# Grosor IPL
+datos.IPL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_IPL", col_types = col.types)
+datos.IPL$Layer <- "IPL"
+# Grosor ONL
+datos.ONL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_ONL", col_types = col.types)
+datos.ONL$Layer <- "ONL"
+# Grosor OPL
+datos.OPL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_OPL", col_types = col.types)
+datos.OPL$Layer <- "OPL"
+# Grosor RNFL
+datos.RNFL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_RNFL", col_types = col.types)
+datos.RNFL$Layer <- "RNFL"
+# Grosor total
+datos.FULL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_FULL_Thickness", col_types = col.types)
+datos.FULL$Layer <- "FULL"
+# Fusión de datos
+datos <- rbind(datos.RPE, datos.GCL, datos.INL, datos.IPL, datos.ONL, datos.OPL, datos.RNFL, datos.FULL)
+# Normalización de nombres de variables
+colnames(datos) <- make.names(colnames(datos))
+colnames(datos)[16:79] <- paste0("Cell.",substr(colnames(datos)[16:79],6,8))
+# Eliminación datos erroneos
+datos.atipicos <- read.csv(file="../datos/datos-confrontacion.csv", header=T, sep=",")
+id.atipicos <- datos.atipicos[is.na(datos.atipicos$SUMA.V) | datos.atipicos$SUMA.V>10, "Lastname"]
+datos <- datos[!(datos$Lastname %in% id.atipicos), ]
+# Conjuntos de variables
+# Lista de celdas por filas
+# varCells <- startsWith(colnames(datos),"Cell")
+# varCells <- colnames(datos)[varCells]
+# Lista de celdas por columnas
+varCells <- NULL
+for (i in 1:8){
+  for (j in 1:8){
+    varCells <- c(varCells, paste0("Cell.",j,".",i))
+  }
+}
+matrixCells <- matrix(varCells, nrow=8, ncol=8)
+submatrixCells1 <- matrixCells[1:4,1:4]
+submatrixCells2 <- matrixCells[1:4,5:8]
+submatrixCells3 <- matrixCells[5:8,1:4]
+submatrixCells4 <- matrixCells[5:8,5:8]
+submatrixCells <- list(submatrixCells1, submatrixCells2, submatrixCells3, submatrixCells4) 
+# Eliminación datos atípicos
+removeOutliers <- function(x) {
+  qnt <- quantile(x, probs=c(.25, .75, 0.05, 0.95), na.rm = T)
+  iqr <- qnt[2]-qnt[1]
+  fence1 <- qnt[1]-1.5*iqr
+  fence2 <- qnt[2]+1.5*iqr
+  x[x < fence1] <- qnt[3]
+  x[x > fence2] <- qnt[4]
+  return(x)
+}
+datos[datos$Glaucoma=="Y" & datos$Layer=="RPE", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="RPE", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="RPE", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="RPE", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Layer=="GCL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="GCL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="GCL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="GCL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Layer=="INL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="INL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="INL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="INL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Layer=="IPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="IPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="IPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="IPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Layer=="ONL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="ONL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="ONL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="ONL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Layer=="OPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="OPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="OPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="OPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Layer=="RNFL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="RNFL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="RNFL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="RNFL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Layer=="FULL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="FULL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Layer=="FULL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="FULL", varCells], removeOutliers)
+```
+
+```{r filtrado-datos}
+# Ojo izquierdo 
+datos.L <- datos[datos$Eye=="L",]
+# Ojo derecho
+datos.R <- datos[datos$Eye=="R",]
+# Datos Glaucoma
+datos.Glaucoma = datos[datos$Glaucoma=="Y",]
+# Datos Sanos
+datos.Sanos = datos[datos$Glaucoma=="N",]
+```
+
+
+# Capa total
+
+```{r}
+# Funciones para dibujar distribuciones por grupos
+# Resumen estadístico
+describir <- function(vars, eye, layer){
+  if (eye=="L"){
+    result <- describeBy(datos[datos$Eye=="L" & datos$Layer==layer, varCells], datos[datos$Eye=="L" & datos$Layer==layer, "Glaucoma"], mat = T, digits = 4)
+  } else {
+    result <- describeBy(datos[datos$Eye=="R" & datos$Layer==layer, varCells], datos[datos$Eye=="R" & datos$Layer==layer, "Glaucoma"], mat = T, digits = 4)
+  }
+  result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+  colnames(result)[1] <- "Glaucoma"
+  return(result)
+}
+# Histogramas de las variables vars de la capa layer según glaucoma y ojos
+overHist <- function(vars, layer){
+  p <- ggplot(datos[datos$Layer==layer,], aes_string(x = vars)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Eye~.)
+  return(p)
+}
+
+cellHist <- function(matrix, layer){
+  for (i in 1:length(matrix)){
+    p <- lapply(unlist(matrix[i]), overHist, layer=layer)
+    print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
+  }
+}
+
+# Densidad de las variables vars de la capa layer según glaucoma y ojos
+overDensity <- function(vars, layer){
+  p <- ggplot(datos[datos$Layer==layer,], aes_string(x = vars)) + geom_density(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Eye~.)
+  return(p)
+}
+
+cellDensity <- function(matrix, layer){
+  for (i in 1:length(matrix)){
+    p <- lapply(unlist(matrix[i]), overDensity, layer=layer)
+    print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
+  }
+}
+
+# Diagrama de las variables vars de la capa layer según glaucoma y ojos
+overBoxplot <- function(vars, layer){
+  p <- ggplot(datos[datos$Layer==layer,], aes_string(x="Eye", y = vars)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+
+cellBoxplot <- function(matrix, layer){
+  for (i in 1:length(matrix)){
+    p <- lapply(unlist(matrix[i]), overBoxplot, layer=layer)
+    print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
+  }
+}
+
+# Matriz de correlación entre las celdas de la capa layer y el ojo eye
+cellCorrelation <- function (eye, layer){
+  cormat <- round(cor(datos[datos$Eye==eye & datos$Layer==layer, varCells], use="complete.obs"),2)
+  print(datatable(cormat, rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'))))
+  melted.cormat <- melt(cormat)
+  colnames(melted.cormat) <- c("Cell1", "Cell2", "R")
+  melted.cormat$Cell1 <- substr(melted.cormat$Cell1, 6, 8)
+  melted.cormat$Cell2 <- substr(melted.cormat$Cell2, 6, 8)
+  print(ggplot(data = melted.cormat, aes(x=Cell1, y=Cell2, fill=R)) + geom_tile())
+}
+
+# Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
+comparar.medias <- function (layer, eye){
+  datos.layer.eye <- datos[datos$Eye==eye & datos$Layer==layer, ]
+  result <- data.frame(t(sapply(datos.layer.eye[, varCells], function(x) unlist(t.test(x~datos.layer.eye$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+  result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+  result<- result[c(1,2,6,3,4,5)]
+  colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+  return(result)
+}
+```
+
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-total-ojo-izdo}
+datatable(describir(varCells, "L", "FULL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-total-ojo-izdo}
+cellCorrelation("L", "FULL")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-total-ojo-dcho}
+datatable(describir(varCells, "R", "FULL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-total-ojo-dcho}
+cellCorrelation("R", "FULL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-total}
+cellHist(submatrixCells, "FULL")
+```
+
+```{r histograma-macula-total}
+cellDensity(submatrixCells, "FULL")
+```
+
+```{r cajas-macula-total}
+cellBoxplot(submatrixCells, "FULL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("FULL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r}
+medias.R <- comparar.medias("FULL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-total}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+
+# Capa GCL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-gcl-ojo-izdo}
+datatable(describir(varCells, "L", "GCL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-gcl-ojo-izdo}
+cellCorrelation("L", "GCL")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-gcl-ojo-dcho}
+datatable(describir(varCells, "R", "GCL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-gcl-ojo-dcho}
+cellCorrelation("R", "GCL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-gcl}
+cellHist(submatrixCells, "GCL")
+```
+
+```{r histograma-macula-gcl}
+cellDensity(submatrixCells, "GCL")
+```
+
+```{r cajas-macula-gcl}
+cellBoxplot(submatrixCells, "GCL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("GCL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias("GCL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-gcl}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+
+# Capa RNFL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-rnfl-ojo-izdo}
+datatable(describir(varCells, "L", "RNFL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rnfl-ojo-izdo}
+cellCorrelation("L", "RNFL")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-rnfl-ojo-dcho}
+datatable(describir(varCells, "R", "RNFL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rnfl-ojo-dcho}
+cellCorrelation("R", "RNFL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-rnfl}
+cellHist(submatrixCells, "RNFL")
+```
+
+```{r histograma-macula-rnfl}
+cellDensity(submatrixCells, "RNFL")
+```
+
+```{r cajas-macula-rnfl}
+cellBoxplot(submatrixCells, "RNFL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("RNFL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias("RNFL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-rnfl}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+
+# Capa INL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-inl-ojo-izdo}
+datatable(describir(varCells, "L", "INL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-inl-ojo-izdo}
+cellCorrelation("L", "INL")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-inl-ojo-dcho}
+datatable(describir(varCells, "R", "INL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-inl-ojo-dcho}
+cellCorrelation("R", "INL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-inl}
+cellHist(submatrixCells, "INL")
+```
+
+```{r histograma-macula-inl}
+cellDensity(submatrixCells, "INL")
+```
+
+```{r cajas-macula-inl}
+cellBoxplot(submatrixCells, "INL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("INL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias("INL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-inl}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+
+# Capa IPL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-ipl-ojo-izdo}
+datatable(describir(varCells, "L", "IPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-ipl-ojo-izdo}
+cellCorrelation("L", "IPL")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-ipl-ojo-dcho}
+datatable(describir(varCells, "R", "IPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-ipl-ojo-dcho}
+cellCorrelation("R", "IPL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-ipl}
+cellHist(submatrixCells, "IPL")
+```
+
+```{r histograma-macula-ipl}
+cellDensity(submatrixCells, "IPL")
+```
+
+```{r cajas-macula-ipl}
+cellBoxplot(submatrixCells, "IPL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("IPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias("IPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-ipl}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+
+# Capa ONL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-onl-ojo-izdo}
+datatable(describir(varCells, "L", "ONL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-onl-ojo-izdo}
+cellCorrelation("L", "ONL")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-onl-ojo-dcho}
+datatable(describir(varCells, "R", "ONL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-onl-ojo-dcho}
+cellCorrelation("R", "ONL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-onl}
+cellHist(submatrixCells, "ONL")
+```
+
+```{r histograma-macula-onl}
+cellDensity(submatrixCells, "ONL")
+```
+
+```{r cajas-macula-onl}
+cellBoxplot(submatrixCells, "ONL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("ONL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias("ONL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-onl}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+
+# Capa OPL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-opl-ojo-izdo}
+datatable(describir(varCells, "L", "OPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-opl-ojo-izdo}
+cellCorrelation("L", "OPL")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-opl-ojo-dcho}
+datatable(describir(varCells, "R", "OPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-opl-ojo-dcho}
+cellCorrelation("R", "OPL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-opl}
+cellHist(submatrixCells, "OPL")
+```
+
+```{r histograma-macula-opl}
+cellDensity(submatrixCells, "OPL")
+```
+
+```{r cajas-macula-opl}
+cellBoxplot(submatrixCells, "OPL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("OPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias("OPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-opl}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+
+# Capa RPE
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-rpe-ojo-izdo}
+datatable(describir(varCells, "L", "RPE"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rpe-ojo-izdo}
+cellCorrelation("L", "RPE")
+```
+
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-rpe-ojo-dcho}
+datatable(describir(varCells, "R", "RPE"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rpe-ojo-dcho}
+cellCorrelation("R", "RPE")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r densidad-macula-rpe}
+cellHist(submatrixCells, "RPE")
+```
+
+```{r histograma-macula-rpe}
+cellDensity(submatrixCells, "RPE")
+```
+
+```{r cajas-macula-rpe}
+cellBoxplot(submatrixCells, "RPE")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias("RPE", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias("RPE", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-rpe}
+# Intervalos de confianza para la diferencia de medias
+medias.L$Cell <- substr(row.names(medias.L),6,8)
+medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+medias.L$Eye <- "L"
+medias.R$Cell <- substr(row.names(medias.R),6,8)
+medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+medias.R$Eye <- "R"
+result <- rbind(medias.L, medias.R)
+ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+

@@ -1,0 +1,97 @@
+---
+title: "Diagnóstico del glaucoma "
+date: "`r Sys.Date()`"
+---
+
+```{r knitr-init, echo=F}
+library(knitr)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
+```
+
+```{r carga-datos}
+# Carga de datos
+datos <- read.csv(file="../datos/datos.csv", header=T, sep=",")
+# Eliminación de datos erróneos
+datos <- datos[-c(1669, 1677, 1678)]
+# Eliminación datos atípicos
+datos.atipicos <- read.csv(file="../datos/datos-confrontacion.csv", header=T, sep=",")
+id.atipicos <- datos.atipicos[is.na(datos.atipicos$SUMA.V) | datos.atipicos$SUMA.V>10, "Lastname"]
+datos <- datos[!(datos$Patient.Id %in% id.atipicos), ]
+```
+
+# Autores
+
+- Alfonso Parra Blesa (alfonsoparrablesa@gmail.com)
+- Alfredo Sánchez Alberca (asalber@ceu.es)
+
+# Objetivo
+
+Construir un modelo predictivo del glaucoma a partir de los datos de la tomografía de coherencia óptica mediante técnicas de aprendizaje automático.
+
+
+# Tipo de estudio
+
+Estudio analítico observacional transversal comparativo. 
+
+
+# Tamaño muestral
+
+Número total de ojos: `r nrow(datos)`
+```{r}
+table.sizes <- table(datos$Eye, datos$Glaucoma)
+colnames(table.sizes) <- c("Sanos", "Enfermos")
+rownames(table.sizes) <- c("Ojos izquierdos","Ojos derechos")
+table.sizes
+```
+
+
+# Variables
+
+```{r}
+variables <- read.csv(file="../datos/variables.csv", encoding="UTF-8", header=T, sep=",")
+datatable(variables, rownames = F, escape=F, class = 'display', options = list(pageLength = 10, dom="ltip", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+variables.Num <- variables[variables$Type=="Num",]
+variables.Factors <- variables[variables$Type=="Factor",]
+```
+
+# Normalización de datos
+
+Se ha comprobado que el grosor de los anillos depende linealmente de la edad y del área del anillo BMO, por lo que se ha optado por estandarizar los datos aplicando la siguiente transformación: 
+
+$$z_i=(x_i-\bar x-b_{xe}(e_i-\bar e)-b_{xa}(a_i-\bar a))/s_x$$
+donde:
+
+- $x_i$ es el valor del individuo $i$ en la variable $x$.
+- $\bar x$ es la media de la variable $x$.
+- $s_x$ es la desviación típica de la variable $x$.
+- $e_i$ es la edad del individuo $i$.
+- $\bar e$ es la media de la edad en la base normativa de individuos sanos.
+- $b_{xe}$ es la pendiente de la recta de regresión de la variable $x$ sobre la edad.
+- $a_i$ es el área del anillo BMO del individuo $i$.
+- $\bar a$ es la media del área del anillo BMO en la base normativa de individuos sanos.
+- $b_{xa}$ es la pendiente de la recta de regresión de la variable $x$ sobre el área del anillo BMO.
+- $z_i$ es el valor estandarizado del individuo $i$ en la variable $x$. 
+
+
+# Glosario
+
+- GCAA: Glaucoma de ángulo abierto
+- OCT: Optical coherence tomography (Tomografía de coherencia óptica)
+- BMO: Bruch Membrane Opening (Apertura de la membrana de Bruch)
+- MRW: Minimum Rim Width (Grosor mínimo del anillo neuroretiniano)
+- PRW: Perpendicular Rim Width (Grosor del anillo perpendicular)
+- HRW: Horizontal Rim Width (Grosor del anillo horizontal)
+- MRA: Minimum Rim Area within the neuroretinal tissue defined by the MRW (Area mínima del anillo neuroretiniano)
+- PRA: Perpendicular Rim Area (Area del anillo perpendicular) 
+- ONH: Optic Nerve Head (Cabeza del nervio óptico)
+- RNFL: Retinal Nerve Fiber Layer (Capa de fibra nerviosa retiniana)
+- INL: Inner Nuclear Layer (Capa nuclear interna de la retina)
+- IPL: Inner Plexiform Layer (Capa plexiforme interna de la retina)
+- ONL: Outer Plexiform Layer (Capa nuclear externa de la retina)
+- OPL: Outer Plexiform Layer (Capa plexiforme externa de la retina)
+- GCL: Ganglion Cell Layer (Capa de células ganglionares de la retina)
+- RPE: Retinal Pigment Epithelium (Epitelio pigmentario de la retina)
+
+

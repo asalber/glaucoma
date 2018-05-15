@@ -1,0 +1,4117 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="date" content="2018-05-15" />
+
+<title>Análisis de los anillos neuroretinianos</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Glaucoma</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Descripción</a>
+</li>
+<li>
+  <a href="glaucoma-anillos.html">Análisis anillos</a>
+</li>
+<li>
+  <a href="glaucoma-macula.html">Análisis mácula</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://aprendeconalf.es/">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Análisis de los anillos neuroretinianos</h1>
+<h4 class="date"><em>2018-05-15</em></h4>
+
+</div>
+
+
+<div id="estadistica-descriptiva" class="section level1">
+<h1>Estadística Descriptiva</h1>
+<div id="edad-genero-y-ojos" class="section level2">
+<h2>Edad, Género y Ojos</h2>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="12%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>X11</strong></td>
+<td align="center">N</td>
+<td align="center">1531</td>
+<td align="center">47.51</td>
+<td align="center">18.68</td>
+<td align="center">49.8</td>
+<td align="center">8.4</td>
+<td align="center">89.7</td>
+<td align="center">-0.1585</td>
+<td align="center">-0.9156</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>X12</strong></td>
+<td align="center">Y</td>
+<td align="center">467</td>
+<td align="center">67.15</td>
+<td align="center">13.6</td>
+<td align="center">68.7</td>
+<td align="center">22.2</td>
+<td align="center">95.5</td>
+<td align="center">-0.5386</td>
+<td align="center">-0.1397</td>
+</tr>
+</tbody>
+</table>
+<div id="evolucion-del-glaucoma-con-la-edad" class="section level3">
+<h3>Evolución del Glaucoma con la Edad</h3>
+<p><img src="glaucoma-anillos_files/figure-html/evolucion-glaucoma-edad-1.png" width="2400" /></p>
+<p>Se observa claramente que la prevalencia del glaucoma aumenta con la edad.</p>
+<p><img src="glaucoma-anillos_files/figure-html/descriptiva-edad-genero-ojos-1.png" width="2400" /></p>
+</div>
+</div>
+<div id="fobmo.angle-displacement-y-bmo.area" class="section level2">
+<h2>FoBMO.Angle, Displacement y BMO.Area</h2>
+<div id="ojo-izquierdo" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="24%" />
+<col width="13%" />
+<col width="7%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>FoBMO.Angle1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">-7.347</td>
+<td align="center">3.501</td>
+<td align="center">-7.31</td>
+<td align="center">-27.17</td>
+<td align="center">4.04</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>FoBMO.Angle2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-9.414</td>
+<td align="center">4.595</td>
+<td align="center">-9.13</td>
+<td align="center">-29.64</td>
+<td align="center">14.39</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Displacement1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">38.4</td>
+<td align="center">31.65</td>
+<td align="center">31</td>
+<td align="center">0</td>
+<td align="center">275</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Displacement2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">47.38</td>
+<td align="center">39.68</td>
+<td align="center">35</td>
+<td align="center">2</td>
+<td align="center">287</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.Area1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">1.983</td>
+<td align="center">0.3967</td>
+<td align="center">1.936</td>
+<td align="center">0.914</td>
+<td align="center">4.28</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.Area2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">1.967</td>
+<td align="center">0.4502</td>
+<td align="center">1.922</td>
+<td align="center">0.53</td>
+<td align="center">3.448</td>
+</tr>
+</tbody>
+</table>
+<table style="width:56%;">
+<colgroup>
+<col width="27%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>FoBMO.Angle1</strong></td>
+<td align="center">-0.318</td>
+<td align="center">1.089</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>FoBMO.Angle2</strong></td>
+<td align="center">-0.0422</td>
+<td align="center">4.046</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Displacement1</strong></td>
+<td align="center">2.83</td>
+<td align="center">12.76</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Displacement2</strong></td>
+<td align="center">2.186</td>
+<td align="center">7.193</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.Area1</strong></td>
+<td align="center">0.9613</td>
+<td align="center">2.484</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.Area2</strong></td>
+<td align="center">0.4677</td>
+<td align="center">1.089</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-izdo-1.png" width="2400" /></p>
+</div>
+<div id="ojo-derecho" class="section level3">
+<h3>Ojo derecho</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="24%" />
+<col width="13%" />
+<col width="7%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>FoBMO.Angle1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">-5.715</td>
+<td align="center">3.516</td>
+<td align="center">-5.84</td>
+<td align="center">-19.66</td>
+<td align="center">6.05</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>FoBMO.Angle2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-6.043</td>
+<td align="center">4.147</td>
+<td align="center">-5.835</td>
+<td align="center">-20.22</td>
+<td align="center">4.88</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Displacement1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">37.51</td>
+<td align="center">31.46</td>
+<td align="center">29</td>
+<td align="center">1</td>
+<td align="center">268</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Displacement2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">44.56</td>
+<td align="center">42.96</td>
+<td align="center">33</td>
+<td align="center">3</td>
+<td align="center">351</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.Area1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">1.975</td>
+<td align="center">0.3898</td>
+<td align="center">1.927</td>
+<td align="center">1.083</td>
+<td align="center">3.901</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.Area2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">1.944</td>
+<td align="center">0.4407</td>
+<td align="center">1.899</td>
+<td align="center">0.783</td>
+<td align="center">3.674</td>
+</tr>
+</tbody>
+</table>
+<table style="width:56%;">
+<colgroup>
+<col width="27%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>FoBMO.Angle1</strong></td>
+<td align="center">-0.1483</td>
+<td align="center">0.6348</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>FoBMO.Angle2</strong></td>
+<td align="center">-0.2189</td>
+<td align="center">-0.0292</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Displacement1</strong></td>
+<td align="center">2.496</td>
+<td align="center">9.645</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Displacement2</strong></td>
+<td align="center">3.414</td>
+<td align="center">17.68</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.Area1</strong></td>
+<td align="center">0.7404</td>
+<td align="center">0.923</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.Area2</strong></td>
+<td align="center">0.6499</td>
+<td align="center">1.142</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-dcho-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-fobmoangle-displacement-bmoarea-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-fobmoangle-displacement-bmoarea-1.png" width="2400" /></p>
+</div>
+</div>
+<div id="bmo" class="section level2">
+<h2>BMO</h2>
+<div id="ojo-izquierdo-1" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table style="width:100%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="18%" />
+<col width="14%" />
+<col width="7%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3442</td>
+<td align="center">1.043</td>
+<td align="center">0.2079</td>
+<td align="center">-2.297</td>
+<td align="center">4.515</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">234</td>
+<td align="center">-1.624</td>
+<td align="center">1.27</td>
+<td align="center">-1.729</td>
+<td align="center">-4.585</td>
+<td align="center">1.903</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.4427</td>
+<td align="center">1.062</td>
+<td align="center">0.4244</td>
+<td align="center">-3.176</td>
+<td align="center">4.57</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-1.376</td>
+<td align="center">1.154</td>
+<td align="center">-1.483</td>
+<td align="center">-4.216</td>
+<td align="center">1.586</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.2617</td>
+<td align="center">1.002</td>
+<td align="center">0.1846</td>
+<td align="center">-3.646</td>
+<td align="center">3.998</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-1.462</td>
+<td align="center">1.268</td>
+<td align="center">-1.542</td>
+<td align="center">-4.486</td>
+<td align="center">2.263</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.1617</td>
+<td align="center">0.9516</td>
+<td align="center">0.1136</td>
+<td align="center">-2.242</td>
+<td align="center">3.901</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-1.413</td>
+<td align="center">1.282</td>
+<td align="center">-1.485</td>
+<td align="center">-4.657</td>
+<td align="center">2.07</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.2223</td>
+<td align="center">1.004</td>
+<td align="center">0.1531</td>
+<td align="center">-1.917</td>
+<td align="center">4.227</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">234</td>
+<td align="center">-1.623</td>
+<td align="center">1.452</td>
+<td align="center">-1.515</td>
+<td align="center">-4.87</td>
+<td align="center">2.226</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.T1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3689</td>
+<td align="center">1.18</td>
+<td align="center">0.2375</td>
+<td align="center">-2.185</td>
+<td align="center">6.747</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">234</td>
+<td align="center">-1.116</td>
+<td align="center">1.187</td>
+<td align="center">-1.142</td>
+<td align="center">-4.055</td>
+<td align="center">2.123</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3603</td>
+<td align="center">1.1</td>
+<td align="center">0.2247</td>
+<td align="center">-3.522</td>
+<td align="center">5.422</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-1.558</td>
+<td align="center">1.256</td>
+<td align="center">-1.604</td>
+<td align="center">-4.788</td>
+<td align="center">1.764</td>
+</tr>
+</tbody>
+</table>
+<table style="width:46%;">
+<colgroup>
+<col width="19%" />
+<col width="12%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G1</strong></td>
+<td align="center">0.6469</td>
+<td align="center">0.9979</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.G2</strong></td>
+<td align="center">0.1811</td>
+<td align="center">0.07</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NS1</strong></td>
+<td align="center">0.2479</td>
+<td align="center">0.1352</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS2</strong></td>
+<td align="center">0.2232</td>
+<td align="center">-0.118</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N1</strong></td>
+<td align="center">0.213</td>
+<td align="center">0.4804</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.N2</strong></td>
+<td align="center">0.2942</td>
+<td align="center">0.0514</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NI1</strong></td>
+<td align="center">0.3935</td>
+<td align="center">0.2224</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI2</strong></td>
+<td align="center">0.159</td>
+<td align="center">-0.2503</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI1</strong></td>
+<td align="center">0.7059</td>
+<td align="center">0.8244</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TI2</strong></td>
+<td align="center">0.0964</td>
+<td align="center">-0.2361</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.T1</strong></td>
+<td align="center">1.105</td>
+<td align="center">3.017</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T2</strong></td>
+<td align="center">0.0759</td>
+<td align="center">0.0046</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS1</strong></td>
+<td align="center">0.8033</td>
+<td align="center">1.57</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TS2</strong></td>
+<td align="center">0.0524</td>
+<td align="center">-0.2239</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-bmo-ojo-izdo-1.png" width="2400" /></p>
+<p>Se observan correlaciones fuertes entre todos los sectores tanto de ojos sanos como de enfermos.</p>
+</div>
+<div id="ojo-derecho-1" class="section level3">
+<h3>Ojo derecho</h3>
+<table style="width:100%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="18%" />
+<col width="14%" />
+<col width="7%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.3814</td>
+<td align="center">1.03</td>
+<td align="center">0.284</td>
+<td align="center">-2.25</td>
+<td align="center">4.196</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.634</td>
+<td align="center">1.24</td>
+<td align="center">-1.846</td>
+<td align="center">-5.116</td>
+<td align="center">1.293</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2841</td>
+<td align="center">1.007</td>
+<td align="center">0.2342</td>
+<td align="center">-2.183</td>
+<td align="center">4.108</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.417</td>
+<td align="center">1.161</td>
+<td align="center">-1.572</td>
+<td align="center">-4.031</td>
+<td align="center">1.763</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.368</td>
+<td align="center">0.9894</td>
+<td align="center">0.3371</td>
+<td align="center">-3.225</td>
+<td align="center">4.104</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.392</td>
+<td align="center">1.19</td>
+<td align="center">-1.566</td>
+<td align="center">-4.578</td>
+<td align="center">1.766</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.237</td>
+<td align="center">0.9854</td>
+<td align="center">0.187</td>
+<td align="center">-2.904</td>
+<td align="center">4.07</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.504</td>
+<td align="center">1.245</td>
+<td align="center">-1.62</td>
+<td align="center">-4.457</td>
+<td align="center">2.172</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2889</td>
+<td align="center">1.045</td>
+<td align="center">0.176</td>
+<td align="center">-2.785</td>
+<td align="center">4.627</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.783</td>
+<td align="center">1.426</td>
+<td align="center">-1.828</td>
+<td align="center">-5.333</td>
+<td align="center">2.178</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.T1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.4184</td>
+<td align="center">1.18</td>
+<td align="center">0.2901</td>
+<td align="center">-2.608</td>
+<td align="center">6.702</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.175</td>
+<td align="center">1.23</td>
+<td align="center">-1.183</td>
+<td align="center">-4.983</td>
+<td align="center">2.287</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2897</td>
+<td align="center">1.065</td>
+<td align="center">0.1717</td>
+<td align="center">-2.378</td>
+<td align="center">4.323</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.448</td>
+<td align="center">1.259</td>
+<td align="center">-1.47</td>
+<td align="center">-4.787</td>
+<td align="center">2.422</td>
+</tr>
+</tbody>
+</table>
+<table style="width:47%;">
+<colgroup>
+<col width="19%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G1</strong></td>
+<td align="center">0.6423</td>
+<td align="center">0.9005</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.G2</strong></td>
+<td align="center">0.2389</td>
+<td align="center">-0.2563</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NS1</strong></td>
+<td align="center">0.4518</td>
+<td align="center">0.2062</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS2</strong></td>
+<td align="center">0.2932</td>
+<td align="center">-0.3405</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N1</strong></td>
+<td align="center">0.1925</td>
+<td align="center">0.509</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.N2</strong></td>
+<td align="center">0.3539</td>
+<td align="center">-0.15</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.NI1</strong></td>
+<td align="center">0.3235</td>
+<td align="center">0.1439</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI2</strong></td>
+<td align="center">0.3457</td>
+<td align="center">-0.0078</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI1</strong></td>
+<td align="center">0.7354</td>
+<td align="center">0.9768</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TI2</strong></td>
+<td align="center">-0.0086</td>
+<td align="center">-0.1339</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.T1</strong></td>
+<td align="center">0.9174</td>
+<td align="center">1.849</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T2</strong></td>
+<td align="center">-0.066</td>
+<td align="center">0.1626</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS1</strong></td>
+<td align="center">0.7794</td>
+<td align="center">0.8287</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.TS2</strong></td>
+<td align="center">0.1056</td>
+<td align="center">0.0917</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-bmo-ojo-dcho-1.png" width="2400" /></p>
+<p>Se observan correlaciones fuertes entre todos los sectores tanto de ojos sanos como de enfermos.</p>
+</div>
+<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo" class="section level3">
+<h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histograma-bmo-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-bmo-1.png" width="2400" /></p>
+<p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
+</div>
+</div>
+<div id="anillo-3.5" class="section level2">
+<h2>Anillo 3.5</h2>
+<div id="ojo-izquierdo-2" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="21%" />
+<col width="13%" />
+<col width="7%" />
+<col width="12%" />
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3303</td>
+<td align="center">1.112</td>
+<td align="center">0.2299</td>
+<td align="center">-2.475</td>
+<td align="center">10.91</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">234</td>
+<td align="center">-2.006</td>
+<td align="center">2.373</td>
+<td align="center">-1.843</td>
+<td align="center">-9.038</td>
+<td align="center">11.04</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3405</td>
+<td align="center">1.151</td>
+<td align="center">0.2835</td>
+<td align="center">-2.403</td>
+<td align="center">13.5</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-0.8413</td>
+<td align="center">1.326</td>
+<td align="center">-0.8485</td>
+<td align="center">-4.627</td>
+<td align="center">3.406</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3475</td>
+<td align="center">1.106</td>
+<td align="center">0.3122</td>
+<td align="center">-2.756</td>
+<td align="center">11.42</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-0.9164</td>
+<td align="center">1.627</td>
+<td align="center">-0.8791</td>
+<td align="center">-5.529</td>
+<td align="center">7.221</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3457</td>
+<td align="center">1.065</td>
+<td align="center">0.2641</td>
+<td align="center">-2.495</td>
+<td align="center">4.587</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-0.7703</td>
+<td align="center">1.382</td>
+<td align="center">-0.764</td>
+<td align="center">-4.58</td>
+<td align="center">4.799</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.0777</td>
+<td align="center">1.116</td>
+<td align="center">0.0015</td>
+<td align="center">-3.876</td>
+<td align="center">4.059</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-2.192</td>
+<td align="center">2.271</td>
+<td align="center">-1.698</td>
+<td align="center">-7.488</td>
+<td align="center">2.116</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.T1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">-0.0574</td>
+<td align="center">1.055</td>
+<td align="center">-0.1601</td>
+<td align="center">-3.866</td>
+<td align="center">6.672</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">234</td>
+<td align="center">-0.8535</td>
+<td align="center">1.957</td>
+<td align="center">-0.8808</td>
+<td align="center">-5.901</td>
+<td align="center">14.19</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">-0.077</td>
+<td align="center">1.051</td>
+<td align="center">-0.0965</td>
+<td align="center">-3.018</td>
+<td align="center">3.191</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">235</td>
+<td align="center">-1.695</td>
+<td align="center">1.648</td>
+<td align="center">-1.475</td>
+<td align="center">-5.588</td>
+<td align="center">3.972</td>
+</tr>
+</tbody>
+</table>
+<table style="width:51%;">
+<colgroup>
+<col width="23%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G1</strong></td>
+<td align="center">1.481</td>
+<td align="center">10.6</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.G2</strong></td>
+<td align="center">0.336</td>
+<td align="center">2.958</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NS1</strong></td>
+<td align="center">2.061</td>
+<td align="center">21.37</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS2</strong></td>
+<td align="center">-0.0422</td>
+<td align="center">0.0781</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N1</strong></td>
+<td align="center">1.53</td>
+<td align="center">12.9</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.N2</strong></td>
+<td align="center">0.368</td>
+<td align="center">1.89</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NI1</strong></td>
+<td align="center">0.2547</td>
+<td align="center">0.1419</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI2</strong></td>
+<td align="center">0.3335</td>
+<td align="center">0.8599</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI1</strong></td>
+<td align="center">0.2174</td>
+<td align="center">0.2019</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TI2</strong></td>
+<td align="center">-0.3625</td>
+<td align="center">-0.9706</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.T1</strong></td>
+<td align="center">0.8089</td>
+<td align="center">2.764</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T2</strong></td>
+<td align="center">2.082</td>
+<td align="center">14.34</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS1</strong></td>
+<td align="center">0.0811</td>
+<td align="center">-0.1552</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TS2</strong></td>
+<td align="center">-0.0616</td>
+<td align="center">-0.2115</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-3.5-ojo-izdo-1.png" width="2400" /></p>
+<p>Se observan correlaciones moderadas entre todos los sectores de los ojos enfermos y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO, aunque podría ser debido a la existencia de bastantes datos atípicos.</p>
+</div>
+<div id="ojo-derecho-2" class="section level3">
+<h3>Ojo derecho</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="21%" />
+<col width="13%" />
+<col width="7%" />
+<col width="12%" />
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.4163</td>
+<td align="center">1.208</td>
+<td align="center">0.3508</td>
+<td align="center">-2.958</td>
+<td align="center">11.88</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-1.883</td>
+<td align="center">2.142</td>
+<td align="center">-1.52</td>
+<td align="center">-8.184</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.0069</td>
+<td align="center">1.054</td>
+<td align="center">-0.0088</td>
+<td align="center">-2.544</td>
+<td align="center">4.284</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-0.92</td>
+<td align="center">1.267</td>
+<td align="center">-0.9447</td>
+<td align="center">-4.079</td>
+<td align="center">3.428</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.3821</td>
+<td align="center">1.172</td>
+<td align="center">0.312</td>
+<td align="center">-3.877</td>
+<td align="center">14.69</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-0.8644</td>
+<td align="center">1.563</td>
+<td align="center">-0.664</td>
+<td align="center">-6.152</td>
+<td align="center">6.341</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.3429</td>
+<td align="center">1.104</td>
+<td align="center">0.2303</td>
+<td align="center">-3.267</td>
+<td align="center">5.974</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.7537</td>
+<td align="center">1.329</td>
+<td align="center">-0.7696</td>
+<td align="center">-4.913</td>
+<td align="center">4.39</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.127</td>
+<td align="center">1.159</td>
+<td align="center">0.0277</td>
+<td align="center">-3.48</td>
+<td align="center">7.139</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-2.228</td>
+<td align="center">2.196</td>
+<td align="center">-1.976</td>
+<td align="center">-8.3</td>
+<td align="center">2.113</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.T1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.1907</td>
+<td align="center">1.201</td>
+<td align="center">0.0488</td>
+<td align="center">-3.321</td>
+<td align="center">10.71</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-0.629</td>
+<td align="center">1.965</td>
+<td align="center">-0.7088</td>
+<td align="center">-5.547</td>
+<td align="center">12.43</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2674</td>
+<td align="center">1.037</td>
+<td align="center">0.2657</td>
+<td align="center">-2.929</td>
+<td align="center">4.882</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-1.44</td>
+<td align="center">1.636</td>
+<td align="center">-1.179</td>
+<td align="center">-5.292</td>
+<td align="center">2.872</td>
+</tr>
+</tbody>
+</table>
+<table style="width:51%;">
+<colgroup>
+<col width="23%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G1</strong></td>
+<td align="center">1.684</td>
+<td align="center">11.67</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.G2</strong></td>
+<td align="center">-0.3891</td>
+<td align="center">-0.0946</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NS1</strong></td>
+<td align="center">0.4045</td>
+<td align="center">0.3393</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS2</strong></td>
+<td align="center">0.3126</td>
+<td align="center">0.4854</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N1</strong></td>
+<td align="center">2.608</td>
+<td align="center">28.8</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.N2</strong></td>
+<td align="center">-0.2753</td>
+<td align="center">2.202</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.NI1</strong></td>
+<td align="center">0.3952</td>
+<td align="center">0.6655</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI2</strong></td>
+<td align="center">0.2487</td>
+<td align="center">1.196</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI1</strong></td>
+<td align="center">0.7744</td>
+<td align="center">2.772</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TI2</strong></td>
+<td align="center">-0.3771</td>
+<td align="center">-0.7148</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.T1</strong></td>
+<td align="center">1.687</td>
+<td align="center">9.572</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T2</strong></td>
+<td align="center">1.495</td>
+<td align="center">8.323</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS1</strong></td>
+<td align="center">0.1674</td>
+<td align="center">0.5138</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.TS2</strong></td>
+<td align="center">-0.2826</td>
+<td align="center">-0.5863</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-3.5-ojo-dcho-1.png" width="2400" /></p>
+<p>Se observan correlaciones moderadas entre todos los sectores de los ojos enfermos, excepto entre el sector temporal y los sectores nasal y nasal inferior, y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO, aunque podría ser debido a la existencia de bastantes datos atípicos.</p>
+</div>
+<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-1" class="section level3">
+<h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-3.5-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-3.5-1.png" width="2400" /></p>
+<p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
+</div>
+</div>
+<div id="anillo-4.1" class="section level2">
+<h2>Anillo 4.1</h2>
+<div id="ojo-izquierdo-3" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="21%" />
+<col width="13%" />
+<col width="7%" />
+<col width="12%" />
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.2938</td>
+<td align="center">1.402</td>
+<td align="center">0.1761</td>
+<td align="center">-2.257</td>
+<td align="center">23.94</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-1.843</td>
+<td align="center">2.534</td>
+<td align="center">-1.662</td>
+<td align="center">-7.297</td>
+<td align="center">18.42</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.376</td>
+<td align="center">1.363</td>
+<td align="center">0.2581</td>
+<td align="center">-3.509</td>
+<td align="center">21.69</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.6585</td>
+<td align="center">1.423</td>
+<td align="center">-0.7069</td>
+<td align="center">-4.17</td>
+<td align="center">7.604</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3097</td>
+<td align="center">1.27</td>
+<td align="center">0.2527</td>
+<td align="center">-3.064</td>
+<td align="center">17.12</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.9065</td>
+<td align="center">1.824</td>
+<td align="center">-0.963</td>
+<td align="center">-5.436</td>
+<td align="center">13.59</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3229</td>
+<td align="center">1.084</td>
+<td align="center">0.2513</td>
+<td align="center">-2.168</td>
+<td align="center">7.387</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-0.6365</td>
+<td align="center">1.372</td>
+<td align="center">-0.6889</td>
+<td align="center">-4.745</td>
+<td align="center">7.467</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.0976</td>
+<td align="center">1.115</td>
+<td align="center">0.0345</td>
+<td align="center">-3.556</td>
+<td align="center">4.688</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-2.068</td>
+<td align="center">2.212</td>
+<td align="center">-1.656</td>
+<td align="center">-6.844</td>
+<td align="center">4.271</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.T1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">-0.0814</td>
+<td align="center">1.089</td>
+<td align="center">-0.1688</td>
+<td align="center">-3.636</td>
+<td align="center">9.119</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-0.7045</td>
+<td align="center">2.028</td>
+<td align="center">-0.776</td>
+<td align="center">-5.422</td>
+<td align="center">17.17</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">-0.0699</td>
+<td align="center">1.538</td>
+<td align="center">-0.0948</td>
+<td align="center">-3.111</td>
+<td align="center">30.06</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-1.84</td>
+<td align="center">1.913</td>
+<td align="center">-1.665</td>
+<td align="center">-5.798</td>
+<td align="center">10.4</td>
+</tr>
+</tbody>
+</table>
+<table style="width:51%;">
+<colgroup>
+<col width="23%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G1</strong></td>
+<td align="center">7.103</td>
+<td align="center">109.2</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.G2</strong></td>
+<td align="center">1.915</td>
+<td align="center">16.12</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NS1</strong></td>
+<td align="center">5.19</td>
+<td align="center">76.91</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS2</strong></td>
+<td align="center">0.7718</td>
+<td align="center">4.037</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N1</strong></td>
+<td align="center">3.924</td>
+<td align="center">44.39</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.N2</strong></td>
+<td align="center">1.918</td>
+<td align="center">15.76</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NI1</strong></td>
+<td align="center">0.5946</td>
+<td align="center">2.014</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI2</strong></td>
+<td align="center">0.8868</td>
+<td align="center">4.861</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI1</strong></td>
+<td align="center">0.2289</td>
+<td align="center">0.2525</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TI2</strong></td>
+<td align="center">-0.2435</td>
+<td align="center">-0.6161</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.T1</strong></td>
+<td align="center">1.528</td>
+<td align="center">8.925</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T2</strong></td>
+<td align="center">3.17</td>
+<td align="center">25.28</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS1</strong></td>
+<td align="center">9.796</td>
+<td align="center">190</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TS2</strong></td>
+<td align="center">0.8796</td>
+<td align="center">5.799</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.1-ojo-izdo-1.png" width="2400" /></p>
+<p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO y similares a las del anillo 3.5.</p>
+</div>
+<div id="ojo-derecho-3" class="section level3">
+<h3>Ojo derecho</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="21%" />
+<col width="13%" />
+<col width="7%" />
+<col width="12%" />
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.3264</td>
+<td align="center">1.124</td>
+<td align="center">0.2838</td>
+<td align="center">-2.872</td>
+<td align="center">8.922</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">229</td>
+<td align="center">-1.747</td>
+<td align="center">1.978</td>
+<td align="center">-1.478</td>
+<td align="center">-7.538</td>
+<td align="center">2.818</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.0287</td>
+<td align="center">1.062</td>
+<td align="center">-0.0339</td>
+<td align="center">-2.881</td>
+<td align="center">4.674</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-0.8625</td>
+<td align="center">1.257</td>
+<td align="center">-0.83</td>
+<td align="center">-4.744</td>
+<td align="center">3.308</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.3273</td>
+<td align="center">1.098</td>
+<td align="center">0.2504</td>
+<td align="center">-3.785</td>
+<td align="center">11.43</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-0.8469</td>
+<td align="center">1.524</td>
+<td align="center">-0.6617</td>
+<td align="center">-6.248</td>
+<td align="center">4.77</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2781</td>
+<td align="center">1.106</td>
+<td align="center">0.2121</td>
+<td align="center">-3.156</td>
+<td align="center">7.133</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-0.6419</td>
+<td align="center">1.186</td>
+<td align="center">-0.6545</td>
+<td align="center">-4.191</td>
+<td align="center">3.865</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.1237</td>
+<td align="center">1.142</td>
+<td align="center">0.0786</td>
+<td align="center">-3.286</td>
+<td align="center">9.241</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-2.116</td>
+<td align="center">2.139</td>
+<td align="center">-1.836</td>
+<td align="center">-7.313</td>
+<td align="center">1.617</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.T1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.1304</td>
+<td align="center">1.118</td>
+<td align="center">0.0358</td>
+<td align="center">-3.358</td>
+<td align="center">7.845</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">229</td>
+<td align="center">-0.3605</td>
+<td align="center">2.146</td>
+<td align="center">-0.6394</td>
+<td align="center">-6.169</td>
+<td align="center">13.9</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.1896</td>
+<td align="center">1.018</td>
+<td align="center">0.16</td>
+<td align="center">-3.166</td>
+<td align="center">3.104</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">229</td>
+<td align="center">-1.538</td>
+<td align="center">1.679</td>
+<td align="center">-1.302</td>
+<td align="center">-5.544</td>
+<td align="center">2.357</td>
+</tr>
+</tbody>
+</table>
+<table style="width:51%;">
+<colgroup>
+<col width="23%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G1</strong></td>
+<td align="center">1.004</td>
+<td align="center">4.813</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.G2</strong></td>
+<td align="center">-0.3612</td>
+<td align="center">-0.2002</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NS1</strong></td>
+<td align="center">0.4938</td>
+<td align="center">0.4273</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS2</strong></td>
+<td align="center">-0.0547</td>
+<td align="center">0.6149</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N1</strong></td>
+<td align="center">1.557</td>
+<td align="center">13.42</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.N2</strong></td>
+<td align="center">-0.4687</td>
+<td align="center">1.354</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.NI1</strong></td>
+<td align="center">0.5707</td>
+<td align="center">1.701</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI2</strong></td>
+<td align="center">0.3002</td>
+<td align="center">1.145</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI1</strong></td>
+<td align="center">0.8617</td>
+<td align="center">4.859</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TI2</strong></td>
+<td align="center">-0.3299</td>
+<td align="center">-0.8808</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.T1</strong></td>
+<td align="center">1.228</td>
+<td align="center">5.363</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T2</strong></td>
+<td align="center">2.138</td>
+<td align="center">10.61</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS1</strong></td>
+<td align="center">-0.0097</td>
+<td align="center">-0.0605</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.TS2</strong></td>
+<td align="center">-0.3609</td>
+<td align="center">-0.5693</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.1-ojo-dcho-1.png" width="2400" /></p>
+<p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, excepto en el temporal con los sectores nasales, y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO y que en el 3.5, aunque podría ser debido a la existencia de datos atípicos.</p>
+</div>
+<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-2" class="section level3">
+<h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-4.1-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-4.1-1.png" width="2400" /></p>
+<p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
+</div>
+</div>
+<div id="anillo-4.7" class="section level2">
+<h2>Anillo 4.7</h2>
+<div id="ojo-izquierdo-4" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="21%" />
+<col width="13%" />
+<col width="7%" />
+<col width="12%" />
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.2647</td>
+<td align="center">1.054</td>
+<td align="center">0.1544</td>
+<td align="center">-2.157</td>
+<td align="center">8.158</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-1.649</td>
+<td align="center">2.687</td>
+<td align="center">-1.458</td>
+<td align="center">-8.625</td>
+<td align="center">22.99</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.4097</td>
+<td align="center">1.203</td>
+<td align="center">0.2572</td>
+<td align="center">-2.393</td>
+<td align="center">5.593</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.5466</td>
+<td align="center">1.599</td>
+<td align="center">-0.6698</td>
+<td align="center">-4.364</td>
+<td align="center">10.87</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.2622</td>
+<td align="center">1.182</td>
+<td align="center">0.1724</td>
+<td align="center">-4.731</td>
+<td align="center">11.88</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-0.831</td>
+<td align="center">2.067</td>
+<td align="center">-0.8514</td>
+<td align="center">-6.764</td>
+<td align="center">16.52</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.3029</td>
+<td align="center">1.065</td>
+<td align="center">0.2461</td>
+<td align="center">-2.333</td>
+<td align="center">5.243</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-0.5869</td>
+<td align="center">1.554</td>
+<td align="center">-0.7081</td>
+<td align="center">-4.546</td>
+<td align="center">12.01</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">0.1508</td>
+<td align="center">1.088</td>
+<td align="center">0.1029</td>
+<td align="center">-3.712</td>
+<td align="center">3.772</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">232</td>
+<td align="center">-1.775</td>
+<td align="center">2.261</td>
+<td align="center">-1.572</td>
+<td align="center">-8.086</td>
+<td align="center">6.37</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.T1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">-0.1308</td>
+<td align="center">1.063</td>
+<td align="center">-0.2622</td>
+<td align="center">-3.593</td>
+<td align="center">6.121</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.5688</td>
+<td align="center">2.53</td>
+<td align="center">-0.939</td>
+<td align="center">-5.576</td>
+<td align="center">23.7</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">766</td>
+<td align="center">-0.0517</td>
+<td align="center">1.039</td>
+<td align="center">-0.0347</td>
+<td align="center">-3.529</td>
+<td align="center">2.99</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-1.832</td>
+<td align="center">1.912</td>
+<td align="center">-1.717</td>
+<td align="center">-6.069</td>
+<td align="center">9.174</td>
+</tr>
+</tbody>
+</table>
+<table style="width:51%;">
+<colgroup>
+<col width="23%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G1</strong></td>
+<td align="center">1.263</td>
+<td align="center">6.753</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.G2</strong></td>
+<td align="center">3.091</td>
+<td align="center">28.72</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NS1</strong></td>
+<td align="center">0.5946</td>
+<td align="center">0.5754</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS2</strong></td>
+<td align="center">1.53</td>
+<td align="center">10.22</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N1</strong></td>
+<td align="center">2.021</td>
+<td align="center">17.56</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.N2</strong></td>
+<td align="center">2.345</td>
+<td align="center">20.14</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NI1</strong></td>
+<td align="center">0.3739</td>
+<td align="center">0.4732</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI2</strong></td>
+<td align="center">2.227</td>
+<td align="center">17.3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI1</strong></td>
+<td align="center">0.1755</td>
+<td align="center">0.1494</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TI2</strong></td>
+<td align="center">-0.1422</td>
+<td align="center">-0.0819</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.T1</strong></td>
+<td align="center">0.7918</td>
+<td align="center">2.265</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T2</strong></td>
+<td align="center">4.382</td>
+<td align="center">36.3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS1</strong></td>
+<td align="center">-0.085</td>
+<td align="center">0.1355</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TS2</strong></td>
+<td align="center">0.5377</td>
+<td align="center">3.459</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.7-ojo-izdo-1.png" width="2400" /></p>
+<p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, y más débiles o casi nulas en los ojos sanos. Las correlaciones son menores que en el anillo BMO pero mayores que en los anillos 3.5 y 4.1.</p>
+</div>
+<div id="ojo-derecho-4" class="section level3">
+<h3>Ojo derecho</h3>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="21%" />
+<col width="13%" />
+<col width="7%" />
+<col width="12%" />
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Glaucoma</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.3002</td>
+<td align="center">1.129</td>
+<td align="center">0.2182</td>
+<td align="center">-3.716</td>
+<td align="center">9.92</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.G2</strong></td>
+<td align="center">Y</td>
+<td align="center">228</td>
+<td align="center">-1.567</td>
+<td align="center">2.001</td>
+<td align="center">-1.181</td>
+<td align="center">-6.835</td>
+<td align="center">3.812</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.035</td>
+<td align="center">1.078</td>
+<td align="center">-0.0494</td>
+<td align="center">-4.266</td>
+<td align="center">4.748</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.6829</td>
+<td align="center">1.333</td>
+<td align="center">-0.645</td>
+<td align="center">-4.41</td>
+<td align="center">6.538</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2883</td>
+<td align="center">1.158</td>
+<td align="center">0.2303</td>
+<td align="center">-6.868</td>
+<td align="center">12.59</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.N2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.8738</td>
+<td align="center">1.671</td>
+<td align="center">-0.7023</td>
+<td align="center">-6.919</td>
+<td align="center">4.133</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2506</td>
+<td align="center">1.125</td>
+<td align="center">0.1963</td>
+<td align="center">-2.624</td>
+<td align="center">7.886</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-0.5455</td>
+<td align="center">1.247</td>
+<td align="center">-0.5298</td>
+<td align="center">-4.398</td>
+<td align="center">3.654</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.1237</td>
+<td align="center">1.08</td>
+<td align="center">0.1038</td>
+<td align="center">-3.758</td>
+<td align="center">5.331</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TI2</strong></td>
+<td align="center">Y</td>
+<td align="center">231</td>
+<td align="center">-1.858</td>
+<td align="center">2.054</td>
+<td align="center">-1.659</td>
+<td align="center">-6.719</td>
+<td align="center">1.974</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.T1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.1098</td>
+<td align="center">1.196</td>
+<td align="center">0.0039</td>
+<td align="center">-2.774</td>
+<td align="center">11.13</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T2</strong></td>
+<td align="center">Y</td>
+<td align="center">228</td>
+<td align="center">-0.2328</td>
+<td align="center">2.534</td>
+<td align="center">-0.6949</td>
+<td align="center">-5.582</td>
+<td align="center">16.18</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS1</strong></td>
+<td align="center">N</td>
+<td align="center">765</td>
+<td align="center">0.2486</td>
+<td align="center">1.014</td>
+<td align="center">0.2406</td>
+<td align="center">-3.259</td>
+<td align="center">4.987</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TS2</strong></td>
+<td align="center">Y</td>
+<td align="center">230</td>
+<td align="center">-1.488</td>
+<td align="center">1.683</td>
+<td align="center">-1.248</td>
+<td align="center">-5.767</td>
+<td align="center">2.974</td>
+</tr>
+</tbody>
+</table>
+<table style="width:51%;">
+<colgroup>
+<col width="23%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G1</strong></td>
+<td align="center">1.366</td>
+<td align="center">8.091</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.G2</strong></td>
+<td align="center">-0.2828</td>
+<td align="center">-0.1858</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NS1</strong></td>
+<td align="center">0.5334</td>
+<td align="center">0.7201</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS2</strong></td>
+<td align="center">0.618</td>
+<td align="center">3.593</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N1</strong></td>
+<td align="center">1.542</td>
+<td align="center">19.62</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.N2</strong></td>
+<td align="center">-0.7088</td>
+<td align="center">1.299</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.NI1</strong></td>
+<td align="center">0.8194</td>
+<td align="center">2.921</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI2</strong></td>
+<td align="center">0.0676</td>
+<td align="center">0.9858</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI1</strong></td>
+<td align="center">0.2941</td>
+<td align="center">0.6404</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TI2</strong></td>
+<td align="center">-0.3479</td>
+<td align="center">-0.8134</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.T1</strong></td>
+<td align="center">2.086</td>
+<td align="center">14.5</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T2</strong></td>
+<td align="center">2.847</td>
+<td align="center">13.7</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS1</strong></td>
+<td align="center">0.142</td>
+<td align="center">1.009</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.TS2</strong></td>
+<td align="center">-0.2874</td>
+<td align="center">-0.4825</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.7-ojo-dcho-1.png" width="2400" /></p>
+<p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, excepto en el temporal con los sectores nasales, y más débiles o casi nulas en los ojos sanos. Las correlaciones son menores que en el anillo BMO similares a los anillos 3.5 y 4.1, aunque podría ser debido a la existencia de datos atípicos.</p>
+</div>
+<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-3" class="section level3">
+<h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-4.7-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-4.7-1.png" width="2400" /></p>
+<p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
+</div>
+</div>
+</div>
+<div id="comparacion-de-medias-y-proporciones" class="section level1">
+<h1>Comparación de medias y proporciones</h1>
+<div id="sexo" class="section level2">
+<h2>Sexo</h2>
+<p>Comparación de la proporción de mujeres y hombres con glaucoma</p>
+<table style="width:93%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="29%" />
+<col width="29%" />
+<col width="34%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Proporción.Mujeres</th>
+<th align="center">Proporción.Hombres</th>
+<th align="center">Diferencia.proporciones</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.4304</td>
+<td align="center">0.5715</td>
+<td align="center">-0.1411</td>
+</tr>
+</tbody>
+</table>
+<table style="width:68%;">
+<colgroup>
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">-0.1938</td>
+<td align="center">-0.08842</td>
+<td align="center">1.147e-07</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="ojo" class="section level2">
+<h2>Ojo</h2>
+<p>Comparación de la proporción de ojos izquierdo y derechos con glaucoma.</p>
+<table style="width:50%;">
+<colgroup>
+<col width="34%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Estadístico de McNemar</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">279.8</td>
+<td align="center">8.133e-63</td>
+</tr>
+</tbody>
+</table>
+<p>Existe relación estadísticamente significativa entre el glaucoma y los ojos, es decir, los ojos izquierdo y derecho no son independientes.</p>
+</div>
+<div id="edad" class="section level2">
+<h2>Edad</h2>
+<p>Comparación de las edades medias en sanos y enfermos.</p>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="12%" />
+<col width="17%" />
+<col width="20%" />
+<col width="24%" />
+<col width="24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+<th align="center">lim.inf.int.conf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Age</strong></td>
+<td align="center">47.51</td>
+<td align="center">67.15</td>
+<td align="center">-19.64</td>
+<td align="center">-21.19</td>
+</tr>
+</tbody>
+</table>
+<table style="width:57%;">
+<colgroup>
+<col width="13%" />
+<col width="26%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Age</strong></td>
+<td align="center">-18.09</td>
+<td align="center">1.052e-107</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas entre las edades medias de los pacientes sanos y los pacientes con glaucoma. La edad media de los pacientes con glaucoma es entre 18.093 y 21.1933 años mayor que la de los sanos.</p>
+<p>Comparación de las edades medias de mujeres y hombres con glaucoma.</p>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="22%" />
+<col width="27%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Media.Hombres</th>
+<th align="center">Media.Mujeres</th>
+<th align="center">Diferencia.medias</th>
+<th align="center">lim.inf.int.conf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">69.54</td>
+<td align="center">65.34</td>
+<td align="center">4.198</td>
+<td align="center">1.779</td>
+</tr>
+</tbody>
+</table>
+<table style="width:42%;">
+<colgroup>
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">6.617</td>
+<td align="center">0.0007058</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas entre las edades medias de hombres y mujeres. La edad media de las mujeres con glaucoma es entre 1.7792 y 6.6172 años mayor que la de los hombres.</p>
+</div>
+<div id="area-bmo" class="section level2">
+<h2>Area BMO</h2>
+<p>Comparación de las medias del área de BMO en sanos y enfermos. ### Ojo izquierdo</p>
+<table style="width:99%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="19%" />
+<col width="23%" />
+<col width="27%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+<th align="center">lim.inf.int.conf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1.983</td>
+<td align="center">1.967</td>
+<td align="center">0.01578</td>
+<td align="center">-0.04849</td>
+</tr>
+</tbody>
+</table>
+<table style="width:39%;">
+<colgroup>
+<col width="26%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.08004</td>
+<td align="center">0.6296</td>
+</tr>
+</tbody>
+</table>
+<p>No existen diferencias estadísticamente significativas en el area media del anillo BMO de ojos izquierdos sanos y enfermos.</p>
+<div id="ojo-derecho-5" class="section level3">
+<h3>Ojo derecho</h3>
+<table style="width:99%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="19%" />
+<col width="23%" />
+<col width="27%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+<th align="center">lim.inf.int.conf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1.975</td>
+<td align="center">1.944</td>
+<td align="center">0.03131</td>
+<td align="center">-0.03199</td>
+</tr>
+</tbody>
+</table>
+<table style="width:39%;">
+<colgroup>
+<col width="26%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.09462</td>
+<td align="center">0.3313</td>
+</tr>
+</tbody>
+</table>
+<p>No existen diferencias estadísticamente significativas en el area media del anillo BMO de ojos derechos sanos y enfermos.</p>
+</div>
+</div>
+<div id="bmo-1" class="section level2">
+<h2>BMO</h2>
+<p>Comparación de las medias de los sectores del BMO en ojos sanos y enfermos.</p>
+<div id="ojo-izquierdo-5" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table style="width:88%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="18%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G</strong></td>
+<td align="center">0.3442</td>
+<td align="center">-1.624</td>
+<td align="center">1.968</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS</strong></td>
+<td align="center">0.4427</td>
+<td align="center">-1.376</td>
+<td align="center">1.818</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N</strong></td>
+<td align="center">0.2617</td>
+<td align="center">-1.462</td>
+<td align="center">1.723</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI</strong></td>
+<td align="center">0.1617</td>
+<td align="center">-1.413</td>
+<td align="center">1.575</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI</strong></td>
+<td align="center">0.2223</td>
+<td align="center">-1.623</td>
+<td align="center">1.845</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T</strong></td>
+<td align="center">0.3689</td>
+<td align="center">-1.116</td>
+<td align="center">1.485</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS</strong></td>
+<td align="center">0.3603</td>
+<td align="center">-1.558</td>
+<td align="center">1.918</td>
+</tr>
+</tbody>
+</table>
+<table style="width:86%;">
+<colgroup>
+<col width="18%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G</strong></td>
+<td align="center">1.789</td>
+<td align="center">2.148</td>
+<td align="center">2.145e-65</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS</strong></td>
+<td align="center">1.652</td>
+<td align="center">1.985</td>
+<td align="center">7.44e-67</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N</strong></td>
+<td align="center">1.546</td>
+<td align="center">1.901</td>
+<td align="center">3.747e-55</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI</strong></td>
+<td align="center">1.397</td>
+<td align="center">1.753</td>
+<td align="center">4.02e-48</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI</strong></td>
+<td align="center">1.645</td>
+<td align="center">2.045</td>
+<td align="center">2.079e-50</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T</strong></td>
+<td align="center">1.311</td>
+<td align="center">1.659</td>
+<td align="center">8.885e-48</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS</strong></td>
+<td align="center">1.739</td>
+<td align="center">2.097</td>
+<td align="center">2.738e-64</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo BMO.</p>
+</div>
+<div id="ojo-derecho-6" class="section level3">
+<h3>Ojo derecho</h3>
+<table style="width:88%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="18%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G</strong></td>
+<td align="center">0.3814</td>
+<td align="center">-1.634</td>
+<td align="center">2.016</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS</strong></td>
+<td align="center">0.2841</td>
+<td align="center">-1.417</td>
+<td align="center">1.701</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N</strong></td>
+<td align="center">0.368</td>
+<td align="center">-1.392</td>
+<td align="center">1.76</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI</strong></td>
+<td align="center">0.237</td>
+<td align="center">-1.504</td>
+<td align="center">1.741</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI</strong></td>
+<td align="center">0.2889</td>
+<td align="center">-1.783</td>
+<td align="center">2.072</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T</strong></td>
+<td align="center">0.4184</td>
+<td align="center">-1.175</td>
+<td align="center">1.593</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS</strong></td>
+<td align="center">0.2897</td>
+<td align="center">-1.449</td>
+<td align="center">1.738</td>
+</tr>
+</tbody>
+</table>
+<table style="width:86%;">
+<colgroup>
+<col width="18%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>BMO.G</strong></td>
+<td align="center">1.84</td>
+<td align="center">2.192</td>
+<td align="center">6.511e-69</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NS</strong></td>
+<td align="center">1.535</td>
+<td align="center">1.867</td>
+<td align="center">4.646e-60</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.N</strong></td>
+<td align="center">1.591</td>
+<td align="center">1.929</td>
+<td align="center">5.927e-61</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.NI</strong></td>
+<td align="center">1.566</td>
+<td align="center">1.917</td>
+<td align="center">1.11e-56</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TI</strong></td>
+<td align="center">1.874</td>
+<td align="center">2.271</td>
+<td align="center">1.028e-59</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>BMO.T</strong></td>
+<td align="center">1.414</td>
+<td align="center">1.773</td>
+<td align="center">3.625e-50</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>BMO.TS</strong></td>
+<td align="center">1.559</td>
+<td align="center">1.918</td>
+<td align="center">1.693e-55</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo BMO.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-bmo-1.png" width="2400" /></p>
+<p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
+</div>
+</div>
+<div id="anillo-3.5-1" class="section level2">
+<h2>Anillo 3.5</h2>
+<p>Comparación de las medias de los sectores del anillo 3.5 en ojos sanos y enfermos.</p>
+<div id="ojo-izquierdo-6" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G</strong></td>
+<td align="center">0.3303</td>
+<td align="center">-2.006</td>
+<td align="center">2.336</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS</strong></td>
+<td align="center">0.3405</td>
+<td align="center">-0.8413</td>
+<td align="center">1.182</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N</strong></td>
+<td align="center">0.3475</td>
+<td align="center">-0.9164</td>
+<td align="center">1.264</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI</strong></td>
+<td align="center">0.3457</td>
+<td align="center">-0.7703</td>
+<td align="center">1.116</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI</strong></td>
+<td align="center">0.07766</td>
+<td align="center">-2.191</td>
+<td align="center">2.269</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T</strong></td>
+<td align="center">-0.0574</td>
+<td align="center">-0.8535</td>
+<td align="center">0.7961</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS</strong></td>
+<td align="center">-0.07697</td>
+<td align="center">-1.695</td>
+<td align="center">1.618</td>
+</tr>
+</tbody>
+</table>
+<table style="width:90%;">
+<colgroup>
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G</strong></td>
+<td align="center">2.021</td>
+<td align="center">2.652</td>
+<td align="center">9.262e-36</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS</strong></td>
+<td align="center">0.9931</td>
+<td align="center">1.371</td>
+<td align="center">3.443e-29</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N</strong></td>
+<td align="center">1.041</td>
+<td align="center">1.487</td>
+<td align="center">2.111e-24</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI</strong></td>
+<td align="center">0.9232</td>
+<td align="center">1.309</td>
+<td align="center">1.712e-25</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI</strong></td>
+<td align="center">1.967</td>
+<td align="center">2.571</td>
+<td align="center">1.313e-36</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T</strong></td>
+<td align="center">0.5333</td>
+<td align="center">1.059</td>
+<td align="center">7.52e-09</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS</strong></td>
+<td align="center">1.394</td>
+<td align="center">1.843</td>
+<td align="center">3.266e-35</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 3.5.</p>
+</div>
+<div id="ojo-derecho-7" class="section level3">
+<h3>Ojo derecho</h3>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G</strong></td>
+<td align="center">0.4163</td>
+<td align="center">-1.883</td>
+<td align="center">2.3</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS</strong></td>
+<td align="center">0.00691</td>
+<td align="center">-0.92</td>
+<td align="center">0.9269</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N</strong></td>
+<td align="center">0.3821</td>
+<td align="center">-0.8644</td>
+<td align="center">1.247</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI</strong></td>
+<td align="center">0.3429</td>
+<td align="center">-0.7537</td>
+<td align="center">1.097</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI</strong></td>
+<td align="center">0.127</td>
+<td align="center">-2.228</td>
+<td align="center">2.355</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T</strong></td>
+<td align="center">0.1907</td>
+<td align="center">-0.629</td>
+<td align="center">0.8197</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS</strong></td>
+<td align="center">0.2674</td>
+<td align="center">-1.44</td>
+<td align="center">1.707</td>
+</tr>
+</tbody>
+</table>
+<table style="width:90%;">
+<colgroup>
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.G</strong></td>
+<td align="center">2.009</td>
+<td align="center">2.591</td>
+<td align="center">1.513e-39</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NS</strong></td>
+<td align="center">0.7463</td>
+<td align="center">1.107</td>
+<td align="center">4.56e-21</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.N</strong></td>
+<td align="center">1.027</td>
+<td align="center">1.466</td>
+<td align="center">1.215e-24</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.NI</strong></td>
+<td align="center">0.9076</td>
+<td align="center">1.286</td>
+<td align="center">1.153e-25</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TI</strong></td>
+<td align="center">2.059</td>
+<td align="center">2.652</td>
+<td align="center">9.778e-40</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim3.5.T</strong></td>
+<td align="center">0.5507</td>
+<td align="center">1.089</td>
+<td align="center">6.09e-09</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim3.5.TS</strong></td>
+<td align="center">1.482</td>
+<td align="center">1.932</td>
+<td align="center">9.579e-38</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 3.5.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-3.5-1.png" width="2400" /></p>
+<p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
+</div>
+</div>
+<div id="anillo-4.1-1" class="section level2">
+<h2>Anillo 4.1</h2>
+<p>Comparación de las medias de los sectores del anillo 4.1 en ojos sanos y enfermos.</p>
+<div id="ojo-izquierdo-7" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G</strong></td>
+<td align="center">0.2938</td>
+<td align="center">-1.843</td>
+<td align="center">2.137</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS</strong></td>
+<td align="center">0.376</td>
+<td align="center">-0.6585</td>
+<td align="center">1.034</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N</strong></td>
+<td align="center">0.3097</td>
+<td align="center">-0.9065</td>
+<td align="center">1.216</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI</strong></td>
+<td align="center">0.3229</td>
+<td align="center">-0.6365</td>
+<td align="center">0.9594</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI</strong></td>
+<td align="center">0.09757</td>
+<td align="center">-2.068</td>
+<td align="center">2.165</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T</strong></td>
+<td align="center">-0.08141</td>
+<td align="center">-0.7045</td>
+<td align="center">0.6231</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS</strong></td>
+<td align="center">-0.06992</td>
+<td align="center">-1.84</td>
+<td align="center">1.77</td>
+</tr>
+</tbody>
+</table>
+<table style="width:90%;">
+<colgroup>
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G</strong></td>
+<td align="center">1.793</td>
+<td align="center">2.481</td>
+<td align="center">9.631e-28</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS</strong></td>
+<td align="center">0.8264</td>
+<td align="center">1.242</td>
+<td align="center">3.175e-20</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N</strong></td>
+<td align="center">0.9633</td>
+<td align="center">1.469</td>
+<td align="center">9.025e-19</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI</strong></td>
+<td align="center">0.7662</td>
+<td align="center">1.153</td>
+<td align="center">6.395e-20</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI</strong></td>
+<td align="center">1.868</td>
+<td align="center">2.462</td>
+<td align="center">4.565e-35</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T</strong></td>
+<td align="center">0.3487</td>
+<td align="center">0.8975</td>
+<td align="center">1.15e-05</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS</strong></td>
+<td align="center">1.5</td>
+<td align="center">2.041</td>
+<td align="center">6.803e-31</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 4.1.</p>
+</div>
+<div id="ojo-derecho-8" class="section level3">
+<h3>Ojo derecho</h3>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G</strong></td>
+<td align="center">0.3264</td>
+<td align="center">-1.747</td>
+<td align="center">2.073</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS</strong></td>
+<td align="center">0.02872</td>
+<td align="center">-0.8625</td>
+<td align="center">0.8912</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N</strong></td>
+<td align="center">0.3273</td>
+<td align="center">-0.8469</td>
+<td align="center">1.174</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI</strong></td>
+<td align="center">0.2781</td>
+<td align="center">-0.6419</td>
+<td align="center">0.92</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI</strong></td>
+<td align="center">0.1237</td>
+<td align="center">-2.116</td>
+<td align="center">2.239</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T</strong></td>
+<td align="center">0.1304</td>
+<td align="center">-0.3605</td>
+<td align="center">0.491</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS</strong></td>
+<td align="center">0.1896</td>
+<td align="center">-1.537</td>
+<td align="center">1.727</td>
+</tr>
+</tbody>
+</table>
+<table style="width:90%;">
+<colgroup>
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.G</strong></td>
+<td align="center">1.803</td>
+<td align="center">2.343</td>
+<td align="center">4.966e-38</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NS</strong></td>
+<td align="center">0.7116</td>
+<td align="center">1.071</td>
+<td align="center">5.908e-20</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.N</strong></td>
+<td align="center">0.9616</td>
+<td align="center">1.387</td>
+<td align="center">1.81e-23</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.NI</strong></td>
+<td align="center">0.7473</td>
+<td align="center">1.093</td>
+<td align="center">1.471e-22</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TI</strong></td>
+<td align="center">1.95</td>
+<td align="center">2.529</td>
+<td align="center">3.033e-38</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.1.T</strong></td>
+<td align="center">0.2007</td>
+<td align="center">0.7813</td>
+<td align="center">0.0009903</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.1.TS</strong></td>
+<td align="center">1.497</td>
+<td align="center">1.957</td>
+<td align="center">6.249e-37</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 4.1.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-4.1-1.png" width="2400" /></p>
+<p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
+</div>
+</div>
+<div id="anillo-4.7-1" class="section level2">
+<h2>Anillo 4.7</h2>
+<p>Comparación de las medias de los sectores del anillo 4.7 en ojos sanos y enfermos.</p>
+<div id="ojo-izquierdo-8" class="section level3">
+<h3>Ojo izquierdo</h3>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G</strong></td>
+<td align="center">0.2647</td>
+<td align="center">-1.649</td>
+<td align="center">1.914</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS</strong></td>
+<td align="center">0.4097</td>
+<td align="center">-0.5466</td>
+<td align="center">0.9563</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N</strong></td>
+<td align="center">0.2622</td>
+<td align="center">-0.831</td>
+<td align="center">1.093</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI</strong></td>
+<td align="center">0.3029</td>
+<td align="center">-0.5869</td>
+<td align="center">0.8898</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI</strong></td>
+<td align="center">0.1508</td>
+<td align="center">-1.775</td>
+<td align="center">1.925</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T</strong></td>
+<td align="center">-0.1308</td>
+<td align="center">-0.5688</td>
+<td align="center">0.438</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS</strong></td>
+<td align="center">-0.05166</td>
+<td align="center">-1.832</td>
+<td align="center">1.78</td>
+</tr>
+</tbody>
+</table>
+<table style="width:90%;">
+<colgroup>
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G</strong></td>
+<td align="center">1.557</td>
+<td align="center">2.27</td>
+<td align="center">6.961e-22</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS</strong></td>
+<td align="center">0.7324</td>
+<td align="center">1.18</td>
+<td align="center">1.557e-15</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N</strong></td>
+<td align="center">0.8131</td>
+<td align="center">1.373</td>
+<td align="center">2.663e-13</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI</strong></td>
+<td align="center">0.6753</td>
+<td align="center">1.104</td>
+<td align="center">9.342e-15</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI</strong></td>
+<td align="center">1.623</td>
+<td align="center">2.228</td>
+<td align="center">1.301e-28</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T</strong></td>
+<td align="center">0.1015</td>
+<td align="center">0.7745</td>
+<td align="center">0.01093</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS</strong></td>
+<td align="center">1.522</td>
+<td align="center">2.038</td>
+<td align="center">2.361e-32</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 4.7.</p>
+</div>
+<div id="ojo-derecho-9" class="section level3">
+<h3>Ojo derecho</h3>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="19%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Media.Sanos</th>
+<th align="center">Media.Glaucoma</th>
+<th align="center">Diferencia.medias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G</strong></td>
+<td align="center">0.3002</td>
+<td align="center">-1.567</td>
+<td align="center">1.867</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS</strong></td>
+<td align="center">0.03501</td>
+<td align="center">-0.6829</td>
+<td align="center">0.7179</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N</strong></td>
+<td align="center">0.2883</td>
+<td align="center">-0.8738</td>
+<td align="center">1.162</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI</strong></td>
+<td align="center">0.2506</td>
+<td align="center">-0.5455</td>
+<td align="center">0.796</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI</strong></td>
+<td align="center">0.1237</td>
+<td align="center">-1.858</td>
+<td align="center">1.982</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T</strong></td>
+<td align="center">0.1098</td>
+<td align="center">-0.2328</td>
+<td align="center">0.3426</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS</strong></td>
+<td align="center">0.2486</td>
+<td align="center">-1.489</td>
+<td align="center">1.737</td>
+</tr>
+</tbody>
+</table>
+<table style="width:90%;">
+<colgroup>
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">lim.inf.int.conf</th>
+<th align="center">lim.sup.int.conf</th>
+<th align="center">p-valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.G</strong></td>
+<td align="center">1.595</td>
+<td align="center">2.14</td>
+<td align="center">5.189e-32</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NS</strong></td>
+<td align="center">0.5291</td>
+<td align="center">0.9067</td>
+<td align="center">6.867e-13</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.N</strong></td>
+<td align="center">0.9306</td>
+<td align="center">1.394</td>
+<td align="center">4.256e-20</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.NI</strong></td>
+<td align="center">0.6159</td>
+<td align="center">0.9761</td>
+<td align="center">1.378e-16</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TI</strong></td>
+<td align="center">1.705</td>
+<td align="center">2.258</td>
+<td align="center">3.728e-34</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Rim4.7.T</strong></td>
+<td align="center">0.00126</td>
+<td align="center">0.6839</td>
+<td align="center">0.04917</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Rim4.7.TS</strong></td>
+<td align="center">1.507</td>
+<td align="center">1.967</td>
+<td align="center">2.88e-37</td>
+</tr>
+</tbody>
+</table>
+<p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 4.7.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-4.7-1.png" width="2400" /></p>
+<p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
+<p>Se obsevan diferencias muy significativas entre las medias del grosor de todos los anillos de pacientes sanos y con glaucoma. Las diferencias más significativas se dan en el BMO, pero las diferencias mayores se dan en el anillo 3.5. Por sectores las diferencias más significaivas se dan en el BMO global y nasal superior, y las mayores en el anillo 3.5 global y temporal inferior.</p>
+</div>
+</div>
+</div>
+<div id="comparacion-de-ojos" class="section level1">
+<h1>Comparación de ojos</h1>
+<p>Comparación de las medias del ojo izquierdo y derecho para cada sector.</p>
+<div id="htmlwidget-3d3a9b18087979a10798" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d3a9b18087979a10798">{"x":{"filter":"none","data":[["BMO.G.L - BMO.G.R","BMO.NS.L - BMO.NS.R","BMO.N.L - BMO.N.R","BMO.NI.L - BMO.NI.R","BMO.TI.L - BMO.TI.R","BMO.T.L - BMO.T.R","BMO.TS.L - BMO.TS.R","Rim3.5.G.L - Rim3.5.G.R","Rim3.5.NS.L - Rim3.5.NS.R","Rim3.5.N.L - Rim3.5.N.R","Rim3.5.NI.L - Rim3.5.NI.R","Rim3.5.TI.L - Rim3.5.TI.R","Rim3.5.T.L - Rim3.5.T.R","Rim3.5.TS.L - Rim3.5.TS.R","Rim4.1.G.L - Rim4.1.G.R","Rim4.1.NS.L - Rim4.1.NS.R","Rim4.1.N.L - Rim4.1.N.R","Rim4.1.NI.L - Rim4.1.NI.R","Rim4.1.TI.L - Rim4.1.TI.R","Rim4.1.T.L - Rim4.1.T.R","Rim4.1.TS.L - Rim4.1.TS.R","Rim4.7.G.L - Rim4.7.G.R","Rim4.7.NS.L - Rim4.7.NS.R","Rim4.7.N.L - Rim4.7.N.R","Rim4.7.NI.L - Rim4.7.NI.R","Rim4.7.TI.L - Rim4.7.TI.R","Rim4.7.T.L - Rim4.7.T.R","Rim4.7.TS.L - Rim4.7.TS.R"],["-0.04023","0.11996","-0.10826","-0.06018","-0.04093","-0.03355","0.02900","-0.11637","0.25949","-0.05874","-0.01981","-0.06029","-0.23377","-0.32517","-0.06655","0.29508","-0.03869","0.03394","-0.02226","-0.22182","-0.28786","-0.05253","0.32325","-0.01552","0.03275","0.02109","-0.24944","-0.29526"],["-0.08504","0.06889","-0.15587","-0.10944","-0.09852","-0.08563","-0.02615","-0.19450","0.20224","-0.12568","-0.07569","-0.14336","-0.30667","-0.38998","-0.14838","0.23534","-0.11068","-0.01979","-0.10503","-0.30356","-0.35769","-0.13939","0.26140","-0.09437","-0.02307","-0.06069","-0.34738","-0.36773"],["0.004586","0.171023","-0.060649","-0.010921","0.016670","0.018535","0.084156","-0.038237","0.316744","0.008211","0.036065","0.022779","-0.160877","-0.260368","0.015280","0.354824","0.033305","0.087673","0.060500","-0.140075","-0.218035","0.034327","0.385103","0.063332","0.088569","0.102864","-0.151500","-0.222785"],["7.845e-02","4.562e-06","9.056e-06","1.670e-02","1.635e-01","2.065e-01","3.023e-01","3.549e-03","2.796e-18","8.544e-02","4.867e-01","1.547e-01","4.690e-10","7.097e-22","1.108e-01","2.841e-21","2.919e-01","2.154e-01","5.977e-01","1.252e-07","1.763e-15","2.356e-01","1.655e-23","6.994e-01","2.499e-01","6.130e-01","6.863e-07","3.644e-15"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Media.diferencia<\/th>\n      <th>lim.inf.int.conf<\/th>\n      <th>lim.sup.int.conf<\/th>\n      <th>p-valor<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"autoWidth":true,"dom":"t","language":{"url":"http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"},"order":[],"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-ojos-1.png" width="2400" /></p>
+<p>En general se aprecian diferencias significativas entre las medias del grosor de los sectores de los ojos izquierdo y derecho en algunos sectores como el Nasal Superior, y no tan claras en otros. No obstante, se ha observado clínicamente que aparentemente no hay relación entre el estado de los dos ojos, por lo que se han cosiderado los ojos de cada paciente como individuos independientes en el estudio.</p>
+</div>
+<div id="glosario" class="section level1">
+<h1>Glosario</h1>
+<ul>
+<li>GCAA: Glaucoma de ángulo abierto</li>
+<li>OCT: Optical coherence tomography (Tomografía de coherencia óptica)</li>
+<li>BMO: Bruch Membrane Opening (Apertura de la membrana de Bruch)</li>
+<li>MRW: Minimum Rim Width (Grosor mínimo del anillo neuroretiniano)</li>
+<li>PRW: Perpendicular Rim Width (Grosor del anillo perpendicular)</li>
+<li>HRW: Horizontal Rim Width (Grosor del anillo horizontal)</li>
+<li>MRA: Minimum Rim Area within the neuroretinal tissue defined by the MRW (Area mínima del anillo neuroretiniano)</li>
+<li>PRA: Perpendicular Rim Area (Area del anillo perpendicular)</li>
+<li>ONH: Optic Nerve Head (Cabeza del nervio óptico)</li>
+<li>RNFL: Retinal Nerve Fiber Layer (Capa de fibra nerviosa retiniana)</li>
+<li>INL: Inner Nuclear Layer (Capa nuclear interna de la retina)</li>
+<li>IPL: Inner Plexiform Layer (Capa plexiforme interna de la retina)</li>
+<li>ONL: Outer Plexiform Layer (Capa nuclear externa de la retina)</li>
+<li>OPL: Outer Plexiform Layer (Capa plexiforme externa de la retina)</li>
+<li>GCL: Ganglion Cell Layer (Capa de células ganglionares de la retina)</li>
+<li>RPE: Retinal Pigment Epithelium (Epitelio pigmentario de la retina)</li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
