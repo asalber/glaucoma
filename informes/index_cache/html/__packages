@@ -17,3 +17,4 @@ readr
 purrr
 stringr
 forcats
+reshape2

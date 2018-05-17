@@ -7,7 +7,7 @@ date: "`r Sys.Date()`"
 library(knitr)
 ## Global options
 options(digits = 4)
-opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
+opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="svg")
 ```
 
 ```{r carga-paquetes, results='hide'}
@@ -109,9 +109,7 @@ datos.Sanos = datos[datos$Glaucoma=="N",]
 ```
 
 
-# Capa total
-
-```{r}
+```{r funciones}
 # Funciones para dibujar distribuciones por grupos
 # Resumen estadístico
 describir <- function(vars, eye, layer){
@@ -171,7 +169,9 @@ cellCorrelation <- function (eye, layer){
   colnames(melted.cormat) <- c("Cell1", "Cell2", "R")
   melted.cormat$Cell1 <- substr(melted.cormat$Cell1, 6, 8)
   melted.cormat$Cell2 <- substr(melted.cormat$Cell2, 6, 8)
-  print(ggplot(data = melted.cormat, aes(x=Cell1, y=Cell2, fill=R)) + geom_tile())
+  print(ggplot(data = melted.cormat, aes(x=Cell1, y=Cell2, fill=R)) + 
+          geom_tile() +
+          theme(axis.text.x=element_text(size=8, angle = 90, vjust = 0.5)))
 }
 
 # Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
@@ -183,8 +183,51 @@ comparar.medias <- function (layer, eye){
   colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
   return(result)
 }
+
+# Intervalos de confianza para la diferencia de medias del grosor de las celdas del cubo macular de enfermos y sanos
+intervalos.comparacion.medias <- function (layer){
+  medias.L <- comparar.medias(layer, "L")
+  medias.L$Cell <- substr(row.names(medias.L),6,8)
+  medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+  medias.L$Eye <- "L"
+  medias.R <- comparar.medias(layer, "R")
+  medias.R$Cell <- substr(row.names(medias.R),6,8)
+  medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+  medias.R$Eye <- "R"
+  medias <- rbind(medias.L, medias.R)
+  print(ggplot(medias, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+   geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+    geom_point(size = 2, position = position_dodge(0.5)) + 
+    ggtitle(paste("Intervalos de confianza del 95% de la diferencia de medias\n del grosor de la capa", layer, "del cubo macular")) +
+    theme(plot.title = element_text(hjust = 0.5), axis.text.x=element_text(size=8, angle = 90, vjust = 0.5))
+   )
+}
+
+# Grafico comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos
+matriz.comparacion.medias <- function (layer){
+  medias.L <- comparar.medias(layer, "L")
+  medias.L$Eye <- "L"
+  medias.R <- comparar.medias(layer, "R")
+  medias.R$Eye <- "R"
+  medias <- rbind(medias.L, medias.R)
+  medias$fila <- rep(rep(seq(1,8),8),2)
+  medias$columna <- rep(unlist(lapply(seq(1,8), rep, 8)))
+  medias$sig <- ifelse(medias$`p-valor`<0.01,"<0.01", ifelse(medias$`p-valor`<0.05, "<0.05", ">0.05"))
+  print(ggplot(data = medias, aes(x=columna, y=fila, fill=Diferencia.medias)) + 
+          geom_tile() + 
+          geom_text(aes(label=round(Diferencia.medias,2), colour=sig), size=3) + 
+          scale_colour_manual("p valor", values=c("green", "yellow","black")) + 
+          scale_x_continuous(breaks=seq(1,8)) +
+          scale_y_continuous(breaks=seq(1,8)) +
+          scale_y_reverse() + 
+          facet_grid(.~Eye) +
+          ggtitle(paste("Diferencia de medias del grosor de la capa", layer, "del cubo macular")) +
+          theme(plot.title = element_text(hjust = 0.5))
+        )
+}
 ```
 
+# Capa total
 ## Estadística Descriptiva
 ### Ojo izquierdo
 
@@ -238,19 +281,12 @@ medias.R <- comparar.medias("FULL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
-
 ```{r intervalos-confianza-comparacion-medias-macula-total}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("FULL")
+```
+
+```{r cubo-comparacion-medias-macula-total}
+matriz.comparacion.medias("FULL")
 ```
 
 
@@ -308,19 +344,12 @@ medias.R <- comparar.medias("GCL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
-
 ```{r intervalos-confianza-comparacion-medias-macula-gcl}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("GCL")
+```
+
+```{r cubo-comparacion-medias-macula-gcl}
+matriz.comparacion.medias("GCL")
 ```
 
 
@@ -380,17 +409,11 @@ datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pag
 
 
 ```{r intervalos-confianza-comparacion-medias-macula-rnfl}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("RNFL")
+```
+
+```{r cubo-comparacion-medias-macula-rnfl}
+matriz.comparacion.medias("RNFL")
 ```
 
 
@@ -448,19 +471,12 @@ medias.R <- comparar.medias("INL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
-
 ```{r intervalos-confianza-comparacion-medias-macula-inl}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("INL")
+```
+
+```{r cubo-comparacion-medias-macula-inl}
+matriz.comparacion.medias("INL")
 ```
 
 
@@ -518,19 +534,12 @@ medias.R <- comparar.medias("IPL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
-
 ```{r intervalos-confianza-comparacion-medias-macula-ipl}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("IPL")
+```
+
+```{r cubo-comparacion-medias-macula-ipl}
+matriz.comparacion.medias("IPL")
 ```
 
 
@@ -588,19 +597,12 @@ medias.R <- comparar.medias("ONL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
-
 ```{r intervalos-confianza-comparacion-medias-macula-onl}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("ONL")
+```
+
+```{r cubo-comparacion-medias-macula-onl}
+matriz.comparacion.medias("ONL")
 ```
 
 
@@ -658,21 +660,13 @@ medias.R <- comparar.medias("OPL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
-
 ```{r intervalos-confianza-comparacion-medias-macula-opl}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("OPL")
 ```
 
+```{r cubo-comparacion-medias-macula-opl}
+matriz.comparacion.medias("OPL")
+```
 
 # Capa RPE
 ## Estadística Descriptiva
@@ -730,16 +724,10 @@ datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pag
 
 
 ```{r intervalos-confianza-comparacion-medias-macula-rpe}
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
+intervalos.comparacion.medias("RPE")
+```
+
+```{r cubo-comparacion-medias-macula-rpe}
+matriz.comparacion.medias("RPE")
 ```
 

@@ -618,23 +618,3 @@ ggplot(result, aes(x = Sector, y = Media.diferencia)) +
 En general se aprecian diferencias significativas entre las medias del grosor de los sectores de los ojos izquierdo y derecho en algunos sectores como el Nasal Superior, y no tan claras en otros.
 No obstante, se ha observado clínicamente que aparentemente no hay relación entre el estado de los dos ojos, por lo que se han cosiderado los ojos de cada paciente como individuos independientes en el estudio. 
 
-# Glosario
-
-- GCAA: Glaucoma de ángulo abierto
-- OCT: Optical coherence tomography (Tomografía de coherencia óptica)
-- BMO: Bruch Membrane Opening (Apertura de la membrana de Bruch)
-- MRW: Minimum Rim Width (Grosor mínimo del anillo neuroretiniano)
-- PRW: Perpendicular Rim Width (Grosor del anillo perpendicular)
-- HRW: Horizontal Rim Width (Grosor del anillo horizontal)
-- MRA: Minimum Rim Area within the neuroretinal tissue defined by the MRW (Area mínima del anillo neuroretiniano)
-- PRA: Perpendicular Rim Area (Area del anillo perpendicular) 
-- ONH: Optic Nerve Head (Cabeza del nervio óptico)
-- RNFL: Retinal Nerve Fiber Layer (Capa de fibra nerviosa retiniana)
-- INL: Inner Nuclear Layer (Capa nuclear interna de la retina)
-- IPL: Inner Plexiform Layer (Capa plexiforme interna de la retina)
-- ONL: Outer Plexiform Layer (Capa nuclear externa de la retina)
-- OPL: Outer Plexiform Layer (Capa plexiforme externa de la retina)
-- GCL: Ganglion Cell Layer (Capa de células ganglionares de la retina)
-- RPE: Retinal Pigment Epithelium (Epitelio pigmentario de la retina)
-
-

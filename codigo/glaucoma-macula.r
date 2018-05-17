@@ -45,15 +45,15 @@ id.atipicos <- datos.atipicos[is.na(datos.atipicos$SUMA.V) | datos.atipicos$SUMA
 datos <- datos[!(datos$Lastname %in% id.atipicos), ]
 
 # Conjuntos de variables
-varCells <- startsWith(colnames(datos),"Cell")
-varCells <- colnames(datos)[varCells]
+# varCells <- startsWith(colnames(datos),"Cell")
+# varCells <- colnames(datos)[varCells]
 varCells <- NULL
 for (i in 1:8){
   for (j in 1:8){
     varCells <- c(varCells, paste0("Cell.",j,".",i))
   }
 }
-matrixCells <- matrix(varCells, nrow=8, ncol=8, byrow = T)
+matrixCells <- matrix(varCells, nrow=8, ncol=8)
 submatrixCells1 <- matrixCells[1:4,1:4]
 submatrixCells2 <- matrixCells[1:4,5:8]
 submatrixCells3 <- matrixCells[5:8,1:4]
@@ -149,6 +149,7 @@ cellBoxplot <- function(matrix, layer){
   }
 }
 
+# Correlación celdas del cubo macular por ojos y capas
 cellCorrelation <- function (eye, layer){
   cormat <- round(cor(datos[datos$Eye==eye & datos$Layer==layer, varCells], use="complete.obs"),2)
   datatable(cormat, rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
@@ -158,6 +159,62 @@ cellCorrelation <- function (eye, layer){
   melted.cormat$Cell2 <- substr(melted.cormat$Cell2, 6, 8)
   print(ggplot(data = melted.cormat, aes(x=Cell1, y=Cell2, fill=Valor)) + geom_tile())
 }
+
+# Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
+comparar.medias <- function (layer, eye){
+  datos.layer.eye <- datos[datos$Eye==eye & datos$Layer==layer, ]
+  result <- data.frame(t(sapply(datos.layer.eye[, varCells], function(x) unlist(t.test(x~datos.layer.eye$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+  result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+  result<- result[c(1,2,6,3,4,5)]
+  colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+  return(result)
+}
+
+# Intervalos de confianza para la diferencia de medias del grosor de las celdas del cubo macular de enfermos y sanos
+intervalos.comparacion.medias <- function (layer){
+  medias.L <- comparar.medias(layer, "L")
+  medias.L$Cell <- substr(row.names(medias.L),6,8)
+  medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
+  medias.L$Eye <- "L"
+  medias.R <- comparar.medias(layer, "R")
+  medias.R$Cell <- substr(row.names(medias.R),6,8)
+  medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
+  medias.R$Eye <- "R"
+  medias <- rbind(medias.L, medias.R)
+  print(ggplot(medias, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+   geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+    geom_point(size = 2, position = position_dodge(0.5)) + 
+    ggtitle(paste("Intervalos de confianza del 95% de la diferencia de medias\n del grosor de la capa", layer, "del cubo macular")) +
+    theme(plot.title = element_text(hjust = 0.5), axis.text.x=element_text(size=8, angle = 90, vjust = 0.5))
+   )
+}
+
+
+# Grafico comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos
+matriz.comparacion.medias <- function (layer){
+  medias.L <- comparar.medias(layer, "L")
+  medias.L$Eye <- "L"
+  medias.R <- comparar.medias(layer, "R")
+  medias.R$Eye <- "R"
+  medias <- rbind(medias.L, medias.R)
+  medias$fila <- rep(rep(seq(1,8),8),2)
+  medias$columna <- rep(unlist(lapply(seq(1,8), rep, 8)))
+  medias$sig <- ifelse(medias$`p-valor`<0.01,"<0.01", ifelse(medias$`p-valor`<0.05, "<0.05", ">0.05"))
+  print(ggplot(data = medias, aes(x=columna, y=fila, fill=Diferencia.medias)) + 
+          geom_tile() + 
+          geom_text(aes(label=round(Diferencia.medias,2), colour=sig), size=3) + 
+          scale_y_reverse() + 
+          scale_colour_manual("p valor", values=c("green", "yellow","black")) + 
+          scale_x_continuous(breaks=seq(1,8)) +
+          scale_y_continuous(breaks=seq(1,8)) +
+          facet_grid(.~Eye) +
+          ggtitle(paste("Diferencia de medias del grosor de la capa", layer, "del cubo macular")) +
+          theme(plot.title = element_text(hjust = 0.5))
+        )
+}
+
+
+
 
 # Capa RPE
 # Ojo izquierdo
@@ -208,58 +265,16 @@ cellDensity(submatrixCells, "GCL")
 # Diagrama de cajas
 cellBoxplot(submatrixCells, "GCL")
 
-# Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
-comparar.medias <- function (layer, eye){
-  datos.layer.eye <- datos[datos$Eye==eye & datos$Layer==layer, ]
-  result <- data.frame(t(sapply(datos.layer.eye[, varCells], function(x) unlist(t.test(x~datos.layer.eye$Glaucoma)[c("estimate","conf.int", "p.value")]))))
-  result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
-  result<- result[c(1,2,6,3,4,5)]
-  colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
-  return(format(result, nsmall=2))
-}
 
 # Ojo izquierdo
 medias.L <- comparar.medias("FULL", "L")
 medias.R <- comparar.medias("FULL", "R")
-# Intervalos de confianza para la diferencia de medias
-medias.L$Cell <- substr(row.names(medias.L),6,8)
-medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-medias.L$Eye <- "L"
-medias.R$Cell <- substr(row.names(medias.R),6,8)
-medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-medias.R$Eye <- "R"
-result <- rbind(medias.L, medias.R)
-ggplot(result, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
 
-# Anillo 3.5 ojo izquierdo
-result.L <- data.frame(t(sapply(datos.L[,var3.5], function(x) unlist(t.test(x~datos.L$Glaucoma)[c("estimate","conf.int", "p.value")]))))
-result.L$difference <- result.L$estimate.mean.in.group.N-result.L$estimate.mean.in.group.Y
-result.L <- result.L[c(1,2,6,3,4,5)]
-colnames(result.L) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
-print(result.L)
+# Intervalo comparación medias
+intervalos.comparacion.medias("FULL")
 
-# Anillo 3.5 ojo derecho
-result.R <- data.frame(t(sapply(datos.R[,var3.5], function(x) unlist(t.test(x~datos.R$Glaucoma)[c("estimate","conf.int", "p.value")]))))
-result.R$difference <- result.R$estimate.mean.in.group.N-result.R$estimate.mean.in.group.Y
-result.R <- result.R[c(1,2,6,3,4,5)]
-colnames(result.R) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
-print(result.R)
-
-# Intervalos de confianza para la diferencia de medias
-result.L$Sector <- row.names(result.L)
-result.L$Eye <- "L"
-result.R$Sector <- row.names(result.R)
-result.R$Eye <- "R"
-result <- rbind(result.L, result.R)
-ggplot(result, aes(x = Sector, y = Diferencia.medias, colour=Eye)) + 
-  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
-  geom_point(size = 2, position = position_dodge(0.5)) 
-
-
-
-
+# Matriz comparación medias
+matriz.comparacion.medias("FULL")
 
 
 # Análisis discriminante
