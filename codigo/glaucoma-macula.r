@@ -49,16 +49,22 @@ datos <- datos[!(datos$Lastname %in% id.atipicos), ]
 # varCells <- colnames(datos)[varCells]
 varCells <- NULL
 for (i in 1:8){
-  for (j in 1:8){
+  for (j in 8:1){
     varCells <- c(varCells, paste0("Cell.",j,".",i))
   }
 }
 matrixCells <- matrix(varCells, nrow=8, ncol=8)
-submatrixCells1 <- matrixCells[1:4,1:4]
-submatrixCells2 <- matrixCells[1:4,5:8]
-submatrixCells3 <- matrixCells[5:8,1:4]
-submatrixCells4 <- matrixCells[5:8,5:8]
-submatrixCells <- list(submatrixCells1, submatrixCells2, submatrixCells3, submatrixCells4) 
+submatrixCells1 <- t(matrixCells[5:8,1:4])
+submatrixCells2 <- t(matrixCells[5:8,5:8])
+submatrixCells3 <- t(matrixCells[1:4,1:4])
+submatrixCells4 <- t(matrixCells[1:4,5:8])
+submatrixCells <- list(submatrixCells1, submatrixCells2, submatrixCells3, submatrixCells4)
+varCells <- NULL
+for (i in 1:8){
+  for (j in 1:8){
+    varCells <- c(varCells, paste0("Cell.",j,".",i))
+  }
+}
 
 # Normalización de datos
 
@@ -203,7 +209,6 @@ matriz.comparacion.medias <- function (layer){
   print(ggplot(data = medias, aes(x=columna, y=fila, fill=Diferencia.medias)) + 
           geom_tile() + 
           geom_text(aes(label=round(Diferencia.medias,2), colour=sig), size=3) + 
-          scale_y_reverse() + 
           scale_colour_manual("p valor", values=c("green", "yellow","black")) + 
           scale_x_continuous(breaks=seq(1,8)) +
           scale_y_continuous(breaks=seq(1,8)) +
@@ -216,7 +221,7 @@ matriz.comparacion.medias <- function (layer){
 
 
 
-# Capa RPE
+# Capa FULL
 # Ojo izquierdo
 # Estadísticos descriptivos
 print(describir(varCells, "L", "FULL"))
