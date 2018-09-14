@@ -22,7 +22,7 @@ lapply(.packages, require, character.only=T)
 # Carga de datos
 datos <- read.csv(file="../datos/datos.csv", header=T, sep=",")
 # Eliminación de datos erróneos
-datos <- datos[-c(1669, 1677, 1678)]
+datos <- datos[-c(1669, 1677, 1678), ]
 # Eliminación datos atípicos
 datos.atipicos <- read.csv(file="../datos/datos-confrontacion.csv", header=T, sep=",")
 id.atipicos <- datos.atipicos[is.na(datos.atipicos$SUMA.V) | datos.atipicos$SUMA.V>10, "Lastname"]
@@ -162,7 +162,7 @@ do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
 ### Ojo izquierdo
 
 ```{r tabla-descriptivos-bmo-ojo-izdo}
-result <- describeBy(datos.L[,varBMO], datos.L$Glaucoma, mat = T, digits = 4)
+result <- describeBy(datos.L[, varBMO], datos.L$Glaucoma, mat = T, digits = 4)
 result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
 colnames(result)[1] <- "Glaucoma"
 pander(result)
@@ -192,12 +192,12 @@ Se observan correlaciones fuertes entre todos los sectores tanto de ojos sanos c
 
 ### Comparación de distribuciones por glaucoma y ojo
 ```{r histograma-bmo}
-p <- lapply(colnames(datos[,varBMO])[-1], overHist)
+p <- lapply(colnames(datos[,varBMO]), overHist)
 do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
 ```
 
 ```{r cajas-bmo}
-p <- lapply(colnames(datos[,varBMO])[-1], overBoxplot)
+p <- lapply(colnames(datos[,varBMO]), overBoxplot)
 do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
 ```
 

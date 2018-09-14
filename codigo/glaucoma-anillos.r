@@ -10,7 +10,7 @@ lapply(.packages, require, character.only=T)
 datos <- read.csv(file="datos/datos.csv", header=T, sep=",")
 
 # Eliminación de datos erróneos
-datos <- datos[-c(1669, 1677, 1678)]
+datos <- datos[-c(1669, 1677, 1678), ]
 
 # Eliminación datos atípicos
 datos.atipicos <- read.csv(file="datos/datos-confrontacion.csv", header=T, sep=",")
@@ -371,82 +371,3 @@ ggplot(result, aes(x = Sector, y = Diferencia.medias, colour=Eye)) +
   geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
   geom_point(size = 2, position = position_dodge(0.5)) 
 
-
-
-# Análisis discriminante
-datos.BMO <- select(datos, starts_with("BMO"))[-1]
-datos.lda <- datos.BMO
-datos.lda$Glaucoma <- datos$Glaucoma
-datos.lda$Age <- datos$Age
-datos.lda <- na.omit(datos.lda)
-lda <- MASS::lda(formula=Glaucoma ~ ., data=datos.lda, na.action="na.omit",  CV=TRUE)
-#datatable(lda$scaling, options = list(pageLength=100, scrollY=200, dom = 'ft')) %>% formatRound(colnames(lda$scaling), 4)
-#plot(lda)
-ct <- table(datos.lda$Glaucoma, lda$class)
-prop.table(ct,1)
-diag(prop.table(ct, 1))
-
-datos.3.5 <- select(datos, starts_with("Rim3.5"))
-datos.lda <- datos.3.5
-datos.lda$Glaucoma <- datos$Glaucoma
-datos.lda <- na.omit(datos.lda)
-lda <- MASS::lda(formula=Glaucoma ~ ., data=datos.lda, na.action="na.omit",  CV=TRUE)
-#datatable(lda$scaling, options = list(pageLength=100, scrollY=200, dom = 'ft')) %>% formatRound(colnames(lda$scaling), 4)
-#plot(lda)
-ct <- table(datos.lda$Glaucoma, lda$class)
-prop.table(ct,1)
-diag(prop.table(ct, 1))
-
-datos.4.1 <- select(datos, starts_with("Rim4.1"))
-datos.lda <- datos.4.1
-datos.lda$Glaucoma <- datos$Glaucoma
-datos.lda <- na.omit(datos.lda)
-lda <- MASS::lda(formula=Glaucoma ~ ., data=datos.lda, na.action="na.omit",  CV=TRUE)
-#datatable(lda$scaling, options = list(pageLength=100, scrollY=200, dom = 'ft')) %>% formatRound(colnames(lda$scaling), 4)
-#plot(lda)
-ct <- table(datos.lda$Glaucoma, lda$class)
-prop.table(ct,1)
-diag(prop.table(ct, 1))
-
-datos.4.7 <- select(datos, starts_with("Rim4.7"))
-datos.lda <- datos.4.7
-datos.lda$Glaucoma <- datos$Glaucoma
-datos.lda <- na.omit(datos.lda)
-lda <- MASS::lda(formula=Glaucoma ~ ., data=datos.lda, na.action="na.omit",  CV=TRUE)
-#datatable(lda$scaling, options = list(pageLength=100, scrollY=200, dom = 'ft')) %>% formatRound(colnames(lda$scaling), 4)
-#plot(lda)
-ct <- table(datos.lda$Glaucoma, lda$class)
-prop.table(ct,1)
-diag(prop.table(ct, 1))
-
-datos.lda <- cbind(datos.BMO, datos.3.5, datos.4.1, datos.4.7)
-datos.lda$Glaucoma <- datos$Glaucoma
-datos.lda <- na.omit(datos.lda)
-lda <- MASS::lda(formula=Glaucoma ~ ., data=datos.lda, na.action="na.omit",  CV=TRUE)
-#datatable(lda$scaling, options = list(pageLength=100, scrollY=200, dom = 'ft')) %>% formatRound(colnames(lda$scaling), 4)
-#plot(lda)
-ct <- table(datos.lda$Glaucoma, lda$class)
-prop.table(ct,1)
-diag(prop.table(ct, 1))
-
-
-# Componentes principales
-data <- na.omit(datos.BMO)
-glaucoma <- data$Glaucoma
-data <- data[-ncol(data)]
-pca <- prcomp(data) 
-print(pca)
-plot(pca, type="l")
-summary(pca)
-
-library(devtools)
-install_github("ggbiplot", "vqv")
-
-library(ggbiplot)
-g <- ggbiplot(pca, obs.scale = 1, var.scale = 1, 
-              groups = glaucoma, ellipse = TRUE, 
-              circle = TRUE)
-g <- g + scale_color_discrete(name = '')
-g <- g + theme(legend.direction = 'horizontal', 
-               legend.position = 'top')
-print(g)

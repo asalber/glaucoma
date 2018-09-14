@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-05-19" />
+<meta name="date" content="2018-09-14" />
 
 <title>Análisis de los anillos neuroretinianos</title>
 
@@ -28,12 +28,17 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
-<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
-<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.2.1/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.4/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -101,6 +106,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -293,6 +301,9 @@ div.tocify {
 <li>
   <a href="glaucoma-macula.html">Análisis mácula</a>
 </li>
+<li>
+  <a href="glaucoma-clusters.html">Categorías glaucoma</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -311,7 +322,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Análisis de los anillos neuroretinianos</h1>
-<h4 class="date"><em>2018-05-19</em></h4>
+<h4 class="date"><em>2018-09-14</em></h4>
 
 </div>
 
@@ -363,14 +374,14 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>X12</strong></td>
 <td align="center">Y</td>
-<td align="center">467</td>
-<td align="center">67.15</td>
-<td align="center">13.6</td>
-<td align="center">68.7</td>
+<td align="center">464</td>
+<td align="center">67.13</td>
+<td align="center">13.62</td>
+<td align="center">68.75</td>
 <td align="center">22.2</td>
 <td align="center">95.5</td>
-<td align="center">-0.5386</td>
-<td align="center">-0.1397</td>
+<td align="center">-0.5378</td>
+<td align="center">-0.148</td>
 </tr>
 </tbody>
 </table>
@@ -423,9 +434,9 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>FoBMO.Angle2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-9.414</td>
-<td align="center">4.595</td>
+<td align="center">233</td>
+<td align="center">-9.387</td>
+<td align="center">4.45</td>
 <td align="center">-9.13</td>
 <td align="center">-29.64</td>
 <td align="center">14.39</td>
@@ -443,10 +454,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Displacement2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">47.38</td>
+<td align="center">233</td>
+<td align="center">47.19</td>
 <td align="center">39.68</td>
-<td align="center">35</td>
+<td align="center">34</td>
 <td align="center">2</td>
 <td align="center">287</td>
 </tr>
@@ -463,19 +474,19 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.Area2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">1.967</td>
-<td align="center">0.4502</td>
-<td align="center">1.922</td>
+<td align="center">233</td>
+<td align="center">1.968</td>
+<td align="center">0.4519</td>
+<td align="center">1.925</td>
 <td align="center">0.53</td>
 <td align="center">3.448</td>
 </tr>
 </tbody>
 </table>
-<table style="width:56%;">
+<table style="width:54%;">
 <colgroup>
 <col width="27%" />
-<col width="13%" />
+<col width="12%" />
 <col width="13%" />
 </colgroup>
 <thead>
@@ -493,8 +504,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>FoBMO.Angle2</strong></td>
-<td align="center">-0.0422</td>
-<td align="center">4.046</td>
+<td align="center">0.0893</td>
+<td align="center">4.277</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Displacement1</strong></td>
@@ -503,8 +514,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Displacement2</strong></td>
-<td align="center">2.186</td>
-<td align="center">7.193</td>
+<td align="center">2.208</td>
+<td align="center">7.31</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.Area1</strong></td>
@@ -513,8 +524,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.Area2</strong></td>
-<td align="center">0.4677</td>
-<td align="center">1.089</td>
+<td align="center">0.4599</td>
+<td align="center">1.056</td>
 </tr>
 </tbody>
 </table>
@@ -560,10 +571,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>FoBMO.Angle2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-6.043</td>
-<td align="center">4.147</td>
-<td align="center">-5.835</td>
+<td align="center">231</td>
+<td align="center">-6.029</td>
+<td align="center">4.151</td>
+<td align="center">-5.82</td>
 <td align="center">-20.22</td>
 <td align="center">4.88</td>
 </tr>
@@ -580,9 +591,9 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Displacement2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">44.56</td>
-<td align="center">42.96</td>
+<td align="center">231</td>
+<td align="center">44.26</td>
+<td align="center">42.83</td>
 <td align="center">33</td>
 <td align="center">3</td>
 <td align="center">351</td>
@@ -600,10 +611,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.Area2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
+<td align="center">231</td>
 <td align="center">1.944</td>
-<td align="center">0.4407</td>
-<td align="center">1.899</td>
+<td align="center">0.4416</td>
+<td align="center">1.902</td>
 <td align="center">0.783</td>
 <td align="center">3.674</td>
 </tr>
@@ -630,8 +641,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>FoBMO.Angle2</strong></td>
-<td align="center">-0.2189</td>
-<td align="center">-0.0292</td>
+<td align="center">-0.2271</td>
+<td align="center">-0.0264</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Displacement1</strong></td>
@@ -640,8 +651,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Displacement2</strong></td>
-<td align="center">3.414</td>
-<td align="center">17.68</td>
+<td align="center">3.466</td>
+<td align="center">18.11</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.Area1</strong></td>
@@ -650,8 +661,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.Area2</strong></td>
-<td align="center">0.6499</td>
-<td align="center">1.142</td>
+<td align="center">0.6451</td>
+<td align="center">1.124</td>
 </tr>
 </tbody>
 </table>
@@ -702,10 +713,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.G2</strong></td>
 <td align="center">Y</td>
-<td align="center">234</td>
-<td align="center">-1.624</td>
-<td align="center">1.27</td>
-<td align="center">-1.729</td>
+<td align="center">232</td>
+<td align="center">-1.643</td>
+<td align="center">1.259</td>
+<td align="center">-1.734</td>
 <td align="center">-4.585</td>
 <td align="center">1.903</td>
 </tr>
@@ -722,10 +733,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-1.376</td>
-<td align="center">1.154</td>
-<td align="center">-1.483</td>
+<td align="center">233</td>
+<td align="center">-1.392</td>
+<td align="center">1.145</td>
+<td align="center">-1.494</td>
 <td align="center">-4.216</td>
 <td align="center">1.586</td>
 </tr>
@@ -742,9 +753,9 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-1.462</td>
-<td align="center">1.268</td>
+<td align="center">233</td>
+<td align="center">-1.474</td>
+<td align="center">1.267</td>
 <td align="center">-1.542</td>
 <td align="center">-4.486</td>
 <td align="center">2.263</td>
@@ -762,10 +773,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-1.413</td>
-<td align="center">1.282</td>
-<td align="center">-1.485</td>
+<td align="center">233</td>
+<td align="center">-1.431</td>
+<td align="center">1.272</td>
+<td align="center">-1.486</td>
 <td align="center">-4.657</td>
 <td align="center">2.07</td>
 </tr>
@@ -782,12 +793,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">234</td>
-<td align="center">-1.623</td>
-<td align="center">1.452</td>
-<td align="center">-1.515</td>
+<td align="center">232</td>
+<td align="center">-1.645</td>
+<td align="center">1.434</td>
+<td align="center">-1.53</td>
 <td align="center">-4.87</td>
-<td align="center">2.226</td>
+<td align="center">2.135</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.T1</strong></td>
@@ -802,10 +813,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.T2</strong></td>
 <td align="center">Y</td>
-<td align="center">234</td>
-<td align="center">-1.116</td>
-<td align="center">1.187</td>
-<td align="center">-1.142</td>
+<td align="center">232</td>
+<td align="center">-1.134</td>
+<td align="center">1.176</td>
+<td align="center">-1.151</td>
 <td align="center">-4.055</td>
 <td align="center">2.123</td>
 </tr>
@@ -822,10 +833,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.TS2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-1.558</td>
-<td align="center">1.256</td>
-<td align="center">-1.604</td>
+<td align="center">233</td>
+<td align="center">-1.571</td>
+<td align="center">1.252</td>
+<td align="center">-1.655</td>
 <td align="center">-4.788</td>
 <td align="center">1.764</td>
 </tr>
@@ -852,8 +863,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.G2</strong></td>
-<td align="center">0.1811</td>
-<td align="center">0.07</td>
+<td align="center">0.1879</td>
+<td align="center">0.1352</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.NS1</strong></td>
@@ -862,8 +873,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NS2</strong></td>
-<td align="center">0.2232</td>
-<td align="center">-0.118</td>
+<td align="center">0.2333</td>
+<td align="center">-0.0575</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.N1</strong></td>
@@ -872,8 +883,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.N2</strong></td>
-<td align="center">0.2942</td>
-<td align="center">0.0514</td>
+<td align="center">0.3144</td>
+<td align="center">0.0927</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.NI1</strong></td>
@@ -882,8 +893,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NI2</strong></td>
-<td align="center">0.159</td>
-<td align="center">-0.2503</td>
+<td align="center">0.1657</td>
+<td align="center">-0.2014</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TI1</strong></td>
@@ -892,8 +903,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.TI2</strong></td>
-<td align="center">0.0964</td>
-<td align="center">-0.2361</td>
+<td align="center">0.0605</td>
+<td align="center">-0.2913</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.T1</strong></td>
@@ -902,8 +913,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.T2</strong></td>
-<td align="center">0.0759</td>
-<td align="center">0.0046</td>
+<td align="center">0.0755</td>
+<td align="center">0.0603</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TS1</strong></td>
@@ -912,8 +923,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.TS2</strong></td>
-<td align="center">0.0524</td>
-<td align="center">-0.2239</td>
+<td align="center">0.0683</td>
+<td align="center">-0.1903</td>
 </tr>
 </tbody>
 </table>
@@ -960,9 +971,9 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.G2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.634</td>
-<td align="center">1.24</td>
+<td align="center">231</td>
+<td align="center">-1.645</td>
+<td align="center">1.232</td>
 <td align="center">-1.846</td>
 <td align="center">-5.116</td>
 <td align="center">1.293</td>
@@ -980,10 +991,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.417</td>
-<td align="center">1.161</td>
-<td align="center">-1.572</td>
+<td align="center">231</td>
+<td align="center">-1.427</td>
+<td align="center">1.154</td>
+<td align="center">-1.573</td>
 <td align="center">-4.031</td>
 <td align="center">1.763</td>
 </tr>
@@ -1000,10 +1011,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.392</td>
-<td align="center">1.19</td>
-<td align="center">-1.566</td>
+<td align="center">231</td>
+<td align="center">-1.402</td>
+<td align="center">1.182</td>
+<td align="center">-1.567</td>
 <td align="center">-4.578</td>
 <td align="center">1.766</td>
 </tr>
@@ -1020,9 +1031,9 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.504</td>
-<td align="center">1.245</td>
+<td align="center">231</td>
+<td align="center">-1.513</td>
+<td align="center">1.24</td>
 <td align="center">-1.62</td>
 <td align="center">-4.457</td>
 <td align="center">2.172</td>
@@ -1040,10 +1051,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.783</td>
-<td align="center">1.426</td>
-<td align="center">-1.828</td>
+<td align="center">231</td>
+<td align="center">-1.791</td>
+<td align="center">1.424</td>
+<td align="center">-1.855</td>
 <td align="center">-5.333</td>
 <td align="center">2.178</td>
 </tr>
@@ -1060,10 +1071,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.T2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.175</td>
-<td align="center">1.23</td>
-<td align="center">-1.183</td>
+<td align="center">231</td>
+<td align="center">-1.184</td>
+<td align="center">1.225</td>
+<td align="center">-1.189</td>
 <td align="center">-4.983</td>
 <td align="center">2.287</td>
 </tr>
@@ -1080,10 +1091,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>BMO.TS2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.448</td>
-<td align="center">1.259</td>
-<td align="center">-1.47</td>
+<td align="center">231</td>
+<td align="center">-1.459</td>
+<td align="center">1.252</td>
+<td align="center">-1.492</td>
 <td align="center">-4.787</td>
 <td align="center">2.422</td>
 </tr>
@@ -1110,8 +1121,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.G2</strong></td>
-<td align="center">0.2389</td>
-<td align="center">-0.2563</td>
+<td align="center">0.2346</td>
+<td align="center">-0.2352</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.NS1</strong></td>
@@ -1120,8 +1131,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NS2</strong></td>
-<td align="center">0.2932</td>
-<td align="center">-0.3405</td>
+<td align="center">0.2928</td>
+<td align="center">-0.3167</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.N1</strong></td>
@@ -1130,8 +1141,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.N2</strong></td>
-<td align="center">0.3539</td>
-<td align="center">-0.15</td>
+<td align="center">0.3531</td>
+<td align="center">-0.1204</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.NI1</strong></td>
@@ -1140,8 +1151,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NI2</strong></td>
-<td align="center">0.3457</td>
-<td align="center">-0.0078</td>
+<td align="center">0.3538</td>
+<td align="center">0.0272</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TI1</strong></td>
@@ -1150,8 +1161,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.TI2</strong></td>
-<td align="center">-0.0086</td>
-<td align="center">-0.1339</td>
+<td align="center">-0.0015</td>
+<td align="center">-0.1164</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.T1</strong></td>
@@ -1160,8 +1171,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.T2</strong></td>
-<td align="center">-0.066</td>
-<td align="center">0.1626</td>
+<td align="center">-0.0651</td>
+<td align="center">0.1899</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TS1</strong></td>
@@ -1170,8 +1181,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.TS2</strong></td>
-<td align="center">0.1056</td>
-<td align="center">0.0917</td>
+<td align="center">0.1038</td>
+<td align="center">0.123</td>
 </tr>
 </tbody>
 </table>
@@ -1227,12 +1238,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.G2</strong></td>
 <td align="center">Y</td>
-<td align="center">234</td>
-<td align="center">-2.006</td>
-<td align="center">2.373</td>
-<td align="center">-1.843</td>
+<td align="center">233</td>
+<td align="center">-2.062</td>
+<td align="center">2.217</td>
+<td align="center">-1.868</td>
 <td align="center">-9.038</td>
-<td align="center">11.04</td>
+<td align="center">2.653</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.NS1</strong></td>
@@ -1247,12 +1258,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-0.8413</td>
-<td align="center">1.326</td>
+<td align="center">233</td>
+<td align="center">-0.849</td>
+<td align="center">1.292</td>
 <td align="center">-0.8485</td>
 <td align="center">-4.627</td>
-<td align="center">3.406</td>
+<td align="center">2.425</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.N1</strong></td>
@@ -1267,12 +1278,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-0.9164</td>
-<td align="center">1.627</td>
-<td align="center">-0.8791</td>
+<td align="center">233</td>
+<td align="center">-0.9634</td>
+<td align="center">1.532</td>
+<td align="center">-0.8913</td>
 <td align="center">-5.529</td>
-<td align="center">7.221</td>
+<td align="center">2.818</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.NI1</strong></td>
@@ -1287,12 +1298,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-0.7703</td>
-<td align="center">1.382</td>
+<td align="center">233</td>
+<td align="center">-0.7874</td>
+<td align="center">1.334</td>
 <td align="center">-0.764</td>
 <td align="center">-4.58</td>
-<td align="center">4.799</td>
+<td align="center">3.259</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TI1</strong></td>
@@ -1307,9 +1318,9 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-2.192</td>
-<td align="center">2.271</td>
+<td align="center">233</td>
+<td align="center">-2.197</td>
+<td align="center">2.258</td>
 <td align="center">-1.698</td>
 <td align="center">-7.488</td>
 <td align="center">2.116</td>
@@ -1327,12 +1338,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.T2</strong></td>
 <td align="center">Y</td>
-<td align="center">234</td>
-<td align="center">-0.8535</td>
-<td align="center">1.957</td>
-<td align="center">-0.8808</td>
+<td align="center">233</td>
+<td align="center">-0.918</td>
+<td align="center">1.693</td>
+<td align="center">-0.8819</td>
 <td align="center">-5.901</td>
-<td align="center">14.19</td>
+<td align="center">5.29</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TS1</strong></td>
@@ -1347,12 +1358,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.TS2</strong></td>
 <td align="center">Y</td>
-<td align="center">235</td>
-<td align="center">-1.695</td>
-<td align="center">1.648</td>
-<td align="center">-1.475</td>
+<td align="center">233</td>
+<td align="center">-1.723</td>
+<td align="center">1.612</td>
+<td align="center">-1.501</td>
 <td align="center">-5.588</td>
-<td align="center">3.972</td>
+<td align="center">1.892</td>
 </tr>
 </tbody>
 </table>
@@ -1377,8 +1388,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.G2</strong></td>
-<td align="center">0.336</td>
-<td align="center">2.958</td>
+<td align="center">-0.3847</td>
+<td align="center">-0.3382</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.NS1</strong></td>
@@ -1387,8 +1398,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS2</strong></td>
-<td align="center">-0.0422</td>
-<td align="center">0.0781</td>
+<td align="center">-0.151</td>
+<td align="center">-0.1184</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.N1</strong></td>
@@ -1397,8 +1408,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.N2</strong></td>
-<td align="center">0.368</td>
-<td align="center">1.89</td>
+<td align="center">-0.1334</td>
+<td align="center">-0.2155</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.NI1</strong></td>
@@ -1407,8 +1418,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI2</strong></td>
-<td align="center">0.3335</td>
-<td align="center">0.8599</td>
+<td align="center">0.1069</td>
+<td align="center">0.1685</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TI1</strong></td>
@@ -1417,8 +1428,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.TI2</strong></td>
-<td align="center">-0.3625</td>
-<td align="center">-0.9706</td>
+<td align="center">-0.3816</td>
+<td align="center">-0.9634</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.T1</strong></td>
@@ -1427,8 +1438,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.T2</strong></td>
-<td align="center">2.082</td>
-<td align="center">14.34</td>
+<td align="center">0.3332</td>
+<td align="center">1.375</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TS1</strong></td>
@@ -1437,8 +1448,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.TS2</strong></td>
-<td align="center">-0.0616</td>
-<td align="center">-0.2115</td>
+<td align="center">-0.2025</td>
+<td align="center">-0.598</td>
 </tr>
 </tbody>
 </table>
@@ -1485,10 +1496,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.G2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-1.883</td>
-<td align="center">2.142</td>
-<td align="center">-1.52</td>
+<td align="center">229</td>
+<td align="center">-1.9</td>
+<td align="center">2.131</td>
+<td align="center">-1.541</td>
 <td align="center">-8.184</td>
 <td align="center">4</td>
 </tr>
@@ -1505,10 +1516,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-0.92</td>
-<td align="center">1.267</td>
-<td align="center">-0.9447</td>
+<td align="center">229</td>
+<td align="center">-0.9335</td>
+<td align="center">1.252</td>
+<td align="center">-0.9472</td>
 <td align="center">-4.079</td>
 <td align="center">3.428</td>
 </tr>
@@ -1525,12 +1536,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-0.8644</td>
-<td align="center">1.563</td>
-<td align="center">-0.664</td>
+<td align="center">229</td>
+<td align="center">-0.8959</td>
+<td align="center">1.491</td>
+<td align="center">-0.6676</td>
 <td align="center">-6.152</td>
-<td align="center">6.341</td>
+<td align="center">2.485</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.NI1</strong></td>
@@ -1545,10 +1556,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.7537</td>
-<td align="center">1.329</td>
-<td align="center">-0.7696</td>
+<td align="center">230</td>
+<td align="center">-0.7697</td>
+<td align="center">1.309</td>
+<td align="center">-0.7903</td>
 <td align="center">-4.913</td>
 <td align="center">4.39</td>
 </tr>
@@ -1565,10 +1576,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-2.228</td>
-<td align="center">2.196</td>
-<td align="center">-1.976</td>
+<td align="center">230</td>
+<td align="center">-2.23</td>
+<td align="center">2.201</td>
+<td align="center">-1.984</td>
 <td align="center">-8.3</td>
 <td align="center">2.113</td>
 </tr>
@@ -1585,10 +1596,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.T2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-0.629</td>
-<td align="center">1.965</td>
-<td align="center">-0.7088</td>
+<td align="center">229</td>
+<td align="center">-0.6099</td>
+<td align="center">1.948</td>
+<td align="center">-0.7075</td>
 <td align="center">-5.547</td>
 <td align="center">12.43</td>
 </tr>
@@ -1605,10 +1616,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim3.5.TS2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-1.44</td>
-<td align="center">1.636</td>
-<td align="center">-1.179</td>
+<td align="center">229</td>
+<td align="center">-1.438</td>
+<td align="center">1.639</td>
+<td align="center">-1.176</td>
 <td align="center">-5.292</td>
 <td align="center">2.872</td>
 </tr>
@@ -1635,8 +1646,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.G2</strong></td>
-<td align="center">-0.3891</td>
-<td align="center">-0.0946</td>
+<td align="center">-0.3996</td>
+<td align="center">-0.0834</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.NS1</strong></td>
@@ -1645,8 +1656,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS2</strong></td>
-<td align="center">0.3126</td>
-<td align="center">0.4854</td>
+<td align="center">0.2904</td>
+<td align="center">0.5073</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.N1</strong></td>
@@ -1655,8 +1666,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.N2</strong></td>
-<td align="center">-0.2753</td>
-<td align="center">2.202</td>
+<td align="center">-0.7478</td>
+<td align="center">0.8523</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.NI1</strong></td>
@@ -1665,8 +1676,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI2</strong></td>
-<td align="center">0.2487</td>
-<td align="center">1.196</td>
+<td align="center">0.2011</td>
+<td align="center">1.21</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TI1</strong></td>
@@ -1675,8 +1686,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.TI2</strong></td>
-<td align="center">-0.3771</td>
-<td align="center">-0.7148</td>
+<td align="center">-0.3747</td>
+<td align="center">-0.7253</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.T1</strong></td>
@@ -1685,8 +1696,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.T2</strong></td>
-<td align="center">1.495</td>
-<td align="center">8.323</td>
+<td align="center">1.562</td>
+<td align="center">8.606</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TS1</strong></td>
@@ -1695,8 +1706,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.TS2</strong></td>
-<td align="center">-0.2826</td>
-<td align="center">-0.5863</td>
+<td align="center">-0.2846</td>
+<td align="center">-0.5951</td>
 </tr>
 </tbody>
 </table>
@@ -1752,12 +1763,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.G2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-1.843</td>
-<td align="center">2.534</td>
-<td align="center">-1.662</td>
+<td align="center">229</td>
+<td align="center">-1.932</td>
+<td align="center">2.154</td>
+<td align="center">-1.69</td>
 <td align="center">-7.297</td>
-<td align="center">18.42</td>
+<td align="center">2.535</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.NS1</strong></td>
@@ -1772,12 +1783,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.6585</td>
-<td align="center">1.423</td>
+<td align="center">229</td>
+<td align="center">-0.6872</td>
+<td align="center">1.315</td>
 <td align="center">-0.7069</td>
 <td align="center">-4.17</td>
-<td align="center">7.604</td>
+<td align="center">3.156</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.N1</strong></td>
@@ -1792,12 +1803,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.9065</td>
-<td align="center">1.824</td>
+<td align="center">229</td>
+<td align="center">-0.9694</td>
+<td align="center">1.559</td>
 <td align="center">-0.963</td>
 <td align="center">-5.436</td>
-<td align="center">13.59</td>
+<td align="center">2.474</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.NI1</strong></td>
@@ -1812,12 +1823,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-0.6365</td>
-<td align="center">1.372</td>
+<td align="center">230</td>
+<td align="center">-0.6539</td>
+<td align="center">1.24</td>
 <td align="center">-0.6889</td>
-<td align="center">-4.745</td>
-<td align="center">7.467</td>
+<td align="center">-4.33</td>
+<td align="center">3.879</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TI1</strong></td>
@@ -1832,12 +1843,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-2.068</td>
-<td align="center">2.212</td>
+<td align="center">230</td>
+<td align="center">-2.082</td>
+<td align="center">2.173</td>
 <td align="center">-1.656</td>
 <td align="center">-6.844</td>
-<td align="center">4.271</td>
+<td align="center">3.085</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.T1</strong></td>
@@ -1852,12 +1863,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.T2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-0.7045</td>
-<td align="center">2.028</td>
-<td align="center">-0.776</td>
+<td align="center">229</td>
+<td align="center">-0.7825</td>
+<td align="center">1.65</td>
+<td align="center">-0.7862</td>
 <td align="center">-5.422</td>
-<td align="center">17.17</td>
+<td align="center">5.751</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TS1</strong></td>
@@ -1872,12 +1883,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.TS2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-1.84</td>
-<td align="center">1.913</td>
+<td align="center">229</td>
+<td align="center">-1.887</td>
+<td align="center">1.738</td>
 <td align="center">-1.665</td>
 <td align="center">-5.798</td>
-<td align="center">10.4</td>
+<td align="center">2.118</td>
 </tr>
 </tbody>
 </table>
@@ -1902,8 +1913,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.G2</strong></td>
-<td align="center">1.915</td>
-<td align="center">16.12</td>
+<td align="center">-0.3803</td>
+<td align="center">-0.4746</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.NS1</strong></td>
@@ -1912,8 +1923,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS2</strong></td>
-<td align="center">0.7718</td>
-<td align="center">4.037</td>
+<td align="center">-0.0228</td>
+<td align="center">-0.0956</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.N1</strong></td>
@@ -1922,8 +1933,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.N2</strong></td>
-<td align="center">1.918</td>
-<td align="center">15.76</td>
+<td align="center">-0.2879</td>
+<td align="center">-0.1935</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.NI1</strong></td>
@@ -1932,8 +1943,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI2</strong></td>
-<td align="center">0.8868</td>
-<td align="center">4.861</td>
+<td align="center">0.1977</td>
+<td align="center">0.4344</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TI1</strong></td>
@@ -1942,8 +1953,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.TI2</strong></td>
-<td align="center">-0.2435</td>
-<td align="center">-0.6161</td>
+<td align="center">-0.3355</td>
+<td align="center">-0.756</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.T1</strong></td>
@@ -1952,8 +1963,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.T2</strong></td>
-<td align="center">3.17</td>
-<td align="center">25.28</td>
+<td align="center">0.4945</td>
+<td align="center">1.656</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TS1</strong></td>
@@ -1962,8 +1973,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.TS2</strong></td>
-<td align="center">0.8796</td>
-<td align="center">5.799</td>
+<td align="center">-0.2578</td>
+<td align="center">-0.7424</td>
 </tr>
 </tbody>
 </table>
@@ -2030,10 +2041,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-0.8625</td>
-<td align="center">1.257</td>
-<td align="center">-0.83</td>
+<td align="center">229</td>
+<td align="center">-0.8666</td>
+<td align="center">1.258</td>
+<td align="center">-0.8412</td>
 <td align="center">-4.744</td>
 <td align="center">3.308</td>
 </tr>
@@ -2050,12 +2061,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-0.8469</td>
-<td align="center">1.524</td>
-<td align="center">-0.6617</td>
+<td align="center">229</td>
+<td align="center">-0.8714</td>
+<td align="center">1.481</td>
+<td align="center">-0.6784</td>
 <td align="center">-6.248</td>
-<td align="center">4.77</td>
+<td align="center">2.888</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.NI1</strong></td>
@@ -2070,10 +2081,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-0.6419</td>
-<td align="center">1.186</td>
-<td align="center">-0.6545</td>
+<td align="center">229</td>
+<td align="center">-0.6504</td>
+<td align="center">1.182</td>
+<td align="center">-0.6611</td>
 <td align="center">-4.191</td>
 <td align="center">3.865</td>
 </tr>
@@ -2090,10 +2101,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
-<td align="center">-2.116</td>
-<td align="center">2.139</td>
-<td align="center">-1.836</td>
+<td align="center">229</td>
+<td align="center">-2.11</td>
+<td align="center">2.142</td>
+<td align="center">-1.827</td>
 <td align="center">-7.313</td>
 <td align="center">1.617</td>
 </tr>
@@ -2170,8 +2181,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS2</strong></td>
-<td align="center">-0.0547</td>
-<td align="center">0.6149</td>
+<td align="center">-0.047</td>
+<td align="center">0.6142</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.N1</strong></td>
@@ -2180,8 +2191,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.N2</strong></td>
-<td align="center">-0.4687</td>
-<td align="center">1.354</td>
+<td align="center">-0.7018</td>
+<td align="center">0.9491</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.NI1</strong></td>
@@ -2190,8 +2201,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI2</strong></td>
-<td align="center">0.3002</td>
-<td align="center">1.145</td>
+<td align="center">0.3069</td>
+<td align="center">1.202</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TI1</strong></td>
@@ -2200,8 +2211,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.TI2</strong></td>
-<td align="center">-0.3299</td>
-<td align="center">-0.8808</td>
+<td align="center">-0.3368</td>
+<td align="center">-0.8805</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.T1</strong></td>
@@ -2277,12 +2288,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.G2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-1.649</td>
-<td align="center">2.687</td>
+<td align="center">229</td>
+<td align="center">-1.749</td>
+<td align="center">2.145</td>
 <td align="center">-1.458</td>
 <td align="center">-8.625</td>
-<td align="center">22.99</td>
+<td align="center">3.019</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.NS1</strong></td>
@@ -2297,12 +2308,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.5466</td>
-<td align="center">1.599</td>
+<td align="center">229</td>
+<td align="center">-0.5863</td>
+<td align="center">1.407</td>
 <td align="center">-0.6698</td>
 <td align="center">-4.364</td>
-<td align="center">10.87</td>
+<td align="center">4.065</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.N1</strong></td>
@@ -2317,12 +2328,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-0.831</td>
-<td align="center">2.067</td>
+<td align="center">230</td>
+<td align="center">-0.8849</td>
+<td align="center">1.699</td>
 <td align="center">-0.8514</td>
 <td align="center">-6.764</td>
-<td align="center">16.52</td>
+<td align="center">4.125</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.NI1</strong></td>
@@ -2337,12 +2348,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-0.5869</td>
-<td align="center">1.554</td>
+<td align="center">230</td>
+<td align="center">-0.6255</td>
+<td align="center">1.297</td>
 <td align="center">-0.7081</td>
 <td align="center">-4.546</td>
-<td align="center">12.01</td>
+<td align="center">3.389</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TI1</strong></td>
@@ -2357,12 +2368,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">232</td>
-<td align="center">-1.775</td>
-<td align="center">2.261</td>
+<td align="center">230</td>
+<td align="center">-1.801</td>
+<td align="center">2.202</td>
 <td align="center">-1.572</td>
 <td align="center">-8.086</td>
-<td align="center">6.37</td>
+<td align="center">2.915</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.T1</strong></td>
@@ -2377,12 +2388,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.T2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.5688</td>
-<td align="center">2.53</td>
-<td align="center">-0.939</td>
+<td align="center">229</td>
+<td align="center">-0.7118</td>
+<td align="center">1.881</td>
+<td align="center">-0.9538</td>
 <td align="center">-5.576</td>
-<td align="center">23.7</td>
+<td align="center">10.08</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TS1</strong></td>
@@ -2397,12 +2408,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.TS2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-1.832</td>
-<td align="center">1.912</td>
+<td align="center">229</td>
+<td align="center">-1.875</td>
+<td align="center">1.775</td>
 <td align="center">-1.717</td>
 <td align="center">-6.069</td>
-<td align="center">9.174</td>
+<td align="center">1.943</td>
 </tr>
 </tbody>
 </table>
@@ -2427,8 +2438,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.G2</strong></td>
-<td align="center">3.091</td>
-<td align="center">28.72</td>
+<td align="center">-0.3462</td>
+<td align="center">-0.2706</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.NS1</strong></td>
@@ -2437,8 +2448,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS2</strong></td>
-<td align="center">1.53</td>
-<td align="center">10.22</td>
+<td align="center">0.0329</td>
+<td align="center">0.2343</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.N1</strong></td>
@@ -2447,8 +2458,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.N2</strong></td>
-<td align="center">2.345</td>
-<td align="center">20.14</td>
+<td align="center">-0.1691</td>
+<td align="center">0.4904</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.NI1</strong></td>
@@ -2457,8 +2468,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI2</strong></td>
-<td align="center">2.227</td>
-<td align="center">17.3</td>
+<td align="center">0.075</td>
+<td align="center">0.2693</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TI1</strong></td>
@@ -2467,8 +2478,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.TI2</strong></td>
-<td align="center">-0.1422</td>
-<td align="center">-0.0819</td>
+<td align="center">-0.3359</td>
+<td align="center">-0.5617</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.T1</strong></td>
@@ -2477,8 +2488,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.T2</strong></td>
-<td align="center">4.382</td>
-<td align="center">36.3</td>
+<td align="center">1.212</td>
+<td align="center">4.375</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TS1</strong></td>
@@ -2487,8 +2498,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.TS2</strong></td>
-<td align="center">0.5377</td>
-<td align="center">3.459</td>
+<td align="center">-0.289</td>
+<td align="center">-0.7169</td>
 </tr>
 </tbody>
 </table>
@@ -2555,10 +2566,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.6829</td>
-<td align="center">1.333</td>
-<td align="center">-0.645</td>
+<td align="center">230</td>
+<td align="center">-0.6855</td>
+<td align="center">1.335</td>
+<td align="center">-0.6468</td>
 <td align="center">-4.41</td>
 <td align="center">6.538</td>
 </tr>
@@ -2575,12 +2586,12 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.N2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.8738</td>
-<td align="center">1.671</td>
-<td align="center">-0.7023</td>
+<td align="center">230</td>
+<td align="center">-0.8956</td>
+<td align="center">1.642</td>
+<td align="center">-0.709</td>
 <td align="center">-6.919</td>
-<td align="center">4.133</td>
+<td align="center">3.145</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.NI1</strong></td>
@@ -2595,10 +2606,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-0.5455</td>
-<td align="center">1.247</td>
-<td align="center">-0.5298</td>
+<td align="center">230</td>
+<td align="center">-0.5567</td>
+<td align="center">1.238</td>
+<td align="center">-0.5418</td>
 <td align="center">-4.398</td>
 <td align="center">3.654</td>
 </tr>
@@ -2615,10 +2626,10 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.TI2</strong></td>
 <td align="center">Y</td>
-<td align="center">231</td>
-<td align="center">-1.858</td>
-<td align="center">2.054</td>
-<td align="center">-1.659</td>
+<td align="center">230</td>
+<td align="center">-1.859</td>
+<td align="center">2.058</td>
+<td align="center">-1.682</td>
 <td align="center">-6.719</td>
 <td align="center">1.974</td>
 </tr>
@@ -2655,9 +2666,9 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.TS2</strong></td>
 <td align="center">Y</td>
-<td align="center">230</td>
+<td align="center">229</td>
 <td align="center">-1.488</td>
-<td align="center">1.683</td>
+<td align="center">1.686</td>
 <td align="center">-1.248</td>
 <td align="center">-5.767</td>
 <td align="center">2.974</td>
@@ -2695,8 +2706,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS2</strong></td>
-<td align="center">0.618</td>
-<td align="center">3.593</td>
+<td align="center">0.6229</td>
+<td align="center">3.58</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.N1</strong></td>
@@ -2705,8 +2716,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.N2</strong></td>
-<td align="center">-0.7088</td>
-<td align="center">1.299</td>
+<td align="center">-0.8347</td>
+<td align="center">1.215</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.NI1</strong></td>
@@ -2715,8 +2726,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI2</strong></td>
-<td align="center">0.0676</td>
-<td align="center">0.9858</td>
+<td align="center">0.0567</td>
+<td align="center">1.04</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TI1</strong></td>
@@ -2725,8 +2736,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.TI2</strong></td>
-<td align="center">-0.3479</td>
-<td align="center">-0.8134</td>
+<td align="center">-0.3455</td>
+<td align="center">-0.8234</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.T1</strong></td>
@@ -2745,8 +2756,8 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.TS2</strong></td>
-<td align="center">-0.2874</td>
-<td align="center">-0.4825</td>
+<td align="center">-0.2875</td>
+<td align="center">-0.4932</td>
 </tr>
 </tbody>
 </table>
@@ -2782,9 +2793,9 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">0.4304</td>
+<td align="center">0.4332</td>
 <td align="center">0.5715</td>
-<td align="center">-0.1411</td>
+<td align="center">-0.1383</td>
 </tr>
 </tbody>
 </table>
@@ -2803,9 +2814,9 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">-0.1938</td>
-<td align="center">-0.08842</td>
-<td align="center">1.147e-07</td>
+<td align="center">-0.1912</td>
+<td align="center">-0.08548</td>
+<td align="center">2.174e-07</td>
 </tr>
 </tbody>
 </table>
@@ -2826,8 +2837,8 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">279.8</td>
-<td align="center">8.133e-63</td>
+<td align="center">282.5</td>
+<td align="center">2.114e-63</td>
 </tr>
 </tbody>
 </table>
@@ -2858,9 +2869,9 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Age</strong></td>
 <td align="center">47.51</td>
-<td align="center">67.15</td>
-<td align="center">-19.64</td>
-<td align="center">-21.19</td>
+<td align="center">67.13</td>
+<td align="center">-19.62</td>
+<td align="center">-21.18</td>
 </tr>
 </tbody>
 </table>
@@ -2880,12 +2891,12 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>Age</strong></td>
-<td align="center">-18.09</td>
-<td align="center">1.052e-107</td>
+<td align="center">-18.07</td>
+<td align="center">9.384e-107</td>
 </tr>
 </tbody>
 </table>
-<p>Existen diferencias estadísticamente muy significativas entre las edades medias de los pacientes sanos y los pacientes con glaucoma. La edad media de los pacientes con glaucoma es entre 18.093 y 21.1933 años mayor que la de los sanos.</p>
+<p>Existen diferencias estadísticamente muy significativas entre las edades medias de los pacientes sanos y los pacientes con glaucoma. La edad media de los pacientes con glaucoma es entre 18.0667 y 21.1767 años mayor que la de los sanos.</p>
 <p>Comparación de las edades medias de mujeres y hombres con glaucoma.</p>
 <table>
 <caption>Table continues below</caption>
@@ -2906,9 +2917,9 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center">69.54</td>
-<td align="center">65.34</td>
-<td align="center">4.198</td>
-<td align="center">1.779</td>
+<td align="center">65.28</td>
+<td align="center">4.257</td>
+<td align="center">1.827</td>
 </tr>
 </tbody>
 </table>
@@ -2925,12 +2936,12 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">6.617</td>
-<td align="center">0.0007058</td>
+<td align="center">6.686</td>
+<td align="center">0.0006282</td>
 </tr>
 </tbody>
 </table>
-<p>Existen diferencias estadísticamente muy significativas entre las edades medias de hombres y mujeres. La edad media de las mujeres con glaucoma es entre 1.7792 y 6.6172 años mayor que la de los hombres.</p>
+<p>Existen diferencias estadísticamente muy significativas entre las edades medias de hombres y mujeres. La edad media de las mujeres con glaucoma es entre 1.8271 y 6.6862 años mayor que la de los hombres.</p>
 </div>
 <div id="area-bmo" class="section level2">
 <h2>Area BMO</h2>
@@ -2954,9 +2965,9 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center">1.983</td>
-<td align="center">1.967</td>
-<td align="center">0.01578</td>
-<td align="center">-0.04849</td>
+<td align="center">1.968</td>
+<td align="center">0.01478</td>
+<td align="center">-0.04992</td>
 </tr>
 </tbody>
 </table>
@@ -2973,8 +2984,8 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">0.08004</td>
-<td align="center">0.6296</td>
+<td align="center">0.07948</td>
+<td align="center">0.6534</td>
 </tr>
 </tbody>
 </table>
@@ -3000,9 +3011,9 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center">1.975</td>
-<td align="center">1.944</td>
-<td align="center">0.03131</td>
-<td align="center">-0.03199</td>
+<td align="center">1.945</td>
+<td align="center">0.03074</td>
+<td align="center">-0.03278</td>
 </tr>
 </tbody>
 </table>
@@ -3019,8 +3030,8 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">0.09462</td>
-<td align="center">0.3313</td>
+<td align="center">0.09425</td>
+<td align="center">0.3419</td>
 </tr>
 </tbody>
 </table>
@@ -3052,44 +3063,44 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>BMO.G</strong></td>
 <td align="center">0.3442</td>
-<td align="center">-1.624</td>
-<td align="center">1.968</td>
+<td align="center">-1.643</td>
+<td align="center">1.987</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NS</strong></td>
 <td align="center">0.4427</td>
-<td align="center">-1.376</td>
-<td align="center">1.818</td>
+<td align="center">-1.392</td>
+<td align="center">1.835</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.N</strong></td>
 <td align="center">0.2617</td>
-<td align="center">-1.462</td>
-<td align="center">1.723</td>
+<td align="center">-1.474</td>
+<td align="center">1.736</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NI</strong></td>
 <td align="center">0.1617</td>
-<td align="center">-1.413</td>
-<td align="center">1.575</td>
+<td align="center">-1.431</td>
+<td align="center">1.593</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TI</strong></td>
 <td align="center">0.2223</td>
-<td align="center">-1.623</td>
-<td align="center">1.845</td>
+<td align="center">-1.645</td>
+<td align="center">1.867</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.T</strong></td>
 <td align="center">0.3689</td>
-<td align="center">-1.116</td>
-<td align="center">1.485</td>
+<td align="center">-1.134</td>
+<td align="center">1.503</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TS</strong></td>
 <td align="center">0.3603</td>
-<td align="center">-1.558</td>
-<td align="center">1.918</td>
+<td align="center">-1.571</td>
+<td align="center">1.932</td>
 </tr>
 </tbody>
 </table>
@@ -3111,45 +3122,45 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>BMO.G</strong></td>
-<td align="center">1.789</td>
-<td align="center">2.148</td>
-<td align="center">2.145e-65</td>
+<td align="center">1.808</td>
+<td align="center">2.166</td>
+<td align="center">2.46e-66</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NS</strong></td>
-<td align="center">1.652</td>
-<td align="center">1.985</td>
-<td align="center">7.44e-67</td>
+<td align="center">1.669</td>
+<td align="center">2.001</td>
+<td align="center">9.145e-68</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.N</strong></td>
-<td align="center">1.546</td>
-<td align="center">1.901</td>
-<td align="center">3.747e-55</td>
+<td align="center">1.558</td>
+<td align="center">1.914</td>
+<td align="center">2.305e-55</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NI</strong></td>
-<td align="center">1.397</td>
-<td align="center">1.753</td>
-<td align="center">4.02e-48</td>
+<td align="center">1.416</td>
+<td align="center">1.77</td>
+<td align="center">5.02e-49</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TI</strong></td>
-<td align="center">1.645</td>
-<td align="center">2.045</td>
-<td align="center">2.079e-50</td>
+<td align="center">1.669</td>
+<td align="center">2.066</td>
+<td align="center">1.16e-51</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.T</strong></td>
-<td align="center">1.311</td>
-<td align="center">1.659</td>
-<td align="center">8.885e-48</td>
+<td align="center">1.329</td>
+<td align="center">1.676</td>
+<td align="center">7.289e-49</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TS</strong></td>
-<td align="center">1.739</td>
-<td align="center">2.097</td>
-<td align="center">2.738e-64</td>
+<td align="center">1.752</td>
+<td align="center">2.111</td>
+<td align="center">1.376e-64</td>
 </tr>
 </tbody>
 </table>
@@ -3177,44 +3188,44 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>BMO.G</strong></td>
 <td align="center">0.3814</td>
-<td align="center">-1.634</td>
-<td align="center">2.016</td>
+<td align="center">-1.645</td>
+<td align="center">2.027</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NS</strong></td>
 <td align="center">0.2841</td>
-<td align="center">-1.417</td>
-<td align="center">1.701</td>
+<td align="center">-1.427</td>
+<td align="center">1.711</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.N</strong></td>
 <td align="center">0.368</td>
-<td align="center">-1.392</td>
-<td align="center">1.76</td>
+<td align="center">-1.402</td>
+<td align="center">1.77</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NI</strong></td>
 <td align="center">0.237</td>
-<td align="center">-1.504</td>
-<td align="center">1.741</td>
+<td align="center">-1.513</td>
+<td align="center">1.75</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TI</strong></td>
 <td align="center">0.2889</td>
-<td align="center">-1.783</td>
-<td align="center">2.072</td>
+<td align="center">-1.791</td>
+<td align="center">2.08</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.T</strong></td>
 <td align="center">0.4184</td>
-<td align="center">-1.175</td>
-<td align="center">1.593</td>
+<td align="center">-1.184</td>
+<td align="center">1.602</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TS</strong></td>
 <td align="center">0.2897</td>
-<td align="center">-1.449</td>
-<td align="center">1.738</td>
+<td align="center">-1.459</td>
+<td align="center">1.748</td>
 </tr>
 </tbody>
 </table>
@@ -3236,45 +3247,45 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>BMO.G</strong></td>
-<td align="center">1.84</td>
-<td align="center">2.192</td>
-<td align="center">6.511e-69</td>
+<td align="center">1.851</td>
+<td align="center">2.202</td>
+<td align="center">1.081e-69</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NS</strong></td>
-<td align="center">1.535</td>
-<td align="center">1.867</td>
-<td align="center">4.646e-60</td>
+<td align="center">1.545</td>
+<td align="center">1.877</td>
+<td align="center">9.321e-61</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.N</strong></td>
-<td align="center">1.591</td>
-<td align="center">1.929</td>
-<td align="center">5.927e-61</td>
+<td align="center">1.602</td>
+<td align="center">1.939</td>
+<td align="center">1.059e-61</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.NI</strong></td>
-<td align="center">1.566</td>
-<td align="center">1.917</td>
-<td align="center">1.11e-56</td>
+<td align="center">1.575</td>
+<td align="center">1.925</td>
+<td align="center">4.536e-57</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TI</strong></td>
-<td align="center">1.874</td>
-<td align="center">2.271</td>
-<td align="center">1.028e-59</td>
+<td align="center">1.881</td>
+<td align="center">2.279</td>
+<td align="center">6.883e-60</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>BMO.T</strong></td>
-<td align="center">1.414</td>
-<td align="center">1.773</td>
-<td align="center">3.625e-50</td>
+<td align="center">1.423</td>
+<td align="center">1.781</td>
+<td align="center">1.279e-50</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>BMO.TS</strong></td>
-<td align="center">1.559</td>
-<td align="center">1.918</td>
-<td align="center">1.693e-55</td>
+<td align="center">1.569</td>
+<td align="center">1.927</td>
+<td align="center">4.15e-56</td>
 </tr>
 </tbody>
 </table>
@@ -3308,44 +3319,44 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Rim3.5.G</strong></td>
 <td align="center">0.3303</td>
-<td align="center">-2.006</td>
-<td align="center">2.336</td>
+<td align="center">-2.062</td>
+<td align="center">2.392</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS</strong></td>
 <td align="center">0.3405</td>
-<td align="center">-0.8413</td>
-<td align="center">1.182</td>
+<td align="center">-0.849</td>
+<td align="center">1.19</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.N</strong></td>
 <td align="center">0.3475</td>
-<td align="center">-0.9164</td>
-<td align="center">1.264</td>
+<td align="center">-0.9634</td>
+<td align="center">1.311</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI</strong></td>
 <td align="center">0.3457</td>
-<td align="center">-0.7703</td>
-<td align="center">1.116</td>
+<td align="center">-0.7874</td>
+<td align="center">1.133</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TI</strong></td>
 <td align="center">0.07766</td>
-<td align="center">-2.191</td>
-<td align="center">2.269</td>
+<td align="center">-2.197</td>
+<td align="center">2.275</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.T</strong></td>
 <td align="center">-0.0574</td>
-<td align="center">-0.8535</td>
-<td align="center">0.7961</td>
+<td align="center">-0.918</td>
+<td align="center">0.8606</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TS</strong></td>
 <td align="center">-0.07697</td>
-<td align="center">-1.695</td>
-<td align="center">1.618</td>
+<td align="center">-1.723</td>
+<td align="center">1.646</td>
 </tr>
 </tbody>
 </table>
@@ -3367,45 +3378,45 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.G</strong></td>
-<td align="center">2.021</td>
-<td align="center">2.652</td>
-<td align="center">9.262e-36</td>
+<td align="center">2.096</td>
+<td align="center">2.689</td>
+<td align="center">1.837e-40</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS</strong></td>
-<td align="center">0.9931</td>
-<td align="center">1.371</td>
-<td align="center">3.443e-29</td>
+<td align="center">1.004</td>
+<td align="center">1.375</td>
+<td align="center">2.388e-30</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.N</strong></td>
-<td align="center">1.041</td>
-<td align="center">1.487</td>
-<td align="center">2.111e-24</td>
+<td align="center">1.098</td>
+<td align="center">1.524</td>
+<td align="center">5.774e-28</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI</strong></td>
-<td align="center">0.9232</td>
-<td align="center">1.309</td>
-<td align="center">1.712e-25</td>
+<td align="center">0.9452</td>
+<td align="center">1.321</td>
+<td align="center">3.08e-27</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TI</strong></td>
-<td align="center">1.967</td>
-<td align="center">2.571</td>
-<td align="center">1.313e-36</td>
+<td align="center">1.973</td>
+<td align="center">2.577</td>
+<td align="center">9.717e-37</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.T</strong></td>
-<td align="center">0.5333</td>
-<td align="center">1.059</td>
-<td align="center">7.52e-09</td>
+<td align="center">0.6298</td>
+<td align="center">1.091</td>
+<td align="center">2.202e-12</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TS</strong></td>
-<td align="center">1.394</td>
-<td align="center">1.843</td>
-<td align="center">3.266e-35</td>
+<td align="center">1.425</td>
+<td align="center">1.867</td>
+<td align="center">5.938e-37</td>
 </tr>
 </tbody>
 </table>
@@ -3433,44 +3444,44 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Rim3.5.G</strong></td>
 <td align="center">0.4163</td>
-<td align="center">-1.883</td>
-<td align="center">2.3</td>
+<td align="center">-1.9</td>
+<td align="center">2.317</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS</strong></td>
 <td align="center">0.00691</td>
-<td align="center">-0.92</td>
-<td align="center">0.9269</td>
+<td align="center">-0.9335</td>
+<td align="center">0.9405</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.N</strong></td>
 <td align="center">0.3821</td>
-<td align="center">-0.8644</td>
-<td align="center">1.247</td>
+<td align="center">-0.8959</td>
+<td align="center">1.278</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI</strong></td>
 <td align="center">0.3429</td>
-<td align="center">-0.7537</td>
-<td align="center">1.097</td>
+<td align="center">-0.7697</td>
+<td align="center">1.113</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TI</strong></td>
 <td align="center">0.127</td>
-<td align="center">-2.228</td>
-<td align="center">2.355</td>
+<td align="center">-2.23</td>
+<td align="center">2.357</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.T</strong></td>
 <td align="center">0.1907</td>
-<td align="center">-0.629</td>
-<td align="center">0.8197</td>
+<td align="center">-0.6099</td>
+<td align="center">0.8006</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TS</strong></td>
 <td align="center">0.2674</td>
-<td align="center">-1.44</td>
-<td align="center">1.707</td>
+<td align="center">-1.438</td>
+<td align="center">1.706</td>
 </tr>
 </tbody>
 </table>
@@ -3492,45 +3503,45 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.G</strong></td>
-<td align="center">2.009</td>
-<td align="center">2.591</td>
-<td align="center">1.513e-39</td>
+<td align="center">2.026</td>
+<td align="center">2.607</td>
+<td align="center">4.451e-40</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NS</strong></td>
-<td align="center">0.7463</td>
-<td align="center">1.107</td>
-<td align="center">4.56e-21</td>
+<td align="center">0.7612</td>
+<td align="center">1.12</td>
+<td align="center">7.801e-22</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.N</strong></td>
-<td align="center">1.027</td>
-<td align="center">1.466</td>
-<td align="center">1.215e-24</td>
+<td align="center">1.067</td>
+<td align="center">1.489</td>
+<td align="center">2.706e-27</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.NI</strong></td>
-<td align="center">0.9076</td>
-<td align="center">1.286</td>
-<td align="center">1.153e-25</td>
+<td align="center">0.9255</td>
+<td align="center">1.3</td>
+<td align="center">1.018e-26</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TI</strong></td>
 <td align="center">2.059</td>
-<td align="center">2.652</td>
-<td align="center">9.778e-40</td>
+<td align="center">2.654</td>
+<td align="center">1.743e-39</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim3.5.T</strong></td>
-<td align="center">0.5507</td>
-<td align="center">1.089</td>
-<td align="center">6.09e-09</td>
+<td align="center">0.5332</td>
+<td align="center">1.068</td>
+<td align="center">1.077e-08</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim3.5.TS</strong></td>
-<td align="center">1.482</td>
-<td align="center">1.932</td>
-<td align="center">9.579e-38</td>
+<td align="center">1.48</td>
+<td align="center">1.931</td>
+<td align="center">1.937e-37</td>
 </tr>
 </tbody>
 </table>
@@ -3564,44 +3575,44 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Rim4.1.G</strong></td>
 <td align="center">0.2938</td>
-<td align="center">-1.843</td>
-<td align="center">2.137</td>
+<td align="center">-1.932</td>
+<td align="center">2.226</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS</strong></td>
 <td align="center">0.376</td>
-<td align="center">-0.6585</td>
-<td align="center">1.034</td>
+<td align="center">-0.6872</td>
+<td align="center">1.063</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.N</strong></td>
 <td align="center">0.3097</td>
-<td align="center">-0.9065</td>
-<td align="center">1.216</td>
+<td align="center">-0.9694</td>
+<td align="center">1.279</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI</strong></td>
 <td align="center">0.3229</td>
-<td align="center">-0.6365</td>
-<td align="center">0.9594</td>
+<td align="center">-0.6539</td>
+<td align="center">0.9768</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TI</strong></td>
 <td align="center">0.09757</td>
-<td align="center">-2.068</td>
-<td align="center">2.165</td>
+<td align="center">-2.082</td>
+<td align="center">2.179</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.T</strong></td>
 <td align="center">-0.08141</td>
-<td align="center">-0.7045</td>
-<td align="center">0.6231</td>
+<td align="center">-0.7825</td>
+<td align="center">0.7011</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TS</strong></td>
 <td align="center">-0.06992</td>
-<td align="center">-1.84</td>
-<td align="center">1.77</td>
+<td align="center">-1.887</td>
+<td align="center">1.817</td>
 </tr>
 </tbody>
 </table>
@@ -3623,45 +3634,45 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.G</strong></td>
-<td align="center">1.793</td>
-<td align="center">2.481</td>
-<td align="center">9.631e-28</td>
+<td align="center">1.928</td>
+<td align="center">2.523</td>
+<td align="center">5.471e-37</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS</strong></td>
-<td align="center">0.8264</td>
-<td align="center">1.242</td>
-<td align="center">3.175e-20</td>
+<td align="center">0.8668</td>
+<td align="center">1.26</td>
+<td align="center">2.248e-23</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.N</strong></td>
-<td align="center">0.9633</td>
-<td align="center">1.469</td>
-<td align="center">9.025e-19</td>
+<td align="center">1.057</td>
+<td align="center">1.501</td>
+<td align="center">2.568e-25</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI</strong></td>
-<td align="center">0.7662</td>
-<td align="center">1.153</td>
-<td align="center">6.395e-20</td>
+<td align="center">0.7985</td>
+<td align="center">1.155</td>
+<td align="center">1.719e-23</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TI</strong></td>
-<td align="center">1.868</td>
-<td align="center">2.462</td>
-<td align="center">4.565e-35</td>
+<td align="center">1.886</td>
+<td align="center">2.472</td>
+<td align="center">5.1e-36</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.T</strong></td>
-<td align="center">0.3487</td>
-<td align="center">0.8975</td>
-<td align="center">1.15e-05</td>
+<td align="center">0.473</td>
+<td align="center">0.9292</td>
+<td align="center">4.473e-09</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TS</strong></td>
-<td align="center">1.5</td>
-<td align="center">2.041</td>
-<td align="center">6.803e-31</td>
+<td align="center">1.566</td>
+<td align="center">2.068</td>
+<td align="center">1.962e-36</td>
 </tr>
 </tbody>
 </table>
@@ -3695,26 +3706,26 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS</strong></td>
 <td align="center">0.02872</td>
-<td align="center">-0.8625</td>
-<td align="center">0.8912</td>
+<td align="center">-0.8666</td>
+<td align="center">0.8953</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.N</strong></td>
 <td align="center">0.3273</td>
-<td align="center">-0.8469</td>
-<td align="center">1.174</td>
+<td align="center">-0.8714</td>
+<td align="center">1.199</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI</strong></td>
 <td align="center">0.2781</td>
-<td align="center">-0.6419</td>
-<td align="center">0.92</td>
+<td align="center">-0.6504</td>
+<td align="center">0.9285</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TI</strong></td>
 <td align="center">0.1237</td>
-<td align="center">-2.116</td>
-<td align="center">2.239</td>
+<td align="center">-2.11</td>
+<td align="center">2.234</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.T</strong></td>
@@ -3754,27 +3765,27 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NS</strong></td>
-<td align="center">0.7116</td>
-<td align="center">1.071</td>
-<td align="center">5.908e-20</td>
+<td align="center">0.7152</td>
+<td align="center">1.075</td>
+<td align="center">5.293e-20</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.N</strong></td>
-<td align="center">0.9616</td>
-<td align="center">1.387</td>
-<td align="center">1.81e-23</td>
+<td align="center">0.9909</td>
+<td align="center">1.406</td>
+<td align="center">3.588e-25</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.NI</strong></td>
-<td align="center">0.7473</td>
-<td align="center">1.093</td>
-<td align="center">1.471e-22</td>
+<td align="center">0.756</td>
+<td align="center">1.101</td>
+<td align="center">6.177e-23</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.1.TI</strong></td>
-<td align="center">1.95</td>
-<td align="center">2.529</td>
-<td align="center">3.033e-38</td>
+<td align="center">1.943</td>
+<td align="center">2.524</td>
+<td align="center">7.028e-38</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.1.T</strong></td>
@@ -3820,44 +3831,44 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Rim4.7.G</strong></td>
 <td align="center">0.2647</td>
-<td align="center">-1.649</td>
-<td align="center">1.914</td>
+<td align="center">-1.749</td>
+<td align="center">2.014</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS</strong></td>
 <td align="center">0.4097</td>
-<td align="center">-0.5466</td>
-<td align="center">0.9563</td>
+<td align="center">-0.5863</td>
+<td align="center">0.996</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.N</strong></td>
 <td align="center">0.2622</td>
-<td align="center">-0.831</td>
-<td align="center">1.093</td>
+<td align="center">-0.8849</td>
+<td align="center">1.147</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI</strong></td>
 <td align="center">0.3029</td>
-<td align="center">-0.5869</td>
-<td align="center">0.8898</td>
+<td align="center">-0.6255</td>
+<td align="center">0.9284</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TI</strong></td>
 <td align="center">0.1508</td>
-<td align="center">-1.775</td>
-<td align="center">1.925</td>
+<td align="center">-1.801</td>
+<td align="center">1.952</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.T</strong></td>
 <td align="center">-0.1308</td>
-<td align="center">-0.5688</td>
-<td align="center">0.438</td>
+<td align="center">-0.7118</td>
+<td align="center">0.581</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TS</strong></td>
 <td align="center">-0.05166</td>
-<td align="center">-1.832</td>
-<td align="center">1.78</td>
+<td align="center">-1.875</td>
+<td align="center">1.824</td>
 </tr>
 </tbody>
 </table>
@@ -3879,45 +3890,45 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.G</strong></td>
-<td align="center">1.557</td>
-<td align="center">2.27</td>
-<td align="center">6.961e-22</td>
+<td align="center">1.725</td>
+<td align="center">2.303</td>
+<td align="center">1.186e-32</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS</strong></td>
-<td align="center">0.7324</td>
-<td align="center">1.18</td>
-<td align="center">1.557e-15</td>
+<td align="center">0.7941</td>
+<td align="center">1.198</td>
+<td align="center">9.051e-20</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.N</strong></td>
-<td align="center">0.8131</td>
-<td align="center">1.373</td>
-<td align="center">2.663e-13</td>
+<td align="center">0.9112</td>
+<td align="center">1.383</td>
+<td align="center">4.281e-19</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI</strong></td>
-<td align="center">0.6753</td>
-<td align="center">1.104</td>
-<td align="center">9.342e-15</td>
+<td align="center">0.744</td>
+<td align="center">1.113</td>
+<td align="center">2.18e-20</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TI</strong></td>
-<td align="center">1.623</td>
-<td align="center">2.228</td>
-<td align="center">1.301e-28</td>
+<td align="center">1.656</td>
+<td align="center">2.248</td>
+<td align="center">4.16e-30</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.T</strong></td>
-<td align="center">0.1015</td>
-<td align="center">0.7745</td>
-<td align="center">0.01093</td>
+<td align="center">0.3249</td>
+<td align="center">0.8372</td>
+<td align="center">1.172e-05</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TS</strong></td>
-<td align="center">1.522</td>
-<td align="center">2.038</td>
-<td align="center">2.361e-32</td>
+<td align="center">1.581</td>
+<td align="center">2.066</td>
+<td align="center">6.221e-37</td>
 </tr>
 </tbody>
 </table>
@@ -3951,26 +3962,26 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS</strong></td>
 <td align="center">0.03501</td>
-<td align="center">-0.6829</td>
-<td align="center">0.7179</td>
+<td align="center">-0.6855</td>
+<td align="center">0.7205</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.N</strong></td>
 <td align="center">0.2883</td>
-<td align="center">-0.8738</td>
-<td align="center">1.162</td>
+<td align="center">-0.8956</td>
+<td align="center">1.184</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI</strong></td>
 <td align="center">0.2506</td>
-<td align="center">-0.5455</td>
-<td align="center">0.796</td>
+<td align="center">-0.5567</td>
+<td align="center">0.8073</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TI</strong></td>
 <td align="center">0.1237</td>
-<td align="center">-1.858</td>
-<td align="center">1.982</td>
+<td align="center">-1.859</td>
+<td align="center">1.983</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.T</strong></td>
@@ -3981,7 +3992,7 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TS</strong></td>
 <td align="center">0.2486</td>
-<td align="center">-1.489</td>
+<td align="center">-1.488</td>
 <td align="center">1.737</td>
 </tr>
 </tbody>
@@ -4010,27 +4021,27 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NS</strong></td>
-<td align="center">0.5291</td>
-<td align="center">0.9067</td>
-<td align="center">6.867e-13</td>
+<td align="center">0.5311</td>
+<td align="center">0.9099</td>
+<td align="center">6.837e-13</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.N</strong></td>
-<td align="center">0.9306</td>
-<td align="center">1.394</td>
-<td align="center">4.256e-20</td>
+<td align="center">0.9555</td>
+<td align="center">1.412</td>
+<td align="center">3.597e-21</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.NI</strong></td>
-<td align="center">0.6159</td>
-<td align="center">0.9761</td>
-<td align="center">1.378e-16</td>
+<td align="center">0.6279</td>
+<td align="center">0.9867</td>
+<td align="center">4.312e-17</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TI</strong></td>
 <td align="center">1.705</td>
-<td align="center">2.258</td>
-<td align="center">3.728e-34</td>
+<td align="center">2.261</td>
+<td align="center">6.088e-34</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Rim4.7.T</strong></td>
@@ -4040,9 +4051,9 @@ div.tocify {
 </tr>
 <tr class="odd">
 <td align="center"><strong>Rim4.7.TS</strong></td>
-<td align="center">1.507</td>
-<td align="center">1.967</td>
-<td align="center">2.88e-37</td>
+<td align="center">1.506</td>
+<td align="center">1.968</td>
+<td align="center">5.424e-37</td>
 </tr>
 </tbody>
 </table>
@@ -4056,8 +4067,8 @@ div.tocify {
 <div id="comparacion-de-ojos" class="section level1">
 <h1>Comparación de ojos</h1>
 <p>Comparación de las medias del ojo izquierdo y derecho para cada sector.</p>
-<div id="htmlwidget-07e8365da5abbd6be2ff" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-07e8365da5abbd6be2ff">{"x":{"filter":"none","data":[["BMO.G.L - BMO.G.R","BMO.NS.L - BMO.NS.R","BMO.N.L - BMO.N.R","BMO.NI.L - BMO.NI.R","BMO.TI.L - BMO.TI.R","BMO.T.L - BMO.T.R","BMO.TS.L - BMO.TS.R","Rim3.5.G.L - Rim3.5.G.R","Rim3.5.NS.L - Rim3.5.NS.R","Rim3.5.N.L - Rim3.5.N.R","Rim3.5.NI.L - Rim3.5.NI.R","Rim3.5.TI.L - Rim3.5.TI.R","Rim3.5.T.L - Rim3.5.T.R","Rim3.5.TS.L - Rim3.5.TS.R","Rim4.1.G.L - Rim4.1.G.R","Rim4.1.NS.L - Rim4.1.NS.R","Rim4.1.N.L - Rim4.1.N.R","Rim4.1.NI.L - Rim4.1.NI.R","Rim4.1.TI.L - Rim4.1.TI.R","Rim4.1.T.L - Rim4.1.T.R","Rim4.1.TS.L - Rim4.1.TS.R","Rim4.7.G.L - Rim4.7.G.R","Rim4.7.NS.L - Rim4.7.NS.R","Rim4.7.N.L - Rim4.7.N.R","Rim4.7.NI.L - Rim4.7.NI.R","Rim4.7.TI.L - Rim4.7.TI.R","Rim4.7.T.L - Rim4.7.T.R","Rim4.7.TS.L - Rim4.7.TS.R"],["-0.04023","0.11996","-0.10826","-0.06018","-0.04093","-0.03355","0.02900","-0.11637","0.25949","-0.05874","-0.01981","-0.06029","-0.23377","-0.32517","-0.06655","0.29508","-0.03869","0.03394","-0.02226","-0.22182","-0.28786","-0.05253","0.32325","-0.01552","0.03275","0.02109","-0.24944","-0.29526"],["-0.08504","0.06889","-0.15587","-0.10944","-0.09852","-0.08563","-0.02615","-0.19450","0.20224","-0.12568","-0.07569","-0.14336","-0.30667","-0.38998","-0.14838","0.23534","-0.11068","-0.01979","-0.10503","-0.30356","-0.35769","-0.13939","0.26140","-0.09437","-0.02307","-0.06069","-0.34738","-0.36773"],["0.004586","0.171023","-0.060649","-0.010921","0.016670","0.018535","0.084156","-0.038237","0.316744","0.008211","0.036065","0.022779","-0.160877","-0.260368","0.015280","0.354824","0.033305","0.087673","0.060500","-0.140075","-0.218035","0.034327","0.385103","0.063332","0.088569","0.102864","-0.151500","-0.222785"],["7.845e-02","4.562e-06","9.056e-06","1.670e-02","1.635e-01","2.065e-01","3.023e-01","3.549e-03","2.796e-18","8.544e-02","4.867e-01","1.547e-01","4.690e-10","7.097e-22","1.108e-01","2.841e-21","2.919e-01","2.154e-01","5.977e-01","1.252e-07","1.763e-15","2.356e-01","1.655e-23","6.994e-01","2.499e-01","6.130e-01","6.863e-07","3.644e-15"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Media.diferencia<\/th>\n      <th>lim.inf.int.conf<\/th>\n      <th>lim.sup.int.conf<\/th>\n      <th>p-valor<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"autoWidth":true,"dom":"t","language":{"url":"http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"},"order":[],"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-52af10204d20b9ec3abe" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-52af10204d20b9ec3abe">{"x":{"filter":"none","data":[["BMO.G.L - BMO.G.R","BMO.NS.L - BMO.NS.R","BMO.N.L - BMO.N.R","BMO.NI.L - BMO.NI.R","BMO.TI.L - BMO.TI.R","BMO.T.L - BMO.T.R","BMO.TS.L - BMO.TS.R","Rim3.5.G.L - Rim3.5.G.R","Rim3.5.NS.L - Rim3.5.NS.R","Rim3.5.N.L - Rim3.5.N.R","Rim3.5.NI.L - Rim3.5.NI.R","Rim3.5.TI.L - Rim3.5.TI.R","Rim3.5.T.L - Rim3.5.T.R","Rim3.5.TS.L - Rim3.5.TS.R","Rim4.1.G.L - Rim4.1.G.R","Rim4.1.NS.L - Rim4.1.NS.R","Rim4.1.N.L - Rim4.1.N.R","Rim4.1.NI.L - Rim4.1.NI.R","Rim4.1.TI.L - Rim4.1.TI.R","Rim4.1.T.L - Rim4.1.T.R","Rim4.1.TS.L - Rim4.1.TS.R","Rim4.7.G.L - Rim4.7.G.R","Rim4.7.NS.L - Rim4.7.NS.R","Rim4.7.N.L - Rim4.7.N.R","Rim4.7.NI.L - Rim4.7.NI.R","Rim4.7.TI.L - Rim4.7.TI.R","Rim4.7.T.L - Rim4.7.T.R","Rim4.7.TS.L - Rim4.7.TS.R"],["-0.03998","0.12079","-0.10852","-0.05897","-0.04011","-0.03454","0.03003","-0.12854","0.25596","-0.06649","-0.02483","-0.06343","-0.24858","-0.33051","-0.08606","0.28749","-0.05314","0.02641","-0.02735","-0.23976","-0.29968","-0.07645","0.31327","-0.03305","0.02114","0.01388","-0.27402","-0.30623"],["-0.08484","0.06970","-0.15618","-0.10823","-0.09774","-0.08664","-0.02514","-0.20300","0.19907","-0.13175","-0.07989","-0.14635","-0.31551","-0.39453","-0.15845","0.22957","-0.11938","-0.02530","-0.10959","-0.31361","-0.36561","-0.14960","0.25454","-0.10408","-0.02987","-0.06675","-0.35934","-0.37550"],["0.004875","0.171880","-0.060865","-0.009719","0.017526","0.017553","0.085202","-0.054078","0.312846","-0.001228","0.030237","0.019503","-0.181657","-0.266495","-0.013669","0.345403","0.013105","0.078120","0.054890","-0.165911","-0.233746","-0.003301","0.372002","0.037977","0.072152","0.094505","-0.188702","-0.236968"],["8.058e-02","3.968e-06","8.792e-06","1.899e-02","1.724e-01","1.935e-01","2.857e-01","7.334e-04","4.808e-18","4.585e-02","3.765e-01","1.337e-01","6.443e-13","5.250e-23","1.985e-02","1.840e-21","1.158e-01","3.165e-01","5.141e-01","2.886e-10","2.270e-18","4.054e-02","2.258e-24","3.614e-01","4.163e-01","7.356e-01","4.426e-10","1.693e-17"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Media.diferencia<\/th>\n      <th>lim.inf.int.conf<\/th>\n      <th>lim.sup.int.conf<\/th>\n      <th>p-valor<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"autoWidth":true,"dom":"t","language":{"url":"http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"},"order":[],"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
 <p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-ojos-1.png" width="2400" /></p>
 <p>En general se aprecian diferencias significativas entre las medias del grosor de los sectores de los ojos izquierdo y derecho en algunos sectores como el Nasal Superior, y no tan claras en otros. No obstante, se ha observado clínicamente que aparentemente no hay relación entre el estado de los dos ojos, por lo que se han cosiderado los ojos de cada paciente como individuos independientes en el estudio.</p>
 </div>
