@@ -2,7 +2,7 @@
 # Clusters de pacientes con  glaucoma
 
 # Carga de paquetes
-.packages <- c("readxl", "tidyverse", "cluster", "FactoMineR", "factoextra", "corrplot", "ggpubr", "RColorBrewer", "flipMultivariates", "caret", "MASS", "pander", "reshape")
+.packages <- c("readxl", "tidyverse", "cluster", "FactoMineR", "factoextra", "corrplot", "ggpubr", "RColorBrewer", "flipMultivariates", "caret", "MASS", "pander", "reshape2")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
@@ -32,6 +32,7 @@ for (i in colnames(datos)[11:ncol(datos)]){
 # Renombrar variables
 names(datos) <- gsub("Rim", "Anillo", names(datos))
 names(datos) <- gsub("BMO", "AnilloBMO", names(datos))
+names(datos) <- gsub("Eye", "Ojo", names(datos))
 
 # Conjuntos de variables
 varBMO <- startsWith(colnames(datos),"AnilloBMO")
@@ -63,12 +64,27 @@ varSectors <- c(varG, varTI, varT, varTS, varNS, varN, varNI)
 
 # Selección de datos
 # Datos Glaucoma
-datos.Mayores <- datos[datos$Age>40, c("Eye", "Glaucoma", varRims)]
+datos.Mayores <- datos[datos$Age>40, c("Ojo", "Glaucoma", varRims)]
 datos.Mayores <- datos.Mayores[complete.cases(datos.Mayores), ]
-datos <- datos[, c("Eye", "Glaucoma", varRims)]
+datos <- datos[, c("Patient.Id", "ExamDate", "Ojo", "Glaucoma", varRims)] %>% unite(Id, Patient.Id, ExamDate, sep = ".")
 datos <- datos[complete.cases(datos), ]
 datos.Sanos <- datos[datos$Glaucoma=="N", ]
 datos.Glaucoma <- datos[datos$Glaucoma=="Y", ]
+
+# Datos pareados por ojos
+datos.pareados.ojos <- datos[datos$Glaucoma=="Y", ] %>% 
+  gather(Sector, Grosor, starts_with("Anillo")) %>%
+  unite(Sector.Ojo, Sector, Ojo, sep=".") %>% 
+  spread(Sector.Ojo, Grosor)
+datos.pareados.ojos <- datos.pareados.ojos[complete.cases(datos.pareados.ojos), ]
+
+# Correlación ojos
+cor(datos.pareados.ojos$AnilloBMO.G.L, datos.pareados.ojos$AnilloBMO.G.R)
+
+# Concordancia ojos
+require(psych)
+ICC(as.matrix(na.omit(datos.pareados.ojos[,c("Anillo3.5.G.L","Anillo3.5.G.R")])))
+
 
 # Análisis de componentes principales de sanos y enfermos
 result.pca <- PCA(datos[, c(varRims)], scale.unit = F, graph=F)
@@ -78,7 +94,7 @@ eigenvalues
 fviz_eig(result.pca, main = "Variabilidad explicada por las dimensiones de los componentes principales", ylab = "Porcentaje de la variabilidad explicada", xlab = "Dimensiones")
 fviz_cos2(result.pca, choice = "var", axes=1, title="Correlación de cada variable con el primer componente principal") + ylab("Coef. Determinación r²")
 var$contrib
-fviz_contrib(result.pca, choice="var", axes=1, top = 10)
+fviz_contrib(result.pca, choice="var", axes=1, top = 10) 
 
 # Correlación entre todos los sectores de los anillos
 cormat <- round(cor(datos[, varRims], use="complete.obs"),2)
@@ -157,6 +173,10 @@ fviz_nbclust(datos.Glaucoma[, c(varBMO, var3.5)], kmeans, method = "wss") +
 
 # Función para la creación de clusters basados en las variables originales y clasificación mediante análisis discriminante lineal sobre los componentes principales 
 crear.clusters <- function(data, vars, labels){
+  data=datos
+  vars=varG
+  labels=c("I", "II", "III", "IV")
+  
   # Cálculo de los componentes principales
   result.pca <- PCA(data[, sapply(data,is.numeric)], scale.unit = F, graph=F) 
   # Crear conjunto de datos con los componentes principales
@@ -177,48 +197,62 @@ crear.clusters <- function(data, vars, labels){
   # Asignar etiquetas a los niveles del factor
   levels(clusters$cluster) <- labels
   # Añadir el cluster al conjunto de datos
-  data$Cluster <- factor("Sano", levels=c("Sano", labels))
-  data[data$Glaucoma=="Y", "Cluster"] <- clusters$cluster
+  data$Estadio<- factor("Sano", levels=c("Sano", labels))
+  data[data$Glaucoma=="Y", "Estadio"] <- clusters$cluster
   # Añadir el cluster al conjunto de datos de los componentes principales
-  data.pca$Cluster <- data$Cluster
+  data.pca$Estadio <- data$Estadio
   # Calcular las medias de las variables en los clusters
-  means <- data %>% group_by(Cluster) %>% summarise_if(is.numeric, mean, na.rm = TRUE)
-  means <- t(means[, sapply(means,is.numeric)])
-  colnames(means) <- c("Sanos", labels)
+  melted.data <- melt(data[,c("Estadio",vars)])
+  colnames(melted.data)[2] <- "Sector" 
+  means <- melted.data %>% group_by(Estadio, Sector) %>% 
+    summarise(n = n(), mean = mean(value, na.rm = T), sd = sd(value, na.rm = T))  %>%
+    mutate(se = sd/sqrt(n), lower.ci = mean-qt(1-(0.05/2), n-1)*se, upper.ci = mean+qt(1-(0.05/2), n-1)*se)
+  colnames(means) <- c("Estadio", "Sector", "Tamaño", "Media", "Desviación.Típica", "Error.Estándar", "Lím.inf.IC", "Lím.sup.IC")
+  means.plot <- ggplot(means, aes(x=Sector, y=Media, colour=Estadio)) + 
+    geom_pointrange(aes(ymin=Lím.inf.IC, ymax=Lím.sup.IC), position = position_dodge(width=0.5)) + 
+    scale_colour_manual(values = palette)
   # Dibujar clusters sobre componentes principales solo enfermos
   plot.glaucoma <- fviz_pca_ind(result.pca, 
                                 geom = c("point"),
                                 axes = c(1,2), 
                                 select.ind = list(name=rownames(data[data$Glaucoma=="Y",])),
-                                col.ind=data$Cluster,
+                                col.ind=data$Estadio,
                                 palette = palette[2:(n+1)],
                                 addEllipses = T, 
                                 ellipse.type="t",
-                                title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                                title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales",
+                                legend.title = "Estadio")
   # Dibujar los cluster sobre los componentes principales enfermos y sanos
   plot.all <- fviz_pca_ind(result.pca, 
                            geom = c("point"),
                            axes = c(1,2), 
-                           col.ind=data.pca$Cluster,
+                           col.ind=data.pca$Estadio,
                            palette = palette,
                            addEllipses = T, 
                            ellipse.type="t",
-                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales",
+                           legend.title = "Estadio")
   # Distribución de los clusters
   plot.dist <- ggplot(data.pca, aes(x = Dim.1)) + 
-    geom_density(aes(fill=Cluster), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
+    geom_density(aes(fill=Estadio), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
     scale_fill_manual(values=palette)
   # Predicción de los clusters mediante análisis discriminante sobre los componentes principales
   # Enfermos
-  result.lda.glaucoma <- lda(Cluster~., data=data.pca[data.pca$Cluster!="Sano", ], CV=T)
+  result.lda.glaucoma <- lda(Estadio~., data=data.pca[data.pca$Estadio!="Sano", ], CV=T)
   # Bondad del modelo
-  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Cluster!="Sano","Cluster"])
+  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Estadio!="Sano","Estadio"])
+  colnames(performance.glaucoma$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  performance.glaucoma$byClass <- performance.glaucoma$byClass[-1, ]
+  rownames(performance.glaucoma$byClass) <- gsub("Class:", "Estadio", rownames(performance.glaucoma$byClass))
   # Todos
-  result.lda <- lda(Cluster~., data=data.pca, CV=T)
+  result.lda <- lda(Estadio~., data=data.pca, CV=T)
   # Bondad del modelo
-  performance <-  confusionMatrix(result.lda$class,data$Cluster)
+  performance <-  confusionMatrix(result.lda$class,data$Estadio)
+  colnames(performance$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  rownames(performance$byClass) <- gsub("Class:", "Estadio", rownames(performance$byClass))
   return(list(clusters = clusters,
               means = means,
+              means.plot = means.plot,
               pca = result.pca, 
               plot.glaucoma = plot.glaucoma, 
               plot.all = plot.all, 
@@ -228,7 +262,6 @@ crear.clusters <- function(data, vars, labels){
               performance.glaucoma = performance.glaucoma,
               performance = performance))
 }
-
 
 # Función para la creación de clusters basados en los componentes principales
 crear.clusters.pca <- function(data, labels, numpc=2){
@@ -252,9 +285,9 @@ crear.clusters.pca <- function(data, labels, numpc=2){
   # Asignar etiquetas a los niveles del factor
   levels(clusters$cluster) <- labels
   # Añadir el cluster al conjunto de datos
-  data$Cluster <- factor("Sano", levels=c("Sano", labels))
-  data[data$Glaucoma=="Y", "Cluster"] <- clusters$cluster
-  data.pca$Cluster <- data$Cluster
+  data$Estadio <- factor("Sano", levels=c("Sano", labels))
+  data[data$Glaucoma=="Y", "Estadio"] <- clusters$cluster
+  data.pca$Estadio <- data$Estadio
   # Calcular las medias de los componentes principales en los clusters
   # means <- data.pca %>% group_by(Cluster) %>% summarise_if(is.numeric, mean, na.rm = TRUE)
   # means <- t(means[, sapply(means,is.numeric)])
@@ -264,33 +297,40 @@ crear.clusters.pca <- function(data, labels, numpc=2){
                                 geom = c("point"),
                                 axes = c(1,2), 
                                 select.ind = list(name=rownames(data[data$Glaucoma=="Y",])),
-                                col.ind=data.pca$Cluster,
+                                col.ind=data.pca$Estadio,
                                 palette = palette[2:(n+1)],
                                 addEllipses = T, 
                                 ellipse.type="t",
-                                title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                                title = "Estadíos de Glaucoma sobre los dos primeros componentes principales",
+                                legend.title = "Estadio")
   # Dibujar los cluster sobre los componentes principales enfermos y sanos
   plot.all <- fviz_pca_ind(result.pca, 
                            geom = c("point"),
                            axes = c(1,2), 
-                           col.ind=data.pca$Cluster,
+                           col.ind=data.pca$Estadio,
                            palette = palette,
                            addEllipses = T, 
                            ellipse.type="t",
-                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales",
+                           legend.title = "Estadio")
   # Distribución de los clusters
   plot.dist <- ggplot(data.pca, aes(x = Dim.1)) + 
-    geom_density(aes(fill=Cluster), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
+    geom_density(aes(fill=Estadio), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
     scale_fill_manual(values=palette)
   # Predicción de los clusters mediante análisis discriminante (cuidado, alta colinearidad)
   # Enfermos
-  result.lda.glaucoma <- lda(Cluster~., data=data.pca[data.pca$Cluster!="Sano",], CV=T)
+  result.lda.glaucoma <- lda(Estadio~., data=data.pca[data.pca$Estadio!="Sano",], CV=T)
   # Bondad del modelo
-  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Cluster!="Sano","Cluster"])
+  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Estadio!="Sano","Estadio"])
+  colnames(performance.glaucoma$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  performance.glaucoma$byClass <- performance.glaucoma$byClass[-1, ]
+  rownames(performance.glaucoma$byClass) <- gsub("Class:", "Estadio", rownames(performance.glaucoma$byClass))
   # Todos
-  result.lda <- lda(Cluster~., data=data.pca, CV=T)
+  result.lda <- lda(Estadio~., data=data.pca, CV=T)
   # Bondad del modelo
-  performance <-  confusionMatrix(result.lda$class, data.pca$Cluster)
+  performance <-  confusionMatrix(result.lda$class, data.pca$Estadio)
+  colnames(performance$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  rownames(performance$byClass) <- gsub("Class:", "Estadio", rownames(performance$byClass))
   return(list(clusters=clusters,
               # means = means,
               pca = result.pca, 
@@ -304,78 +344,100 @@ crear.clusters.pca <- function(data, labels, numpc=2){
 }
 
 accuracy.table <- data.frame(vars=character(), accuracy=double())
+accuracy.table.glaucoma <- data.frame(Combinación =character(), accuracy=double())
 # Clusters basados en el primer componente principal de todos los anillos
 vars <- "Primer componente principal"
-clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("Dudoso", "Leve", "Moderado", "Grave"), numpc=1)
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=1)
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en los dos primeros componentes principales de todos los anillos
 vars <- "Dos primeros componentes principaless"
-clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("Dudoso", "Leve", "Moderado", "Grave"), numpc=2)
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=2)
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en los tres primeros componentes principales de todos los anillos
 vars <- "Tres primeros componentes principales"
-clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("Dudoso", "Leve", "Moderado", "Grave"), numpc=3)
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=3)
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 
 # Clusters basados en todos los sectores de todos los anillos
 vars <- "Todos los sectores de todos los anillos"
-clusters <- crear.clusters(datos, vars=varRims, labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=varRims, labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en todos los sectores globales y temporales inferiores
 vars <- "Sectores global y temporal inferior de todos los anillos"
-clusters <- crear.clusters(datos, vars=c(varG, varTI), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c(varG, varTI), labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en todos los sectores globales
 vars <- "Sectores globales de todos los anillos"
-clusters <- crear.clusters(datos, vars=varG, labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=varG, labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en todos los sectores globales
 vars <- "Sectores temporales inferiores de todos los anillos"
-clusters <- crear.clusters(datos, vars=varTI, labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=varTI, labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en los sectores global y temporal inferior de losa anillos BMO y 3.5
 vars <- "Sectores global y temporal inferior de los anillos BMO y 3.5"
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en los sectores global y temporal inferior del anillo BMO
 vars <- "Sectores global y temporal inferior del anillos BMO"
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI"), labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en los sectores global y temporal inferior del anillo 3.5
 vars <- "Sectores global y temporal inferior del anillo 3.5"
-clusters <- crear.clusters(datos, vars=c("Anillo3.5.G", "Anillo3.5.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("Anillo3.5.G", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en los sectores global de los anillos BMO y 3.5
 vars <- "Sector global de los anillos BMO y 3.5"
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "Anillo3.5.G"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "Anillo3.5.G"), labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados en los sectores temporales inferiores de los anillos BMO y 3.5
 vars <- "Sector temporal inferior de los anillos BMO y 3.5"
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.TI", "Anillo3.5.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.TI", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados el sector global del anillo BMO
 vars <- "Sector global del anillo BMO"
-clusters <- crear.clusters(datos, vars="AnilloBMO.G", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="AnilloBMO.G", labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados el sector global del anillo 3.5
 vars <- "Sector global del anillo 3.5"
-clusters <- crear.clusters(datos, vars="Anillo3.5.G", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="Anillo3.5.G", labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados el sector temporal inferior del anillo BMO
 vars <- "Sector temporal inferior del anillo BMO"
-clusters <- crear.clusters(datos, vars="AnilloBMO.TI", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="AnilloBMO.TI", labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 # Clusters basados el sector temporal inferior del anillo 3.5
 vars <- "Sector temporal inferior del anillo 3.5"
-clusters <- crear.clusters(datos, vars="Anillo3.5.TI", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="Anillo3.5.TI", labels=c("I", "II", "III", "IV"))
 accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
 
-# Caracterización de los clusters
-# Combinaciones lineales de los componentes principales
-clusters$pca$var$coord
+colnames(accuracy.table.glaucoma) <- c("Combinación de variables", "Precisión global")
+pander(accuracy.table.glaucoma)
+
+
+# Caracterización de los clusters basados en los sectores global y temporal inferior de lo sanillos BMO y 3.5
 # Medias por clusters
-
-
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
+meansClusters <- clusters$means[c("AnilloBMO.G", "Anillo3.5.G", "AnilloBMO.TI", "Anillo3.5.TI"), ]
+tidyMeansClusters <- melt(meansClusters)
+colnames(tidyMeansClusters) <- c("Sector", "Cluster", "Media")
+ggplot(tidyMeansClusters, aes(x=Cluster, y=Media, colour=Sector)) + geom_point()
 
 
 

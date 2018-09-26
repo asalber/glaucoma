@@ -1,0 +1,4731 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="date" content="2018-09-26" />
+
+<title>Definición de estadios de Glaucoma</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Glaucoma</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Descripción</a>
+</li>
+<li>
+  <a href="glaucoma-anillos.html">Análisis anillos</a>
+</li>
+<li>
+  <a href="glaucoma-macula.html">Análisis mácula</a>
+</li>
+<li>
+  <a href="glaucoma-clusters.html">Estadios glaucoma</a>
+</li>
+<li>
+  <a href="glaucoma-clusters-izdo.html">Estadios glaucoma Izdo</a>
+</li>
+<li>
+  <a href="glaucoma-clusters-dcho.html">Estadios glaucoma Dcho</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://aprendeconalf.es/">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Definición de estadios de Glaucoma</h1>
+<h4 class="date"><em>2018-09-26</em></h4>
+
+</div>
+
+
+<div id="objetivo" class="section level1">
+<h1>Objetivo</h1>
+<p>En este estudio se pretende definir distintos grupos de gravedad de glaucoma (estadíos de desarrollo de la enfermedad) en función del grosor de los anillos neuroretinianos, mediante la técnica de las <span class="math inline">\(k\)</span>-medias.</p>
+<p>A continuación se muestran varias propuestas de agrupación basadas en distintas combinaciones de las variables que miden el grosor de los anillos neuroretinianos (BMO, anillo 3.5, anillo 4.1 y anillo 4.7).</p>
+<p>Para cada propuesta de agrupación se muestra la distribución de los grupos obtenidos tanto para enfermos solos como para enfermos y sanos y se evalúa la bondad del modelo de clasificación en esos grupos mediante análisis discriminante con validación cruzada.</p>
+</div>
+<div id="analisis-de-componentes-principales" class="section level1">
+<h1>Análisis de componentes principales</h1>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/componentes-principales-1.svg" width="768" /></p>
+<p>Se observa que la mayor parte de la variabilidad la explica la primera dimensión. Ello es debido a la alta correlación entre los sectores de los distintos anillos.</p>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/matriz-correlacion-1.svg" width="768" /></p>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/componentes-principales-2-1.svg" width="768" /><img src="glaucoma-clusters-dcho_files/figure-html/componentes-principales-2-2.svg" width="768" /></p>
+<p>Se observa que los sectores que más peso tienen en el primer componente principal son el global y el temporal inferior de todos los anillos. Estas variables son precisamente las más correlacionadas entre si tal y como se aprecia en el siguente gráfico.</p>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/matriz-correlacion-principales-variables-1.svg" width="768" /></p>
+<div id="clasificacion-de-sanos-y-enfermos-mediante-analisis-discriminante-lineal-usando-componentes-principales" class="section level2">
+<h2>Clasificación de sanos y enfermos mediante análisis discriminante lineal usando componentes principales</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/grupos-componentes-principales-1.svg" width="768" /></p>
+<p>Como se observa los sanos y enfermos se separan bastante bien a lo largo del primer componente principal, aunque hay una zona de intersección donde se confunden. El segundo componente principal no ayuda en la separación de los grupos.</p>
+<table style="width:29%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="12%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">N</th>
+<th align="center">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>N</strong></td>
+<td align="center">754</td>
+<td align="center">90</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Y</strong></td>
+<td align="center">10</td>
+<td align="center">135</td>
+</tr>
+</tbody>
+</table>
+<table style="width:21%;">
+<colgroup>
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">NA</th>
+<th align="center">NA</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<p>El análisis discriminante lineal según los componentes prinicpales permite classificar correctamente el 90% de los ojos, con una sensibilidad del NA y una especificidad NA.</p>
+</div>
+<div id="distribucion-de-sanos-y-enfermos-segun-los-principales-sectores-de-los-anillos-neuroretinianos" class="section level2">
+<h2>Distribución de sanos y enfermos según los principales sectores de los anillos neuroretinianos</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribucion-sanos-enfermos-principales-variables-1.svg" width="768" /></p>
+<p>Así pues, a continuación se muestran distintos intentos de creación de grupos de estadio del glaucoma basados en los componentes principales y en distintas combinaciones de los sectores de los anillos, especialmente aquellos que tienen más importancia en el primer componente principal.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-el-primer-componente-principal" class="section level1">
+<h1>Agrupación mediante k-medias basada en el primer componente principal</h1>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/numero-clusters-1.svg" width="768" /></p>
+<p>A la vista del gráfico se decide crear 4 clusters.</p>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-un-componente-principal-glaucoma-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">51</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">85</td>
+<td align="center">5</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">40</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">31</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8644</td>
+<td align="center">0.988</td>
+<td align="center">0.9262</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.9659</td>
+<td align="center">0.9051</td>
+<td align="center">0.9355</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.8889</td>
+<td align="center">0.9833</td>
+<td align="center">0.9361</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9394</td>
+<td align="center">1</td>
+<td align="center">0.9697</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 92% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-un-componente-principal-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-un-componente-principal-1.svg" width="768" /></p>
+<!-- ## Medias de los grupos -->
+<!-- ```{r medias-clusters-dos-componentes-principales} -->
+<!-- pander(clusters$means) -->
+<!-- ``` -->
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">752</td>
+<td align="center">53</td>
+<td align="center">31</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">9</td>
+<td align="center">2</td>
+<td align="center">52</td>
+<td align="center">8</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">35</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">28</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9843</td>
+<td align="center">0.6267</td>
+<td align="center">0.8055</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.05085</td>
+<td align="center">0.9968</td>
+<td align="center">0.5238</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.5909</td>
+<td align="center">0.9789</td>
+<td align="center">0.7849</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7778</td>
+<td align="center">0.9883</td>
+<td align="center">0.8831</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8485</td>
+<td align="center">0.9979</td>
+<td align="center">0.9232</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 87.97% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-dos-primeros-componentes-principales" class="section level1">
+<h1>Agrupación mediante k-medias basada en los dos primeros componentes principales</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-1" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-dos-componentes-principales-glaucoma-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-1" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">59</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">88</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">60</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.9219</td>
+<td align="center">0.9938</td>
+<td align="center">0.9578</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.7778</td>
+<td align="center">1</td>
+<td align="center">0.8889</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.9888</td>
+<td align="center">0.9265</td>
+<td align="center">0.9576</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9524</td>
+<td align="center">1</td>
+<td align="center">0.9762</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 95.11% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-1" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-dos-componentes-principales-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-1" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-dos-componentes-principales-1.svg" width="768" /></p>
+<!-- ## Medias de los grupos -->
+<!-- ```{r medias-clusters-dos-componentes-principales} -->
+<!-- pander(clusters$means) -->
+<!-- ``` -->
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-1" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">754</td>
+<td align="center">61</td>
+<td align="center">2</td>
+<td align="center">31</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">7</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">57</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">59</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9869</td>
+<td align="center">0.5822</td>
+<td align="center">0.7846</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0</td>
+<td align="center">0.9989</td>
+<td align="center">0.4995</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.6667</td>
+<td align="center">0.998</td>
+<td align="center">0.8323</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.6404</td>
+<td align="center">0.9833</td>
+<td align="center">0.8119</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9365</td>
+<td align="center">0.9989</td>
+<td align="center">0.9677</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 88.57% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-tres-primeros-componentes-principales" class="section level1">
+<h1>Agrupación mediante k-medias basada en los tres primeros componentes principales</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-2" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-tres-componentes-principales-glaucoma-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-2" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">55</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">89</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">61</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8871</td>
+<td align="center">0.9877</td>
+<td align="center">0.9374</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.7778</td>
+<td align="center">1</td>
+<td align="center">0.8889</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.978</td>
+<td align="center">0.9179</td>
+<td align="center">0.948</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9683</td>
+<td align="center">1</td>
+<td align="center">0.9841</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 94.22% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-2" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-tres-componentes-principales-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-2" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-tres-componentes-principales-1.svg" width="768" /></p>
+<!-- ## Medias de los grupos -->
+<!-- ```{r medias-clusters-tres-componentes-principales} -->
+<!-- pander(clusters$means) -->
+<!-- ``` -->
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-2" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">754</td>
+<td align="center">60</td>
+<td align="center">2</td>
+<td align="center">30</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">60</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">59</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9869</td>
+<td align="center">0.5911</td>
+<td align="center">0.789</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0</td>
+<td align="center">0.9989</td>
+<td align="center">0.4995</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.6667</td>
+<td align="center">0.998</td>
+<td align="center">0.8323</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.6593</td>
+<td align="center">0.9844</td>
+<td align="center">0.8219</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9365</td>
+<td align="center">0.9989</td>
+<td align="center">0.9677</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 88.88% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-todos-los-sectores-de-todos-los-anillos" class="section level1">
+<h1>Agrupación mediante k-medias basada en todos los sectores de todos los anillos</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-3" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-all-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-3" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">57</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">0</td>
+<td align="center">91</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">59</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.9048</td>
+<td align="center">0.9815</td>
+<td align="center">0.9431</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.9681</td>
+<td align="center">0.9313</td>
+<td align="center">0.9497</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9516</td>
+<td align="center">1</td>
+<td align="center">0.9758</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 94.67% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-3" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-all-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-3" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-all-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-3" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">754</td>
+<td align="center">60</td>
+<td align="center">1</td>
+<td align="center">30</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">7</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">62</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">58</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9869</td>
+<td align="center">0.5956</td>
+<td align="center">0.7912</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0</td>
+<td align="center">0.9989</td>
+<td align="center">0.4995</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.8333</td>
+<td align="center">0.998</td>
+<td align="center">0.9156</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.6596</td>
+<td align="center">0.9844</td>
+<td align="center">0.822</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9355</td>
+<td align="center">0.9978</td>
+<td align="center">0.9667</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 88.88% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-global-y-temporal-inferior-de-todos-los-anillos" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores global y temporal inferior de todos los anillos</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-4" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-4" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">55</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">76</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">40</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">36</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8871</td>
+<td align="center">0.9877</td>
+<td align="center">0.9374</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.95</td>
+<td align="center">0.9241</td>
+<td align="center">0.9371</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.8889</td>
+<td align="center">0.9778</td>
+<td align="center">0.9333</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9474</td>
+<td align="center">0.9947</td>
+<td align="center">0.971</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 92% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-4" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-4" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-4" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">756</td>
+<td align="center">57</td>
+<td align="center">35</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">7</td>
+<td align="center">4</td>
+<td align="center">41</td>
+<td align="center">7</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">32</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">38</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9895</td>
+<td align="center">0.5911</td>
+<td align="center">0.7903</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.01613</td>
+<td align="center">0.9989</td>
+<td align="center">0.5075</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.5125</td>
+<td align="center">0.9802</td>
+<td align="center">0.7463</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7111</td>
+<td align="center">0.9958</td>
+<td align="center">0.8534</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">1</td>
+<td align="center">0.9937</td>
+<td align="center">0.9968</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 87.77% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-globales-de-todos-los-anillos" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores globales de todos los anillos</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-5" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-5" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">16</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">5</td>
+<td align="center">79</td>
+<td align="center">5</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">59</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">55</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.7619</td>
+<td align="center">1</td>
+<td align="center">0.881</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.9753</td>
+<td align="center">0.9306</td>
+<td align="center">0.9529</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.8939</td>
+<td align="center">0.9748</td>
+<td align="center">0.9344</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9649</td>
+<td align="center">0.9881</td>
+<td align="center">0.9765</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 92.89% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-5" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-G-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-5" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-G-1.svg" width="768" /></p>
+</div>
+<div id="intervalos-del-confianza-para-la-media-de-los-grupos-de-estadio-del-glaucoma" class="section level2">
+<h2>Intervalos del confianza para la media de los grupos de estadio del Glaucoma</h2>
+<table>
+<caption>Intervalos de confianza para la media de los distintos estadios de Glaucoma</caption>
+<colgroup>
+<col width="17%" />
+<col width="12%" />
+<col width="12%" />
+<col width="25%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Sector</th>
+<th align="center">Estadio</th>
+<th align="center">Media</th>
+<th align="center">Desviación.Típica</th>
+<th align="center">Lím.inf.IC</th>
+<th align="center">Lím.sup.IC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">AnilloBMO.G</td>
+<td align="center">Sano</td>
+<td align="center">0.3819</td>
+<td align="center">1.031</td>
+<td align="center">0.3087</td>
+<td align="center">0.4551</td>
+</tr>
+<tr class="even">
+<td align="center">AnilloBMO.G</td>
+<td align="center">I</td>
+<td align="center">-0.2609</td>
+<td align="center">0.9774</td>
+<td align="center">-0.7059</td>
+<td align="center">0.184</td>
+</tr>
+<tr class="odd">
+<td align="center">AnilloBMO.G</td>
+<td align="center">II</td>
+<td align="center">-0.9849</td>
+<td align="center">1.019</td>
+<td align="center">-1.21</td>
+<td align="center">-0.7597</td>
+</tr>
+<tr class="even">
+<td align="center">AnilloBMO.G</td>
+<td align="center">III</td>
+<td align="center">-1.934</td>
+<td align="center">0.852</td>
+<td align="center">-2.143</td>
+<td align="center">-1.724</td>
+</tr>
+<tr class="odd">
+<td align="center">AnilloBMO.G</td>
+<td align="center">IV</td>
+<td align="center">-2.597</td>
+<td align="center">0.8763</td>
+<td align="center">-2.829</td>
+<td align="center">-2.364</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.G</td>
+<td align="center">Sano</td>
+<td align="center">0.4013</td>
+<td align="center">1.135</td>
+<td align="center">0.3207</td>
+<td align="center">0.4819</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo3.5.G</td>
+<td align="center">I</td>
+<td align="center">1.286</td>
+<td align="center">0.779</td>
+<td align="center">0.9315</td>
+<td align="center">1.641</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.G</td>
+<td align="center">II</td>
+<td align="center">-0.5395</td>
+<td align="center">0.5449</td>
+<td align="center">-0.66</td>
+<td align="center">-0.4191</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo3.5.G</td>
+<td align="center">III</td>
+<td align="center">-2.082</td>
+<td align="center">0.6949</td>
+<td align="center">-2.252</td>
+<td align="center">-1.911</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.G</td>
+<td align="center">IV</td>
+<td align="center">-4.674</td>
+<td align="center">0.9835</td>
+<td align="center">-4.935</td>
+<td align="center">-4.413</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo4.1.G</td>
+<td align="center">Sano</td>
+<td align="center">0.3151</td>
+<td align="center">1.081</td>
+<td align="center">0.2384</td>
+<td align="center">0.3919</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo4.1.G</td>
+<td align="center">I</td>
+<td align="center">1.484</td>
+<td align="center">0.6237</td>
+<td align="center">1.2</td>
+<td align="center">1.767</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo4.1.G</td>
+<td align="center">II</td>
+<td align="center">-0.54</td>
+<td align="center">0.5102</td>
+<td align="center">-0.6529</td>
+<td align="center">-0.4272</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo4.1.G</td>
+<td align="center">III</td>
+<td align="center">-1.937</td>
+<td align="center">0.5429</td>
+<td align="center">-2.071</td>
+<td align="center">-1.804</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo4.1.G</td>
+<td align="center">IV</td>
+<td align="center">-4.444</td>
+<td align="center">1.001</td>
+<td align="center">-4.709</td>
+<td align="center">-4.178</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo4.7.G</td>
+<td align="center">Sano</td>
+<td align="center">0.2876</td>
+<td align="center">1.075</td>
+<td align="center">0.2113</td>
+<td align="center">0.3639</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo4.7.G</td>
+<td align="center">I</td>
+<td align="center">1.574</td>
+<td align="center">0.8924</td>
+<td align="center">1.168</td>
+<td align="center">1.98</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo4.7.G</td>
+<td align="center">II</td>
+<td align="center">-0.3585</td>
+<td align="center">0.672</td>
+<td align="center">-0.5071</td>
+<td align="center">-0.2099</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo4.7.G</td>
+<td align="center">III</td>
+<td align="center">-1.671</td>
+<td align="center">0.8868</td>
+<td align="center">-1.889</td>
+<td align="center">-1.453</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo4.7.G</td>
+<td align="center">IV</td>
+<td align="center">-4.163</td>
+<td align="center">1.039</td>
+<td align="center">-4.438</td>
+<td align="center">-3.887</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/medias-clusters-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-5" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">753</td>
+<td align="center">19</td>
+<td align="center">61</td>
+<td align="center">13</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">13</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">7</td>
+<td align="center">48</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">53</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9856</td>
+<td align="center">0.5867</td>
+<td align="center">0.7861</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.04762</td>
+<td align="center">0.9959</td>
+<td align="center">0.5217</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.1605</td>
+<td align="center">0.9901</td>
+<td align="center">0.5753</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7273</td>
+<td align="center">0.9848</td>
+<td align="center">0.8561</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9298</td>
+<td align="center">0.9989</td>
+<td align="center">0.9644</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 87.77% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-temporales-inferiores-de-todos-los-anillos" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores temporales inferiores de todos los anillos</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-6" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-6" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">61</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">54</td>
+<td align="center">7</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">45</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">35</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8971</td>
+<td align="center">0.9809</td>
+<td align="center">0.939</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.8852</td>
+<td align="center">0.9146</td>
+<td align="center">0.8999</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.8182</td>
+<td align="center">0.9412</td>
+<td align="center">0.8797</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8537</td>
+<td align="center">0.9837</td>
+<td align="center">0.9187</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 86.67% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-6" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-6" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-6" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">756</td>
+<td align="center">63</td>
+<td align="center">31</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">6</td>
+<td align="center">3</td>
+<td align="center">20</td>
+<td align="center">10</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">10</td>
+<td align="center">34</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">37</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9895</td>
+<td align="center">0.5644</td>
+<td align="center">0.777</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.02941</td>
+<td align="center">0.9989</td>
+<td align="center">0.5142</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.3279</td>
+<td align="center">0.9795</td>
+<td align="center">0.6537</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.6182</td>
+<td align="center">0.9839</td>
+<td align="center">0.8011</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9024</td>
+<td align="center">0.9926</td>
+<td align="center">0.9475</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 85.84% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-global-y-temporal-inferior-de-los-anillos-bmo-y-3.5" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores global y temporal inferior de los anillos BMO y 3.5</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-7" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-BMO-3.5-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-7" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">43</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">70</td>
+<td align="center">8</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">41</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">43</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8776</td>
+<td align="center">0.9943</td>
+<td align="center">0.9359</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.9091</td>
+<td align="center">0.9054</td>
+<td align="center">0.9072</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.8039</td>
+<td align="center">0.9368</td>
+<td align="center">0.8704</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8958</td>
+<td align="center">0.9887</td>
+<td align="center">0.9423</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 87.56% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-7" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-BMO-3.5-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-7" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-BMO-3.5-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="intervalos-del-confianza-para-la-media-de-los-grupos-de-estadio-del-glaucoma-1" class="section level2">
+<h2>Intervalos del confianza para la media de los grupos de estadio del Glaucoma</h2>
+<table>
+<caption>Intervalos de confianza para la media de los distintos estadios de Glaucoma</caption>
+<colgroup>
+<col width="18%" />
+<col width="12%" />
+<col width="13%" />
+<col width="24%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Sector</th>
+<th align="center">Estadio</th>
+<th align="center">Media</th>
+<th align="center">Desviación.Típica</th>
+<th align="center">Lím.inf.IC</th>
+<th align="center">Lím.sup.IC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">AnilloBMO.G</td>
+<td align="center">Sano</td>
+<td align="center">0.3819</td>
+<td align="center">1.031</td>
+<td align="center">0.3087</td>
+<td align="center">0.4551</td>
+</tr>
+<tr class="even">
+<td align="center">AnilloBMO.G</td>
+<td align="center">I</td>
+<td align="center">-0.03561</td>
+<td align="center">0.7494</td>
+<td align="center">-0.2509</td>
+<td align="center">0.1796</td>
+</tr>
+<tr class="odd">
+<td align="center">AnilloBMO.G</td>
+<td align="center">II</td>
+<td align="center">-1.582</td>
+<td align="center">0.6994</td>
+<td align="center">-1.741</td>
+<td align="center">-1.423</td>
+</tr>
+<tr class="even">
+<td align="center">AnilloBMO.G</td>
+<td align="center">III</td>
+<td align="center">-2.097</td>
+<td align="center">0.7211</td>
+<td align="center">-2.3</td>
+<td align="center">-1.895</td>
+</tr>
+<tr class="odd">
+<td align="center">AnilloBMO.G</td>
+<td align="center">IV</td>
+<td align="center">-2.717</td>
+<td align="center">0.9457</td>
+<td align="center">-2.991</td>
+<td align="center">-2.442</td>
+</tr>
+<tr class="even">
+<td align="center">AnilloBMO.TI</td>
+<td align="center">Sano</td>
+<td align="center">0.2865</td>
+<td align="center">1.044</td>
+<td align="center">0.2124</td>
+<td align="center">0.3607</td>
+</tr>
+<tr class="odd">
+<td align="center">AnilloBMO.TI</td>
+<td align="center">I</td>
+<td align="center">0.05862</td>
+<td align="center">0.7818</td>
+<td align="center">-0.1659</td>
+<td align="center">0.2832</td>
+</tr>
+<tr class="even">
+<td align="center">AnilloBMO.TI</td>
+<td align="center">II</td>
+<td align="center">-1.501</td>
+<td align="center">0.5811</td>
+<td align="center">-1.633</td>
+<td align="center">-1.369</td>
+</tr>
+<tr class="odd">
+<td align="center">AnilloBMO.TI</td>
+<td align="center">III</td>
+<td align="center">-2.399</td>
+<td align="center">0.764</td>
+<td align="center">-2.614</td>
+<td align="center">-2.184</td>
+</tr>
+<tr class="even">
+<td align="center">AnilloBMO.TI</td>
+<td align="center">IV</td>
+<td align="center">-3.301</td>
+<td align="center">1.032</td>
+<td align="center">-3.6</td>
+<td align="center">-3.001</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo3.5.G</td>
+<td align="center">Sano</td>
+<td align="center">0.4013</td>
+<td align="center">1.135</td>
+<td align="center">0.3207</td>
+<td align="center">0.4819</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.G</td>
+<td align="center">I</td>
+<td align="center">0.2016</td>
+<td align="center">1.255</td>
+<td align="center">-0.159</td>
+<td align="center">0.5621</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo3.5.G</td>
+<td align="center">II</td>
+<td align="center">-0.9219</td>
+<td align="center">0.7186</td>
+<td align="center">-1.085</td>
+<td align="center">-0.7588</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.G</td>
+<td align="center">III</td>
+<td align="center">-2.518</td>
+<td align="center">0.9566</td>
+<td align="center">-2.787</td>
+<td align="center">-2.249</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo3.5.G</td>
+<td align="center">IV</td>
+<td align="center">-4.813</td>
+<td align="center">1.012</td>
+<td align="center">-5.106</td>
+<td align="center">-4.519</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.TI</td>
+<td align="center">Sano</td>
+<td align="center">0.1194</td>
+<td align="center">1.14</td>
+<td align="center">0.0384</td>
+<td align="center">0.2003</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo3.5.TI</td>
+<td align="center">I</td>
+<td align="center">0.2816</td>
+<td align="center">0.7065</td>
+<td align="center">0.0787</td>
+<td align="center">0.4845</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.TI</td>
+<td align="center">II</td>
+<td align="center">-1.151</td>
+<td align="center">0.8741</td>
+<td align="center">-1.35</td>
+<td align="center">-0.9527</td>
+</tr>
+<tr class="odd">
+<td align="center">Anillo3.5.TI</td>
+<td align="center">III</td>
+<td align="center">-3.171</td>
+<td align="center">0.846</td>
+<td align="center">-3.409</td>
+<td align="center">-2.933</td>
+</tr>
+<tr class="even">
+<td align="center">Anillo3.5.TI</td>
+<td align="center">IV</td>
+<td align="center">-5.241</td>
+<td align="center">0.9124</td>
+<td align="center">-5.506</td>
+<td align="center">-4.976</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/medias-clusters-BMO-3.5-G.TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-7" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">756</td>
+<td align="center">47</td>
+<td align="center">39</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">30</td>
+<td align="center">11</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">36</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">44</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9895</td>
+<td align="center">0.6178</td>
+<td align="center">0.8037</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.02041</td>
+<td align="center">0.9989</td>
+<td align="center">0.5097</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.3896</td>
+<td align="center">0.9792</td>
+<td align="center">0.6844</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7059</td>
+<td align="center">0.9872</td>
+<td align="center">0.8465</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9167</td>
+<td align="center">0.9957</td>
+<td align="center">0.9562</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 87.66% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-global-y-temporal-inferior-del-anillo-bmo" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores global y temporal inferior del anillo BMO</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-8" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-BMO-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-8" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">34</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">59</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">5</td>
+<td align="center">64</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">38</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.9189</td>
+<td align="center">0.984</td>
+<td align="center">0.9515</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.8806</td>
+<td align="center">0.9557</td>
+<td align="center">0.9181</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.8533</td>
+<td align="center">0.9133</td>
+<td align="center">0.8833</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8261</td>
+<td align="center">0.9609</td>
+<td align="center">0.8935</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 86.67% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-8" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-BMO-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-8" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-BMO-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-8" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">756</td>
+<td align="center">33</td>
+<td align="center">46</td>
+<td align="center">11</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">43</td>
+<td align="center">12</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">16</td>
+<td align="center">34</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9895</td>
+<td align="center">0.6</td>
+<td align="center">0.7948</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.05405</td>
+<td align="center">0.9979</td>
+<td align="center">0.526</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.07463</td>
+<td align="center">0.9892</td>
+<td align="center">0.5319</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.5733</td>
+<td align="center">0.9694</td>
+<td align="center">0.7713</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.7391</td>
+<td align="center">0.9799</td>
+<td align="center">0.8595</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 84.93% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-global-y-temporal-inferior-del-anillo-3.5" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores global y temporal inferior del anillo 3.5</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-9" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-3.5-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-9" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">54</td>
+<td align="center">4</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">65</td>
+<td align="center">8</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">41</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">38</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8852</td>
+<td align="center">0.9756</td>
+<td align="center">0.9304</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.9155</td>
+<td align="center">0.9026</td>
+<td align="center">0.909</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7736</td>
+<td align="center">0.9767</td>
+<td align="center">0.8752</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.95</td>
+<td align="center">0.9784</td>
+<td align="center">0.9642</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 88% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-9" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-3.5-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-9" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-3.5-G-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-9" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">756</td>
+<td align="center">58</td>
+<td align="center">33</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">29</td>
+<td align="center">10</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">34</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">38</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9895</td>
+<td align="center">0.5911</td>
+<td align="center">0.7903</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.03279</td>
+<td align="center">0.9978</td>
+<td align="center">0.5153</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.4085</td>
+<td align="center">0.9804</td>
+<td align="center">0.6944</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.6415</td>
+<td align="center">0.9893</td>
+<td align="center">0.8154</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.95</td>
+<td align="center">0.9916</td>
+<td align="center">0.9708</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 86.86% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+<!-- # Conclusión -->
+<!-- Dada la alta correlación entre los sectores de todos los anillos se obtienen resultados muy similares con cada anillo.  -->
+<!-- Se observa también que los anillos 4.1 y 4.7 no aportan mejora en la clasificación de los grupos resultantes cuando se incluyen también en la definición de los grupos, por tanto conviene no incluirlas para simplificar el modelo. -->
+<!-- La agrupación que obtiene mejores resultados de clasificación mediante análisis discriminante es la correspondiente a los dos primeros componentes principales de las variables correspondientes a los anillos BMO y 3.5. Le sigue muy de cerca por la agrupación basada en las variables BMO.G y Rim3.5.G. Dado que la diferencia entre estas dos propuestas es muy pequeña, se recomienda utilizar la agrupación más simple, es decir, la basada en las variables BMO.G y Rim3.5.G. -->
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-globales-de-los-anillos-bmo-y-3.5" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores globales de los anillos BMO y 3.5</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-10" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucomaBMO-3.5-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-10" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">50</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">86</td>
+<td align="center">8</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">37</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">26</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8929</td>
+<td align="center">0.9882</td>
+<td align="center">0.9405</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.9556</td>
+<td align="center">0.8963</td>
+<td align="center">0.9259</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7872</td>
+<td align="center">0.9551</td>
+<td align="center">0.8711</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8125</td>
+<td align="center">0.9896</td>
+<td align="center">0.9011</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 88.44% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-10" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principalesBMO-3.5-G-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-10" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clustersBMO-3.5-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-10" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">754</td>
+<td align="center">54</td>
+<td align="center">32</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">9</td>
+<td align="center">2</td>
+<td align="center">50</td>
+<td align="center">8</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">34</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">24</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9869</td>
+<td align="center">0.6133</td>
+<td align="center">0.8001</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0</td>
+<td align="center">0.9989</td>
+<td align="center">0.4995</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.5556</td>
+<td align="center">0.9789</td>
+<td align="center">0.7672</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7234</td>
+<td align="center">0.983</td>
+<td align="center">0.8532</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.75</td>
+<td align="center">0.9958</td>
+<td align="center">0.8729</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 87.16% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-los-sectores-temporales-inferiores-de-los-anillos-bmo-y-3.5" class="section level1">
+<h1>Agrupación mediante k-medias basada en los sectores temporales inferiores de los anillos BMO y 3.5</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-11" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucomaBMO-3.5-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-11" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">52</td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">9</td>
+<td align="center">56</td>
+<td align="center">8</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">38</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">37</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8525</td>
+<td align="center">0.9695</td>
+<td align="center">0.911</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.8358</td>
+<td align="center">0.8924</td>
+<td align="center">0.8641</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.717</td>
+<td align="center">0.9244</td>
+<td align="center">0.8207</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8409</td>
+<td align="center">0.9613</td>
+<td align="center">0.9011</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 81.33% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-11" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principalesBMO-3.5-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-11" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clustersBMO-3.5-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-11" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">756</td>
+<td align="center">57</td>
+<td align="center">32</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">27</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">8</td>
+<td align="center">31</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">9</td>
+<td align="center">34</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9895</td>
+<td align="center">0.5911</td>
+<td align="center">0.7903</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.01639</td>
+<td align="center">0.9989</td>
+<td align="center">0.5077</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.403</td>
+<td align="center">0.9794</td>
+<td align="center">0.6912</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.5849</td>
+<td align="center">0.9797</td>
+<td align="center">0.7823</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.7727</td>
+<td align="center">0.9905</td>
+<td align="center">0.8816</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 85.84% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-el-sector-global-del-anillo-bmo" class="section level1">
+<h1>Agrupación mediante k-medias basada en el sector global del anillo BMO</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-12" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucomaBMO-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-12" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">34</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">42</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">82</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">50</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.9444</td>
+<td align="center">0.9947</td>
+<td align="center">0.9696</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.8936</td>
+<td align="center">0.9888</td>
+<td align="center">0.9412</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.9762</td>
+<td align="center">0.9149</td>
+<td align="center">0.9455</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8621</td>
+<td align="center">0.988</td>
+<td align="center">0.925</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 92.44% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-12" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principalesBMO-G-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-12" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clustersBMO-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-12" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">757</td>
+<td align="center">32</td>
+<td align="center">36</td>
+<td align="center">24</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">4</td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">41</td>
+<td align="center">18</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">18</td>
+<td align="center">40</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9908</td>
+<td align="center">0.5911</td>
+<td align="center">0.791</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.05556</td>
+<td align="center">0.999</td>
+<td align="center">0.5273</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.04255</td>
+<td align="center">0.9968</td>
+<td align="center">0.5197</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.4881</td>
+<td align="center">0.9669</td>
+<td align="center">0.7275</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.6897</td>
+<td align="center">0.9774</td>
+<td align="center">0.8335</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 85.14% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-el-sector-global-del-anillo-3.5" class="section level1">
+<h1>Agrupación mediante k-medias basada en el sector global del anillo 3.5</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-13" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-3.5-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-13" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">21</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">80</td>
+<td align="center">13</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">44</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">49</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.7778</td>
+<td align="center">1</td>
+<td align="center">0.8889</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.9302</td>
+<td align="center">0.8633</td>
+<td align="center">0.8968</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7333</td>
+<td align="center">0.9455</td>
+<td align="center">0.8394</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9423</td>
+<td align="center">0.9827</td>
+<td align="center">0.9625</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 86.22% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-13" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-3.5-G-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-13" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-3.5-G-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-13" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">753</td>
+<td align="center">26</td>
+<td align="center">60</td>
+<td align="center">5</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">18</td>
+<td align="center">16</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">36</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">50</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9856</td>
+<td align="center">0.5956</td>
+<td align="center">0.7906</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0</td>
+<td align="center">0.9969</td>
+<td align="center">0.4984</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.2093</td>
+<td align="center">0.9745</td>
+<td align="center">0.5919</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.6</td>
+<td align="center">0.9871</td>
+<td align="center">0.7935</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.9615</td>
+<td align="center">0.9968</td>
+<td align="center">0.9792</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 86.65% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-el-sector-temporal-inferior-del-anillo-bmo" class="section level1">
+<h1>Agrupación mediante k-medias basada en el sector temporal inferior del anillo BMO</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-14" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-BMO-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-14" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">26</td>
+<td align="center">9</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">9</td>
+<td align="center">54</td>
+<td align="center">17</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">12</td>
+<td align="center">55</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">25</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.7429</td>
+<td align="center">0.9526</td>
+<td align="center">0.8477</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.72</td>
+<td align="center">0.8267</td>
+<td align="center">0.7733</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.6962</td>
+<td align="center">0.8425</td>
+<td align="center">0.7693</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.6944</td>
+<td align="center">0.963</td>
+<td align="center">0.8287</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 71.11% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-14" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-BMO-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-14" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-BMO-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-14" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">755</td>
+<td align="center">30</td>
+<td align="center">51</td>
+<td align="center">10</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">11</td>
+<td align="center">11</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">11</td>
+<td align="center">46</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">12</td>
+<td align="center">25</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9882</td>
+<td align="center">0.5956</td>
+<td align="center">0.7919</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.05714</td>
+<td align="center">0.9979</td>
+<td align="center">0.5275</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.1467</td>
+<td align="center">0.9792</td>
+<td align="center">0.5629</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.5823</td>
+<td align="center">0.9736</td>
+<td align="center">0.778</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.6944</td>
+<td align="center">0.9853</td>
+<td align="center">0.8399</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 84.83% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="agrupacion-mediante-k-medias-basada-en-el-sector-temporal-inferior-del-anillo-3.5" class="section level1">
+<h1>Agrupación mediante k-medias basada en el sector temporal inferior del anillo 3.5</h1>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-sin-incluir-sanos-15" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (sin incluir sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-glaucoma-3.5-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-sin-incluir-sanos-15" class="section level2">
+<h2>Clasificación mediante análisis discriminante (sin incluir sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">0</td>
+<td align="center">58</td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">50</td>
+<td align="center">9</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7</td>
+<td align="center">37</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">38</td>
+</tr>
+</tbody>
+</table>
+<table style="width:93%;">
+<colgroup>
+<col width="25%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.8788</td>
+<td align="center">0.9686</td>
+<td align="center">0.9237</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.8065</td>
+<td align="center">0.8957</td>
+<td align="center">0.8511</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.7115</td>
+<td align="center">0.9191</td>
+<td align="center">0.8153</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8444</td>
+<td align="center">0.9667</td>
+<td align="center">0.9056</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 81.33% de los ojos están correctamente clasificados.</p>
+</div>
+<div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-15" class="section level2">
+<h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/clusters-componentes-principales-3.5-TI-1.svg" width="768" /></p>
+</div>
+<div id="distribucion-de-los-grupos-de-estadio-del-glaucoma-15" class="section level2">
+<h2>Distribución de los grupos de estadío del Glaucoma</h2>
+<p><img src="glaucoma-clusters-dcho_files/figure-html/distribuciones-clusters-3.5-TI-1.svg" width="768" /></p>
+</div>
+<div id="clasificacion-mediante-analisis-discriminante-incluyendo-sanos-15" class="section level2">
+<h2>Clasificación mediante análisis discriminante (incluyendo sanos)</h2>
+<table style="width:56%;">
+<caption>Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma</caption>
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sano</th>
+<th align="center">I</th>
+<th align="center">II</th>
+<th align="center">III</th>
+<th align="center">IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Sano</strong></td>
+<td align="center">756</td>
+<td align="center">60</td>
+<td align="center">31</td>
+<td align="center">5</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>I</strong></td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>II</strong></td>
+<td align="center">6</td>
+<td align="center">3</td>
+<td align="center">20</td>
+<td align="center">10</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>III</strong></td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">10</td>
+<td align="center">29</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>IV</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8</td>
+<td align="center">37</td>
+</tr>
+</tbody>
+</table>
+<table style="width:94%;">
+<colgroup>
+<col width="26%" />
+<col width="20%" />
+<col width="22%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Sensibilidad</th>
+<th align="center">Especificidad</th>
+<th align="center">Precisión.Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Estadio Sano</strong></td>
+<td align="center">0.9895</td>
+<td align="center">0.5733</td>
+<td align="center">0.7814</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio I</strong></td>
+<td align="center">0.04545</td>
+<td align="center">0.9978</td>
+<td align="center">0.5216</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio II</strong></td>
+<td align="center">0.3226</td>
+<td align="center">0.9795</td>
+<td align="center">0.651</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Estadio III</strong></td>
+<td align="center">0.5577</td>
+<td align="center">0.9797</td>
+<td align="center">0.7687</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Estadio IV</strong></td>
+<td align="center">0.8222</td>
+<td align="center">0.9915</td>
+<td align="center">0.9069</td>
+</tr>
+</tbody>
+</table>
+<p>Se observa que el 85.44% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+</div>
+</div>
+<div id="comparacion-de-modelos" class="section level1">
+<h1>Comparación de modelos</h1>
+<table style="width:69%;">
+<colgroup>
+<col width="52%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Combinación de variables</th>
+<th align="right">Precisión</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Primer componente principal</strong></td>
+<td align="right"><strong>0.92</strong></td>
+</tr>
+<tr class="even">
+<td align="left">Dos primeros componentes principaless</td>
+<td align="right">0.9511</td>
+</tr>
+<tr class="odd">
+<td align="left">Tres primeros componentes principales</td>
+<td align="right">0.9422</td>
+</tr>
+<tr class="even">
+<td align="left">Todos los sectores de todos los anillos</td>
+<td align="right">0.9467</td>
+</tr>
+<tr class="odd">
+<td align="left">Sectores global y temporal inferior de todos los anillos</td>
+<td align="right">0.92</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Sectores globales de todos los anillos</strong></td>
+<td align="right"><strong>0.9289</strong></td>
+</tr>
+<tr class="odd">
+<td align="left">Sectores temporales inferiores de todos los anillos</td>
+<td align="right">0.8667</td>
+</tr>
+<tr class="even">
+<td align="left">Sectores global y temporal inferior de los anillos BMO y 3.5</td>
+<td align="right">0.8756</td>
+</tr>
+<tr class="odd">
+<td align="left">Sectores global y temporal inferior del anillos BMO</td>
+<td align="right">0.8667</td>
+</tr>
+<tr class="even">
+<td align="left">Sectores global y temporal inferior del anillo 3.5</td>
+<td align="right">0.88</td>
+</tr>
+<tr class="odd">
+<td align="left">Sector global de los anillos BMO y 3.5</td>
+<td align="right">0.8844</td>
+</tr>
+<tr class="even">
+<td align="left">Sector temporal inferior de los anillos BMO y 3.5</td>
+<td align="right">0.8133</td>
+</tr>
+<tr class="odd">
+<td align="left">Sector global del anillo BMO</td>
+<td align="right">0.9244</td>
+</tr>
+<tr class="even">
+<td align="left">Sector global del anillo 3.5</td>
+<td align="right">0.8622</td>
+</tr>
+<tr class="odd">
+<td align="left">Sector temporal inferior del anillo BMO</td>
+<td align="right">0.7111</td>
+</tr>
+<tr class="even">
+<td align="left">Sector temporal inferior del anillo 3.5</td>
+<td align="right">0.8133</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

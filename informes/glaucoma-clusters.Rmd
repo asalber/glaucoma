@@ -22,7 +22,7 @@ lapply(.packages, require, character.only=T)
 # Carga de datos
 datos <- read.csv(file="../datos/datos.csv", header=T, sep=",")
 # Eliminación de datos erróneos
-datos <- datos[-c(1669, 1677, 1678), ]
+datos <- datos[-c(127, 928, 1669, 1677, 1678), ]
 # Eliminación datos atípicos
 datos.atipicos <- read.csv(file="../datos/datos-confrontacion.csv", header=T, sep=",")
 id.atipicos <- datos.atipicos[is.na(datos.atipicos$SUMA.V) | datos.atipicos$SUMA.V>10, "Lastname"]
@@ -104,48 +104,62 @@ crear.clusters <- function(data, vars, labels){
   # Asignar etiquetas a los niveles del factor
   levels(clusters$cluster) <- labels
   # Añadir el cluster al conjunto de datos
-  data$Cluster <- factor("Sano", levels=c("Sano", labels))
-  data[data$Glaucoma=="Y", "Cluster"] <- clusters$cluster
+  data$Estadio<- factor("Sano", levels=c("Sano", labels))
+  data[data$Glaucoma=="Y", "Estadio"] <- clusters$cluster
   # Añadir el cluster al conjunto de datos de los componentes principales
-  data.pca$Cluster <- data$Cluster
+  data.pca$Estadio <- data$Estadio
   # Calcular las medias de las variables en los clusters
-  means <- data %>% group_by(Cluster) %>% summarise_if(is.numeric, mean, na.rm = TRUE)
-  means <- t(means[, sapply(means,is.numeric)])
-  colnames(means) <- c("Sanos", labels)
+  melted.data <- melt(data[,c("Estadio",vars)])
+  colnames(melted.data)[2] <- "Sector" 
+  means <- melted.data %>% group_by(Estadio, Sector) %>% 
+    summarise(n = n(), mean = mean(value, na.rm = T), sd = sd(value, na.rm = T))  %>%
+    mutate(se = sd/sqrt(n), lower.ci = mean-qt(1-(0.05/2), n-1)*se, upper.ci = mean+qt(1-(0.05/2), n-1)*se)
+  colnames(means) <- c("Estadio", "Sector", "Tamaño", "Media", "Desviación.Típica", "Error.Estándar", "Lím.inf.IC", "Lím.sup.IC")
+  means.plot <- ggplot(means, aes(x=Sector, y=Media, colour=Estadio)) + 
+    geom_pointrange(aes(ymin=Lím.inf.IC, ymax=Lím.sup.IC), position = position_dodge(width=0.5)) + 
+    scale_colour_manual(values = palette)
   # Dibujar clusters sobre componentes principales solo enfermos
   plot.glaucoma <- fviz_pca_ind(result.pca, 
                                 geom = c("point"),
                                 axes = c(1,2), 
                                 select.ind = list(name=rownames(data[data$Glaucoma=="Y",])),
-                                col.ind=data$Cluster,
+                                col.ind=data$Estadio,
                                 palette = palette[2:(n+1)],
                                 addEllipses = T, 
                                 ellipse.type="t",
-                                title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                                title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales",
+                                legend.title = "Estadio")
   # Dibujar los cluster sobre los componentes principales enfermos y sanos
   plot.all <- fviz_pca_ind(result.pca, 
                            geom = c("point"),
                            axes = c(1,2), 
-                           col.ind=data.pca$Cluster,
+                           col.ind=data.pca$Estadio,
                            palette = palette,
                            addEllipses = T, 
                            ellipse.type="t",
-                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales",
+                           legend.title = "Estadio")
   # Distribución de los clusters
   plot.dist <- ggplot(data.pca, aes(x = Dim.1)) + 
-    geom_density(aes(fill=Cluster), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
+    geom_density(aes(fill=Estadio), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
     scale_fill_manual(values=palette)
   # Predicción de los clusters mediante análisis discriminante sobre los componentes principales
   # Enfermos
-  result.lda.glaucoma <- lda(Cluster~., data=data.pca[data.pca$Cluster!="Sano", ], CV=T)
+  result.lda.glaucoma <- lda(Estadio~., data=data.pca[data.pca$Estadio!="Sano", ], CV=T)
   # Bondad del modelo
-  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Cluster!="Sano","Cluster"])
+  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Estadio!="Sano","Estadio"])
+  colnames(performance.glaucoma$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  performance.glaucoma$byClass <- performance.glaucoma$byClass[-1, ]
+  rownames(performance.glaucoma$byClass) <- gsub("Class:", "Estadio", rownames(performance.glaucoma$byClass))
   # Todos
-  result.lda <- lda(Cluster~., data=data.pca, CV=T)
+  result.lda <- lda(Estadio~., data=data.pca, CV=T)
   # Bondad del modelo
-  performance <-  confusionMatrix(result.lda$class,data$Cluster)
+  performance <-  confusionMatrix(result.lda$class,data$Estadio)
+  colnames(performance$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  rownames(performance$byClass) <- gsub("Class:", "Estadio", rownames(performance$byClass))
   return(list(clusters = clusters,
               means = means,
+              means.plot = means.plot,
               pca = result.pca, 
               plot.glaucoma = plot.glaucoma, 
               plot.all = plot.all, 
@@ -178,9 +192,9 @@ crear.clusters.pca <- function(data, labels, numpc=2){
   # Asignar etiquetas a los niveles del factor
   levels(clusters$cluster) <- labels
   # Añadir el cluster al conjunto de datos
-  data$Cluster <- factor("Sano", levels=c("Sano", labels))
-  data[data$Glaucoma=="Y", "Cluster"] <- clusters$cluster
-  data.pca$Cluster <- data$Cluster
+  data$Estadio <- factor("Sano", levels=c("Sano", labels))
+  data[data$Glaucoma=="Y", "Estadio"] <- clusters$cluster
+  data.pca$Estadio <- data$Estadio
   # Calcular las medias de los componentes principales en los clusters
   # means <- data.pca %>% group_by(Cluster) %>% summarise_if(is.numeric, mean, na.rm = TRUE)
   # means <- t(means[, sapply(means,is.numeric)])
@@ -190,33 +204,40 @@ crear.clusters.pca <- function(data, labels, numpc=2){
                                 geom = c("point"),
                                 axes = c(1,2), 
                                 select.ind = list(name=rownames(data[data$Glaucoma=="Y",])),
-                                col.ind=data.pca$Cluster,
+                                col.ind=data.pca$Estadio,
                                 palette = palette[2:(n+1)],
                                 addEllipses = T, 
                                 ellipse.type="t",
-                                title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                                title = "Estadíos de Glaucoma sobre los dos primeros componentes principales",
+                                legend.title = "Estadio")
   # Dibujar los cluster sobre los componentes principales enfermos y sanos
   plot.all <- fviz_pca_ind(result.pca, 
                            geom = c("point"),
                            axes = c(1,2), 
-                           col.ind=data.pca$Cluster,
+                           col.ind=data.pca$Estadio,
                            palette = palette,
                            addEllipses = T, 
                            ellipse.type="t",
-                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales")
+                           title = "Grupos de ojos según estadio del Glaucoma sobre los dos primeros componentes principales",
+                           legend.title = "Estadio")
   # Distribución de los clusters
   plot.dist <- ggplot(data.pca, aes(x = Dim.1)) + 
-    geom_density(aes(fill=Cluster), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
+    geom_density(aes(fill=Estadio), colour=I("white"), position="identity", alpha=.5) + ggtitle("Distribuciones del primer componente principal según estadios de Galucoma") +
     scale_fill_manual(values=palette)
   # Predicción de los clusters mediante análisis discriminante (cuidado, alta colinearidad)
   # Enfermos
-  result.lda.glaucoma <- lda(Cluster~., data=data.pca[data.pca$Cluster!="Sano",], CV=T)
+  result.lda.glaucoma <- lda(Estadio~., data=data.pca[data.pca$Estadio!="Sano",], CV=T)
   # Bondad del modelo
-  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Cluster!="Sano","Cluster"])
+  performance.glaucoma <- confusionMatrix(result.lda.glaucoma$class, data.pca[data.pca$Estadio!="Sano","Estadio"])
+  colnames(performance.glaucoma$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  performance.glaucoma$byClass <- performance.glaucoma$byClass[-1, ]
+  rownames(performance.glaucoma$byClass) <- gsub("Class:", "Estadio", rownames(performance.glaucoma$byClass))
   # Todos
-  result.lda <- lda(Cluster~., data=data.pca, CV=T)
+  result.lda <- lda(Estadio~., data=data.pca, CV=T)
   # Bondad del modelo
-  performance <-  confusionMatrix(result.lda$class, data.pca$Cluster)
+  performance <-  confusionMatrix(result.lda$class, data.pca$Estadio)
+  colnames(performance$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  rownames(performance$byClass) <- gsub("Class:", "Estadio", rownames(performance$byClass))
   return(list(clusters=clusters,
               # means = means,
               pca = result.pca, 
@@ -264,7 +285,7 @@ fviz_pca_var(result.pca, col.var = "contrib", gradient.cols = c("#00AFBB", "#E7B
 fviz_cos2(result.pca, choice = "var", axes=1, title="Correlación de cada variable con el primer componente principal") + ylab("Coef. Determinación r²")
 ```
 
-Se observa que tanto los sectores que más peso tienen en el primer componente principal son los globales y el temporal inferior de todos los anillos. Estas variables son precisamente las más correlacionadas entre si tal y como se aprecia en el siguente gráfico.
+Se observa que los sectores que más peso tienen en el primer componente principal son el global y el temporal inferior de todos los anillos. Estas variables son precisamente las más correlacionadas entre si tal y como se aprecia en el siguente gráfico.
 
 
 ```{r matriz-correlacion-principales-variables}
@@ -282,7 +303,7 @@ ggplot(data = melted.cormat, aes(x=X1, y=X2, fill=value)) + geom_tile() + geom_t
 ```{r grupos-componentes-principales}
 # Dibujar enfermos y sanos sobre los dos primeros componentes principales
 datos.pca <- cbind(result.pca$ind$coord,datos[,"Glaucoma",drop=F])
-fviz_pca_ind(result.pca, geom = c("point"), axes = c(1,2), col.ind=datos.pca$Glaucoma, ddEllipses = T, ellipse.type="t", title = "Grupos de ojos según Glaucoma sobre los dos primeros componentes principales")
+fviz_pca_ind(result.pca, geom = c("point"), axes = c(1,2), col.ind=datos$Glaucoma, ddEllipses = T, ellipse.type="t", title = "Grupos de ojos según Glaucoma sobre los dos primeros componentes principales")
 ```
 
 Como se observa los sanos y enfermos se separan bastante bien a lo largo del primer componente principal, aunque hay una zona de intersección donde se confunden. El segundo componente principal no ayuda en la separación de los grupos. 
@@ -293,12 +314,12 @@ result.lda <- lda(Glaucoma~., data=datos.pca, CV=T)
 # Evaluación del modelo discriminante
 performance <- confusionMatrix(result.lda$class, datos.pca$Glaucoma, positive = "Y")
 pander(performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(performance$byClass[c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(performance$byClass[c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
-El análisis discriminante lineal según los componentes prinicpales permite classificar correctamente el 90% de los ojos, con una sensibilidad del `r performance$byClass["Sensitivity"]` y una especificidad `r performance$byClass["Specificity"]`.
+El análisis discriminante lineal según los componentes prinicpales permite classificar correctamente el 90% de los ojos, con una sensibilidad del `r performance$byClass["Sensibilidad"]` y una especificidad `r performance$byClass["Especificidad"]`.
 
-## Distribución de enfermos y sanos según los principaes sectores
+## Distribución de sanos y enfermos según los principales sectores de los anillos neuroretinianos
 
 ```{r distribucion-sanos-enfermos-principales-variables}
 # Añadir las coordenadas de los componentes principales al conjunto de datos
@@ -318,7 +339,7 @@ y Enfermos")
 ggarrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, ncol=2, nrow=5, common.legend = TRUE, legend="top")
 ```
 
-Así pues, a continuación se muestran distintos intentos de creación de grupos de estadio del glaucoma basados en los compomentes principales y en distintas combinaciones de los sectores de los anillos, especialmente aquellos que tienen más importancia en el primer componente principal. 
+Así pues, a continuación se muestran distintos intentos de creación de grupos de estadio del glaucoma basados en los componentes principales y en distintas combinaciones de los sectores de los anillos, especialmente aquellos que tienen más importancia en el primer componente principal. 
 
 
 # Agrupación mediante k-medias basada en el primer componente principal
@@ -332,7 +353,7 @@ A la vista del gráfico se decide crear 4 clusters.
 
 
 ```{r crear-clusters-un-componente-principal}
-clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("Dudoso", "Leve", "Moderado", "Grave"), numpc=1)
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=1)
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -345,7 +366,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-un-componente-principal-glaucoma}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados. 
@@ -372,7 +393,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-un-componente-principal}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados. 
@@ -382,7 +403,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los dos primeros componentes principales
 
 ```{r crear-clusters-dos-componentes-principales}
-clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("Dudoso", "Leve", "Moderado", "Grave"), numpc=2)
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=2)
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -395,7 +416,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-dos-componentes-principales-glaucoma}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados. 
@@ -422,7 +443,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-dos-componentes-principales}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados. 
@@ -432,7 +453,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los tres primeros componentes principales
 
 ```{r crear-clusters-tres-componentes-principales}
-clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("Dudoso", "Leve", "Moderado", "Grave"), numpc=3)
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=3)
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -445,7 +466,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-tres-componentes-principales-glaucoma}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados. 
@@ -472,7 +493,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-tres-componentes-principales}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados. 
@@ -482,7 +503,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en todos los sectores de todos los anillos
 
 ```{r crear-clusters-all}
-clusters <- crear.clusters(datos, vars=varRims, labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=varRims, labels=c("I", "II", "III", "IV"))
 ```
 
 
@@ -496,7 +517,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-all}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -518,7 +539,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-all}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -528,7 +549,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores global y temporal inferior de todos los anillos
 
 ```{r crear-clusters-G-TI}
-clusters <- crear.clusters(datos, vars=c(varG, varTI), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c(varG, varTI), labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -541,7 +562,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-G-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -563,7 +584,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-G-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -573,7 +594,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores globales de todos los anillos
 
 ```{r crear-clusters-G}
-clusters <- crear.clusters(datos, vars=varG, labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=varG, labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -586,7 +607,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-G}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -604,11 +625,17 @@ clusters$plot.all
 clusters$plot.dist
 ```
 
+## Intervalos del confianza para la media de los grupos de estadio del Glaucoma
+```{r medias-clusters-G}
+pander(clusters$means[order(clusters$means$Sector), c("Sector", "Estadio", "Media", "Desviación.Típica", "Lím.inf.IC", "Lím.sup.IC")], "Intervalos de confianza para la media de los distintos estadios de Glaucoma")
+clusters$means.plot
+```
+
 ## Clasificación mediante análisis discriminante (incluyendo sanos)
 
 ```{r analisis-discriminante-clusters-G}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -618,7 +645,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores temporales inferiores de todos los anillos
 
 ```{r crear-clusters-TI}
-clusters <- crear.clusters(datos, vars=varTI, labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=varTI, labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -631,7 +658,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -653,7 +680,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -663,7 +690,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores global y temporal inferior de los anillos BMO y 3.5
 
 ```{r crear-clusters-BMO-3.5-G-TI}
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -676,7 +703,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-BMO-3.5-G-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -693,11 +720,17 @@ clusters$plot.all
 clusters$plot.dist
 ```
 
+## Intervalos del confianza para la media de los grupos de estadio del Glaucoma
+```{r medias-clusters-BMO-3.5-G.TI}
+pander(clusters$means[order(clusters$means$Sector), c("Sector", "Estadio", "Media", "Desviación.Típica", "Lím.inf.IC", "Lím.sup.IC")], "Intervalos de confianza para la media de los distintos estadios de Glaucoma")
+clusters$means.plot
+```
+
 ## Clasificación mediante análisis discriminante (incluyendo sanos)
 
 ```{r analisis-discriminante-clusters-BMO-3.5-G-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -707,7 +740,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores global y temporal inferior del anillo BMO
 
 ```{r crear-clusters-BMO-G-TI}
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI"), labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -720,7 +753,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-BMO-G-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -741,7 +774,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-BMO-G-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -751,7 +784,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores global y temporal inferior del anillo 3.5
 
 ```{r crear-clusters-3.5-G-TI}
-clusters <- crear.clusters(datos, vars=c("Anillo3.5.G", "Anillo3.5.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("Anillo3.5.G", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -764,7 +797,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-3.5-G-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -785,7 +818,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-3.5-G-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -803,7 +836,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores globales de los anillos BMO y 3.5
 
 ```{r crear-clustersBMO-3.5-G}
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "Anillo3.5.G"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "Anillo3.5.G"), labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -816,7 +849,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucomaBMO-3.5-G}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -837,7 +870,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clustersBMO-3.5-G}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -849,7 +882,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en los sectores temporales inferiores de los anillos BMO y 3.5
 
 ```{r crear-clustersBMO-3.5-TI}
-clusters <- crear.clusters(datos, vars=c("AnilloBMO.TI", "Anillo3.5.TI"), labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.TI", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -862,7 +895,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucomaBMO-3.5-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -883,7 +916,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clustersBMO-3.5-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -894,7 +927,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en el sector global del anillo BMO
 
 ```{r crear-clustersBMO-G}
-clusters <- crear.clusters(datos, vars="AnilloBMO.G", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="AnilloBMO.G", labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -907,7 +940,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucomaBMO-G}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -928,7 +961,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clustersBMO-G}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -939,7 +972,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en el sector global del anillo 3.5
 
 ```{r crear-clusters-3.5-G}
-clusters <- crear.clusters(datos, vars="Anillo3.5.G", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="Anillo3.5.G", labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -952,7 +985,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-3.5-G}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -973,7 +1006,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-3.5-G}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -984,7 +1017,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en el sector temporal inferior del anillo BMO
 
 ```{r crear-clusters-BMO-TI}
-clusters <- crear.clusters(datos, vars="AnilloBMO.TI", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="AnilloBMO.TI", labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -997,7 +1030,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-BMO-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -1018,7 +1051,7 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-BMO-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -1029,7 +1062,7 @@ Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del mod
 # Agrupación mediante k-medias basada en el sector temporal inferior del anillo 3.5
 
 ```{r crear-clusters-3.5-TI}
-clusters <- crear.clusters(datos, vars="Anillo3.5.TI", labels=c("Dudoso", "Leve", "Moderado", "Grave"))
+clusters <- crear.clusters(datos, vars="Anillo3.5.TI", labels=c("I", "II", "III", "IV"))
 ```
 
 ## Representación de los grupos sobre los componentes principales (sin incluir sanos)
@@ -1042,7 +1075,7 @@ clusters$plot.glaucoma
 
 ```{r analisis-discriminante-clusters-glaucoma-3.5-TI}
 pander(clusters$performance.glaucoma$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance.glaucoma$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance.glaucoma$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance.glaucoma$overall[1]*100,2)`% de los ojos están correctamente clasificados.
@@ -1063,10 +1096,102 @@ clusters$plot.dist
 
 ```{r analisis-discriminante-clusters-3.5-TI}
 pander(clusters$performance$table, "Matriz de confusión en la clasificación mediante análisis discriminante de los estadios del Glaucoma")
-pander(clusters$performance$byClass[,c("Sensitivity","Specificity","Balanced Accuracy")])
+pander(clusters$performance$byClass[,c("Sensibilidad","Especificidad","Precisión.Global")])
 ```
 
 Se observa que el `r round(clusters$performance$overall[1]*100,2)`% de los ojos están correctamente clasificados.
 Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.
 
+
+
+# Comparación de modelos
+```{r comparacion-modelos}
+accuracy.table <- data.frame(vars=character(), accuracy=double())
+accuracy.table.glaucoma <- data.frame(vars=character(), accuracy=double())
+# Clusters basados en el primer componente principal de todos los anillos
+vars <- "Primer componente principal"
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=1)
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en los dos primeros componentes principales de todos los anillos
+vars <- "Dos primeros componentes principaless"
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=2)
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en los tres primeros componentes principales de todos los anillos
+vars <- "Tres primeros componentes principales"
+clusters <- crear.clusters.pca(datos[, c("Glaucoma", varRims)], labels=c("I", "II", "III", "IV"), numpc=3)
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+
+# Clusters basados en todos los sectores de todos los anillos
+vars <- "Todos los sectores de todos los anillos"
+clusters <- crear.clusters(datos, vars=varRims, labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en todos los sectores globales y temporales inferiores
+vars <- "Sectores global y temporal inferior de todos los anillos"
+clusters <- crear.clusters(datos, vars=c(varG, varTI), labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en todos los sectores globales
+vars <- "Sectores globales de todos los anillos"
+clusters <- crear.clusters(datos, vars=varG, labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en todos los sectores globales
+vars <- "Sectores temporales inferiores de todos los anillos"
+clusters <- crear.clusters(datos, vars=varTI, labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en los sectores global y temporal inferior de losa anillos BMO y 3.5
+vars <- "Sectores global y temporal inferior de los anillos BMO y 3.5"
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en los sectores global y temporal inferior del anillo BMO
+vars <- "Sectores global y temporal inferior del anillos BMO"
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "AnilloBMO.TI"), labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en los sectores global y temporal inferior del anillo 3.5
+vars <- "Sectores global y temporal inferior del anillo 3.5"
+clusters <- crear.clusters(datos, vars=c("Anillo3.5.G", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en los sectores global de los anillos BMO y 3.5
+vars <- "Sector global de los anillos BMO y 3.5"
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.G", "Anillo3.5.G"), labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados en los sectores temporales inferiores de los anillos BMO y 3.5
+vars <- "Sector temporal inferior de los anillos BMO y 3.5"
+clusters <- crear.clusters(datos, vars=c("AnilloBMO.TI", "Anillo3.5.TI"), labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados el sector global del anillo BMO
+vars <- "Sector global del anillo BMO"
+clusters <- crear.clusters(datos, vars="AnilloBMO.G", labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados el sector global del anillo 3.5
+vars <- "Sector global del anillo 3.5"
+clusters <- crear.clusters(datos, vars="Anillo3.5.G", labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados el sector temporal inferior del anillo BMO
+vars <- "Sector temporal inferior del anillo BMO"
+clusters <- crear.clusters(datos, vars="AnilloBMO.TI", labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+# Clusters basados el sector temporal inferior del anillo 3.5
+vars <- "Sector temporal inferior del anillo 3.5"
+clusters <- crear.clusters(datos, vars="Anillo3.5.TI", labels=c("I", "II", "III", "IV"))
+accuracy.table %<>% add_row(vars=vars, accuracy=clusters$performance$overall[1])
+accuracy.table.glaucoma %<>% add_row(vars=vars, accuracy=clusters$performance.glaucoma$overall[1])
+
+colnames(accuracy.table.glaucoma) <- c("Combinación de variables", "Precisión")
+emphasize.strong.rows(c(1,6))
+pander(accuracy.table.glaucoma, justify=c("left","right"), split.cells=35)
+```
 

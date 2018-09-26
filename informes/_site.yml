@@ -10,8 +10,12 @@ navbar:
     href: glaucoma-anillos.html
   - text: Análisis mácula
     href: glaucoma-macula.html
-  - text: Categorías glaucoma
+  - text: Estadios glaucoma
     href: glaucoma-clusters.html
+  - text: Estadios glaucoma Izdo
+    href: glaucoma-clusters-izdo.html
+  - text: Estadios glaucoma Dcho
+    href: glaucoma-clusters-dcho.html
   right:
   - icon: fa-home fa-lg
     href: http://aprendeconalf.es/
