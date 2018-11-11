@@ -18,40 +18,9 @@ lapply(.packages, require, character.only=T)
 ```
 
 ```{r carga-datos}
-# Grosor RPE
-col.types = c(rep("text",3),"date", rep("text",3), rep("date",2), rep("numeric",2), rep("text",4), rep("numeric",64)) 
-datos.RPE <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_EPR", col_types = col.types)
-datos.RPE$Layer <- "RPE"
-# Grosor GCL
-datos.GCL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_GCL", col_types = col.types)
-datos.GCL$Layer <- "GCL"
-# Grosor INL
-datos.INL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_INL", col_types = col.types)
-datos.INL$Layer <- "INL"
-# Grosor IPL
-datos.IPL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_IPL", col_types = col.types)
-datos.IPL$Layer <- "IPL"
-# Grosor ONL
-datos.ONL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_ONL", col_types = col.types)
-datos.ONL$Layer <- "ONL"
-# Grosor OPL
-datos.OPL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_OPL", col_types = col.types)
-datos.OPL$Layer <- "OPL"
-# Grosor RNFL
-datos.RNFL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_RNFL", col_types = col.types)
-datos.RNFL$Layer <- "RNFL"
-# Grosor total
-datos.FULL <- read_excel("../datos/datos-glaucoma.xlsx", sheet = "P_P_FULL_Thickness", col_types = col.types)
-datos.FULL$Layer <- "FULL"
-# Fusión de datos
-datos <- rbind(datos.RPE, datos.GCL, datos.INL, datos.IPL, datos.ONL, datos.OPL, datos.RNFL, datos.FULL)
-# Normalización de nombres de variables
-colnames(datos) <- make.names(colnames(datos))
-colnames(datos)[16:79] <- paste0("Cell.",substr(colnames(datos)[16:79],6,8))
-# Eliminación datos erroneos
-datos.atipicos <- read.csv(file="../datos/datos-confrontacion.csv", header=T, sep=",")
-id.atipicos <- datos.atipicos[is.na(datos.atipicos$SUMA.V) | datos.atipicos$SUMA.V>10, "Lastname"]
-datos <- datos[!(datos$Lastname %in% id.atipicos), ]
+# Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
+datos <- read.csv(file="../datos/datos-macula-preprocesados.csv", header=T, sep=",")
+
 # Conjuntos de variables
 # Lista de celdas por filas
 # varCells <- startsWith(colnames(datos),"Cell")
@@ -60,7 +29,7 @@ datos <- datos[!(datos$Lastname %in% id.atipicos), ]
 varCells <- NULL
 for (i in 1:8){
   for (j in 8:1){
-    varCells <- c(varCells, paste0("Cell.",j,".",i))
+    varCells <- c(varCells, paste0("Celda",j,".",i))
   }
 }
 matrixCells <- matrix(varCells, nrow=8, ncol=8)
@@ -72,7 +41,7 @@ submatrixCells <- list(submatrixCells1, submatrixCells2, submatrixCells3, submat
 varCells <- NULL
 for (i in 1:8){
   for (j in 1:8){
-    varCells <- c(varCells, paste0("Cell.",j,".",i))
+    varCells <- c(varCells, paste0("Celda",j,".",i))
   }
 }
 
@@ -91,126 +60,126 @@ removeOutliers <- function(x) {
   x[x > fence2] <- qnt[4]
   return(x)
 }
-datos[datos$Glaucoma=="Y" & datos$Layer=="RPE", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="RPE", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="RPE", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="RPE", varCells], removeOutliers)
-datos[datos$Glaucoma=="Y" & datos$Layer=="GCL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="GCL", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="GCL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="GCL", varCells], removeOutliers)
-datos[datos$Glaucoma=="Y" & datos$Layer=="INL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="INL", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="INL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="INL", varCells], removeOutliers)
-datos[datos$Glaucoma=="Y" & datos$Layer=="IPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="IPL", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="IPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="IPL", varCells], removeOutliers)
-datos[datos$Glaucoma=="Y" & datos$Layer=="ONL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="ONL", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="ONL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="ONL", varCells], removeOutliers)
-datos[datos$Glaucoma=="Y" & datos$Layer=="OPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="OPL", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="OPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="OPL", varCells], removeOutliers)
-datos[datos$Glaucoma=="Y" & datos$Layer=="RNFL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="RNFL", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="RNFL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="RNFL", varCells], removeOutliers)
-datos[datos$Glaucoma=="Y" & datos$Layer=="FULL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Layer=="FULL", varCells], removeOutliers)
-datos[datos$Glaucoma=="N" & datos$Layer=="FULL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Layer=="FULL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="RPE", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="RPE", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="RPE", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="RPE", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="GCL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="GCL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="GCL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="GCL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="INL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="INL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="INL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="INL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="IPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="IPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="IPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="IPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="ONL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="ONL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="ONL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="ONL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="OPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="OPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="OPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="OPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="RNFL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="RNFL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="RNFL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="RNFL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="FULL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="FULL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="FULL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="FULL", varCells], removeOutliers)
 
 # Añadir capa OPL+ONL+RPE
-datosOPLONLRPE <- cbind(datos[datos$Layer=="OPL", 1:15], datos[datos$Layer=="OPL", varCells] + datos[datos$Layer=="ONL", varCells] + datos[datos$Layer=="RPE", varCells])
-datosOPLONLRPE$Layer <- "OPL+ONL+RPE" 
+datosOPLONLRPE <- cbind(datos[datos$Capa=="OPL", 1:4], datos[datos$Capa=="OPL", varCells] + datos[datos$Capa=="ONL", varCells] + datos[datos$Capa=="RPE", varCells])
+datosOPLONLRPE$Capa <- "OPL+ONL+RPE" 
 datos <- rbind(datos, datosOPLONLRPE)
 
 # Añadir capas internas RNFL+GCL+IPL
-datosRNFLGCLIPL <- cbind(datos[datos$Layer=="RNFL", 1:15], datos[datos$Layer=="RNFL", varCells] + datos[datos$Layer=="GCL", varCells] + datos[datos$Layer=="IPL", varCells])
-datosRNFLGCLIPL$Layer <- "RNFL+GCL+IPL" 
+datosRNFLGCLIPL <- cbind(datos[datos$Capa=="RNFL", 1:4], datos[datos$Capa=="RNFL", varCells] + datos[datos$Capa=="GCL", varCells] + datos[datos$Capa=="IPL", varCells])
+datosRNFLGCLIPL$Capa <- "RNFL+GCL+IPL" 
 datos <- rbind(datos, datosRNFLGCLIPL)
 
 # Añadir capas internas RNFL+GCL+IPL+INL
-datosRNFLGCLIPLINL <- cbind(datos[datos$Layer=="RNFL", 1:15], datos[datos$Layer=="RNFL", varCells] + datos[datos$Layer=="GCL", varCells] + datos[datos$Layer=="IPL", varCells])
-datosRNFLGCLIPLINL$Layer <- "RNFL+GCL+IPL+INL" 
+datosRNFLGCLIPLINL <- cbind(datos[datos$Capa=="RNFL", 1:4], datos[datos$Capa=="RNFL", varCells] + datos[datos$Capa=="GCL", varCells] + datos[datos$Capa=="IPL", varCells])
+datosRNFLGCLIPLINL$Capa <- "RNFL+GCL+IPL+INL" 
 datos <- rbind(datos, datosRNFLGCLIPLINL)
 
 # Datos hemisferio superior e inferior
-datos$Cells.HI <- apply(datos[,cellsHI],1, mean, na.rm=T)
-datos$Cells.HS <- apply(datos[,cellsHS],1, mean, na.rm=T)
+datos$Celda.HI <- apply(datos[,cellsHI], 1, mean, na.rm=T)
+datos$Celda.HS <- apply(datos[,cellsHS], 1, mean, na.rm=T)
 ```
 
 ```{r filtrado-datos}
 # Ojo izquierdo 
-datos.L <- datos[datos$Eye=="L",]
+datos.L <- datos[datos$Ojo=="L",]
 # Ojo derecho
-datos.R <- datos[datos$Eye=="R",]
+datos.R <- datos[datos$Ojo=="R",]
 # Datos Glaucoma
 datos.Glaucoma = datos[datos$Glaucoma=="Y",]
 # Datos Sanos
 datos.Sanos = datos[datos$Glaucoma=="N",]
 # Datos hemisferios
-datosH <- gather(datos[, c("Layer", "Glaucoma", "Eye", "Cells.HI", "Cells.HS")], Hemisferio, Grosor, -Layer, -Glaucoma, -Eye)
+datosH <- gather(datos[, c("Capa", "Glaucoma", "Ojo", "Celda.HI", "Celda.HS")], Hemisferio, Grosor, -Capa, -Glaucoma, -Ojo)
 ```
 
 
 ```{r funciones}
 # Funciones para dibujar distribuciones por grupos
 # Resumen estadístico
-describir <- function(vars, eye, layer){
-  if (eye=="L"){
-    result <- describeBy(datos[datos$Eye=="L" & datos$Layer==layer, varCells], datos[datos$Eye=="L" & datos$Layer==layer, "Glaucoma"], mat = T, digits = 4)
+describir <- function(vars, ojo, capa){
+  if (ojo=="L"){
+    result <- describeBy(datos[datos$Ojo=="L" & datos$Capa==capa, varCells], datos[datos$Ojo=="L" & datos$Capa==capa, "Glaucoma"], mat = T, digits = 4)
   } else {
-    result <- describeBy(datos[datos$Eye=="R" & datos$Layer==layer, varCells], datos[datos$Eye=="R" & datos$Layer==layer, "Glaucoma"], mat = T, digits = 4)
+    result <- describeBy(datos[datos$Ojo=="R" & datos$Capa==capa, varCells], datos[datos$Ojo=="R" & datos$Capa==capa, "Glaucoma"], mat = T, digits = 4)
   }
   result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
   colnames(result)[1] <- "Glaucoma"
   return(result)
 }
-# Histogramas de las variables vars de la capa layer según glaucoma y ojos
-overHist <- function(vars, layer){
-  p <- ggplot(datos[datos$Layer==layer,], aes_string(x = vars)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Eye~.)
+# Histogramas de las variables vars de la capa Capa según glaucoma y ojos
+overHist <- function(vars, capa){
+  p <- ggplot(datos[datos$Capa==capa,], aes_string(x = vars)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
   return(p)
 }
 
-cellHist <- function(matrix, layer){
+cellHist <- function(matrix, capa){
   for (i in 1:length(matrix)){
-    p <- lapply(unlist(matrix[i]), overHist, layer=layer)
+    p <- lapply(unlist(matrix[i]), overHist, capa=capa)
     print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
   }
 }
 
-# Densidad de las variables vars de la capa layer según glaucoma y ojos
-overDensity <- function(vars, layer){
-  p <- ggplot(datos[datos$Layer==layer,], aes_string(x = vars)) + geom_density(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Eye~.)
+# Densidad de las variables vars de la capa Capa según glaucoma y ojos
+overDensity <- function(vars, capa){
+  p <- ggplot(datos[datos$Capa==capa,], aes_string(x = vars)) + geom_density(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
   return(p)
 }
 
-cellDensity <- function(matrix, layer){
+cellDensity <- function(matrix, capa){
   for (i in 1:length(matrix)){
-    p <- lapply(unlist(matrix[i]), overDensity, layer=layer)
+    p <- lapply(unlist(matrix[i]), overDensity, capa=capa)
     print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
   }
 }
 
-# Diagrama de las variables vars de la capa layer según glaucoma y ojos
-overBoxplot <- function(vars, layer){
-  p <- ggplot(datos[datos$Layer==layer,], aes_string(x="Eye", y = vars)) + geom_boxplot(aes(fill=Glaucoma))
+# Diagrama de las variables vars de la capa Capa según glaucoma y ojos
+overBoxplot <- function(vars, capa){
+  p <- ggplot(datos[datos$Capa==capa,], aes_string(x="Ojo", y = vars)) + geom_boxplot(aes(fill=Glaucoma))
   return(p)
 }
 
-cellBoxplot <- function(matrix, layer){
+cellBoxplot <- function(matrix, capa){
   for (i in 1:length(matrix)){
-    p <- lapply(unlist(matrix[i]), overBoxplot, layer=layer)
+    p <- lapply(unlist(matrix[i]), overBoxplot, capa=capa)
     print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
   }
 }
 
-# Matriz de correlación entre las celdas de la capa layer y el ojo eye
-cellCorrelation <- function (eye, layer){
-  cormat <- round(cor(datos[datos$Eye==eye & datos$Layer==layer, varCells], use="complete.obs"),2)
+# Matriz de correlación entre las celdas de una capa y un ojo
+cellCorrelation <- function (ojo, capa){
+  cormat <- round(cor(datos[datos$Ojo==ojo & datos$Capa==capa, varCells], use="complete.obs"),2)
   print(datatable(cormat, rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'))))
   melted.cormat <- melt(cormat)
-  colnames(melted.cormat) <- c("Cell1", "Cell2", "R")
-  melted.cormat$Cell1 <- substr(melted.cormat$Cell1, 6, 8)
-  melted.cormat$Cell2 <- substr(melted.cormat$Cell2, 6, 8)
-  print(ggplot(data = melted.cormat, aes(x=Cell1, y=Cell2, fill=R)) + 
+  colnames(melted.cormat) <- c("Celda1", "Celda2", "R")
+  melted.cormat$Celda1 <- substr(melted.cormat$Celda1, 6, 8)
+  melted.cormat$Celda2 <- substr(melted.cormat$Celda2, 6, 8)
+  print(ggplot(data = melted.cormat, aes(x=Celda1, y=Celda2, fill=R)) + 
           geom_tile() +
           theme(axis.text.x=element_text(size=8, angle = 90, vjust = 0.5)))
 }
 
 # Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
-comparar.medias <- function (vars, layer, eye){
-  datos.layer.eye <- datos[datos$Eye==eye & datos$Layer==layer, ]
-  result <- data.frame(t(sapply(datos.layer.eye[, vars], function(x) unlist(t.test(x~datos.layer.eye$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+comparar.medias <- function (vars, capa, ojo){
+  datos.capa.ojo <- datos[datos$Ojo==ojo & datos$Capa==capa, ]
+  result <- data.frame(t(sapply(datos.capa.ojo[, vars], function(x) unlist(t.test(x~datos.capa.ojo$Glaucoma)[c("estimate","conf.int", "p.value")]))))
   result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
   result<- result[c(1,2,6,3,4,5)]
   colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
@@ -218,35 +187,35 @@ comparar.medias <- function (vars, layer, eye){
 }
 
 # Intervalos de confianza para la diferencia de medias del grosor de las celdas del cubo macular de enfermos y sanos
-intervalos.comparacion.medias <- function (vars, layer){
-  medias.L <- comparar.medias(vars, layer, "L")
-  medias.L$Cell <- substr(row.names(medias.L),6,8)
-  medias.L$Cell <- factor(medias.L$Cell, levels = medias.L$Cell)
-  medias.L$Eye <- "L"
-  medias.R <- comparar.medias(vars, layer, "R")
-  medias.R$Cell <- substr(row.names(medias.R),6,8)
-  medias.R$Cell <- factor(medias.R$Cell, levels = medias.R$Cell)
-  medias.R$Eye <- "R"
+intervalos.comparacion.medias <- function (vars, capa){
+  medias.L <- comparar.medias(vars, capa, "L")
+  medias.L$Celdas <- substr(row.names(medias.L),6,8)
+  medias.L$Celdas <- factor(medias.L$Celdas, levels = medias.L$Celdas)
+  medias.L$Ojo <- "L"
+  medias.R <- comparar.medias(vars, capa, "R")
+  medias.R$Celdas <- substr(row.names(medias.R),6,8)
+  medias.R$Celdas <- factor(medias.R$Celdas, levels = medias.R$Celdas)
+  medias.R$Ojo <- "R"
   medias <- rbind(medias.L, medias.R)
-  print(ggplot(medias, aes(x = Cell, y = Diferencia.medias, colour=Eye)) + 
+  print(ggplot(medias, aes(x = Celdas, y = Diferencia.medias, colour=Ojo)) + 
           geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
           geom_point(size = 2, position = position_dodge(0.5)) + 
-          ggtitle(paste("Intervalos de confianza del 95% de la diferencia de medias\n del grosor de la capa", layer, "del cubo macular")) +
+          ggtitle(paste("Intervalos de confianza del 95% de la diferencia de medias\n del grosor de la capa", capa, "del cubo macular")) +
           theme(plot.title = element_text(hjust = 0.5), axis.text.x=element_text(size=8, angle = 90, vjust = 0.5))
   )
 }
 
 # Grafico comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos
-matriz.comparacion.medias <- function (layer){
-  medias.L <- comparar.medias(varCells, layer, "L")
-  medias.L$Eye <- "L"
-  medias.R <- comparar.medias(varCells, layer, "R")
-  medias.R$Eye <- "R"
+matriz.comparacion.medias <- function (capa){
+  medias.L <- comparar.medias(varCells, capa, "L")
+  medias.L$Ojo <- "L"
+  medias.R <- comparar.medias(varCells, capa, "R")
+  medias.R$Ojo <- "R"
   medias <- rbind(medias.L, medias.R) 
-  medias <- mutate(medias, Eye = factor(Eye, levels=c("R", "L")),
+  medias <- mutate(medias, Ojo = factor(Ojo, levels=c("R", "L")),
            fila = factor(rep(rep(seq(1,8),8),2), levels=as.character(1:8)), 
            col = rep(unlist(lapply(seq(1,8), rep, 8)), 2), 
-           columna = factor(paste0(col, Eye), levels = c(paste0(1:8, "R"), paste0(8:1,"L"))),
+           columna = factor(paste0(col, Ojo), levels = c(paste0(1:8, "R"), paste0(8:1,"L"))),
            sig = ifelse(medias$`p-valor`<0.01,"<0.01", ifelse(medias$`p-valor`<0.05, "<0.05", ">0.05"))
     )
   print(ggplot(data = medias, aes(x=columna, y=fila, fill=Diferencia.medias)) + 
@@ -255,8 +224,8 @@ matriz.comparacion.medias <- function (layer){
           geom_text(aes(label=round(Diferencia.medias,2), colour=sig), size=3) + 
           scale_colour_manual("p valor", values=c("green", "yellow","black")) + 
           scale_x_discrete(label = function(str){substring(str, 1, 1)}) +
-          facet_grid(.~Eye, scales = "free_x") +
-          ggtitle(paste("Diferencia de medias del grosor de la capa", layer, "del cubo macular")) +
+          facet_grid(.~Ojo, scales = "free_x") +
+          ggtitle(paste("Diferencia de medias del grosor de la capa", capa, "del cubo macular")) +
           theme(plot.title = element_text(hjust = 0.5))
         )
 }
@@ -325,23 +294,23 @@ matriz.comparacion.medias("FULL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-total}
-datosH %>% filter(Layer=="FULL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-total-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "FULL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "FULL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
-```{r omparacion-medias-hemisferios-macula-total-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "FULL", "R")
+```{r comparacion-medias-hemisferios-macula-total-drcho}
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "FULL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-total}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "FULL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "FULL")
 ```
 
 
@@ -410,23 +379,23 @@ matriz.comparacion.medias("RNFL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-rnfl}
-datosH %>% filter(Layer=="RNFL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-rnflL-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "RNFL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "RNFL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-rnfl-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "RNFL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "RNFL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-rnfl}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "RNFL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "RNFL")
 ```
 
 
@@ -493,23 +462,23 @@ matriz.comparacion.medias("GCL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-GCL}
-datosH %>% filter(Layer=="GCL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-GCLL-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "GCL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "GCL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-GCL-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "GCL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "GCL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-GCL}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "GCL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "GCL")
 ```
 
 
@@ -577,23 +546,23 @@ matriz.comparacion.medias("IPL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-IPL}
-datosH %>% filter(Layer=="IPL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-IPLL-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "IPL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "IPL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-IPL-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "IPL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "IPL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-IPL}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "IPL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "IPL")
 ```
 
 
@@ -660,23 +629,23 @@ matriz.comparacion.medias("INL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-INL}
-datosH %>% filter(Layer=="INL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-INLL-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "INL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "INL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-INL-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "INL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "INL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-INL}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "INL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "INL")
 ```
 
 
@@ -743,23 +712,23 @@ matriz.comparacion.medias("OPL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-OPL}
-datosH %>% filter(Layer=="OPL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-OPLL-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "OPL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "OPL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-OPL-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "OPL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "OPL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-OPL}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "OPL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "OPL")
 ```
 
 
@@ -826,23 +795,23 @@ matriz.comparacion.medias("ONL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-ONL}
-datosH %>% filter(Layer=="ONL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-ONLL-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "ONL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "ONL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-ONL-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "ONL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "ONL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-ONL}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "ONL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "ONL")
 ```
 
 
@@ -910,23 +879,23 @@ matriz.comparacion.medias("RPE")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-RPE}
-datosH %>% filter(Layer=="RPE") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-RPE-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "RPE", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "RPE", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-RPE-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "RPE", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "RPE", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-RPE}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "RPE")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "RPE")
 ```
 
 
@@ -994,23 +963,23 @@ matriz.comparacion.medias("RNFL+GCL+IPL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-rnfl-gcl-ipl}
-datosH %>% filter(Layer=="RNFL+GCL+IPL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-rnfl-gcl-ipl-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "RNFL+GCL+IPL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "RNFL+GCL+IPL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-rnfl-gcl-ipl-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "RNFL+GCL+IPL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "RNFL+GCL+IPL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-rnfl-gcl-ipl}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "RNFL+GCL+IPL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "RNFL+GCL+IPL")
 ```
 
 
@@ -1078,23 +1047,23 @@ matriz.comparacion.medias("RNFL+GCL+IPL+INL")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-rnfl-gcl-ipl-inl}
-datosH %>% filter(Layer=="RNFL+GCL+IPL+INL") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="RNFL+GCL+IPL+INL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-rnfl-gcl-ipl-inl-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "RNFL+GCL+IPL+INL", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "RNFL+GCL+IPL+INL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-rnfl-gcl-ipl-inl-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "RNFL+GCL+IPL+INL", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "RNFL+GCL+IPL+INL", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-rnfl-gcl-ipl-inl}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "RNFL+GCL+IPL+INL")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "RNFL+GCL+IPL+INL")
 ```
 
 
@@ -1162,22 +1131,22 @@ matriz.comparacion.medias("OPL+ONL+RPE")
 
 ## Comparación de Hemisferios
 ```{r cajas-hemisferios-opl-onl-rpe}
-datosH %>% filter(Layer=="OPL+ONL+RPE") %>% ggplot(aes(x=Eye, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+datosH %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
 ```{r comparacion-medias-hemisferios-macula-opl-onl-rpe-izdo}
-medias.L <- comparar.medias(c("Cells.HI","Cells.HS"), "OPL+ONL+RPE", "L")
+medias.L <- comparar.medias(c("Celda.HI","Celda.HS"), "OPL+ONL+RPE", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ### Ojo derecho
 ```{r omparacion-medias-hemisferios-macula-opl-onl-rpe-drcho}
-medias.R <- comparar.medias(c("Cells.HI","Cells.HS"), "OPL+ONL+RPE", "R")
+medias.R <- comparar.medias(c("Celda.HI","Celda.HS"), "OPL+ONL+RPE", "R")
 datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 ```
 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-opl-onl-rpe}
-intervalos.comparacion.medias(c("Cells.HI","Cells.HS"), "OPL+ONL+RPE")
+intervalos.comparacion.medias(c("Celda.HI","Celda.HS"), "OPL+ONL+RPE")
 ```
 

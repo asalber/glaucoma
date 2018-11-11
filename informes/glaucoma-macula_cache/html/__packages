@@ -19,3 +19,13 @@ DT
 psych
 pander
 bindrcpp
+cluster
+FactoMineR
+factoextra
+corrplot
+RColorBrewer
+flipMultivariates
+lattice
+caret
+MASS
+reshape

@@ -24,3 +24,7 @@ MASS
 pander
 reshape
 bindrcpp
+GGally
+gridExtra
+DT
+psych

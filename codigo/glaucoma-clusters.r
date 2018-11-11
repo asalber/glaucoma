@@ -7,36 +7,12 @@
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
 
-# Carga de la base de datos
-datos <- read.csv(file="datos/datos.csv", header=T, sep=",")
-
-# Eliminación de datos erróneos
-datos <- datos[-c(127, 928, 1669, 1677, 1678), ]
-
-# Eliminación datos atípicos
-datos.atipicos <- read.csv(file="datos/datos-confrontacion.csv", header=T, sep=",")
-id.atipicos <- datos.atipicos[is.na(datos.atipicos$SUMA.V) | datos.atipicos$SUMA.V>10, "Lastname"]
-datos <- datos[!(datos$Patient.Id %in% id.atipicos), ]
-
-# Normalización de datos
-# El grosos de la capa nerviosa depende de la edad y del área del BMO, por lo que hay que aplicar un modelo de regresión para obtener la media y la desviación típica a utilizar en la normalización. 
-coef.norm <- read.csv(file="datos/tabla-normalizacion.csv", encoding = "UTF-8", header=T, row.names=1, sep=",")
-age.mean <- 52.17
-bmo.area.mean <- 1.781
-for (i in colnames(datos)[11:ncol(datos)]){
-  datos[[i]] <- (datos[[i]]-coef.norm[i,"Media"]-coef.norm[i,"Pendiente.edad"]*(datos$Age-age.mean)-coef.norm[i,"Pendiente.area.bmo"]*(datos$BMO.Area-bmo.area.mean))/coef.norm[i,"Desviacion"]
-  # Descomentar la siguiente línea para trabajar con percentiles
-  # datos[[i]] <- pnorm(datos[[i]])*100
-}
-
-# Renombrar variables
-names(datos) <- gsub("Rim", "Anillo", names(datos))
-names(datos) <- gsub("BMO", "AnilloBMO", names(datos))
-names(datos) <- gsub("Eye", "Ojo", names(datos))
+# Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
+datos <- read.csv(file="datos/datos-anillos-preprocesados.csv", header=T, sep=",")
 
 # Conjuntos de variables
 varBMO <- startsWith(colnames(datos),"AnilloBMO")
-varBMO[10] <- F
+varBMO[11] <- F
 varBMO <- colnames(datos)[varBMO]
 var3.5 <- startsWith(colnames(datos),"Anillo3.5")
 var3.5 <- colnames(datos)[var3.5]
@@ -58,18 +34,19 @@ varN <- endsWith(colnames(datos), ".N")
 varN <- colnames(datos[varN])
 varNI <- endsWith(colnames(datos), ".NI")
 varNI <- colnames(datos[varNI])
-# Seleccionamos sólo las variables de los sectores del anillo BMO
 varRims <- c(varBMO, var3.5, var4.1, var4.7)
 varSectors <- c(varG, varTI, varT, varTS, varNS, varN, varNI)
 
 # Selección de datos
-# Datos Glaucoma
-datos.Mayores <- datos[datos$Age>40, c("Ojo", "Glaucoma", varRims)]
-datos.Mayores <- datos.Mayores[complete.cases(datos.Mayores), ]
-datos <- datos[, c("Patient.Id", "ExamDate", "Ojo", "Glaucoma", varRims)] %>% unite(Id, Patient.Id, ExamDate, sep = ".")
 datos <- datos[complete.cases(datos), ]
-datos.Sanos <- datos[datos$Glaucoma=="N", ]
-datos.Glaucoma <- datos[datos$Glaucoma=="Y", ]
+# Ojo izquierdo 
+datos.L <- filter(datos, Ojo=="L")
+# Ojo derecho
+datos.R <- filter(datos, Ojo=="R")
+# Sanos
+datos.Sanos <- filter(datos, Glaucoma=="N")
+# Enfermos
+datos.Glaucoma <- filter(datos, Glaucoma=="Y")
 
 # Datos pareados por ojos
 datos.pareados.ojos <- datos[datos$Glaucoma=="Y", ] %>% 
@@ -173,10 +150,6 @@ fviz_nbclust(datos.Glaucoma[, c(varBMO, var3.5)], kmeans, method = "wss") +
 
 # Función para la creación de clusters basados en las variables originales y clasificación mediante análisis discriminante lineal sobre los componentes principales 
 crear.clusters <- function(data, vars, labels){
-  data=datos
-  vars=varG
-  labels=c("I", "II", "III", "IV")
-  
   # Cálculo de los componentes principales
   result.pca <- PCA(data[, sapply(data,is.numeric)], scale.unit = F, graph=F) 
   # Crear conjunto de datos con los componentes principales

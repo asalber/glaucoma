@@ -1,0 +1,6 @@
+Análisis comparativo del cubo macular para distintos estadíos de glaucoma
+
+En este trabajo se presenta un estudio comparativo inferencial del grosor de las distintas capas nerviosas del cubo macular en pacientes diagnosticados con glaucoma de ángulo abierto y clasificados en distintos estadíos de la enfermedad. 
+Los pacientes fueron clasificados previante en cuatro estadíos en función del grosor de los anillos peripapilares (BMO, 3.5, 4.1 y 4.7) y posteriormente, para cada capa de fibras nerviosas de la mácula, se compararon los grosores medios de las celdas del cubo macular según el estadío del glaucoma. El análisis demuestra no sólo que existen diferencias estadísticamente significativas entre sanos y enfermos en las capas externas de la retina (RNFL, CGL e IPL) sino también entre los distintos estadíos del glaucoma. En las capas externas de la retina (OPL, ONL y RPE) no se apreciaron diferencias estadísticamente significativas.
+ 
+ 

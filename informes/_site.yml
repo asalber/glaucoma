@@ -6,16 +6,18 @@ navbar:
   left:
   - text: Descripción
     href: index.html
-  - text: Análisis anillos
+  - text: Anillos
     href: glaucoma-anillos.html
-  - text: Análisis mácula
-    href: glaucoma-macula.html
   - text: Estadios glaucoma
     href: glaucoma-clusters.html
   - text: Estadios glaucoma Izdo
     href: glaucoma-clusters-izdo.html
   - text: Estadios glaucoma Dcho
     href: glaucoma-clusters-dcho.html
+  - text: Mácula
+    href: glaucoma-macula.html
+  - text: Mácula Estadios
+    href: glaucoma-macula-estadios.html
   right:
   - icon: fa-home fa-lg
     href: http://aprendeconalf.es/
