@@ -7,10 +7,11 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
-<meta name="date" content="2018-11-10" />
+<meta name="date" content="2019-08-09" />
 
 <title>Definición de grupos de gravedad del Glaucoma</title>
 
@@ -28,9 +29,8 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -78,9 +78,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -105,6 +103,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -119,7 +120,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -139,6 +139,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -160,47 +197,65 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -249,8 +304,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -259,6 +312,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -291,13 +354,10 @@ div.tocify {
   <a href="glaucoma-anillos.html">Anillos</a>
 </li>
 <li>
-  <a href="glaucoma-clusters.html">Estadios glaucoma</a>
-</li>
-<li>
   <a href="glaucoma-clusters-izdo.html">Estadios glaucoma Izdo</a>
 </li>
 <li>
-  <a href="glaucoma-clusters-dcho.html">Estadios glaucoma Dcho</a>
+  <a href="glaucoma-lda-izdo.html">Análisis Discriminante Izdo</a>
 </li>
 <li>
   <a href="glaucoma-macula.html">Mácula</a>
@@ -323,7 +383,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Definición de grupos de gravedad del Glaucoma</h1>
-<h4 class="date"><em>2018-11-10</em></h4>
+<h4 class="date">2019-08-09</h4>
 
 </div>
 
@@ -475,12 +535,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -596,12 +656,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -718,12 +778,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -839,12 +899,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -961,12 +1021,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1082,12 +1142,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1173,7 +1233,7 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>I</strong></td>
 <td align="center">0</td>
-<td align="center">112</td>
+<td align="center">121</td>
 <td align="center">1</td>
 <td align="center">1</td>
 <td align="center">0</td>
@@ -1182,34 +1242,34 @@ div.tocify {
 <td align="center"><strong>II</strong></td>
 <td align="center">0</td>
 <td align="center">0</td>
-<td align="center">13</td>
+<td align="center">12</td>
 <td align="center">0</td>
 <td align="center">0</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>III</strong></td>
 <td align="center">0</td>
-<td align="center">12</td>
-<td align="center">5</td>
-<td align="center">181</td>
+<td align="center">14</td>
 <td align="center">6</td>
+<td align="center">177</td>
+<td align="center">5</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>IV</strong></td>
 <td align="center">0</td>
 <td align="center">0</td>
+<td align="center">0</td>
 <td align="center">1</td>
-<td align="center">1</td>
-<td align="center">118</td>
+<td align="center">113</td>
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1222,31 +1282,31 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>Estadio I</strong></td>
-<td align="center">0.9032</td>
-<td align="center">0.9939</td>
-<td align="center">0.9486</td>
+<td align="center">0.8963</td>
+<td align="center">0.9937</td>
+<td align="center">0.945</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Estadio II</strong></td>
-<td align="center">0.65</td>
+<td align="center">0.6316</td>
 <td align="center">1</td>
-<td align="center">0.825</td>
+<td align="center">0.8158</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Estadio III</strong></td>
-<td align="center">0.9891</td>
-<td align="center">0.9142</td>
-<td align="center">0.9516</td>
+<td align="center">0.9888</td>
+<td align="center">0.9081</td>
+<td align="center">0.9485</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Estadio IV</strong></td>
-<td align="center">0.9516</td>
-<td align="center">0.9939</td>
-<td align="center">0.9727</td>
+<td align="center">0.9576</td>
+<td align="center">0.997</td>
+<td align="center">0.9773</td>
 </tr>
 </tbody>
 </table>
-<p>Se observa que el 94.01% de los ojos están correctamente clasificados.</p>
+<p>Se observa que el 93.79% de los ojos están correctamente clasificados.</p>
 </div>
 <div id="representacion-de-los-grupos-sobre-los-componentes-principales-incluyendo-sanos-3" class="section level2">
 <h2>Representación de los grupos sobre los componentes principales (incluyendo sanos)</h2>
@@ -1282,15 +1342,15 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Sano</strong></td>
 <td align="center">1512</td>
-<td align="center">122</td>
+<td align="center">129</td>
 <td align="center">4</td>
-<td align="center">56</td>
+<td align="center">50</td>
 <td align="center">0</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>I</strong></td>
 <td align="center">4</td>
-<td align="center">1</td>
+<td align="center">4</td>
 <td align="center">0</td>
 <td align="center">0</td>
 <td align="center">0</td>
@@ -1306,27 +1366,27 @@ div.tocify {
 <tr class="even">
 <td align="center"><strong>III</strong></td>
 <td align="center">10</td>
-<td align="center">1</td>
-<td align="center">3</td>
-<td align="center">124</td>
-<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">128</td>
+<td align="center">6</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>IV</strong></td>
 <td align="center">0</td>
 <td align="center">0</td>
 <td align="center">0</td>
-<td align="center">3</td>
-<td align="center">116</td>
+<td align="center">1</td>
+<td align="center">111</td>
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1340,36 +1400,36 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>Estadio Sano</strong></td>
 <td align="center">0.9889</td>
-<td align="center">0.5965</td>
-<td align="center">0.7927</td>
+<td align="center">0.5942</td>
+<td align="center">0.7916</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Estadio I</strong></td>
-<td align="center">0.008065</td>
+<td align="center">0.02963</td>
 <td align="center">0.9978</td>
-<td align="center">0.503</td>
+<td align="center">0.5137</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Estadio II</strong></td>
-<td align="center">0.65</td>
+<td align="center">0.6842</td>
 <td align="center">0.998</td>
-<td align="center">0.824</td>
+<td align="center">0.8411</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>Estadio III</strong></td>
-<td align="center">0.6776</td>
-<td align="center">0.9883</td>
-<td align="center">0.833</td>
+<td align="center">0.7151</td>
+<td align="center">0.9889</td>
+<td align="center">0.852</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Estadio IV</strong></td>
-<td align="center">0.9355</td>
-<td align="center">0.9984</td>
-<td align="center">0.9669</td>
+<td align="center">0.9407</td>
+<td align="center">0.9995</td>
+<td align="center">0.9701</td>
 </tr>
 </tbody>
 </table>
-<p>Se observa que el 89.19% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
+<p>Se observa que el 89.29% de los ojos están correctamente clasificados. Como se puede ver, al incluir los ojos sanos en el modelo, la fiabilidad del modelo disminuye significativamente.</p>
 </div>
 </div>
 <div id="agrupacion-mediante-k-medias-basada-en-los-sectores-global-y-temporal-inferior-de-todos-los-anillos" class="section level1">
@@ -1443,12 +1503,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1560,12 +1620,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1682,12 +1742,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1986,12 +2046,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2108,12 +2168,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2225,12 +2285,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2347,12 +2407,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2651,12 +2711,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2773,12 +2833,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2890,12 +2950,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3012,12 +3072,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3129,12 +3189,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3255,12 +3315,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3372,12 +3432,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3494,12 +3554,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3611,12 +3671,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3733,12 +3793,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3850,12 +3910,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3972,12 +4032,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4089,12 +4149,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4211,12 +4271,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4328,12 +4388,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4450,12 +4510,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:93%;">
+<table style="width:94%;">
 <colgroup>
 <col width="25%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4567,12 +4627,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:94%;">
+<table style="width:96%;">
 <colgroup>
 <col width="26%" />
 <col width="20%" />
 <col width="22%" />
-<col width="25%" />
+<col width="26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4620,10 +4680,10 @@ div.tocify {
 </div>
 <div id="comparacion-de-modelos" class="section level1">
 <h1>Comparación de modelos</h1>
-<table style="width:69%;">
+<table style="width:71%;">
 <colgroup>
 <col width="52%" />
-<col width="16%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4646,7 +4706,7 @@ div.tocify {
 </tr>
 <tr class="even">
 <td align="left">Todos los sectores de todos los anillos</td>
-<td align="right">0.9601</td>
+<td align="right">0.9379</td>
 </tr>
 <tr class="odd">
 <td align="left">Sectores global y temporal inferior de todos los anillos</td>
@@ -4718,6 +4778,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

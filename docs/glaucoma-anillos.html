@@ -7,10 +7,11 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
-<meta name="date" content="2018-11-10" />
+<meta name="date" content="2019-08-09" />
 
 <title>Análisis de los anillos neuroretinianos</title>
 
@@ -28,17 +29,13 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<script src="site_libs/htmlwidgets-1.2.1/htmlwidgets.js"></script>
-<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="site_libs/datatables-binding-0.4/datatables.js"></script>
-<link href="site_libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="site_libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="site_libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
-<link href="site_libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
-<script src="site_libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2.10/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -86,9 +83,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -113,6 +108,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -127,7 +125,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -147,6 +144,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -168,47 +202,65 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -257,8 +309,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -267,6 +317,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -299,13 +359,10 @@ div.tocify {
   <a href="glaucoma-anillos.html">Anillos</a>
 </li>
 <li>
-  <a href="glaucoma-clusters.html">Estadios glaucoma</a>
-</li>
-<li>
   <a href="glaucoma-clusters-izdo.html">Estadios glaucoma Izdo</a>
 </li>
 <li>
-  <a href="glaucoma-clusters-dcho.html">Estadios glaucoma Dcho</a>
+  <a href="glaucoma-lda-izdo.html">Análisis Discriminante Izdo</a>
 </li>
 <li>
   <a href="glaucoma-macula.html">Mácula</a>
@@ -331,7 +388,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Análisis de los anillos neuroretinianos</h1>
-<h4 class="date"><em>2018-11-10</em></h4>
+<h4 class="date">2019-08-09</h4>
 
 </div>
 
@@ -344,14 +401,14 @@ div.tocify {
 <colgroup>
 <col width="11%" />
 <col width="12%" />
-<col width="8%" />
+<col width="7%" />
 <col width="9%" />
 <col width="9%" />
 <col width="10%" />
-<col width="8%" />
-<col width="8%" />
+<col width="7%" />
+<col width="7%" />
 <col width="11%" />
-<col width="11%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -492,11 +549,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:54%;">
+<table style="width:56%;">
 <colgroup>
 <col width="27%" />
 <col width="12%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -629,11 +686,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:56%;">
+<table style="width:57%;">
 <colgroup>
 <col width="27%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -851,11 +908,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:46%;">
+<table style="width:47%;">
 <colgroup>
 <col width="19%" />
 <col width="12%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1109,11 +1166,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:47%;">
+<table style="width:49%;">
 <colgroup>
 <col width="19%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1376,11 +1433,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:51%;">
+<table style="width:53%;">
 <colgroup>
 <col width="23%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1634,11 +1691,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:51%;">
+<table style="width:53%;">
 <colgroup>
 <col width="23%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1901,11 +1958,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:51%;">
+<table style="width:53%;">
 <colgroup>
 <col width="23%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2159,11 +2216,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:51%;">
+<table style="width:53%;">
 <colgroup>
 <col width="23%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2426,11 +2483,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:51%;">
+<table style="width:53%;">
 <colgroup>
 <col width="23%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2684,11 +2741,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:51%;">
+<table style="width:53%;">
 <colgroup>
 <col width="23%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2786,12 +2843,12 @@ div.tocify {
 <div id="sexo" class="section level2">
 <h2>Sexo</h2>
 <p>Comparación de la proporción de mujeres y hombres con glaucoma</p>
-<table style="width:93%;">
+<table style="width:94%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="29%" />
 <col width="29%" />
-<col width="34%" />
+<col width="36%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2808,11 +2865,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:68%;">
+<table style="width:69%;">
 <colgroup>
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2833,10 +2890,10 @@ div.tocify {
 <div id="ojo" class="section level2">
 <h2>Ojo</h2>
 <p>Comparación de la proporción de ojos izquierdo y derechos con glaucoma.</p>
-<table style="width:50%;">
+<table style="width:51%;">
 <colgroup>
 <col width="34%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2884,11 +2941,11 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:57%;">
+<table style="width:58%;">
 <colgroup>
 <col width="13%" />
 <col width="26%" />
-<col width="16%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2932,10 +2989,10 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:42%;">
+<table style="width:43%;">
 <colgroup>
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2980,10 +3037,10 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:39%;">
+<table style="width:40%;">
 <colgroup>
 <col width="26%" />
-<col width="12%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3026,10 +3083,10 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:39%;">
+<table style="width:40%;">
 <colgroup>
 <col width="26%" />
-<col width="12%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3052,13 +3109,13 @@ div.tocify {
 <p>Comparación de las medias de los sectores del BMO en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-5" class="section level3">
 <h3>Ojo izquierdo</h3>
-<table style="width:88%;">
+<table style="width:89%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="18%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3113,12 +3170,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:86%;">
+<table style="width:87%;">
 <colgroup>
 <col width="18%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3177,13 +3234,13 @@ div.tocify {
 </div>
 <div id="ojo-derecho-6" class="section level3">
 <h3>Ojo derecho</h3>
-<table style="width:88%;">
+<table style="width:89%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="18%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3238,12 +3295,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:86%;">
+<table style="width:87%;">
 <colgroup>
 <col width="18%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3308,13 +3365,13 @@ div.tocify {
 <p>Comparación de las medias de los sectores del anillo 3.5 en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-6" class="section level3">
 <h3>Ojo izquierdo</h3>
-<table style="width:92%;">
+<table style="width:93%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="22%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3369,12 +3426,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col width="22%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3433,13 +3490,13 @@ div.tocify {
 </div>
 <div id="ojo-derecho-7" class="section level3">
 <h3>Ojo derecho</h3>
-<table style="width:92%;">
+<table style="width:93%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="22%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3494,12 +3551,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col width="22%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3564,13 +3621,13 @@ div.tocify {
 <p>Comparación de las medias de los sectores del anillo 4.1 en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-7" class="section level3">
 <h3>Ojo izquierdo</h3>
-<table style="width:92%;">
+<table style="width:93%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="22%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3625,12 +3682,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col width="22%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3689,13 +3746,13 @@ div.tocify {
 </div>
 <div id="ojo-derecho-8" class="section level3">
 <h3>Ojo derecho</h3>
-<table style="width:92%;">
+<table style="width:93%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="22%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3750,12 +3807,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col width="22%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3820,13 +3877,13 @@ div.tocify {
 <p>Comparación de las medias de los sectores del anillo 4.7 en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-8" class="section level3">
 <h3>Ojo izquierdo</h3>
-<table style="width:92%;">
+<table style="width:93%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="22%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3881,12 +3938,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col width="22%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3945,13 +4002,13 @@ div.tocify {
 </div>
 <div id="ojo-derecho-9" class="section level3">
 <h3>Ojo derecho</h3>
-<table style="width:92%;">
+<table style="width:93%;">
 <caption>Table continues below</caption>
 <colgroup>
 <col width="22%" />
 <col width="19%" />
 <col width="23%" />
-<col width="26%" />
+<col width="27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4006,12 +4063,12 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col width="22%" />
 <col width="26%" />
 <col width="26%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4076,8 +4133,8 @@ div.tocify {
 <div id="comparacion-de-ojos" class="section level1">
 <h1>Comparación de ojos</h1>
 <p>Comparación de las medias del ojo izquierdo y derecho para cada sector.</p>
-<div id="htmlwidget-fad2140bc17fbd19a4ea" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fad2140bc17fbd19a4ea">{"x":{"filter":"none","data":[["BMO.G.L - BMO.G.R","BMO.NS.L - BMO.NS.R","BMO.N.L - BMO.N.R","BMO.NI.L - BMO.NI.R","BMO.TI.L - BMO.TI.R","BMO.T.L - BMO.T.R","BMO.TS.L - BMO.TS.R","Rim3.5.G.L - Rim3.5.G.R","Rim3.5.NS.L - Rim3.5.NS.R","Rim3.5.N.L - Rim3.5.N.R","Rim3.5.NI.L - Rim3.5.NI.R","Rim3.5.TI.L - Rim3.5.TI.R","Rim3.5.T.L - Rim3.5.T.R","Rim3.5.TS.L - Rim3.5.TS.R","Rim4.1.G.L - Rim4.1.G.R","Rim4.1.NS.L - Rim4.1.NS.R","Rim4.1.N.L - Rim4.1.N.R","Rim4.1.NI.L - Rim4.1.NI.R","Rim4.1.TI.L - Rim4.1.TI.R","Rim4.1.T.L - Rim4.1.T.R","Rim4.1.TS.L - Rim4.1.TS.R","Rim4.7.G.L - Rim4.7.G.R","Rim4.7.NS.L - Rim4.7.NS.R","Rim4.7.N.L - Rim4.7.N.R","Rim4.7.NI.L - Rim4.7.NI.R","Rim4.7.TI.L - Rim4.7.TI.R","Rim4.7.T.L - Rim4.7.T.R","Rim4.7.TS.L - Rim4.7.TS.R"],["-0.03998","0.12079","-0.10852","-0.05897","-0.04011","-0.03454","0.03003","-0.12854","0.25596","-0.06649","-0.02483","-0.06343","-0.24858","-0.33051","-0.08606","0.28749","-0.05314","0.02641","-0.02735","-0.23976","-0.29968","-0.07645","0.31327","-0.03305","0.02114","0.01388","-0.27402","-0.30623"],["-0.08484","0.06970","-0.15618","-0.10823","-0.09774","-0.08664","-0.02514","-0.20300","0.19907","-0.13175","-0.07989","-0.14635","-0.31551","-0.39453","-0.15845","0.22957","-0.11938","-0.02530","-0.10959","-0.31361","-0.36561","-0.14960","0.25454","-0.10408","-0.02987","-0.06675","-0.35934","-0.37550"],["0.004875","0.171880","-0.060865","-0.009719","0.017526","0.017553","0.085202","-0.054078","0.312846","-0.001228","0.030237","0.019503","-0.181657","-0.266495","-0.013669","0.345403","0.013105","0.078120","0.054890","-0.165911","-0.233746","-0.003301","0.372002","0.037977","0.072152","0.094505","-0.188702","-0.236968"],["8.058e-02","3.968e-06","8.792e-06","1.899e-02","1.724e-01","1.935e-01","2.857e-01","7.334e-04","4.808e-18","4.585e-02","3.765e-01","1.337e-01","6.443e-13","5.250e-23","1.985e-02","1.840e-21","1.158e-01","3.165e-01","5.141e-01","2.886e-10","2.270e-18","4.054e-02","2.258e-24","3.614e-01","4.163e-01","7.356e-01","4.426e-10","1.693e-17"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Media.diferencia<\/th>\n      <th>lim.inf.int.conf<\/th>\n      <th>lim.sup.int.conf<\/th>\n      <th>p-valor<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"autoWidth":true,"dom":"t","language":{"url":"http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"},"order":[],"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-678ecc51780aebfebfbe" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-678ecc51780aebfebfbe">{"x":{"filter":"none","data":[["BMO.G.L - BMO.G.R","BMO.NS.L - BMO.NS.R","BMO.N.L - BMO.N.R","BMO.NI.L - BMO.NI.R","BMO.TI.L - BMO.TI.R","BMO.T.L - BMO.T.R","BMO.TS.L - BMO.TS.R","Rim3.5.G.L - Rim3.5.G.R","Rim3.5.NS.L - Rim3.5.NS.R","Rim3.5.N.L - Rim3.5.N.R","Rim3.5.NI.L - Rim3.5.NI.R","Rim3.5.TI.L - Rim3.5.TI.R","Rim3.5.T.L - Rim3.5.T.R","Rim3.5.TS.L - Rim3.5.TS.R","Rim4.1.G.L - Rim4.1.G.R","Rim4.1.NS.L - Rim4.1.NS.R","Rim4.1.N.L - Rim4.1.N.R","Rim4.1.NI.L - Rim4.1.NI.R","Rim4.1.TI.L - Rim4.1.TI.R","Rim4.1.T.L - Rim4.1.T.R","Rim4.1.TS.L - Rim4.1.TS.R","Rim4.7.G.L - Rim4.7.G.R","Rim4.7.NS.L - Rim4.7.NS.R","Rim4.7.N.L - Rim4.7.N.R","Rim4.7.NI.L - Rim4.7.NI.R","Rim4.7.TI.L - Rim4.7.TI.R","Rim4.7.T.L - Rim4.7.T.R","Rim4.7.TS.L - Rim4.7.TS.R"],["-0.03998","0.12079","-0.10852","-0.05897","-0.04011","-0.03454","0.03003","-0.12854","0.25596","-0.06649","-0.02483","-0.06343","-0.24858","-0.33051","-0.08606","0.28749","-0.05314","0.02641","-0.02735","-0.23976","-0.29968","-0.07645","0.31327","-0.03305","0.02114","0.01388","-0.27402","-0.30623"],["-0.08484","0.06970","-0.15618","-0.10823","-0.09774","-0.08664","-0.02514","-0.20300","0.19907","-0.13175","-0.07989","-0.14635","-0.31551","-0.39453","-0.15845","0.22957","-0.11938","-0.02530","-0.10959","-0.31361","-0.36561","-0.14960","0.25454","-0.10408","-0.02987","-0.06675","-0.35934","-0.37550"],["0.004875","0.171880","-0.060865","-0.009719","0.017526","0.017553","0.085202","-0.054078","0.312846","-0.001228","0.030237","0.019503","-0.181657","-0.266495","-0.013669","0.345403","0.013105","0.078120","0.054890","-0.165911","-0.233746","-0.003301","0.372002","0.037977","0.072152","0.094505","-0.188702","-0.236968"],["8.058e-02","3.968e-06","8.792e-06","1.899e-02","1.724e-01","1.935e-01","2.857e-01","7.334e-04","4.808e-18","4.585e-02","3.765e-01","1.337e-01","6.443e-13","5.250e-23","1.985e-02","1.840e-21","1.158e-01","3.165e-01","5.141e-01","2.886e-10","2.270e-18","4.054e-02","2.258e-24","3.614e-01","4.163e-01","7.356e-01","4.426e-10","1.693e-17"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Media.diferencia<\/th>\n      <th>lim.inf.int.conf<\/th>\n      <th>lim.sup.int.conf<\/th>\n      <th>p-valor<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"autoWidth":true,"dom":"t","language":{"url":"http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"},"order":[],"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
 <p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-ojos-1.png" width="2400" /></p>
 <p>En general se aprecian diferencias significativas entre las medias del grosor de los sectores de los ojos izquierdo y derecho en algunos sectores como el Nasal Superior, y no tan claras en otros. No obstante, se ha observado clínicamente que aparentemente no hay relación entre el estado de los dos ojos, por lo que se han cosiderado los ojos de cada paciente como individuos independientes en el estudio.</p>
 </div>
@@ -4100,6 +4157,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

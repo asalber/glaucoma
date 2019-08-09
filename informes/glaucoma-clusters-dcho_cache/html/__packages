@@ -17,14 +17,9 @@ readr
 purrr
 stringr
 forcats
-cluster
+reshape2
 FactoMineR
 factoextra
-corrplot
-RColorBrewer
-flipMultivariates
+MASS
 lattice
 caret
-MASS
-reshape
-bindrcpp

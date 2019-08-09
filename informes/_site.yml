@@ -8,12 +8,14 @@ navbar:
     href: index.html
   - text: Anillos
     href: glaucoma-anillos.html
-  - text: Estadios glaucoma
-    href: glaucoma-clusters.html
+#  - text: Estadios glaucoma
+#    href: glaucoma-clusters.html
   - text: Estadios glaucoma Izdo
     href: glaucoma-clusters-izdo.html
-  - text: Estadios glaucoma Dcho
-    href: glaucoma-clusters-dcho.html
+#  - text: Estadios glaucoma Dcho
+#    href: glaucoma-clusters-dcho.html
+  - text: Análisis Discriminante Izdo
+    href: glaucoma-lda-izdo.html
   - text: Mácula
     href: glaucoma-macula.html
   - text: Mácula Estadios
