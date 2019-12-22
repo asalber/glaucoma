@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
-<meta name="date" content="2019-08-09" />
+<meta name="date" content="2019-12-22" />
 
 <title>Definición de estadios de Glaucoma (ojos izquierdos)</title>
 
@@ -92,7 +91,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -241,6 +239,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -269,6 +268,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -354,16 +359,13 @@ div.tocify {
   <a href="glaucoma-anillos.html">Anillos</a>
 </li>
 <li>
-  <a href="glaucoma-clusters-izdo.html">Estadios glaucoma Izdo</a>
+  <a href="glaucoma-clusters-izdo.html">Estadios.Izdo</a>
 </li>
 <li>
-  <a href="glaucoma-lda-izdo.html">Análisis Discriminante Izdo</a>
+  <a href="glaucoma-lda-anillos-izdo.html">An.Disriminante.Anillos.Izdo</a>
 </li>
 <li>
   <a href="glaucoma-macula.html">Mácula</a>
-</li>
-<li>
-  <a href="glaucoma-macula-estadios.html">Mácula Estadios</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -383,7 +385,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Definición de estadios de Glaucoma (ojos izquierdos)</h1>
-<h4 class="date">2019-08-09</h4>
+<h4 class="date">2019-12-22</h4>
 
 </div>
 
@@ -392,11 +394,11 @@ div.tocify {
 <h1>Objetivo</h1>
 <p>En este estudio se pretende definir distintos grupos de gravedad de glaucoma (estadíos de desarrollo de la enfermedad) en función del grosor de los anillos neuroretinianos, mediante la técnica de las <span class="math inline">\(k\)</span>-medias.</p>
 </div>
-<div id="correlacion" class="section level1">
+<div id="correlación" class="section level1">
 <h1>Correlación</h1>
 <p><img src="glaucoma-clusters-izdo_files/figure-html/matriz-correlacion-1.svg" width="768" /></p>
 </div>
-<div id="analisis-de-componentes-principales" class="section level1">
+<div id="análisis-de-componentes-principales" class="section level1">
 <h1>Análisis de componentes principales</h1>
 <p><img src="glaucoma-clusters-izdo_files/figure-html/componentes-principales-1.svg" width="768" /></p>
 <p>Se observa que la mayor parte de la variabilidad la explica la primera dimensión. Ello es debido a la alta correlación entre los sectores de los distintos anillos.</p>
@@ -408,7 +410,7 @@ div.tocify {
 <p><img src="glaucoma-clusters-izdo_files/figure-html/numero-clusters-1.svg" width="768" /></p>
 <p>A la vista del gráfico se decide crear 4 grupos, ya que la reducción de la variabilidad intra-grupo a partir de 4 grupos no es significativa.</p>
 <p><img src="glaucoma-clusters-izdo_files/figure-html/clusters-izdo-1.svg" width="768" /><img src="glaucoma-clusters-izdo_files/figure-html/clusters-izdo-2.svg" width="768" /></p>
-<div id="estadisticos-de-la-distribucion-de-anillobmo.g-anillobmo.ti-anillo3.5.g-y-anillo3.5.ti-por-estadios-stages" class="section level3">
+<div id="estadísticos-de-la-distribución-de-anillobmo.g-anillobmo.ti-anillo3.5.g-y-anillo3.5.ti-por-estadios-stages" class="section level3">
 <h3>Estadísticos de la distribución de AnilloBMO.G, AnilloBMO.TI, Anillo3.5.G y Anillo3.5.TI por Estadios stages</h3>
 <table>
 <colgroup>

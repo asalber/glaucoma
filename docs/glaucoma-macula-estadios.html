@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
-<meta name="date" content="2019-08-09" />
+<meta name="date" content="2019-12-22" />
 
-<title>Análisis del cubo macular</title>
+<title>Análisis del cubo macular por estadios de glaucoma</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,7 +91,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -241,6 +239,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -269,6 +268,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -354,16 +359,13 @@ div.tocify {
   <a href="glaucoma-anillos.html">Anillos</a>
 </li>
 <li>
-  <a href="glaucoma-clusters-izdo.html">Estadios glaucoma Izdo</a>
+  <a href="glaucoma-clusters-izdo.html">Estadios.Izdo</a>
 </li>
 <li>
-  <a href="glaucoma-lda-izdo.html">Análisis Discriminante Izdo</a>
+  <a href="glaucoma-lda-anillos-izdo.html">An.Disriminante.Anillos.Izdo</a>
 </li>
 <li>
   <a href="glaucoma-macula.html">Mácula</a>
-</li>
-<li>
-  <a href="glaucoma-macula-estadios.html">Mácula Estadios</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -382,17 +384,17 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Análisis del cubo macular</h1>
-<h4 class="date">2019-08-09</h4>
+<h1 class="title toc-ignore">Análisis del cubo macular por estadios de glaucoma</h1>
+<h4 class="date">2019-12-22</h4>
 
 </div>
 
 
 <div id="capa-total" class="section level1">
 <h1>Capa total</h1>
-<div id="estadistica-descriptiva" class="section level2">
+<div id="estadística-descriptiva" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-total-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-total-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-total-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-total-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-total-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-total-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-total-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-total-4.svg" width="768" /></p>
@@ -401,9 +403,9 @@ div.tocify {
 </div>
 <div id="capa-rnfl" class="section level1">
 <h1>Capa RNFL</h1>
-<div id="estadistica-descriptiva-1" class="section level2">
+<div id="estadística-descriptiva-1" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-1" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo-1" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rnfl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rnfl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rnfl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rnfl-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rnfl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rnfl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rnfl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rnfl-4.svg" width="768" /></p>
@@ -412,9 +414,9 @@ div.tocify {
 </div>
 <div id="capa-gcl" class="section level1">
 <h1>Capa GCL</h1>
-<div id="estadistica-descriptiva-2" class="section level2">
+<div id="estadística-descriptiva-2" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-2" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo-2" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-gcl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-gcl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-gcl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-gcl-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-gcl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-gcl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-gcl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-gcl-4.svg" width="768" /></p>
@@ -423,9 +425,9 @@ div.tocify {
 </div>
 <div id="capa-ipl" class="section level1">
 <h1>Capa IPL</h1>
-<div id="estadistica-descriptiva-3" class="section level2">
+<div id="estadística-descriptiva-3" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-3" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo-3" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-ipl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-ipl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-ipl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-ipl-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-ipl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-ipl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-ipl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-ipl-4.svg" width="768" /></p>
@@ -434,9 +436,9 @@ div.tocify {
 </div>
 <div id="capa-inl" class="section level1">
 <h1>Capa INL</h1>
-<div id="estadistica-descriptiva-4" class="section level2">
+<div id="estadística-descriptiva-4" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-4" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo-4" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-inl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-inl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-inl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-inl-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-inl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-inl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-inl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-inl-4.svg" width="768" /></p>
@@ -445,9 +447,9 @@ div.tocify {
 </div>
 <div id="capa-opl" class="section level1">
 <h1>Capa OPL</h1>
-<div id="estadistica-descriptiva-5" class="section level2">
+<div id="estadística-descriptiva-5" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-5" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo-5" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-opl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-opl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-opl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-opl-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-opl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-opl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-opl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-opl-4.svg" width="768" /></p>
@@ -456,9 +458,9 @@ div.tocify {
 </div>
 <div id="capa-onl" class="section level1">
 <h1>Capa ONL</h1>
-<div id="estadistica-descriptiva-6" class="section level2">
+<div id="estadística-descriptiva-6" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-6" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo-6" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-onl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-onl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-onl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-onl-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-onl-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-onl-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-onl-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-onl-4.svg" width="768" /></p>
@@ -467,12 +469,13 @@ div.tocify {
 </div>
 <div id="capa-rpe" class="section level1">
 <h1>Capa RPE</h1>
-<div id="estadistica-descriptiva-7" class="section level2">
+<div id="estadística-descriptiva-7" class="section level2">
 <h2>Estadística Descriptiva</h2>
-<div id="comparacion-de-distribuciones-por-glaucoma-y-ojo-7" class="section level3">
+<div id="comparación-de-distribuciones-por-glaucoma-y-ojo-7" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
 <p><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rpe-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rpe-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rpe-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/densidad-macula-rpe-4.svg" width="768" /></p>
 <p><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rpe-1.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rpe-2.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rpe-3.svg" width="768" /><img src="glaucoma-macula-estadios_files/figure-html/cajas-macula-rpe-4.svg" width="768" /></p>
+<p>En este trabajo se presenta un estudio comparativo inferencial del grosor de las distintas capas nerviosas del cubo macular en pacientes diagnosticados con glaucoma de ángulo abierto y clasificados en distintos estadíos de la enfermedad. Los pacientes fueron clasificados previante en cuatro estadíos en función del grosor de los anillos peripapilares (BMO, 3.5, 4.1 y 4.7) y posteriormente, para cada capa de fibras nerviosas de la mácula, se compararon los grosores medios de las celdas del cubo macular según el estadío del glaucoma. El análisis demuestra no sólo que existen diferencias estadísticamente significativas entre sanos y enfermos en las capas externas de la retina (RNFL, CGL e IPL) sino también entre los distintos estadíos del glaucoma. En las capas externas de la retina (OPL, ONL y RPE) no se apreciaron diferencias estadísticamente significativas.</p>
 </div>
 </div>
 </div>

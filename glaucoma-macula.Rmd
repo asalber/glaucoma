@@ -1,0 +1,1326 @@
+---
+title: "Análisis del cubo macular"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=F, cache = F, echo = F}
+library("knitr")
+## Global options
+options(digits = 4)
+opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message = F, warning = F, dev = "svg")
+```
+
+```{r carga-paquetes, results='hide'}
+.packages <- c("tidyverse", "reshape2", "GGally", "gridExtra", "ggpubr", "DT", "psych", "pander")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+```
+
+```{r carga-datos}
+# Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
+datos <- read.csv(file="datos/datos-macula-preprocesados.csv", header=T, sep=",")
+
+# Conjuntos de variables
+# Lista de celdas por filas
+# varCells <- startsWith(colnames(datos),"Cell")
+# varCells <- colnames(datos)[varCells]
+# Lista de celdas por columnas
+varCells <- NULL
+for (i in 1:8){
+  for (j in 8:1){
+    varCells <- c(varCells, paste0("Celda",j,".",i))
+  }
+}
+matrixCells <- matrix(varCells, nrow=8, ncol=8)
+submatrixCellsTI <- t(matrixCells[5:8,1:4])
+submatrixCellsNI <- t(matrixCells[5:8,5:8])
+submatrixCellsTS <- t(matrixCells[1:4,1:4])
+submatrixCellsNS <- t(matrixCells[1:4,5:8])
+submatrixCells <- list(submatrixCellsTI, submatrixCellsNI, submatrixCellsTS, submatrixCellsNS)
+varCells <- NULL
+for (i in 1:8){
+  for (j in 1:8){
+    varCells <- c(varCells, paste0("Celda",j,".",i))
+  }
+}
+
+# Celdas hemisferio inferior
+cellsI <- c(as.vector(submatrixCellsTI),as.vector(submatrixCellsNI))
+# Celdas hemisferio superior
+cellsS <- c(as.vector(submatrixCellsTS),as.vector(submatrixCellsNS))
+# Celdas temporales
+cellsT <- c(as.vector(submatrixCellsTI),as.vector(submatrixCellsTS))
+# Celdas nasales
+cellsN <- c(as.vector(submatrixCellsNI),as.vector(submatrixCellsNS))
+
+# Eliminación datos atípicos
+removeOutliers <- function(x) {
+  qnt <- quantile(x, probs=c(.25, .75, 0.05, 0.95), na.rm = T)
+  iqr <- qnt[2]-qnt[1]
+  fence1 <- qnt[1]-1.5*iqr
+  fence2 <- qnt[2]+1.5*iqr
+  x[x < fence1] <- qnt[3]
+  x[x > fence2] <- qnt[4]
+  return(x)
+}
+datos[datos$Glaucoma=="Y" & datos$Capa=="RPE", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="RPE", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="RPE", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="RPE", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="GCL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="GCL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="GCL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="GCL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="INL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="INL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="INL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="INL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="IPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="IPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="IPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="IPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="ONL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="ONL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="ONL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="ONL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="OPL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="OPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="OPL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="OPL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="RNFL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="RNFL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="RNFL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="RNFL", varCells], removeOutliers)
+datos[datos$Glaucoma=="Y" & datos$Capa=="FULL", varCells] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="FULL", varCells], removeOutliers)
+datos[datos$Glaucoma=="N" & datos$Capa=="FULL", varCells ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="FULL", varCells], removeOutliers)
+
+# Añadir capa OPL+ONL+RPE
+datosOPLONLRPE <- cbind(datos[datos$Capa=="OPL", 1:4], datos[datos$Capa=="OPL", varCells] + datos[datos$Capa=="ONL", varCells] + datos[datos$Capa=="RPE", varCells])
+datosOPLONLRPE$Capa <- "OPL+ONL+RPE" 
+datos <- rbind(datos, datosOPLONLRPE)
+
+# Añadir capas internas RNFL+GCL+IPL
+datosRNFLGCLIPL <- cbind(datos[datos$Capa=="RNFL", 1:4], datos[datos$Capa=="RNFL", varCells] + datos[datos$Capa=="GCL", varCells] + datos[datos$Capa=="IPL", varCells])
+datosRNFLGCLIPL$Capa <- "RNFL+GCL+IPL" 
+datos <- rbind(datos, datosRNFLGCLIPL)
+
+# Añadir capas internas RNFL+GCL+IPL+INL
+datosRNFLGCLIPLINL <- cbind(datos[datos$Capa=="RNFL", 1:4], datos[datos$Capa=="RNFL", varCells] + datos[datos$Capa=="GCL", varCells] + datos[datos$Capa=="IPL", varCells])
+datosRNFLGCLIPLINL$Capa <- "RNFL+GCL+IPL+INL" 
+datos <- rbind(datos, datosRNFLGCLIPLINL)
+
+# Datos hemisferio superior e inferior
+datos$Celda.I <- apply(datos[,cellsI], 1, mean, na.rm=T)
+datos$Celda.S <- apply(datos[,cellsS], 1, mean, na.rm=T)
+datos$Celda.T <- apply(datos[,cellsT], 1, mean, na.rm=T)
+datos$Celda.N <- apply(datos[,cellsN], 1, mean, na.rm=T)
+```
+
+```{r filtrado-datos}
+# Ojo izquierdo 
+datos.L <- datos[datos$Ojo=="L",]
+# Ojo derecho
+datos.R <- datos[datos$Ojo=="R",]
+# Datos Glaucoma
+datos.Glaucoma = datos[datos$Glaucoma=="Y",]
+# Datos Sanos
+datos.Sanos = datos[datos$Glaucoma=="N",]
+# Datos hemisferios
+datos.H <- pivot_longer(datos[, c("Capa", "Glaucoma", "Ojo", "Celda.I", "Celda.S")], cols = c("Celda.I", "Celda.S"), names_to = "Hemisferio", values_to = "Grosor")
+# Datos regiones
+datos.R <- pivot_longer(datos[, c("Capa", "Glaucoma", "Ojo", "Celda.T", "Celda.N")], cols = c("Celda.T", "Celda.N"), names_to = "Region", values_to = "Grosor")
+```
+
+
+```{r funciones}
+# Funciones para dibujar distribuciones por grupos
+# Resumen estadístico
+describir <- function(vars, ojo, capa){
+  if (ojo=="L"){
+    result <- describeBy(datos[datos$Ojo=="L" & datos$Capa==capa, varCells], datos[datos$Ojo=="L" & datos$Capa==capa, "Glaucoma"], mat = T, digits = 4)
+  } else {
+    result <- describeBy(datos[datos$Ojo=="R" & datos$Capa==capa, varCells], datos[datos$Ojo=="R" & datos$Capa==capa, "Glaucoma"], mat = T, digits = 4)
+  }
+  result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+  colnames(result)[1] <- "Glaucoma"
+  return(result)
+}
+# Histogramas de las variables vars de la capa Capa según glaucoma y ojos
+overHist <- function(vars, capa){
+  p <- ggplot(datos[datos$Capa==capa,], aes_string(x = vars)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
+  return(p)
+}
+
+cellHist <- function(matrix, capa){
+  for (i in 1:length(matrix)){
+    p <- lapply(unlist(matrix[i]), overHist, capa=capa)
+    print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
+  }
+}
+
+# Densidad de las variables vars de la capa Capa según glaucoma y ojos
+overDensity <- function(vars, capa){
+  p <- ggplot(datos[datos$Capa==capa,], aes_string(x = vars)) + geom_density(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
+  return(p)
+}
+
+cellDensity <- function(matrix, capa){
+  for (i in 1:length(matrix)){
+    p <- lapply(unlist(matrix[i]), overDensity, capa=capa)
+    print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
+  }
+}
+
+# Diagrama de las variables vars de la capa Capa según glaucoma y ojos
+overBoxplot <- function(vars, capa){
+  p <- ggplot(datos[datos$Capa==capa,], aes_string(x="Ojo", y = vars)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+
+cellBoxplot <- function(matrix, capa){
+  for (i in 1:length(matrix)){
+    p <- lapply(unlist(matrix[i]), overBoxplot, capa=capa)
+    print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top")))
+  }
+}
+
+# Matriz de correlación entre las celdas de una capa y un ojo
+cellCorrelation <- function (ojo, capa){
+  cormat <- round(cor(datos[datos$Ojo==ojo & datos$Capa==capa, varCells], use="complete.obs"),2)
+  # Correlation table
+  ggcorr(datos[datos$Ojo==ojo & datos$Capa==capa, varCells], hjust = 0.9, size = 2, layout.exp = 2, label = F, label_size = 2, label_round = 2, low = "darkred", high = "#0072B2", limits = c(-1, 1)) +
+  ggtitle(paste("Matriz de correlaciones del grosor de las celdas del cubo macular\nOjo =",ojo, "Capa =", capa)) +
+  guides(fill = guide_colourbar(title="Coef. correlación\nPearson")) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), plot.title = element_text(hjust = 0.5))  
+}
+
+# Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
+comparar.medias <- function (vars, capa, ojo){
+  datos.capa.ojo <- datos[datos$Ojo==ojo & datos$Capa==capa, ]
+  result <- data.frame(t(sapply(datos.capa.ojo[, vars], function(x) unlist(t.test(x~datos.capa.ojo$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+  result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+  result<- result[c(1,2,6,3,4,5)]
+  colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+  return(result)
+}
+
+# Intervalos de confianza para la diferencia de medias del grosor de las celdas del cubo macular de enfermos y sanos
+intervalos.comparacion.medias <- function (vars, capa){
+  medias.L <- comparar.medias(vars, capa, "L")
+  medias.L$Celdas <- substr(row.names(medias.L),6,8)
+  medias.L$Celdas <- factor(medias.L$Celdas, levels = medias.L$Celdas)
+  medias.L$Ojo <- "L"
+  medias.R <- comparar.medias(vars, capa, "R")
+  medias.R$Celdas <- substr(row.names(medias.R),6,8)
+  medias.R$Celdas <- factor(medias.R$Celdas, levels = medias.R$Celdas)
+  medias.R$Ojo <- "R"
+  medias <- rbind(medias.L, medias.R)
+  print(ggplot(medias, aes(x = Celdas, y = Diferencia.medias, colour=Ojo)) + 
+          geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+          geom_point(size = 2, position = position_dodge(0.5)) + 
+          ggtitle(paste("Intervalos de confianza del 95% de la diferencia de medias\n del grosor de la capa", capa, "del cubo macular")) +
+          theme(plot.title = element_text(hjust = 0.5), axis.text.x=element_text(size=8, angle = 90, vjust = 0.5))
+  )
+}
+
+# Grafico comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos
+matriz.comparacion.medias <- function (capa){
+  medias.L <- comparar.medias(varCells, capa, "L")
+  medias.L$Ojo <- "L"
+  medias.R <- comparar.medias(varCells, capa, "R")
+  medias.R$Ojo <- "R"
+  medias <- rbind(medias.L, medias.R) 
+  medias <- mutate(medias, Ojo = factor(Ojo, levels=c("R", "L")),
+           fila = factor(rep(rep(seq(1,8),8),2), levels=as.character(1:8)), 
+           col = rep(unlist(lapply(seq(1,8), rep, 8)), 2), 
+           columna = factor(paste0(col, Ojo), levels = c(paste0(1:8, "R"), paste0(8:1,"L"))),
+           sig = ifelse(medias$`p-valor`<0.01,"<0.01", ifelse(medias$`p-valor`<0.05, "<0.05", ">0.05"))
+    )
+  print(ggplot(data = medias, aes(x=columna, y=fila, fill=Diferencia.medias)) + 
+          geom_tile() + 
+          scale_fill_continuous(low = "indianred1", high = "indianred4") +
+          geom_text(aes(label=round(Diferencia.medias,2), colour=sig), size=3) + 
+          scale_colour_manual("p valor", values=c("green", "yellow","black")) + 
+          scale_x_discrete(label = function(str){substring(str, 1, 1)}) +
+          facet_grid(.~Ojo, scales = "free_x") +
+          ggtitle(paste("Diferencia de medias del grosor de la capa", capa, "del cubo macular")) +
+          theme(plot.title = element_text(hjust = 0.5))
+        )
+}
+```
+
+# Resumen
+En este trabajo se presenta un estudio comparativo inferencial del grosor de las distintas capas nerviosas del cubo macular en ojos diagnosticados con glaucoma de ángulo abierto y ojos sanos.
+
+El análisis demuestra que existen diferencias estadísticamente significativas entre ojos glaucomatosos y sanos en las capas externas de la retina (RNFL, CGL e IPL) principalmente en las regiones nasal inferior y superior, mientras que las diferencias son menores en el centro de la mácula y en la región temporal. En las capas externas de la retina (OPL, ONL y RPE) no se apreciaron diferencias estadísticamente significativas.
+
+
+# Capa total
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-total-ojo-izdo}
+datatable(describir(varCells, "L", "FULL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-total-ojo-izdo}
+cellCorrelation("L", "FULL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-total-ojo-dcho}
+datatable(describir(varCells, "R", "FULL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-total-ojo-dcho}
+cellCorrelation("R", "FULL")
+```
+
+En genral se observa una correlación fuerte entre el grosor de todas las celdas a excepción del grupo de celdas centrales (4.4, 4.5, 5.4 y 5.5) que no presentan correlación fuerte con el resto de celdas. El patrón de correlaciones se repite en ambos ojos.
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r histograma-macula-total}
+cellDensity(submatrixCells, "FULL")
+```
+
+```{r cajas-macula-total}
+cellBoxplot(submatrixCells, "FULL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "FULL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r}
+medias.R <- comparar.medias(varCells, "FULL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-macula-total}
+intervalos.comparacion.medias(varCells, "FULL")
+```
+
+```{r cubo-comparacion-medias-macula-total}
+matriz.comparacion.medias("FULL")
+```
+
+Se observan diferencias muy significativas (p-valor<0.01) entre las medias del grosor de todas las celdas de glaucomatosos y sanos. No obstante, las diferencias mayores se dan en las celdas de la región nasal superior e inferior, en particular las celdas 8.2, 7.2, 8.3, 8.7, 8.8. Por otro lado, las diferencias menores se dan en las celdas centrales (4.4, 4.5, 5.4 y 5.5) y en las celdas de la región temporal. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-total}
+datos.H %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-total-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "FULL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-hemisferios-macula-total-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "FULL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-total}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "FULL")
+```
+
+Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-total}
+datos.R %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-total-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "FULL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-total-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "FULL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-total}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "FULL")
+```
+
+Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+
+# Capa RNFL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-rnfl-ojo-izdo}
+datatable(describir(varCells, "L", "RNFL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rnfl-ojo-izdo}
+cellCorrelation("L", "RNFL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-rnfl-ojo-dcho}
+datatable(describir(varCells, "R", "RNFL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rnfl-ojo-dcho}
+cellCorrelation("R", "RNFL")
+```
+
+No se observa una correlación fuerte entre el grosor de las celdas a excepción de las celdas contiguas. Llama la atención la correlación negativa, aunque débil, de las celdas 5.2 y 5.3 con cas todas las demás.
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-rnfl}
+cellDensity(submatrixCells, "RNFL")
+```
+
+```{r cajas-macula-rnfl}
+cellBoxplot(submatrixCells, "RNFL")
+```
+
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "RNFL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "RNFL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-rnfl}
+intervalos.comparacion.medias(varCells, "RNFL")
+```
+
+```{r cubo-comparacion-medias-macula-rnfl}
+matriz.comparacion.medias("RNFL")
+```
+
+Se observan diferencias muy significativas (p-valor<0.01) entre las medias del grosor de casi todas todas las celdas de glaucomatosos y sanos, a excepción de algunas celdas centrales. Las diferencias mayores se dan en las celdas de la región nasal inferior y superior, en particular las celdas 8.2, 7.2, 8.1, 8.8 y 8.7. Por otro lado, las diferencias menores se dan en las celdas centrales y en la región temporal, en particular las celdas 5.2, 5.3, 5.4, 4.1, 4.2 y 4.3 presentan diferencias negativas, es decir, que tienen un grosor mayor en glaucomatosos que en sanos, aunque no mucho. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-rnfl}
+datos.H %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-rnflL-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "RNFL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-rnfl-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "RNFL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-rnfl}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "RNFL")
+```
+
+Separando las celdas por hemisferios superior e inferior, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. Las diferencias en el hemisferio inferior son significativamente mayores que en el hemisferio superior. 
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-rnfl}
+datos.R %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-rnfl-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "RNFL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-rnfl-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "RNFL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-rnfl}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "RNFL")
+```
+
+Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. Las diferencias en la región nasal son significativamente mayores que en la región temporal. Además las diferencias son mayores que en la separación por hemisferios. Por otro lado se observa mayor variabilidad en las diferencias en la región nasal que en la temporal. 
+
+
+# Capa GCL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-gcl-ojo-izdo}
+datatable(describir(varCells, "L", "GCL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-gcl-ojo-izdo}
+cellCorrelation("L", "GCL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-gcl-ojo-dcho}
+datatable(describir(varCells, "R", "GCL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-gcl-ojo-dcho}
+cellCorrelation("R", "GCL")
+```
+
+Se observa una correlación moderada entre el grosor de las celdas a excepción de las celdas contiguas que presentan una correlación fuerte. Las celdas menos correlacionadas son las 1.7, 1.8 y 8.7 y 8.8.
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-gcl}
+cellDensity(submatrixCells, "GCL")
+```
+
+```{r cajas-macula-gcl}
+cellBoxplot(submatrixCells, "GCL")
+```
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "GCL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "GCL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-macula-gcl}
+intervalos.comparacion.medias(varCells, "GCL")
+```
+
+```{r cubo-comparacion-medias-macula-gcl}
+matriz.comparacion.medias("GCL")
+```
+
+Se observan diferencias muy significativas (p-valor<0.01) entre las medias del grosor de casi todas todas las celdas de glaucomatosos y sanos, a excepción de la celda 8.8. Las diferencias mayores se dan en las celdas del anillo alrededor de la región central de la mácula, en particular las celdas 3.3, 3.4, 3.5, 4.3 y 5.3. Por otro lado, las diferencias menores se dan en las celdas de los bordes de la mácula. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-GCL}
+datos.H %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-GCLL-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "GCL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-GCL-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "GCL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-GCL}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "GCL")
+```
+
+Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-GCL}
+datos.R %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-GCL-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "GCL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-GCL-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "GCL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-GCL}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "GCL")
+```
+
+Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. A diferencia de la capa RNFL, las diferencias en la región temporal son significativamente mayores que en la región nasal aunque estas diferencias no son grandes y pueden son ser importantes desde un punto de vista clínico.
+
+
+# Capa IPL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-ipl-ojo-izdo}
+datatable(describir(varCells, "L", "IPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-ipl-ojo-izdo}
+cellCorrelation("L", "IPL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-ipl-ojo-dcho}
+datatable(describir(varCells, "R", "IPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-ipl-ojo-dcho}
+cellCorrelation("R", "IPL")
+```
+
+Se observa una correlación moderada entre el grosor de las celdas a excepción de las celdas contiguas que presentan una correlación fuerte. Las celdas menos correlacionadas son las 1.7, 1.8 y 8.7 y 8.8, al igual que ocurre con la capa CGL.
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-ipl}
+cellDensity(submatrixCells, "IPL")
+```
+
+```{r cajas-macula-ipl}
+cellBoxplot(submatrixCells, "IPL")
+```
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "IPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "IPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-macula-ipl}
+intervalos.comparacion.medias(varCells, "IPL")
+```
+
+```{r cubo-comparacion-medias-macula-ipl}
+matriz.comparacion.medias("IPL")
+```
+
+Se observan diferencias muy significativas (p-valor<0.01) entre las medias del grosor de casi todas todas las celdas de glaucomatosos y sanos, a excepción de algunas celdas periféricas. Al igual que en la capa GCL, las diferencias mayores se dan en las celdas del anillo alrededor de la región central de la mácula, en particular las celda 4.3, 5.3, 3.4 y 3.5. Del mismo modo, las diferencias menores se dan en las celdas de los bordes de la mácula. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-IPL}
+datos.H %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-IPLL-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "IPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-IPL-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "IPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-IPL}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "IPL")
+```
+
+Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-IPL}
+datos.R %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-IPL-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "IPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-IPL-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "IPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-IPL}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "IPL")
+```
+
+Separando las celdas por regiones temporal y nasal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+
+# Capa INL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-inl-ojo-izdo}
+datatable(describir(varCells, "L", "INL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-inl-ojo-izdo}
+cellCorrelation("L", "INL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-inl-ojo-dcho}
+datatable(describir(varCells, "R", "INL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-inl-ojo-dcho}
+cellCorrelation("R", "INL")
+```
+
+Se observa una correlación moderada entre el grosor de las celdas a excepción de las celdas contiguas que presentan una correlación fuerte. Las celdas menos correlacionadas son las 1.7, 1.8 y 8.7 y 8.8, y las celdas centrales 3.4, 4.4, 3.5 y 4.5.
+
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-inl}
+cellDensity(submatrixCells, "INL")
+```
+
+```{r cajas-macula-inl}
+cellBoxplot(submatrixCells, "INL")
+```
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "INL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "INL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-macula-inl}
+intervalos.comparacion.medias(varCells, "INL")
+```
+
+```{r cubo-comparacion-medias-macula-inl}
+matriz.comparacion.medias("INL")
+```
+
+A diferencia de las otras capas internas, no se observan diferencias significativas (p-valor>0.05) entre las medias del grosor de casi todas todas las celdas de glaucomatosos y sanos, a excepción de las celdas centrales 4.4, 4.5, 5.4, 5.5 y algunas celdas del margen temporal. Mientras que las diferencias son positivas en el margen temporal, en la zona central las diferencias son negativas. No obstante la magnitud de las diferencias en ambos casos es pequeña y pueden no ser importantes desde un punto de vista clínico. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-INL}
+datos.H %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-INLL-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "INL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-INL-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "INL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-INL}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "INL")
+```
+
+Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-INL}
+datos.R %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-INL-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "INL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-INL-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "INL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-INL}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "INL")
+```
+
+Separando las celdas por regiones temporal y nasal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+
+# Capa OPL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-opl-ojo-izdo}
+datatable(describir(varCells, "L", "OPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-opl-ojo-izdo}
+cellCorrelation("L", "OPL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-opl-ojo-dcho}
+datatable(describir(varCells, "R", "OPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-opl-ojo-dcho}
+cellCorrelation("R", "OPL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-opl}
+cellDensity(submatrixCells, "OPL")
+```
+
+```{r cajas-macula-opl}
+cellBoxplot(submatrixCells, "OPL")
+```
+
+No se observa una correlación fuerte entre el grosor de las celdas a excepción de las celdas contiguas.
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "OPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "OPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-macula-opl}
+intervalos.comparacion.medias(varCells, "OPL")
+```
+
+```{r cubo-comparacion-medias-macula-opl}
+matriz.comparacion.medias("OPL")
+```
+
+Se observan un patrón de diferencias entre las medias del grosor de las celdas muy irregular. La mayor diferencias positiva muy significativas (p-valor<0.01) se da en la celda 4.4 y después en las celdas 3.4, 2.3, 2.4 y 2.5, mientras que en en las celdas de la región nasal se dan diferencias negativas que son muy significativas en las celdas 5.5, 5.6, 5.7, 5.8, 6.5, 6.6, 6.7 y 6.8. Llama la atención que dos celdas contiguas como la 4.4 y la 5.5 tengan las mayores diferencias en las medias pero con signos distintos. No obstante la magnitud de las diferencias, a excepción de en estas dos celdas pequeña y pueden no ser importantes desde un punto de vista clínico. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-OPL}
+datos.H %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-OPLL-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "OPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-OPL-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "OPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-OPL}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "OPL")
+```
+
+Separando las celdas por hemisferios superior e inferior, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos, siendo mayores en el hemisfero inferior que en el superior donde las diferencias son negativas.
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-OPL}
+datos.R %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-OPL-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "OPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-OPL-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "OPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-OPL}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "OPL")
+```
+
+Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos, siendo mayores en la región temporal que en la nasal donde son negativas.
+
+
+# Capa ONL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-onl-ojo-izdo}
+datatable(describir(varCells, "L", "ONL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-onl-ojo-izdo}
+cellCorrelation("L", "ONL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-onl-ojo-dcho}
+datatable(describir(varCells, "R", "ONL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-onl-ojo-dcho}
+cellCorrelation("R", "ONL")
+```
+
+Se observa una correlación moderada entre el grosor de las celdas a excepción de las celdas contiguas que presentan una correlación fuerte y las celdas centrales 4.4, 4.5, 5.4 y 5.5 que apenas están correlacionadas con las demás.
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-onl}
+cellDensity(submatrixCells, "ONL")
+```
+
+```{r cajas-macula-onl}
+cellBoxplot(submatrixCells, "ONL")
+```
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "ONL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "ONL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-macula-onl}
+intervalos.comparacion.medias(varCells, "ONL")
+```
+
+```{r cubo-comparacion-medias-macula-onl}
+matriz.comparacion.medias("ONL")
+```
+
+Se observan un patrón de diferencias entre las medias del grosor de las celdas muy irregular. Las mayores diferencias muy significativas (p-valor<0.01) se dan en las celdas 4.4 y 3.4 pero a diferencia de la capa OPL son negativa. Las mayores diferencias muy significativas positivas se dan en el hemisferio superior, sobre todo en las celdas 5.6, 5.7, 5.8, 6.6 y 6.7. Llama la atención que este patrón es casi el contrario al observado en la capa OPL donde se invierten los signos de las diferencias en estas celdas. No obstante la magnitud de las diferencias es pequeña y pueden no ser importantes desde un punto de vista clínico. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-ONL}
+datos.H %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-ONLL-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "ONL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-ONL-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "ONL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-ONL}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "ONL")
+```
+
+Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-ONL}
+datos.R %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-ONL-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "ONL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-ONL-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "ONL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-ONL}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "ONL")
+```
+
+Separando las celdas por regiones temporal y nasal, tampoco existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+
+# Capa RPE
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-rpe-ojo-izdo}
+datatable(describir(varCells, "L", "RPE"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rpe-ojo-izdo}
+cellCorrelation("L", "RPE")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-rpe-ojo-dcho}
+datatable(describir(varCells, "R", "RPE"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rpe-ojo-dcho}
+cellCorrelation("R", "RPE")
+```
+
+No se observan conrrelaciones fuertes entre el grosor de las celdas a excepción de las celdas contiguas. 
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-rpe}
+cellDensity(submatrixCells, "RPE")
+```
+
+```{r cajas-macula-rpe}
+cellBoxplot(submatrixCells, "RPE")
+```
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "RPE", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "RPE", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-rpe}
+intervalos.comparacion.medias(varCells, "RPE")
+```
+
+```{r cubo-comparacion-medias-macula-rpe}
+matriz.comparacion.medias("RPE")
+```
+
+Se observan un patrón de diferencias entre las medias del grosor de las celdas muy irregular. Apenas se observan diferencias muy significativas (p-valor<0.01) a excepción de las celdas del margen temporal y las celdas de la esquina nasal inferior, donde las diferencias son negativas. Existen diferencias positivas significativas (p-valor<0.05) en las celdas centrales 5.4 y 5.5. En cualquier caso,la magnitud de estas diferencias es pequeña y pueden no ser importantes desde un punto de vista clínico. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-RPE}
+datos.H %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-RPE-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "RPE", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-RPE-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "RPE", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-RPE}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "RPE")
+```
+
+Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-RPE}
+datos.R %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-RPE-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "RPE", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-RPE-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "RPE", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-RPE}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "RPE")
+```
+
+Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos
+
+
+# Capas internas RNFL + GCL + IPL
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-rnfl-gcl-ipl-ojo-izdo}
+datatable(describir(varCells, "L", "RNFL+GCL+IPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rnfl-gcl-ipl-ojo-izdo}
+cellCorrelation("L", "RNFL+GCL+IPL")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-rnfl-gcl-ipl-ojo-dcho}
+datatable(describir(varCells, "R", "RNFL+GCL+IPL"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-rnfl-gcl-ipl-ojo-dcho}
+cellCorrelation("R", "RNFL+GCL+IPL")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+
+```{r histograma-macula-rnfl-gcl-ipl}
+cellDensity(submatrixCells, "RNFL+GCL+IPL")
+```
+
+```{r cajas-macula-rnfl-gcl-ipl}
+cellBoxplot(submatrixCells, "RNFL+GCL+IPL")
+```
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "RNFL+GCL+IPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "RNFL+GCL+IPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-macula-rnfl-gcl-ipl}
+intervalos.comparacion.medias(varCells, "RNFL+GCL+IPL")
+```
+
+```{r cubo-comparacion-medias-macula-rnfl-gcl-ipl}
+matriz.comparacion.medias("RNFL+GCL+IPL")
+```
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-rnfl-gcl-ipl}
+datos.H %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-rnfl-gcl-ipl-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "RNFL+GCL+IPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-rnfl-gcl-ipl-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "RNFL+GCL+IPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-rnfl-gcl-ipl}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "RNFL+GCL+IPL")
+```
+
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-rnfl-gcl-ipl}
+datos.R %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-rnfl-gcl-ipl-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "RNFL+GCL+IPL", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-rnfl-gcl-ipl-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "RNFL+GCL+IPL", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-rnfl-gcl-ipl}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "RNFL+GCL+IPL")
+```
+
+
+
+# Capas externas OPL + ONL + RPE
+## Estadística Descriptiva
+### Ojo izquierdo
+
+```{r tabla-descriptivos-macula-opl-onl-rpe-ojo-izdo}
+datatable(describir(varCells, "L", "OPL+ONL+RPE"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-opl-onl-rpe-ojo-izdo}
+cellCorrelation("L", "OPL+ONL+RPE")
+```
+
+### Ojo derecho
+
+```{r tabla-descriptivos-macula-opl-onl-rpe-ojo-dcho}
+datatable(describir(varCells, "R", "OPL+ONL+RPE"), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+#### Correlaciones
+
+```{r correlaciones-macula-opl-onl-rpe-ojo-dcho}
+cellCorrelation("R", "OPL+ONL+RPE")
+```
+
+### Comparación de distribuciones por glaucoma y ojo
+    
+```{r histograma-macula-opl-onl-rpe}
+cellDensity(submatrixCells, "OPL+ONL+RPE")
+```
+
+```{r cajas-macula-opl-onl-rpe}
+cellBoxplot(submatrixCells, "OPL+ONL+RPE")
+```
+
+## Comparación de medias
+### Ojo izquierdo
+```{r}
+medias.L <- comparar.medias(varCells, "OPL+ONL+RPE", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r, digits=3}
+medias.R <- comparar.medias(varCells, "OPL+ONL+RPE", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+
+```{r intervalos-confianza-comparacion-medias-macula-opl-onl-rpe}
+intervalos.comparacion.medias(varCells, "OPL+ONL+RPE")
+```
+
+```{r cubo-comparacion-medias-macula-opl-onl-rpe}
+matriz.comparacion.medias("OPL+ONL+RPE")
+```
+
+## Comparación de Hemisferios
+```{r cajas-hemisferios-opl-onl-rpe}
+datos.H %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-hemisferios-macula-opl-onl-rpe-izdo}
+medias.L <- comparar.medias(c("Celda.I","Celda.S"), "OPL+ONL+RPE", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r omparacion-medias-hemisferios-macula-opl-onl-rpe-drcho}
+medias.R <- comparar.medias(c("Celda.I","Celda.S"), "OPL+ONL+RPE", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-hemisferios-macula-opl-onl-rpe}
+intervalos.comparacion.medias(c("Celda.I","Celda.S"), "OPL+ONL+RPE")
+```
+
+## Comparación de regiones nasal y temporal
+```{r cajas-regiones-opl-onl-rpe}
+datos.R %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=Grosor, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+```
+
+### Ojo izquierdo
+```{r comparacion-medias-regiones-macula-opl-onl-rpe-izdo}
+medias.L <- comparar.medias(c("Celda.T","Celda.N"), "OPL+ONL+RPE", "L")
+datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(dom="t", autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+### Ojo derecho
+```{r comparacion-medias-regiones-macula-opl-onl-rpe-drcho}
+medias.R <- comparar.medias(c("Celda.T","Celda.N"), "OPL+ONL+RPE", "R")
+datatable(format(medias.R, nsmall=2), rownames = T, escape=F, options = list(dom = 't', autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r intervalos-confianza-comparacion-medias-regiones-macula-opl-onl-rpe}
+intervalos.comparacion.medias(c("Celda.T","Celda.N"), "OPL+ONL+RPE")
+```
+
+
+# Conclusiones del análisis por capas
+
+Se puede concluir que las diferencias de mayor magnitud y más estadísticamente significativas entre el grosor medio de las celdas de ojos glaucomatosos y sanos se da en las capas interiores de la retina RNFL, CGL e IPL. La capa RNF es la que mayor diferencias presenta debido a su grosor, pero el patrón de las diferencias es distinto al de las capas CGL e IPL, ya que mientras en la capa RNFL las mayores diferencias se dan en el margen nasal, especialmente en las regiones nasal inferior y nasal superior, en las otras dos capas las diferencias más marcadas se dan en el anillo alrededor de la zona central de la mácula.
+
+En cuanto a las capas externas, apenas ha diferencias estadísticamente significativas y además son menores y siguiendo patrones más irregulares.
+
+

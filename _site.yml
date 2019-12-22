@@ -1,0 +1,38 @@
+name: glaucoma
+output_dir: docs
+navbar:
+  title: Glaucoma
+  type: inverse
+  left:
+  - text: Descripción
+    href: index.html
+  - text: Anillos
+    href: glaucoma-anillos.html
+#  - text: Estadios glaucoma
+#    href: glaucoma-clusters.html 
+  - text: Estadios.Izdo
+    href: glaucoma-clusters-izdo.html
+#  - text: Estadios glaucoma Dcho
+#    href: glaucoma-clusters-dcho.html
+  - text: An.Disriminante.Anillos.Izdo
+    href: glaucoma-lda-anillos-izdo.html
+  - text: Mácula
+    href: glaucoma-macula.html
+#  - text: Mácula.Estadios
+#    href: glaucoma-macula-estadios.html
+#  - text: An.Discrimiante.Macula.Izdo
+#    href: glaucoma-lda-macula-izdo.html
+  right:
+  - icon: fa-home fa-lg
+    href: http://aprendeconalf.es/
+output:
+  html_document:
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    fig_width: 8
+    fig_height: 6
+    df_print: paged
+    lib_dir: site_libs
+    self_contained: no
+
