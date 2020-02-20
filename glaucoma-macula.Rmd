@@ -225,7 +225,7 @@ matriz.comparacion.medias <- function (capa){
     )
   print(ggplot(data = medias, aes(x=columna, y=fila, fill=Diferencia.medias)) + 
           geom_tile() + 
-          scale_fill_continuous(low = "indianred1", high = "indianred4") +
+          scale_fill_gradient2() +
           geom_text(aes(label=round(Diferencia.medias,2), colour=sig), size=3) + 
           scale_colour_manual("p valor", values=c("green", "yellow","black")) + 
           scale_x_discrete(label = function(str){substring(str, 1, 1)}) +
@@ -239,7 +239,7 @@ matriz.comparacion.medias <- function (capa){
 # Resumen
 En este trabajo se presenta un estudio comparativo inferencial del grosor de las distintas capas nerviosas del cubo macular en ojos diagnosticados con glaucoma de ángulo abierto y ojos sanos.
 
-El análisis demuestra que existen diferencias estadísticamente significativas entre ojos glaucomatosos y sanos en las capas externas de la retina (RNFL, CGL e IPL) principalmente en las regiones nasal inferior y superior, mientras que las diferencias son menores en el centro de la mácula y en la región temporal. En las capas externas de la retina (OPL, ONL y RPE) no se apreciaron diferencias estadísticamente significativas.
+El análisis demuestra que existen diferencias estadísticamente significativas entre ojos glaucomatosos y sanos en las capas internas de la retina (RNFL, CGL e IPL) principalmente en las regiones nasal inferior y superior, mientras que las diferencias son menores en el centro de la mácula y en la región temporal. En las capas externas de la retina (OPL, ONL y RPE) no se apreciaron diferencias estadísticamente significativas.
 
 
 # Capa total
