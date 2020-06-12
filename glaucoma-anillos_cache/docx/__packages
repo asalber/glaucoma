@@ -1,0 +1,10 @@
+base
+knitr
+dplyr
+ggplot2
+GGally
+gridExtra
+ggpubr
+DT
+kableExtra
+psych

@@ -1,0 +1,588 @@
+---
+title: "Análisis de los anillos neuroretinianos"
+date: "`r Sys.Date()`"
+---
+
+```{r knitr_init, echo=F}
+library(knitr)
+# Global options
+options(digits = 4)
+opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
+```
+
+```{r carga-paquetes, results='hide'}
+# Carga de paquetes
+.packages <- c("dplyr", "ggplot2", "GGally", "gridExtra", "ggpubr", "DT", "kableExtra", "psych")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+```
+
+```{r carga-datos}
+# Carga de datos
+load("datos/datos-anillos-preprocesados.RData")
+data <- data.anillos
+# Conjuntos de variables
+varBMO <- startsWith(colnames(data),"BMO")
+varBMO[11] <- F
+varBMO <- colnames(data)[varBMO]
+var3.5 <- startsWith(colnames(data),"RNFL3.5")
+var3.5 <- colnames(data)[var3.5]
+var4.1 <- startsWith(colnames(data),"RNFL4.1")
+var4.1 <- colnames(data)[var4.1]
+var4.7 <- startsWith(colnames(data),"RNFL4.7")
+var4.7 <- colnames(data)[var4.7]
+```
+
+
+```{r filtrado-datos}
+# Ojo izquierdo
+data.L <- data[data$Ojo=="L",]
+data.L$Ojo <- NULL
+colnames(data.L)[7:ncol(data.L)] <- paste0(colnames(data.L)[7:ncol(data.L)],rep(".L",ncol(data.L)-6)) 
+# Ojo derecho
+data.R <- data[data$Ojo=="R",]
+data.R$Ojo <- NULL
+colnames(data.R)[7:ncol(data.R)] <- paste0(colnames(data.R)[7:ncol(data.R)],rep(".R",ncol(data.R)-6)) 
+# Unión de ojos
+data.tidy <- inner_join(data.L, data.R[,-c(1,3,4,5,6)], by="Patient.Id")
+data.tidy <- na.omit(data.tidy)
+# Ojo izquierdo 
+data.L <- data[data$Ojo=="L",]
+# Ojo derecho
+data.R <- data[data$Ojo=="R",]
+# Datos Glaucoma
+data.Glaucoma <- data[data$Glaucoma=="Y",]
+# Datos Sanos
+data.Sanos <- data[data$Glaucoma=="N",]
+```
+
+
+# Estadística Descriptiva
+
+```{r}
+# Funciones para dibujar distribuciones por grupos
+# Histogramas según glaucoma y ojos
+overHist <- function(i){
+  p <- ggplot(data, aes_string(x = i)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
+  return(p)
+}
+
+# Densidad según glaucoma y ojos 
+overDensity <- function(i){
+  p <- ggplot(data, aes_string(x = i)) + geom_density(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
+  return(p)
+}
+
+# Diagrama de cajas según glaucoma y ojos
+overBoxplot <- function(i){
+  p <- ggplot(data, aes_string(x="Ojo", y = i)) + geom_boxplot(aes(fill=Glaucoma))
+  return(p)
+}
+```
+
+
+## FoBMO.Angle, Displacement y BMO.Area
+### Ojo izquierdo
+```{r tabla-descriptivos-fobmoangle-displacement-bmoarea-ojo-izdo}
+result <- describeBy(data.L[,c("FoBMO.Angle", "Displacement", "BMO.Area")], data.L$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+```{r grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-izdo}
+ggpairs(data.L[,c("Glaucoma", "FoBMO.Angle", "Displacement", "BMO.Area")], mapping=aes(color=Glaucoma, alpha=0.5), columns =  c("FoBMO.Angle", "Displacement", "BMO.Area"))
+```
+
+### Ojo derecho
+```{r tabla-descriptivos-fobmoangle-displacement-bmoarea-ojo-dcho}
+result <- describeBy(data.R[,c("FoBMO.Angle", "Displacement", "BMO.Area")], data.R$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-dcho}
+ggpairs(data.R[,c("Glaucoma", "FoBMO.Angle", "Displacement", "BMO.Area")], mapping=aes(color=Glaucoma, alpha=0.5), columns =  c("FoBMO.Angle", "Displacement", "BMO.Area"))
+```
+
+```{r histogramas-fobmoangle-displacement-bmoarea}
+p <- lapply(c("FoBMO.Angle", "Displacement", "BMO.Area"), overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r cajas-fobmoangle-displacement-bmoarea}
+p <- lapply(c("FoBMO.Angle", "Displacement", "BMO.Area"), overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+## BMO
+### Ojo izquierdo
+
+```{r tabla-descriptivos-bmo-ojo-izdo}
+result <- describeBy(data.L[, varBMO], data.L$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r grafico-descriptivo-bmo-ojo-izdo}
+ggpairs(data.L[,c("Glaucoma",varBMO)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  varBMO)
+```
+
+Se observan correlaciones fuertes entre todos los sectores tanto de ojos sanos como de enfermos.
+
+### Ojo derecho
+```{r tabla-descriptivos-bmo-ojo-dcho}
+result <- describeBy(data.R[,varBMO], data.R$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r grafico-descriptivo-bmo-ojo-dcho}
+ggpairs(data.R[,c("Glaucoma",varBMO)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  varBMO)
+```
+
+Se observan correlaciones fuertes entre todos los sectores tanto de ojos sanos como de enfermos.
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r histograma-bmo}
+p <- lapply(colnames(data[,varBMO]), overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r cajas-bmo}
+p <- lapply(colnames(data[,varBMO]), overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.
+
+## Anillo 3.5
+### Ojo izquierdo
+```{r tabla-descriptivos-3.5-ojo-izdo}
+result <- describeBy(data.L[,var3.5], data.L$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+```{r grafico-descriptivo-3.5-ojo-izdo}
+ggpairs(data.L[,c("Glaucoma",var3.5)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  var3.5)
+```
+
+Se observan correlaciones moderadas entre todos los sectores de los ojos enfermos y más débiles en los ojos sanos.
+Las correlaciones son menores que en el anillo BMO, aunque podría ser debido a la existencia de bastantes datos atípicos.
+
+### Ojo derecho
+```{r tabla-descriptivos-3.5-ojo-dcho}
+result <- describeBy(data.R[,var3.5], data.R$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+```{r grafico-descriptivo-3.5-ojo-dcho}
+ggpairs(data.R[,c("Glaucoma",var3.5)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  var3.5)
+```
+
+Se observan correlaciones moderadas entre todos los sectores de los ojos enfermos, excepto entre el sector temporal y los sectores nasal y nasal inferior, y más débiles en los ojos sanos.
+Las correlaciones son menores que en el anillo BMO, aunque podría ser debido a la existencia de bastantes datos atípicos.
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r histogramas-3.5}
+p <- lapply(colnames(data[,var3.5]), overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r cajas-3.5}
+p <- lapply(colnames(data[,var3.5]), overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.
+
+## Anillo 4.1
+### Ojo izquierdo
+```{r tabla-descriptivos-4.1-ojo-izdo}
+result <- describeBy(data.L[,var4.1], data.L$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r grafico-descriptivo-4.1-ojo-izdo}
+ggpairs(data.L[,c("Glaucoma",var4.1)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  var4.1)
+```
+
+Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos y más débiles en los ojos sanos.
+Las correlaciones son menores que en el anillo BMO y similares a las del anillo 3.5.
+
+### Ojo derecho
+```{r tabla-descriptivos-4.1-ojo-dcho}
+result <- describeBy(data.R[,var4.1], data.R$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r grafico-descriptivo-4.1-ojo-dcho}
+ggpairs(data.R[,c("Glaucoma",var4.1)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  var4.1)
+```
+
+Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, excepto en el temporal con los sectores nasales, y más débiles en los ojos sanos.
+Las correlaciones son menores que en el anillo BMO y que en el 3.5, aunque podría ser debido a la existencia de datos atípicos.
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r histogramas-4.1}
+p <- lapply(colnames(data[,var4.1]), overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r cajas-4.1}
+p <- lapply(colnames(data[,var4.1]), overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.
+
+## Anillo 4.7
+### Ojo izquierdo
+```{r tabla-descriptivos-4.7-ojo-izdo}
+result <- describeBy(data.L[,var4.7], data.L$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r grafico-descriptivo-4.7-ojo-izdo}
+ggpairs(data.L[,c("Glaucoma",var4.7)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  var4.7)
+```
+
+Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, y más débiles o casi nulas en los ojos sanos.
+Las correlaciones son menores que en el anillo BMO pero mayores que en los anillos 3.5 y 4.1.
+
+### Ojo derecho
+```{r tabla-descriptivos-4.7-ojo-dcho}
+result <- describeBy(data.R[,var4.7], data.R$Glaucoma, mat = T, digits = 4)
+result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
+colnames(result)[1] <- "Glaucoma"
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+```{r grafico-descriptivo-4.7-ojo-dcho}
+ggpairs(data.R[,c("Glaucoma",var4.7)], mapping=aes(color=Glaucoma, alpha=0.5), columns =  var4.7)
+```
+
+Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, excepto en el temporal con los sectores nasales, y más débiles o casi nulas en los ojos sanos.
+Las correlaciones son menores que en el anillo BMO similares a los anillos 3.5 y 4.1, aunque podría ser debido a la existencia de datos atípicos.
+
+### Comparación de distribuciones por glaucoma y ojo
+```{r histogramas-4.7}
+p <- lapply(colnames(data[,var4.7]), overHist)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+```{r cajas-4.7}
+p <- lapply(colnames(data[,var4.7]), overBoxplot)
+do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
+```
+
+Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.
+
+# Comparación de medias y proporciones
+## Sexo
+Comparación de la proporción de mujeres y hombres con glaucoma
+
+```{r comparacion-proporciones-sexo}
+x <- factor(data$Glaucoma, levels(data$Glaucoma)[c(2,1)])
+y <- data$Sexo
+result <- unlist(prop.test(table(x,y))[c("estimate","conf.int", "p.value")])
+result$difference <- result[["estimate.prop 1"]]-result[["estimate.prop 2"]]
+result <- result[c(1,2,6,3,4,5)]
+result <- data.frame(result)
+colnames(result) <- c("Proporción.Mujeres", "Proporción.Hombres","Diferencia.proporciones", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+## Ojo
+Comparación de la proporción de ojos izquierdo y derechos con glaucoma.
+
+```{r comparacion-proporciones-ojos}
+result <- unlist(mcnemar.test(table(data$Glaucoma, data$Ojo))[c("statistic", "p.value")])
+result <- data.frame(t(result))
+colnames(result) <- c("Estadístico de McNemar", "p-valor")
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existe relación estadísticamente significativa entre el glaucoma y los ojos, es decir, los ojos izquierdo y derecho no son independientes.
+
+## Edad 
+Comparación de las edades medias en sanos y enfermos.
+
+```{r comparacion-medias-edad}
+result <- data.frame(t(sapply(data[c("Edad")], function(x) 
+     unlist(t.test(x~data$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas entre las edades medias de los pacientes sanos y los pacientes con glaucoma. La edad media de los pacientes con glaucoma es entre `r -result$lim.sup.int.conf` y `r -result$lim.inf.int.conf` años mayor que la de los sanos. 
+
+Comparación de las edades medias de mujeres y hombres con glaucoma.
+
+```{r comparacion-medias-edad-sexo-glaucoma}
+result <- data.frame(t(unlist(t.test(Edad~Sexo, data=data[data$Glaucoma=="Y",])[c("estimate","conf.int", "p.value")])))
+result$difference <- result$estimate.mean.in.group.M-result$estimate.mean.in.group.H
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Hombres", "Media.Mujeres","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+Existen diferencias estadísticamente muy significativas entre las edades medias de hombres y mujeres. La edad media de las mujeres con glaucoma es entre `r result$lim.inf.int.conf` y `r result$lim.sup.int.conf` años mayor que la de los hombres.
+
+
+## Area BMO
+Comparación de las medias del área de BMO en sanos y enfermos.
+### Ojo izquierdo
+```{r comparacion-medias-area-BMO-ojo-izdo}
+result <- data.frame(t(unlist(t.test(BMO.Area~Glaucoma, data=data.L)[c("estimate","conf.int", "p.value")])))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+No existen diferencias estadísticamente significativas en el area media del anillo BMO de ojos izquierdos sanos y enfermos.
+
+### Ojo derecho
+```{r comparacion-medias-area-BMO-ojo-dcho}
+result <- data.frame(t(unlist(t.test(BMO.Area~Glaucoma, data=data.R)[c("estimate","conf.int", "p.value")])))
+result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
+result <- result[c(1,2,6,3,4,5)]
+colnames(result) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+No existen diferencias estadísticamente significativas en el area media del anillo BMO de ojos derechos sanos y enfermos.
+
+## BMO
+Comparación de las medias de los sectores del BMO en ojos sanos y enfermos.
+
+### Ojo izquierdo
+```{r comparacion-medias-bmo-ojo-izdo}
+result.L <- data.frame(t(sapply(data.L[,varBMO], function(x) unlist(t.test(x~data.L$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.L$difference <- result.L$estimate.mean.in.group.N-result.L$estimate.mean.in.group.Y
+result.L <- result.L[c(1,2,6,3,4,5)]
+colnames(result.L) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.L <- mutate(result.L, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.L %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo BMO.
+
+### Ojo derecho
+```{r comparacion-medias-bmo-ojo-dcho}
+result.R <- data.frame(t(sapply(data.R[,varBMO], function(x) unlist(t.test(x~data.R$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.R$difference <- result.R$estimate.mean.in.group.N-result.R$estimate.mean.in.group.Y
+result.R <- result.R[c(1,2,6,3,4,5)]
+colnames(result.R) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.R <- mutate(result.R, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo BMO.
+
+```{r intervalos-confianza-comparacion-medias-bmo}
+result.L$Sector <- row.names(result.L)
+result.L$Eye <- "L"
+result.R$Sector <- row.names(result.R)
+result.R$Eye <- "R"
+result <- rbind(result.L, result.R)
+ggplot(result, aes(x = Sector, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.
+
+## Anillo 3.5
+Comparación de las medias de los sectores del anillo 3.5 en ojos sanos y enfermos.
+
+### Ojo izquierdo
+```{r comparacion-medias-3.5-ojo-izdo}
+result.L <- data.frame(t(sapply(data.L[,var3.5], function(x) unlist(t.test(x~data.L$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.L$difference <- result.L$estimate.mean.in.group.N-result.L$estimate.mean.in.group.Y
+result.L <- result.L[c(1,2,6,3,4,5)]
+colnames(result.L) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.L <- mutate(result.L, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.L %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 3.5.
+
+### Ojo derecho
+```{r comparacion-medias-3.5-ojo-dcho}
+result.R <- data.frame(t(sapply(data.R[,var3.5], function(x) unlist(t.test(x~data.R$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.R$difference <- result.R$estimate.mean.in.group.N-result.R$estimate.mean.in.group.Y
+result.R <- result.R[c(1,2,6,3,4,5)]
+colnames(result.R) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.R <- mutate(result.R, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 3.5.
+
+```{r intervalos-confianza-comparacion-medias-3.5}
+result.L$Sector <- row.names(result.L)
+result.L$Eye <- "L"
+result.R$Sector <- row.names(result.R)
+result.R$Eye <- "R"
+result <- rbind(result.L, result.R)
+ggplot(result, aes(x = Sector, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.
+
+## Anillo 4.1
+Comparación de las medias de los sectores del anillo 4.1 en ojos sanos y enfermos.
+
+### Ojo izquierdo
+```{r comparacion-medias-4.1-ojo-izdo}
+result.L <- data.frame(t(sapply(data.L[,var4.1], function(x) unlist(t.test(x~data.L$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.L$difference <- result.L$estimate.mean.in.group.N-result.L$estimate.mean.in.group.Y
+result.L <- result.L[c(1,2,6,3,4,5)]
+colnames(result.L) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.L <- mutate(result.L, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.L %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 4.1.
+
+### Ojo derecho
+```{r comparacion-medias-4.1-ojo-dcho}
+result.R <- data.frame(t(sapply(data.R[,var4.1], function(x) unlist(t.test(x~data.R$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.R$difference <- result.R$estimate.mean.in.group.N-result.R$estimate.mean.in.group.Y
+result.R <- result.R[c(1,2,6,3,4,5)]
+colnames(result.R) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.R <- mutate(result.R, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 4.1.
+
+```{r intervalos-confianza-comparacion-medias-4.1}
+result.L$Sector <- row.names(result.L)
+result.L$Eye <- "L"
+result.R$Sector <- row.names(result.R)
+result.R$Eye <- "R"
+result <- rbind(result.L, result.R)
+ggplot(result, aes(x = Sector, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.
+
+## Anillo 4.7
+Comparación de las medias de los sectores del anillo 4.7 en ojos sanos y enfermos.
+
+### Ojo izquierdo
+```{r comparacion-medias-4.7-ojo-izdo}
+result.L <- data.frame(t(sapply(data.L[,var4.7], function(x) unlist(t.test(x~data.L$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.L$difference <- result.L$estimate.mean.in.group.N-result.L$estimate.mean.in.group.Y
+result.L <- result.L[c(1,2,6,3,4,5)]
+colnames(result.L) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.L <- mutate(result.L, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.L %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 4.7.
+
+### Ojo derecho
+```{r comparacion-medias-4.7-ojo-dcho}
+result.R <- data.frame(t(sapply(data.R[,var4.7], function(x) unlist(t.test(x~data.R$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+result.R$difference <- result.R$estimate.mean.in.group.N-result.R$estimate.mean.in.group.Y
+result.R <- result.R[c(1,2,6,3,4,5)]
+colnames(result.R) <- c("Media.Sanos", "Media.Glaucoma","Diferencia.medias", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result.R <- mutate(result.R, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+# datatable(format(result,5), rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+```
+
+Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 4.7.
+
+```{r intervalos-confianza-comparacion-medias-4.7}
+result.L$Sector <- row.names(result.L)
+result.L$Eye <- "L"
+result.R$Sector <- row.names(result.R)
+result.R$Eye <- "R"
+result <- rbind(result.L, result.R)
+ggplot(result, aes(x = Sector, y = Diferencia.medias, colour=Eye)) + 
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), position = position_dodge(width = 0.5), width=.2) +
+  geom_point(size = 2, position = position_dodge(0.5)) 
+```
+
+Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.
+
+Se obsevan diferencias muy significativas entre las medias del grosor de todos los anillos de pacientes sanos y con glaucoma. Las diferencias más significativas se dan en el BMO, pero las diferencias mayores se dan en el anillo 3.5. Por sectores las diferencias más significaivas se dan en el BMO global y nasal superior, y las mayores en el anillo 3.5 global y temporal inferior. 
+
+# Comparación de ojos
+Comparación de las medias del ojo izquierdo y derecho para cada sector. 
+
+```{r comparacion-medias-ojos}
+# Comparación de medias de los ojos izquierdo y derecho en cada sector.
+fun <- function(i) {
+  unlist(t.test(data.tidy[,i], data.tidy[,i+32], paired = T)[c("estimate","conf.int", "p.value")])
+}
+result <- data.frame(t(sapply(10:37, fun)))
+
+fun <- function(i) {
+  paste(colnames(data.tidy)[i], "-", colnames(data.tidy)[i+32])
+}
+rownames(result) <- sapply(10:37, fun)
+colnames(result) <- c("Media.diferencia", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
+result <- mutate(result, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
+result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+```{r intervalos-confianza-comparacion-medias-ojos}
+result$Sector <- c("BMO.G", "BMO.NS", "BMO.N", "BMO.NI", "BMO.TI", "BMO.T", "BMO.TS", 
+                   "Rim.3.5.G", "Rim.3.5.NS", "Rim.3.5.N", "Rim.3.5.NI", "Rim.3.5.TI", "Rim.3.5.T", "Rim.3.5.TS", 
+                   "Rim.4.1.G", "Rim.4.1.NS", "Rim.4.1.N", "Rim.4.1.NI", "Rim.4.1.TI", "Rim.4.1.T", "Rim.4.1.TS",
+                   "Rim.4.7.G", "Rim.4.7.NS", "Rim.4.7.N", "Rim.4.7.NI", "Rim.4.7.TI", "Rim.4.7.T", "Rim.4.7.TS")
+ggplot(result, aes(x = Sector, y = Media.diferencia)) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymax = lim.sup.int.conf, ymin = lim.inf.int.conf), col="red", width=.2) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+En general se aprecian diferencias significativas entre las medias del grosor de los sectores de los ojos izquierdo y derecho en algunos sectores como el Nasal Superior, y no tan claras en otros.
+No obstante, se ha observado clínicamente que aparentemente no hay relación entre el estado de los dos ojos, por lo que se han cosiderado los ojos de cada paciente como individuos independientes en el estudio. 
+
