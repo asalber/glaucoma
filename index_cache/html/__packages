@@ -1,5 +1,6 @@
 base
 knitr
+readxl
 tidyverse
 ggplot2
 tibble
@@ -9,10 +10,16 @@ purrr
 dplyr
 stringr
 forcats
-reshape2
-GGally
-gridExtra
 ggpubr
-DT
+reshape2
+FactoMineR
+factoextra
+MASS
+lattice
+caret
+GGally
 kableExtra
+pander
+gridExtra
+DT
 psych
