@@ -10,11 +10,11 @@
 
 
 
-<meta name="date" content="2020-06-13" />
+<meta name="date" content="2021-03-21" />
 
 <title>Análisis del cubo macular por estadios de glaucoma</title>
 
-<script src="site_libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -31,6 +31,15 @@
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -76,6 +85,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -369,7 +379,7 @@ div.tocify {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://aprendeconalf.es/">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -383,7 +393,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Análisis del cubo macular por estadios de glaucoma</h1>
-<h4 class="date">2020-06-13</h4>
+<h4 class="date">2021-03-21</h4>
 
 </div>
 
@@ -551,7 +561,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -590,7 +600,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

@@ -15,7 +15,7 @@ data.anillos$ExamDate <- as.Date(data.anillos$ExamDate, format="%m/%d/%Y")
 data.anillos %<>% dplyr::mutate(Id=paste(Patient.Id, ExamDate, Eye, sep="-"))
 # Reordenar columnas
 data.anillos %<>% dplyr::select(Id, everything())
-# Eliminación data erroneos
+# Eliminación data erroneos 
 data.anillos %<>% filter(!Id %in% c("2587-2018-02-14-L",  "16091-2016-11-11-R", "1008-2017-07-26-L",  "1796-2016-10-04-L",  "1796-2016-10-04-R"))
 # Eliminación data atipicos
 data.atipicos <- read.csv(file="datos/datos-confrontacion.csv", header=T, sep=",")
@@ -41,8 +41,6 @@ data.anillos$Sexo <- factor(data.anillos$Sexo, levels = c("F", "M"))
 # Renombrar los niveles del sexo
 levels(data.anillos$Sexo) <- list(H="M", M="F")
 
-
-
 # Carga datos macula
 col.types = c(rep("text",3),"date", rep("text",3), rep("date",2), rep("numeric",2), rep("text",4), rep("numeric",64)) 
 # Grosor RNFL
@@ -63,14 +61,35 @@ data.OPL$Layer <- "OPL"
 # Grosor ONL
 data.ONL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_ONL", col_types = col.types)
 data.ONL$Layer <- "ONL"
+
+# Grosor PRL (ATENCIÓN CAPA LEÍDA A POSTERIORI CON DATOS DE OTRO FICHERO)
+data.PRL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_PRL", col_types = col.types)
+data.PRL$Layer <- "PRL"
+# Eliminar pacientes que no están en las otras capas (esta capa se leyó a posteriori en un fichero excel distinto y contiene más pacientes de que las otras)
+# Crear claves de pacientes a partir de cualquiera de las otras capas
+id <- data.RNFL %>% dplyr::mutate(Id=paste(PatientID, ExamDate, Eye, sep="-"))
+# Crear claves en la capa PRL
+data.PRL <- data.PRL %>% 
+  dplyr::mutate(Id=paste(PatientID, ExamDate, Eye, sep="-")) %>% 
+  distinct(Id, .keep_all = TRUE) %>% 
+  filter(Id %in% id$Id) %>%
+  # Eliminar columna Glaucoma (vacía)
+  select(-Glaucoma) %>%
+  # Añadir columna Glaucoma combinando con otra capa 
+  left_join(select(id, c(Glaucoma, Id))) %>%
+  # Eliminar la columna Id
+  select(-Id)
+# Pacientes que no están 17289, DB836, DB548 y 28852
+# Pacientes repetidos: 3485, 8228, 10373, 12770, 16756, 16941, 17150, 17213, DB160
+
 # Grosor RPE
-data.RPE <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_EPR", col_types = col.types)
+data.RPE <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_RPE", col_types = col.types)
 data.RPE$Layer <- "RPE"
 # Grosor total
-data.FULL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_FULL_Thickness", col_types = col.types)
+data.FULL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_FULL", col_types = col.types)
 data.FULL$Layer <- "FULL"
 # Fusión de datos
-data.macula <- rbind(data.RNFL, data.GCL, data.IPL, data.INL, data.OPL, data.ONL, data.RPE, data.FULL)
+data.macula <- rbind(data.RNFL, data.GCL, data.IPL, data.INL, data.OPL, data.ONL, data.PRL, data.RPE, data.FULL)
 # Crear clave
 data.macula %<>% dplyr::mutate(Id=paste(PatientID, ExamDate, Eye, sep="-"))
 # Mover la clave y la capa al las primeras columnas
@@ -88,7 +107,7 @@ colnames(data.macula)[5:68] <- paste0("Celda",substr(colnames(data.macula)[5:68]
 # Convertir en factores el glaucoma y el ojo y la capa
 data.macula$Glaucoma <- factor(data.macula$Glaucoma, levels=c("N","Y"))
 data.macula$Eye <- factor(data.macula$Eye, levels = c("L", "R"))
-data.macula$Layer <- factor(data.macula$Layer, levels = c("RNFL", "GCL", "IPL", "INL", "OPL", "ONL", "RPE", "FULL"))
+data.macula$Layer <- factor(data.macula$Layer, levels = c("RNFL", "GCL", "IPL", "INL", "OPL", "ONL", "PRL", "RPE", "FULL"))
 # Expandir capas a columnas 
 data.macula.expandido <- gather(data.macula, cell, value, -c(Glaucoma, Eye, Layer, Id)) %>%
   unite(temp, Layer, cell, sep = ".") %>%
@@ -96,9 +115,6 @@ data.macula.expandido <- gather(data.macula, cell, value, -c(Glaucoma, Eye, Laye
 # Renombrar variables
 data.macula %<>% dplyr::rename(Ojo=Eye, Capa=Layer)
 data.macula.expandido %<>% dplyr::rename(Ojo=Eye)
-
-
-
 
 # Fusionar data mácula y anillos
 data <- inner_join(data.anillos, data.macula.expandido)
@@ -112,4 +128,3 @@ write.csv(file = "datos/datos-macula-preprocesados.csv", data.macula, row.names=
 save(data.macula, file = "datos/datos-macula-preprocesados.RData")
 write.csv(file = "datos/datos-macula-preprocesados-expandido.csv", data.macula.expandido, row.names=F)
 save(data.macula.expandido, file = "datos/datos-macula-preprocesados-expandido.RData")
-
