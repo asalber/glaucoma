@@ -12,7 +12,7 @@
 
 <meta name="date" content="2021-03-31" />
 
-<title>Clasificación mediante análsisi discriminante lineal (ojos izquierdos)</title>
+<title>Análisis de concordancia entre las clasificaciones del glaucoma según los anillos retinianos y según el campo visual</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -395,143 +395,146 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Clasificación mediante análsisi discriminante lineal (ojos izquierdos)</h1>
+<h1 class="title toc-ignore">Análisis de concordancia entre las clasificaciones del glaucoma según los anillos retinianos y según el campo visual</h1>
 <h4 class="date">2021-03-31</h4>
 
 </div>
 
 
-<div id="análisis-discriminante-lineal" class="section level1">
-<h1>Análisis discriminante lineal</h1>
-<!-- ## Comparación de modelos -->
-<!-- ```{r model-comparison} -->
-<!-- # Comparison of classification models with different variables -->
-<!-- accuracy.table <- data.frame(vars=character(), accuracy1=double(), accuracy2=double()) -->
-<!-- # All the variables -->
-<!-- vars <- "Todas las variables" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars = varRims) -->
-<!-- classification <- classify(data, vars = varRims) -->
-<!-- accuracy.table %<>% add_row(vars = vars, accuracy1 = classification.glaucoma$performance$overall[1], accuracy2 = classification$performance$overall[1]) -->
-<!-- # Clusters basados en todos los sectores globales y temporales inferiores -->
-<!-- vars <- "Sectores G y TI del BMO y todos los anillos" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c(varG, varTI)) -->
-<!-- classification <- classify(data, vars=c(varG, varTI)) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en todos los sectores globales -->
-<!-- vars <- "Sectores G del BMO y todos los anillos" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=varG) -->
-<!-- classification <- classify(data, vars=varG) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en todos los sectores temporales inferiores -->
-<!-- vars <- "Sectores TI del BMO y todos los anillos" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=varTI) -->
-<!-- classification <- classify(data, vars=varTI) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global y temporal inferior de losa Rims BMO y 3.5 -->
-<!-- vars <- "Sectores G y TI del BMO y anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global y temporal inferior del Rim BMO -->
-<!-- vars <- "Sectores G y TI del BMO" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "AnilloBMO.TI")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "AnilloBMO.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global y temporal inferior del Rim 3.5 -->
-<!-- vars <- "Sectores G y TI del anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- classification <- classify(data, vars=c("Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global de los Rims BMO y 3.5 -->
-<!-- vars <- "Sectores G del BMO y el anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "Anillo3.5.G")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "Anillo3.5.G")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores temporales inferiores de los Rims BMO y 3.5 -->
-<!-- vars <- "Sectores TI del BMO y el anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.TI", "Anillo3.5.TI")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.TI", "Anillo3.5.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector global del Rim BMO -->
-<!-- vars <- "Sector G del BMO" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="AnilloBMO.G") -->
-<!-- classification <- classify(data, vars="AnilloBMO.G") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector global del Rim 3.5 -->
-<!-- vars <- "Sector G del 3.5 rim" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="Anillo3.5.G") -->
-<!-- classification <- classify(data, vars="Anillo3.5.G") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector temporal inferior del Rim BMO -->
-<!-- vars <- "Sector TI del BMO" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="AnilloBMO.TI") -->
-<!-- classification <- classify(data, vars="AnilloBMO.TI") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector temporal inferior del Rim 3.5 -->
-<!-- vars <- "Sector TI del anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="Anillo3.5.TI") -->
-<!-- classification <- classify(data, vars="Anillo3.5.TI") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- colnames(accuracy.table) <- c("Variables usadas en el modelo", "Precisión global<br> sin incluir ojos sanos", "Precisión global<br> incluyendo ojos sanos") -->
-<!-- pander(accuracy.table, justify = c('left', 'right', 'right'),  split.cells = c(25, 1, 1)) -->
-<!-- ``` -->
-<!-- ## Modelo usando todas las variables -->
-<!-- ### Matriz de confusión sin incluir ojos sanos -->
-<!-- ```{r confusion-matrix-without-healthy-eyes} -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=varRims) -->
-<!-- pander(classification.glaucoma$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo sin incluir ojos sanos -->
-<!-- ```{r performance-without-healthy-eyes} -->
-<!-- pander(classification.glaucoma$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ### Matriz de confusión incluyendo ojos sanos -->
-<!-- ```{r confusion-matrix-with-healthy-eyes} -->
-<!-- classification <- classify(data, vars=varRims) -->
-<!-- pander(classification$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo incluyendo ojos sanos -->
-<!-- ```{r performance-with-healthy-eyes} -->
-<!-- pander(classification$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ## Modelo usando los sectores G y TI del BMO y todos los anillos -->
-<!-- ### Matriz de confusión sin incluir ojos sanos -->
-<!-- ```{r confusion-matrix-without-healthy-eyes-G-TI} -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c(varG, varTI)) -->
-<!-- pander(classification.glaucoma$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo sin incluir ojos sanos -->
-<!-- ```{r performance-without-healthy-eyes-G-TI} -->
-<!-- pander(classification.glaucoma$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ### Matriz de confusión incluyendo ojos sanos -->
-<!-- ```{r confusion-matrix-with-healthy-eyes-G-TI} -->
-<!-- classification <- classify(data, vars=c(varG, varTI)) -->
-<!-- pander(classification$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo incluyendo ojos sanos -->
-<!-- ```{r performance-with-healthy-eyes-G-TI} -->
-<!-- pander(classification$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ## Modelo usando los sectores G y TI del BMO y el anillo 3.5 -->
-<!-- ### Matriz de confusión sin incluir ojos sanos -->
-<!-- ```{r confusion-matrix-without-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- pander(classification.glaucoma$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo sin incluir ojos sanos -->
-<!-- ```{r performance-without-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- pander(classification.glaucoma$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ### Matriz de confusión incluyendo ojos sanos -->
-<!-- ```{r confusion-matrix-with-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- pander(classification$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo incluyendo ojos sanos -->
-<!-- ```{r performance-with-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- pander(classification$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
+<div id="objetivo" class="section level1">
+<h1>Objetivo</h1>
+<p>Este estudio pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadíos de glaucoma definidos a partir de los anillos retinianos (ver <a href="http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html" class="uri">http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html</a>) y la clasifiación clásica a partir de campo visual.</p>
+</div>
+<div id="análisis-del-campo-visual" class="section level1">
+<h1>Análisis del campo visual</h1>
+<div id="diagrama-de-cajas-del-campo-vistual-según-estadíos-de-glaucoma" class="section level2">
+<h2>Diagrama de cajas del campo vistual según estadíos de glaucoma</h2>
+<p><img src="glaucoma-campo-visual_files/figure-html/distribution-1.png" width="2400" /></p>
+</div>
+<div id="intervalos-de-confianza-para-la-media-del-campo-visual-según-estadíos-de-glaucoma" class="section level2">
+<h2>Intervalos de confianza para la media del campo visual según estadíos de glaucoma</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Estadio</th>
+<th align="right">n</th>
+<th align="right">media</th>
+<th align="right">desv.est</th>
+<th align="right">error.est</th>
+<th align="right">lim.inf.ic</th>
+<th align="right">lim.sup.ic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">I</td>
+<td align="right">34</td>
+<td align="right">-1.196</td>
+<td align="right">2.388</td>
+<td align="right">0.4096</td>
+<td align="right">-2.029</td>
+<td align="right">-0.3622</td>
+</tr>
+<tr class="even">
+<td align="left">II</td>
+<td align="right">39</td>
+<td align="right">-1.405</td>
+<td align="right">2.478</td>
+<td align="right">0.3968</td>
+<td align="right">-2.208</td>
+<td align="right">-0.6018</td>
+</tr>
+<tr class="odd">
+<td align="left">III</td>
+<td align="right">33</td>
+<td align="right">-7.441</td>
+<td align="right">7.116</td>
+<td align="right">1.2388</td>
+<td align="right">-9.964</td>
+<td align="right">-4.9176</td>
+</tr>
+<tr class="even">
+<td align="left">IV</td>
+<td align="right">26</td>
+<td align="right">-19.002</td>
+<td align="right">9.091</td>
+<td align="right">1.7829</td>
+<td align="right">-22.674</td>
+<td align="right">-15.3304</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-campo-visual_files/figure-html/confidence-intervals-plot-1.png" width="2400" /> Como se puede apreciar, existe una separación clara entre los intervalos de confianza para la media del campo visual de los estadíos de glaucoma excepto para los dos primeros estadíos que se solapan.</p>
+<!-- Añadir ANOVA -->
+</div>
+<div id="definición-de-estadíos-a-partir-del-campo-visual" class="section level2">
+<h2>Definición de estadíos a partir del campo visual</h2>
+<p>Definimos a partir del campo visual 4 estadíos al igual que se hizo con los anillos retinianos.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Estadio.CV</th>
+<th align="right">n</th>
+<th align="right">media</th>
+<th align="right">desv.est</th>
+<th align="right">error.est</th>
+<th align="right">lim.inf.ic</th>
+<th align="right">lim.sup.ic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">I</td>
+<td align="right">55</td>
+<td align="right">-0.0875</td>
+<td align="right">1.199</td>
+<td align="right">0.1617</td>
+<td align="right">-0.4116</td>
+<td align="right">0.2367</td>
+</tr>
+<tr class="even">
+<td align="left">II</td>
+<td align="right">44</td>
+<td align="right">-4.2889</td>
+<td align="right">1.557</td>
+<td align="right">0.2347</td>
+<td align="right">-4.7623</td>
+<td align="right">-3.8154</td>
+</tr>
+<tr class="odd">
+<td align="left">III</td>
+<td align="right">17</td>
+<td align="right">-12.5394</td>
+<td align="right">3.077</td>
+<td align="right">0.7462</td>
+<td align="right">-14.1213</td>
+<td align="right">-10.9575</td>
+</tr>
+<tr class="even">
+<td align="left">IV</td>
+<td align="right">16</td>
+<td align="right">-26.7731</td>
+<td align="right">3.309</td>
+<td align="right">0.8273</td>
+<td align="right">-28.5364</td>
+<td align="right">-25.0098</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="análisis-de-concordancia" class="section level2">
+<h2>Análisis de concordancia</h2>
+<p>Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadíos definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual.</p>
+<pre><code> Kendall&#39;s coefficient of concordance Wt
+
+ Subjects = 132 
+   Raters = 2 
+       Wt = 0.831 
+
+Chisq(131) = 218 
+  p-value = 2.89e-06 </code></pre>
+<p>Se puede concluir que existe una concordancia fuerte (<span class="math inline">\(W=0.831\)</span>) y muy significativa (<span class="math inline">\(p&lt;0.01\)</span>) entre ambos rankings de clasficación del glaucoma.</p>
+</div>
 </div>
 
 

@@ -376,7 +376,7 @@ medias.RNFL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", ful
 means.comparison.intervals(hemisferiosIS, "RNFL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. Las diferencias en el hemisferio inferior son significativamente mayores que en el hemisferio superior. 
+Agregando las celdas por hemisferios superior e inferior, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. Las diferencias en el hemisferio inferior son significativamente mayores que en el hemisferio superior. 
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-rnfl}
@@ -399,7 +399,7 @@ medias.RNFL.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", ful
 means.comparison.intervals(hemisferiosNT, "RNFL")
 ```
 
-Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. Las diferencias en la región nasal son significativamente mayores que en la región temporal. Además las diferencias son mayores que en la separación por hemisferios. Por otro lado se observa mayor variabilidad en las diferencias en la región nasal que en la temporal. 
+Agregando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. Las diferencias en la región nasal son significativamente mayores que en la región temporal. Además las diferencias son mayores que en la separación por hemisferios. Por otro lado se observa mayor variabilidad en las diferencias en la región nasal que en la temporal. 
 
 
 # Capa GCL
@@ -505,7 +505,7 @@ medias.GCL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosIS, "GCL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-GCL}
@@ -528,7 +528,7 @@ medias.GCL.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosNT, "GCL")
 ```
 
-Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. A diferencia de la capa RNFL, las diferencias en la región temporal son significativamente mayores que en la región nasal aunque estas diferencias no son grandes y pueden son ser importantes desde un punto de vista clínico.
+Agregando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos. A diferencia de la capa RNFL, las diferencias en la región temporal son significativamente mayores que en la región nasal aunque estas diferencias no son grandes y pueden son ser importantes desde un punto de vista clínico.
 
 
 # Capa IPL
@@ -634,7 +634,7 @@ medias.IPL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosIS, "IPL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-IPL}
@@ -657,7 +657,7 @@ medias.IPL.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosNT, "IPL")
 ```
 
-Separando las celdas por regiones temporal y nasal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por regiones temporal y nasal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 
 # Capa INL
@@ -764,7 +764,7 @@ medias.INL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosIS, "INL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-INL}
@@ -787,7 +787,7 @@ medias.INL.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosNT, "INL")
 ```
 
-Separando las celdas por regiones temporal y nasal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por regiones temporal y nasal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 
 # Capa OPL
@@ -893,7 +893,7 @@ medias.OPL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosIS, "OPL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos, siendo mayores en el hemisfero inferior que en el superior donde las diferencias son negativas.
+Agregando las celdas por hemisferios superior e inferior, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos en el hemisferior superior, donde las diferencias son negativas, pero no en el hemisferio inferior.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-OPL}
@@ -916,7 +916,7 @@ medias.OPL.HNT.R%>% kable() %>% kable_styling(bootstrap_options = "hover", full_
 means.comparison.intervals(hemisferiosNT, "OPL")
 ```
 
-Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos, siendo mayores en la región temporal que en la nasal donde son negativas.
+Agregando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos, siendo mayores en la región temporal que en la nasal donde son negativas.
 
 
 # Capa ONL
@@ -1022,7 +1022,7 @@ medias.ONL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosIS, "ONL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por hemisferios superior e inferior, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos en el hemisferio superior pero no en el inferior.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-ONL}
@@ -1045,7 +1045,7 @@ medias.ONL.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosNT, "ONL")
 ```
 
-Separando las celdas por regiones temporal y nasal, tampoco existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por regiones temporal y nasal, tampoco existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 
 # Capa PRL
@@ -1152,7 +1152,7 @@ medias.PRL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosIS, "PRL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-PRL}
@@ -1175,7 +1175,7 @@ medias.PRL.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosNT, "PRL")
 ```
 
-Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 
 # Capa RPE
@@ -1282,7 +1282,7 @@ medias.RPE.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosIS, "RPE")
 ```
 
-Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-RPE}
@@ -1305,7 +1305,7 @@ medias.RPE.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", full
 means.comparison.intervals(hemisferiosNT, "RPE")
 ```
 
-Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos
+Agregando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos
 
 
 # Capas internas RNFL + GCL + IPL
@@ -1455,6 +1455,8 @@ datatable(describe(varCells, "R", "OPL+ONL"), rownames = T, escape=F, options = 
 cellCorrelation("R", "OPL+ONL")
 ```
 
+Se observa una correlación moderada entre el grosor de las celdas a excepción de las celdas contiguas que presentan una correlación fuerte y las celdas centrales 4.4, 4.5, 5.4 y 5.5 que apenas están correlacionadas con las demás.
+
 <!-- ### Comparación de distribuciones por glaucoma y ojo -->
 
 <!-- ```{r histograma-macula-opl-onl} -->
@@ -1487,6 +1489,8 @@ means.comparison.intervals(varCells, "OPL+ONL", angle = 90)
 means.comparison.matrix("OPL+ONL")
 ```
 
+Se observan un patrón de diferencias entre las medias del grosor de las celdas muy irregular con diferencias positivas estadísticamente significativas en las celdas de las dos primeras filas de la región superior y diferencias negativas estadísticamente significativas en las celdas 1.7 y 2.8. No obstante la magnitud de las diferencias es pequeña y pueden no ser importantes desde un punto de vista clínico. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-OPL+ONL}
 data.Cuadrantes %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
@@ -1507,6 +1511,8 @@ medias.OPLONLRPE.C.R %>% kable() %>% kable_styling(bootstrap_options = "hover", 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-OPL+ONL}
 means.comparison.intervals(cuadrantes, "OPL+ONL")
 ```
+
+Agregando las celdas por cuadrantes, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-opl-onl}
@@ -1529,6 +1535,8 @@ medias.OPLONLRPE.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover"
 means.comparison.intervals(hemisferiosIS, "OPL+ONL")
 ```
 
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-opl-onl}
 data.HemisferiosNT %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
@@ -1550,6 +1558,7 @@ medias.OPLONLRPE.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover"
 means.comparison.intervals(hemisferiosNT, "OPL+ONL")
 ```
 
+Agregando las celdas por hemisferios nasal y temporal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 # Capas externas OPL + ONL + RPE
 ## Estadística Descriptiva
@@ -1576,6 +1585,8 @@ datatable(describe(varCells, "R", "OPL+ONL+RPE"), rownames = T, escape=F, option
 ```{r correlaciones-macula-opl-onl-rpe-ojo-dcho}
 cellCorrelation("R", "OPL+ONL+RPE")
 ```
+
+Se observa una correlación moderada entre el grosor de las celdas a excepción de las celdas contiguas que presentan una correlación fuerte y las celdas centrales 4.4, 4.5, 5.4 y 5.5 que apenas están correlacionadas con las demás.
 
 <!-- ### Comparación de distribuciones por glaucoma y ojo -->
 
@@ -1609,6 +1620,8 @@ means.comparison.intervals(varCells, "OPL+ONL+RPE", angle = 90)
 means.comparison.matrix("OPL+ONL+RPE")
 ```
 
+La matriz de diferencias que se obtiene es muy parecida a la de las capas OPL + ONL sin añadir la capa de fotoreptores. Se observan un patrón de diferencias entre las medias del grosor de las celdas muy irregular con diferencias positivas estadísticamente significativas en las celdas de las dos primeras filas de la región superior y diferencias negativas estadísticamente significativas en las celdas 1.7 y 2.8. No obstante la magnitud de las diferencias es pequeña y pueden no ser importantes desde un punto de vista clínico. El patrón se repite en ojos izquierdos como derechos, presentando una simetría casi perfecta como se aprecia en el las matrices anteriores.
+
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-opl+onl+rpe}
 data.Cuadrantes %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
@@ -1629,6 +1642,8 @@ medias.OPLONLRPE.C.R %>% kable() %>% kable_styling(bootstrap_options = "hover", 
 ```{r intervalos-confianza-comparacion-medias-hemisferios-macula-opl+onl+rpe}
 means.comparison.intervals(cuadrantes, "OPL+ONL+RPE")
 ```
+
+Agregando las celdas por cuadrantes, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-opl-onl-rpe}
@@ -1651,6 +1666,9 @@ medias.OPLONLRPE.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover"
 means.comparison.intervals(hemisferiosIS, "OPL+ONL+RPE")
 ```
 
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+
+
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-opl-onl-rpe}
 data.HemisferiosNT %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
@@ -1671,6 +1689,8 @@ medias.OPLONLRPE.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover"
 ```{r intervalos-confianza-comparacion-medias-regiones-macula-opl-onl-rpe}
 means.comparison.intervals(hemisferiosNT, "OPL+ONL+RPE")
 ```
+
+Agregando las celdas por hemisferios nasal y temporal, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 # Todas las capas
 ## Estadística Descriptiva
@@ -1775,7 +1795,7 @@ medias.FULL.HIS.R %>% kable() %>% kable_styling(bootstrap_options = "hover", ful
 means.comparison.intervals(hemisferiosIS, "FULL")
 ```
 
-Separando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por hemisferios superior e inferior, no existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-total}
@@ -1798,7 +1818,7 @@ medias.FULL.HNT.R %>% kable() %>% kable_styling(bootstrap_options = "hover", ful
 means.comparison.intervals(hemisferiosNT, "FULL")
 ```
 
-Separando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
+Agregando las celdas por regiones temporal y nasal, existen diferencias estadísticamente significativas entre las diferencias del grosor medio de las celdas de glaucomatosos y sanos.
 
 # Conclusiones del análisis por capas
 
