@@ -19,13 +19,14 @@ lapply(.packages, require, character.only=T)
 
 ```{r data-loading, results='hide'}
 data <- read_csv('datos/campo-visual.csv', col_types = cols(Estadio = "f"))
-data$Estadio <- ordered(data$Estadio, levels=levels(data$Estadio))                 
+data$Estadio <- ordered(data$Estadio, levels=levels(data$Estadio))
+# Filtramos los ojos con glaucoma en un nuevo conjunto de datos
+data.glaucoma <- data %>% filter(Estadio != 'Sano')
 ```
 
 ```{r data-filtering, results='hide'}
-data <- data %>%  # Elminar los casos sin datos en la variable Dm
-  filter(!is.na(Dm)) %>% # Eliminar los casos con errores mayores del 16%
-  filter(ERROR <= 16)
+data <- data %>% # Eliminar los casos con errores mayores del 16%
+  filter(Error <= 16)
 ```
 
 # Objetivo
@@ -40,8 +41,8 @@ Este estudio pretende comprobar si existe concordancia entre la clasificación d
 # Color palette
   n <- 4
   colfunc <- colorRampPalette(c("#FD8D3C", "#800026"))
-  palette <- colfunc(n)
-  palette.healthy <- c("#00BFC4", palette)
+  palette.glaucoma <- colfunc(n)
+  palette <- c("#00BFC4", palette.glaucoma)
 #palette.healthy <- c("#00FF00", "#3FBF00", "#7F7F00", "#BF3F00", "#FF0000")
 #palette <- palette.healthy[-1]
 
@@ -71,7 +72,7 @@ ggplot(means, aes(x=Estadio, y = media, colour = Estadio, shape = Estadio)) +
   scale_colour_manual(values = palette) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
-Como se puede apreciar, existe una separación clara entre los intervalos de confianza para la media del campo visual de los estadíos de glaucoma excepto para los dos primeros estadíos que se solapan.
+Como se puede apreciar, existe una separación clara entre los intervalos de confianza para la media del campo visual de los estadíos de glaucoma excepto para los estadíos I y II que se solapan.
 
 <!-- Añadir ANOVA -->
 
@@ -89,20 +90,20 @@ labels <- c("I", "II", "III", "IV")
 # Shapes
 shapes <- c(1, 3, 15, 17, 16)
 # K-means clusters
-clusters <- kmeans(data[, vars], centers = n, nstart = 25)
+clusters <- kmeans(data.glaucoma[, vars], centers = n, nstart = 25)
 centers <- clusters$centers[order(clusters$centers[,1], decreasing = T),]
-clusters <- kmeans(data[, vars], centers = centers)
+clusters <- kmeans(data.glaucoma[, vars], centers = centers)
 # Convert the cluster into a factor
 clusters$cluster <- as.factor(clusters$cluster)
 # Assign labels to factors
 levels(clusters$cluster) <- labels
 # Add cluster to data frame
-data[, "Estadio.CV"] <- ordered(clusters$cluster)
+data.glaucoma[, "Estadio.CV"] <- ordered(clusters$cluster)
 # data %>% ggplot(aes(x=Dm, y=Estadio.CV, colour=Estadio.CV)) + geom_point()
 ```
 
 ```{r confidence-intervals-visual-field-stages}
-means <- data %>% 
+means <- data.glaucoma %>% 
   group_by(Estadio.CV) %>%
   summarise(n=n(), media = mean(Dm), desv.est= sd(Dm)) %>%
   mutate(error.est = desv.est / sqrt(n), lim.inf.ic = media - qt(1 - (0.05 / 2), n - 1) * error.est, lim.sup.ic = media + qt(1 - (0.05 / 2), n - 1) * error.est)
@@ -111,10 +112,10 @@ kable(means)
 
 ## Análisis de concordancia
 
-Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadíos definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual.
+Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadíos definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual. No se consideran los ojos sanos ya que la concordancia en este grupo es perfecta.
 
 ```{r Kendalls-coefficient}
-kendall(data[, c("Estadio", "Estadio.CV")], correct = T)
+kendall(data.glaucoma[, c("Estadio", "Estadio.CV")], correct = T)
 ```
 Se puede concluir que existe una concordancia fuerte ($W=0.831$) y muy significativa ($p<0.01$) entre ambos rankings de clasficación del glaucoma.
 
