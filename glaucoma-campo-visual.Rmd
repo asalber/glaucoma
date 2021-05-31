@@ -115,8 +115,9 @@ kable(means)
 Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadíos definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual. No se consideran los ojos sanos ya que la concordancia en este grupo es perfecta.
 
 ```{r Kendalls-coefficient}
-kendall(data.glaucoma[, c("Estadio", "Estadio.CV")], correct = T)
+k <- kendall(data.glaucoma[, c("Estadio", "Estadio.CV")], correct = T)
+k
 ```
-Se puede concluir que existe una concordancia fuerte ($W=0.831$) y muy significativa ($p<0.01$) entre ambos rankings de clasficación del glaucoma.
+Se puede concluir que existe una concordancia fuerte ($W=`r round(k$value,2)`$) y muy significativa ($p<0.01$) entre ambos rankings de clasificación del glaucoma.
 
       
