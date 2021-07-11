@@ -18,7 +18,7 @@ lapply(.packages, require, character.only=T)
 ```
 
 ```{r data-loading, results='hide'}
-data <- read_csv('datos/campo-visual.csv', col_types = cols(Estadio = "f"))
+data <- read_csv('data/campo-visual.csv', col_types = cols(Estadio = "f"))
 data$Estadio <- ordered(data$Estadio, levels=levels(data$Estadio))
 # Filtramos los ojos con glaucoma en un nuevo conjunto de datos
 data.glaucoma <- data %>% filter(Estadio != 'Sano')

@@ -8,8 +8,8 @@ if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
 
 # Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
-data.anillos <- read.csv(file="datos/datos-anillos-preprocesados-estadios.csv", header=T, sep=",")
-data.macula <- read.csv(file="datos/datos-macula-preprocesados.csv", header=T, sep=",")
+data.anillos <- read.csv(file="data/datos-anillos-preprocesados-estadios.csv", header=T, sep=",")
+data.macula <- read.csv(file="data/datos-macula-preprocesados.csv", header=T, sep=",")
 # Seleccionar ojos izquierdos de la mácula
 data.macula %<>% filter(Ojo=="L")
 

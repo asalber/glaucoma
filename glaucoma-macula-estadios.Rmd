@@ -19,8 +19,8 @@ lapply(.packages, require, character.only=T)
 
 <!-- <!-- ```{r carga-datos} --> -->
 <!-- <!-- # Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r) --> -->
-<!-- <!-- datos.macula <- read.csv(file="datos/datos-macula-preprocesados.csv", header=T, sep=",") --> -->
-<!-- <!-- datos.anillos <- read.csv(file="datos/datos-anillos-preprocesados.csv", header=T, sep=",") --> -->
+<!-- <!-- datos.macula <- read.csv(file="data/datos-macula-preprocesados.csv", header=T, sep=",") --> -->
+<!-- <!-- datos.anillos <- read.csv(file="data/data-rims-preprocesed.csv", header=T, sep=",") --> -->
 
 <!-- <!-- varRims <- startsWith(colnames(datos.anillos), "Anillo") --> -->
 <!-- <!-- varRims <- colnames(datos.anillos[varRims])[-1] --> -->

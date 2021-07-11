@@ -19,13 +19,13 @@ lapply(.packages, require, character.only=T)
 
 ```{r carga-datos}
 # Carga de la base de datos (ver fichero glaucoma-preprocesamiento-data.HemisferiosNT)
-load("datos/datos-macula-preprocesados.RData")
-data <- data.macula
+load("data/datos-macula-preprocesados.RData")
+df <- df.macula
 
 # Conjuntos de variables
 # Lista de celdas por filas
-# varCells <- startsWith(colnames(data),"Cell")
-# varCells <- colnames(data)[varCells]
+# varCells <- startsWith(colnames(df),"Cell")
+# varCells <- colnames(df)[varCells]
 # Lista de celdas por columnas
 varCells <- NULL
 for (i in 1:8){
@@ -73,78 +73,78 @@ removeOutliers <- function(x) {
   x[x > fence2] <- qnt[4]
   return(x)
 }
-data[data$Glaucoma=="Y" & data$Capa=="RNFL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="RNFL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="RNFL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="RNFL", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="GCL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="GCL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="GCL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="GCL", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="INL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="INL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="INL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="INL", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="IPL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="IPL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="IPL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="IPL", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="OPL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="OPL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="OPL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="OPL", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="ONL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="ONL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="ONL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="ONL", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="PRL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="PRL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="PRL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="PRL", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="RPE", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="RPE", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="RPE", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="RPE", varCells], removeOutliers)
-data[data$Glaucoma=="Y" & data$Capa=="FULL", varCells] <- sapply(data[data$Glaucoma=="Y" & data$Capa=="FULL", varCells], removeOutliers)
-data[data$Glaucoma=="N" & data$Capa=="FULL", varCells ] <- sapply(data[data$Glaucoma=="N" & data$Capa=="FULL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="GCL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="INL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="INL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="IPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="OPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="ONL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="PRL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RPE", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RPE", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="FULL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="FULL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="FULL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="FULL", varCells], removeOutliers)
 
 # Añadir capa OPL+ONL
-dataOPLONL <- cbind(data[data$Capa=="OPL", 1:4], data[data$Capa=="OPL", varCells] + data[data$Capa=="ONL", varCells])
-dataOPLONL$Capa <- "OPL+ONL" 
-data <- rbind(data, dataOPLONL)
+dfOPLONL <- cbind(df[df$Capa=="OPL", 1:4], df[df$Capa=="OPL", varCells] + df[df$Capa=="ONL", varCells])
+dfOPLONL$Capa <- "OPL+ONL" 
+df <- rbind(df, dfOPLONL)
 
 # Añadir capa OPL+ONL+RPE
-dataOPLONLRPE <- cbind(data[data$Capa=="OPL", 1:4], data[data$Capa=="OPL", varCells] + data[data$Capa=="ONL", varCells] + data[data$Capa=="RPE", varCells])
-dataOPLONLRPE$Capa <- "OPL+ONL+RPE" 
-data <- rbind(data, dataOPLONLRPE)
+dfOPLONLRPE <- cbind(df[df$Capa=="OPL", 1:4], df[df$Capa=="OPL", varCells] + df[df$Capa=="ONL", varCells] + df[df$Capa=="RPE", varCells])
+dfOPLONLRPE$Capa <- "OPL+ONL+RPE" 
+df <- rbind(df, dfOPLONLRPE)
 
 # Añadir capas internas RNFL+GCL+IPL
-dataRNFLGCLIPL <- cbind(data[data$Capa=="RNFL", 1:4], data[data$Capa=="RNFL", varCells] + data[data$Capa=="GCL", varCells] + data[data$Capa=="IPL", varCells])
-dataRNFLGCLIPL$Capa <- "RNFL+GCL+IPL" 
-data <- rbind(data, dataRNFLGCLIPL)
+dfRNFLGCLIPL <- cbind(df[df$Capa=="RNFL", 1:4], df[df$Capa=="RNFL", varCells] + df[df$Capa=="GCL", varCells] + df[df$Capa=="IPL", varCells])
+dfRNFLGCLIPL$Capa <- "RNFL+GCL+IPL" 
+df <- rbind(df, dfRNFLGCLIPL)
 
 # Añadir capas internas RNFL+GCL+IPL+INL
-dataRNFLGCLIPLINL <- cbind(data[data$Capa=="RNFL", 1:4], data[data$Capa=="RNFL", varCells] + data[data$Capa=="GCL", varCells] + data[data$Capa=="IPL", varCells])
-dataRNFLGCLIPLINL$Capa <- "RNFL+GCL+IPL+INL" 
-data <- rbind(data, dataRNFLGCLIPLINL)
+dfRNFLGCLIPLINL <- cbind(df[df$Capa=="RNFL", 1:4], df[df$Capa=="RNFL", varCells] + df[df$Capa=="GCL", varCells] + df[df$Capa=="IPL", varCells])
+dfRNFLGCLIPLINL$Capa <- "RNFL+GCL+IPL+INL" 
+df <- rbind(df, dfRNFLGCLIPLINL)
 
 # Datos hemisferios 
-data$Cuadrante.NI <- apply(data[, cellsNI], 1, mean, na.rm=T)
-data$Cuadrante.NS <- apply(data[, cellsNS], 1, mean, na.rm=T)
-data$Cuadrante.TI <- apply(data[, cellsTI], 1, mean, na.rm=T)
-data$Cuadrante.TS <- apply(data[, cellsTS], 1, mean, na.rm=T)
+df$Cuadrante.NI <- apply(df[, cellsNI], 1, mean, na.rm=T)
+df$Cuadrante.NS <- apply(df[, cellsNS], 1, mean, na.rm=T)
+df$Cuadrante.TI <- apply(df[, cellsTI], 1, mean, na.rm=T)
+df$Cuadrante.TS <- apply(df[, cellsTS], 1, mean, na.rm=T)
 cuadrantes = c("Cuadrante.NI", "Cuadrante.NS", "Cuadrante.TI", "Cuadrante.TS")
 # Datos hemisferio inferior
-data <- mutate(data, Hemisferio.I = Cuadrante.NI + Cuadrante.TI)
+df <- mutate(df, Hemisferio.I = Cuadrante.NI + Cuadrante.TI)
 # Datos hemisferio superior
-data <- mutate(data, Hemisferio.S = Cuadrante.NS + Cuadrante.TS)
+df <- mutate(df, Hemisferio.S = Cuadrante.NS + Cuadrante.TS)
 # Datos hemisferio nasal
-data <- mutate(data, Hemisferio.N = Cuadrante.NI + Cuadrante.NS)
+df <- mutate(df, Hemisferio.N = Cuadrante.NI + Cuadrante.NS)
 # Datos hemisferio temporal
-data <- mutate(data, Hemisferio.T = Cuadrante.TI + Cuadrante.TS)
+df <- mutate(df, Hemisferio.T = Cuadrante.TI + Cuadrante.TS)
 hemisferiosIS = c("Hemisferio.I", "Hemisferio.S")
 hemisferiosNT = c("Hemisferio.N", "Hemisferio.T")
 ```
 
 ```{r filtrado-datos}
 # Ojo izquierdo 
-data.L <- data[data$Ojo=="L",]
+df.L <- df[df$Ojo=="L",]
 # Ojo derecho
-data.HemisferiosNT <- data[data$Ojo=="R",]
+df.HemisferiosNT <- df[df$Ojo=="R",]
 # Datos Glaucoma
-data.Glaucoma = data[data$Glaucoma=="Y",]
+df.Glaucoma = df[df$Glaucoma=="Y",]
 # Datos Sanos
-data.Sanos = data[data$Glaucoma=="N",]
+df.Sanos = df[df$Glaucoma=="N",]
 # Datos hemisferios largo
-data.Cuadrantes <- pivot_longer(data[, c("Capa", "Glaucoma", "Ojo", "Cuadrante.NI", "Cuadrante.NS", "Cuadrante.TI", "Cuadrante.TS")], cols = c("Cuadrante.NI", "Cuadrante.NS", "Cuadrante.TI", "Cuadrante.TS"), names_to = "Cuadrante", values_to = "Grosor (µm)")
+df.Cuadrantes <- pivot_longer(df[, c("Capa", "Glaucoma", "Ojo", "Cuadrante.NI", "Cuadrante.NS", "Cuadrante.TI", "Cuadrante.TS")], cols = c("Cuadrante.NI", "Cuadrante.NS", "Cuadrante.TI", "Cuadrante.TS"), names_to = "Cuadrante", values_to = "Grosor (µm)")
 # Datos hemisferios
-data.HemisferiosIS <- pivot_longer(data[, c("Capa", "Glaucoma", "Ojo", "Hemisferio.I", "Hemisferio.S")], cols = hemisferiosIS, names_to = "Hemisferio", values_to = "Grosor (µm)")
+df.HemisferiosIS <- pivot_longer(df[, c("Capa", "Glaucoma", "Ojo", "Hemisferio.I", "Hemisferio.S")], cols = hemisferiosIS, names_to = "Hemisferio", values_to = "Grosor (µm)")
 # Datos regiones
-data.HemisferiosNT <- pivot_longer(data[, c("Capa", "Glaucoma", "Ojo", "Hemisferio.T", "Hemisferio.N")], cols = hemisferiosNT, names_to = "Region", values_to = "Grosor (µm)")
+df.HemisferiosNT <- pivot_longer(df[, c("Capa", "Glaucoma", "Ojo", "Hemisferio.T", "Hemisferio.N")], cols = hemisferiosNT, names_to = "Region", values_to = "Grosor (µm)")
 ```
 
 
@@ -153,9 +153,9 @@ data.HemisferiosNT <- pivot_longer(data[, c("Capa", "Glaucoma", "Ojo", "Hemisfer
 # Resumen estadístico
 describe <- function(vars, ojo, capa){
   if (ojo=="L"){
-    result <- describeBy(data[data$Ojo=="L" & data$Capa==capa, varCells], data[data$Ojo=="L" & data$Capa==capa, "Glaucoma"], mat = T, digits = 4)
+    result <- describeBy(df[df$Ojo=="L" & df$Capa==capa, varCells], df[df$Ojo=="L" & df$Capa==capa, "Glaucoma"], mat = T, digits = 4)
   } else {
-    result <- describeBy(data[data$Ojo=="R" & data$Capa==capa, varCells], data[data$Ojo=="R" & data$Capa==capa, "Glaucoma"], mat = T, digits = 4)
+    result <- describeBy(df[df$Ojo=="R" & df$Capa==capa, varCells], df[df$Ojo=="R" & df$Capa==capa, "Glaucoma"], mat = T, digits = 4)
   }
   result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
   colnames(result)[1] <- "Glaucoma"
@@ -163,7 +163,7 @@ describe <- function(vars, ojo, capa){
 }
 # Histogramas de las variables vars de la capa Capa según glaucoma y ojos
 overHist <- function(vars, capa){
-  p <- ggplot(data[data$Capa==capa,], aes_string(x = vars)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
+  p <- ggplot(df[df$Capa==capa,], aes_string(x = vars)) + geom_histogram(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
   return(p)
 }
 
@@ -176,7 +176,7 @@ cellHist <- function(matrix, capa){
 
 # Densidad de las variables vars de la capa Capa según glaucoma y ojos
 overDensity <- function(vars, capa){
-  p <- ggplot(data[data$Capa==capa,], aes_string(x = vars)) + geom_density(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
+  p <- ggplot(df[df$Capa==capa,], aes_string(x = vars)) + geom_density(aes(fill=Glaucoma), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.)
   return(p)
 }
 
@@ -189,7 +189,7 @@ cellDensity <- function(matrix, capa){
 
 # Diagrama de las variables vars de la capa Capa según glaucoma y ojos
 overBoxplot <- function(vars, capa){
-  p <- ggplot(data[data$Capa==capa,], aes_string(x="Ojo", y = vars)) + geom_boxplot(aes(fill=Glaucoma))
+  p <- ggplot(df[df$Capa==capa,], aes_string(x="Ojo", y = vars)) + geom_boxplot(aes(fill=Glaucoma))
   return(p)
 }
 
@@ -202,9 +202,9 @@ cellBoxplot <- function(matrix, capa){
 
 # Matriz de correlación entre las celdas de una capa y un ojo
 cellCorrelation <- function (ojo, capa){
-  cormat <- round(cor(data[data$Ojo==ojo & data$Capa==capa, varCells], use="complete.obs"),2)
+  cormat <- round(cor(df[df$Ojo==ojo & df$Capa==capa, varCells], use="complete.obs"),2)
   # Correlation table
-  ggcorr(data[data$Ojo==ojo & data$Capa==capa, varCells], hjust = 0.9, size = 2, layout.exp = 2, label = F, label_size = 2, label_round = 2, low = "darkred", high = "#0072B2", limits = c(-1, 1)) +
+  ggcorr(df[df$Ojo==ojo & df$Capa==capa, varCells], hjust = 0.9, size = 2, layout.exp = 2, label = F, label_size = 2, label_round = 2, low = "darkred", high = "#0072B2", limits = c(-1, 1)) +
   ggtitle(paste("Matriz de correlaciones del grosor de las celdas maculares\nOjo =",ojo, "Capa =", capa)) +
   guides(fill = guide_colourbar(title="Coef. correlación\nPearson")) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), plot.title = element_text(hjust = 0.5))  
@@ -212,8 +212,8 @@ cellCorrelation <- function (ojo, capa){
 
 # Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
 means.comparison <- function (vars, capa, ojo){
-  data.capa.ojo <- data[data$Ojo==ojo & data$Capa==capa, ]
-  result <- data.frame(t(sapply(data.capa.ojo[, vars], function(x) unlist(t.test(x~data.capa.ojo$Glaucoma)[c("estimate","conf.int", "p.value")]))))
+  df.capa.ojo <- df[df$Ojo==ojo & df$Capa==capa, ]
+  result <- data.frame(t(sapply(df.capa.ojo[, vars], function(x) unlist(t.test(x~df.capa.ojo$Glaucoma)[c("estimate","conf.int", "p.value")]))))
   result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
   result <- result[c(1,2,6,3,4,5)]
   colnames(result) <- c("Media Sanos (µm)", "Media Glaucoma (µm)","Diferencia medias (µm)", "lim inf int conf (µm)", "lim sup int conf (µm)", "p-valor")
@@ -336,7 +336,7 @@ Se observan diferencias muy significativas (p-valor<0.01) entre las medias del g
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-rnfl}
-data.Cuadrantes %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -357,7 +357,7 @@ means.comparison.intervals(cuadrantes, "RNFL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-rnfl}
-data.HemisferiosIS %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -380,7 +380,7 @@ Agregando las celdas por hemisferios superior e inferior, existen diferencias es
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-rnfl}
-data.HemisferiosNT %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="RNFL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -465,7 +465,7 @@ Se observan diferencias muy significativas (p-valor<0.01) entre las medias del g
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-GCL}
-data.Cuadrantes %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -486,7 +486,7 @@ means.comparison.intervals(cuadrantes, "GCL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-GCL}
-data.HemisferiosIS %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -509,7 +509,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-GCL}
-data.HemisferiosNT %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="GCL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -594,7 +594,7 @@ Se observan diferencias muy significativas (p-valor<0.01) entre las medias del g
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-IPL}
-data.Cuadrantes %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -615,7 +615,7 @@ means.comparison.intervals(cuadrantes, "IPL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-IPL}
-data.HemisferiosIS %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -638,7 +638,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-IPL}
-data.HemisferiosNT %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -724,7 +724,7 @@ A diferencia de las otras capas internas, no se observan diferencias significati
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-INL}
-data.Cuadrantes %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -745,7 +745,7 @@ means.comparison.intervals(cuadrantes, "INL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-INL}
-data.HemisferiosIS %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -768,7 +768,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-INL}
-data.HemisferiosNT %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="INL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -853,7 +853,7 @@ Se observan un patrón de diferencias entre las medias del grosor de las celdas 
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-opl}
-data.Cuadrantes %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -874,7 +874,7 @@ means.comparison.intervals(cuadrantes, "OPL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-OPL}
-data.HemisferiosIS %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -897,7 +897,7 @@ Agregando las celdas por hemisferios superior e inferior, existen diferencias es
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-OPL}
-data.HemisferiosNT %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="OPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -982,7 +982,7 @@ Se observan un patrón de diferencias entre las medias del grosor de las celdas 
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-onl}
-data.Cuadrantes %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -1003,7 +1003,7 @@ means.comparison.intervals(cuadrantes, "ONL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-ONL}
-data.HemisferiosIS %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -1026,7 +1026,7 @@ Agregando las celdas por hemisferios superior e inferior, existen diferencias es
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-ONL}
-data.HemisferiosNT %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -1112,7 +1112,7 @@ Se observan diferencias positivas muy significativas (p-valor<0.01) en las celda
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-PRL}
-data.Cuadrantes %>% filter(Capa=="PRL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="PRL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -1135,7 +1135,7 @@ Agregando las celdas por cuadrantes, no existen diferencias estadísticamente si
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-PRL}
-data.HemisferiosIS %>% filter(Capa=="PRL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="PRL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -1158,7 +1158,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-PRL}
-data.HemisferiosNT %>% filter(Capa=="PRL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="PRL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -1244,7 +1244,7 @@ Se observan un patrón de diferencias entre las medias del grosor de las celdas 
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-rpe}
-data.Cuadrantes %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -1265,7 +1265,7 @@ means.comparison.intervals(cuadrantes, "RPE")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-RPE}
-data.HemisferiosIS %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -1288,7 +1288,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-RPE}
-data.HemisferiosNT %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -1369,7 +1369,7 @@ means.comparison.matrix("RNFL+GCL+IPL")
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-rnfl+gcl+ipl}
-data.Cuadrantes %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -1390,7 +1390,7 @@ means.comparison.intervals(cuadrantes, "RNFL+GCL+IPL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-rnfl-gcl-ipl}
-data.HemisferiosIS %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -1412,7 +1412,7 @@ means.comparison.intervals(hemisferiosIS, "RNFL+GCL+IPL")
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-rnfl-gcl-ipl}
-data.HemisferiosNT %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="RNFL+GCL+IPL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -1495,7 +1495,7 @@ Se observan un patrón de diferencias entre las medias del grosor de las celdas 
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-OPL+ONL}
-data.Cuadrantes %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -1518,7 +1518,7 @@ Agregando las celdas por cuadrantes, no existen diferencias estadísticamente si
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-opl-onl}
-data.HemisferiosIS %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -1541,7 +1541,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-opl-onl}
-data.HemisferiosNT %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="OPL+ONL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -1626,7 +1626,7 @@ La matriz de diferencias que se obtiene es muy parecida a la de las capas OPL + 
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-opl+onl+rpe}
-data.Cuadrantes %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -1649,7 +1649,7 @@ Agregando las celdas por cuadrantes, no existen diferencias estadísticamente si
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-opl-onl-rpe}
-data.HemisferiosIS %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -1673,7 +1673,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-opl-onl-rpe}
-data.HemisferiosNT %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="OPL+ONL+RPE") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo
@@ -1757,7 +1757,7 @@ Se observan diferencias muy significativas (p-valor<0.01) entre las medias del g
 
 ## Comparación de Cuadrantes
 ```{r cajas-cuadrantes-full}
-data.Cuadrantes %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
+df.Cuadrantes %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Cuadrante)
 ```
 
 ### Ojo izquierdo
@@ -1778,7 +1778,7 @@ means.comparison.intervals(cuadrantes, "FULL")
 
 ## Comparación de hemisferios inferior y superior
 ```{r cajas-hemisferios-total}
-data.HemisferiosIS %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
+df.HemisferiosIS %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Hemisferio)
 ```
 
 ### Ojo izquierdo
@@ -1801,7 +1801,7 @@ Agregando las celdas por hemisferios superior e inferior, no existen diferencias
 
 ## Comparación de hemisferios nasal y temporal
 ```{r cajas-regiones-total}
-data.HemisferiosNT %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
+df.HemisferiosNT %>% filter(Capa=="FULL") %>% ggplot(aes(x=Ojo, y=`Grosor (µm)`, fill=Glaucoma)) + geom_boxplot() + facet_grid(.~Region)
 ```
 
 ### Ojo izquierdo

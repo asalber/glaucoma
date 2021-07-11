@@ -2,75 +2,77 @@
 # Clusters de pacientes con  glaucoma
 
 # Carga de paquetes
-.packages <- c("readxl", "tidyverse", "magrittr")
+.packages <- c("tidyverse", "readxl")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
-lapply(.packages, require, character.only=T)
+lapply(.packages, library, character.only=T)
 
 # Carga data anillos
-data.anillos <- read.csv(file="datos/datos.csv", header=T, sep=",")
-# Convertir fechas
-data.anillos$ExamDate <- as.Date(data.anillos$ExamDate, format="%m/%d/%Y")
-# Crear clave
-data.anillos %<>% dplyr::mutate(Id=paste(Patient.Id, ExamDate, Eye, sep="-"))
-# Reordenar columnas
-data.anillos %<>% dplyr::select(Id, everything())
-# Eliminación data erroneos 
-data.anillos %<>% filter(!Id %in% c("2587-2018-02-14-L",  "16091-2016-11-11-R", "1008-2017-07-26-L",  "1796-2016-10-04-L",  "1796-2016-10-04-R"))
-# Eliminación data atipicos
-data.atipicos <- read.csv(file="datos/datos-confrontacion.csv", header=T, sep=",")
-id.atipicos <- data.atipicos[is.na(data.atipicos$SUMA.V) | data.atipicos$SUMA.V>10, "Lastname"]
-data.anillos %<>% filter(!Patient.Id %in% id.atipicos)
-# Normalización de data
+df.anillos <- read_csv("data/datos.csv", col_types = paste0("cfffc",paste0(rep("d",33), collapse = ""))) %>%
+  # Convertir fechas
+  mutate(ExamDate = as.Date(ExamDate, format="%m/%d/%Y")) %>%
+  # Crear clave
+  mutate(Id = paste(Patient.Id, ExamDate, Eye, sep="-")) %>%
+  # Reordenar columnas
+  select(Id, everything())
+
+
+# Carga de datos atipicos 
+df.atipicos <- read.csv(file="data/datos-confrontacion.csv", header=T, sep=",")
+id.atipicos <- df.atipicos[is.na(df.atipicos$SUMA.V) | df.atipicos$SUMA.V>10, "Lastname"]
+# Eliminación de datos atípicos
+df.anillos <- df.anillos %>% 
+  filter(!Patient.Id %in% id.atipicos) %>%
+  # Eliminación data erroneos 
+  filter(!Id %in% c("2587-2018-02-14-L",  "16091-2016-11-11-R", "1008-2017-07-26-L",  "1796-2016-10-04-L",  "1796-2016-10-04-R"))
+    
+# Normalización de datos
 # El grosos de la capa nerviosa depende de la edad y del área del BMO, por lo que hay que aplicar un modelo de regresión para obtener la media y la desviación típica a utilizar en la normalización. 
-coef.norm <- read.csv(file="datos/tabla-normalizacion.csv", encoding = "UTF-8", header=T, row.names=1, sep=",")
+coef.norm <- read.csv(file="data/tabla-normalizacion.csv", encoding = "UTF-8", header=T, row.names=1, sep=",")
 age.mean <- 52.17
 bmo.area.mean <- 1.781
-for (i in colnames(data.anillos)[12:ncol(data.anillos)]){
-  data.anillos[[i]] <- (data.anillos[[i]]-coef.norm[i,"Media"]-coef.norm[i,"Pendiente.edad"]*(data.anillos$Age-age.mean)-coef.norm[i,"Pendiente.area.bmo"]*(data.anillos$BMO.Area-bmo.area.mean))/coef.norm[i,"Desviacion"]
+for (i in colnames(df.anillos)[12:ncol(df.anillos)]){
+  df.anillos[[i]] <- (df.anillos[[i]]-coef.norm[i,"Media"]-coef.norm[i,"Pendiente.edad"]*(df.anillos$Age-age.mean)-coef.norm[i,"Pendiente.area.bmo"]*(df.anillos$BMO.Area-bmo.area.mean))/coef.norm[i,"Desviacion"]
   # Descomentar la siguiente línea para trabajar con percentiles
   # data[[i]] <- pnorm(data[[i]])*100
 }
+
 # Renombrar variables
-names(data.anillos) <- gsub("Rim", "RNFL", names(data.anillos))
-data.anillos %<>% dplyr::rename(Ojo=Eye, Sexo=Gender, Edad=Age)
-# Convertir glaucoma, ojo y sexo en factores
-data.anillos$Glaucoma <- factor(data.anillos$Glaucoma, levels=c("N","Y"))
-data.anillos$Ojo <- factor(data.anillos$Ojo, levels = c("L", "R"))
-data.anillos$Sexo <- factor(data.anillos$Sexo, levels = c("F", "M"))
+names(df.anillos) <- gsub("Rim", "RNFL", names(df.anillos))
+df.anillos <- df.anillos %>% 
+  rename(Ojo = Eye, Sexo = Gender, Edad = Age)
 # Renombrar los niveles del sexo
-levels(data.anillos$Sexo) <- list(H="M", M="F")
+levels(df.anillos$Sexo) <- list(H = "M", M = "F")
 
 # Carga datos macula
 col.types = c(rep("text",3),"date", rep("text",3), rep("date",2), rep("numeric",2), rep("text",4), rep("numeric",64)) 
 # Grosor RNFL
-data.RNFL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_RNFL", col_types = col.types)
-data.RNFL$Layer <- "RNFL"
+df.RNFL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_RNFL", col_types = col.types) %>%
+  mutate(Layer = "RNFL")
 # Grosor GCL
-data.GCL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_GCL", col_types = col.types)
-data.GCL$Layer <- "GCL"
+df.GCL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_GCL", col_types = col.types) %>%
+  mutate(Layer = "GCL")
 # Grosor IPL
-data.IPL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_IPL", col_types = col.types)
-data.IPL$Layer <- "IPL"
+df.IPL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_IPL", col_types = col.types) %>%
+  mutate(Layer = "IPL")
 # Grosor INL
-data.INL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_INL", col_types = col.types)
-data.INL$Layer <- "INL"
+df.INL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_INL", col_types = col.types) %>%
+  mutate(Layer = "INL")
 # Grosor OPL
-data.OPL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_OPL", col_types = col.types)
-data.OPL$Layer <- "OPL"
+df.OPL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_OPL", col_types = col.types) %>%
+  mutate(Layer = "OPL")
 # Grosor ONL
-data.ONL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_ONL", col_types = col.types)
-data.ONL$Layer <- "ONL"
-
+df.ONL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_ONL", col_types = col.types) %>%
+  mutate(Layer = "ONL")
 # Grosor PRL (ATENCIÓN CAPA LEÍDA A POSTERIORI CON DATOS DE OTRO FICHERO)
-data.PRL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_PRL", col_types = col.types)
-data.PRL$Layer <- "PRL"
+df.PRL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_PRL", col_types = col.types) %>%
+  mutate(Layer = "PRL")
 # Eliminar pacientes que no están en las otras capas (esta capa se leyó a posteriori en un fichero excel distinto y contiene más pacientes de que las otras)
 # Crear claves de pacientes a partir de cualquiera de las otras capas
-id <- data.RNFL %>% dplyr::mutate(Id=paste(PatientID, ExamDate, Eye, sep="-"))
+id <- df.RNFL %>% mutate(Id=paste(PatientID, ExamDate, Eye, sep="-"))
 # Crear claves en la capa PRL
-data.PRL <- data.PRL %>% 
-  dplyr::mutate(Id=paste(PatientID, ExamDate, Eye, sep="-")) %>% 
+df.PRL <- df.PRL %>% 
+  mutate(Id=paste(PatientID, ExamDate, Eye, sep="-")) %>% 
   distinct(Id, .keep_all = TRUE) %>% 
   filter(Id %in% id$Id) %>%
   # Eliminar columna Glaucoma (vacía)
@@ -81,50 +83,47 @@ data.PRL <- data.PRL %>%
   select(-Id)
 # Pacientes que no están 17289, DB836, DB548 y 28852
 # Pacientes repetidos: 3485, 8228, 10373, 12770, 16756, 16941, 17150, 17213, DB160
-
 # Grosor RPE
-data.RPE <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_RPE", col_types = col.types)
-data.RPE$Layer <- "RPE"
+df.RPE <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_RPE", col_types = col.types) %>%
+  mutate(Layer = "RPE")
 # Grosor total
-data.FULL <- read_excel("datos/datos-glaucoma.xlsx", sheet = "P_P_FULL", col_types = col.types)
-data.FULL$Layer <- "FULL"
+df.FULL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_FULL", col_types = col.types) %>%
+  mutate(Layer = "FULL")
 # Fusión de datos
-data.macula <- rbind(data.RNFL, data.GCL, data.IPL, data.INL, data.OPL, data.ONL, data.PRL, data.RPE, data.FULL)
+df.macula <- rbind(df.RNFL, df.GCL, df.IPL, df.INL, df.OPL, df.ONL, df.PRL, df.RPE, df.FULL)
 # Crear clave
-data.macula %<>% dplyr::mutate(Id=paste(PatientID, ExamDate, Eye, sep="-"))
-# Mover la clave y la capa al las primeras columnas
-data.macula %<>% dplyr::select(Id, Layer, everything())
-# Eliminación datos atípicos
-data.atipicos <- read.csv(file="datos/datos-confrontacion.csv", header=T, sep=",")
-id.atipicos <- data.atipicos[is.na(data.atipicos$SUMA.V) | data.atipicos$SUMA.V>10, "Lastname"]
-data.macula %<>% filter(!Lastname %in% id.atipicos)
-# Eliminación de datos innecesarios
-remove <- c("PatientID", "Lastname", "Firstname", "DOB", "ImageID", "ExamDate", "ExamTime", "Quality", "ARTMean", "ImageType", "Upper Layer", "Lower Layer", "GridType") 
-data.macula %<>% dplyr::select(-remove)
+df.macula <- df.macula %>% dplyr::mutate(Id=paste(PatientID, ExamDate, Eye, sep="-")) %>%
+  # Mover la clave y la capa al las primeras columnas
+  select(Id, Layer, everything()) %>%
+  # Eliminación datos atípicos
+  filter(!Lastname %in% id.atipicos) %>%
+  # Eliminación de datos innecesarios
+  select(-c("PatientID", "Lastname", "Firstname", "DOB", "ImageID", "ExamDate", "ExamTime", "Quality", "ARTMean", "ImageType", "Upper Layer", "Lower Layer", "GridType"))
 # Normalización de nombres de variables
-colnames(data.macula) <- make.names(colnames(data.macula))
-colnames(data.macula)[5:68] <- paste0("Celda",substr(colnames(data.macula)[5:68],6,8))
+colnames(df.macula) <- make.names(colnames(df.macula))
+colnames(df.macula)[5:68] <- paste0("Celda",substr(colnames(df.macula)[5:68],6,8))
 # Convertir en factores el glaucoma y el ojo y la capa
-data.macula$Glaucoma <- factor(data.macula$Glaucoma, levels=c("N","Y"))
-data.macula$Eye <- factor(data.macula$Eye, levels = c("L", "R"))
-data.macula$Layer <- factor(data.macula$Layer, levels = c("RNFL", "GCL", "IPL", "INL", "OPL", "ONL", "PRL", "RPE", "FULL"))
+df.macula <- df.macula %>% 
+  mutate_at(vars(Glaucoma, Layer, Eye), factor) %>%
+  mutate(Layer = fct_relevel(Layer, "RNFL", "GCL", "IPL", "INL", "OPL", "ONL", "PRL", "RPE", "FULL"))
+
 # Expandir capas a columnas 
-data.macula.expandido <- gather(data.macula, cell, value, -c(Glaucoma, Eye, Layer, Id)) %>%
+df.macula.expandido <- gather(df.macula, cell, value, -c(Glaucoma, Eye, Layer, Id)) %>%
   unite(temp, Layer, cell, sep = ".") %>%
   spread(temp, value)
 # Renombrar variables
-data.macula %<>% dplyr::rename(Ojo=Eye, Capa=Layer)
-data.macula.expandido %<>% dplyr::rename(Ojo=Eye)
+df.macula <- df.macula %>% rename(Ojo = Eye, Capa = Layer)
+df.macula.expandido <- df.macula.expandido %>% rename(Ojo = Eye, )
 
 # Fusionar data mácula y anillos
-data <- inner_join(data.anillos, data.macula.expandido)
+df <- inner_join(df.anillos, df.macula.expandido)
 
 # Exportar data 
-write.csv(file = "datos/datos-preprocesados.csv", data, row.names=F)
-save(data, file = "datos/datos-preprocesados.RData")
-write.csv(file = "datos/datos-anillos-preprocesados.csv", data.anillos, row.names=F)
-save(data.anillos, file = "datos/datos-anillos-preprocesados.RData")
-write.csv(file = "datos/datos-macula-preprocesados.csv", data.macula, row.names=F)
-save(data.macula, file = "datos/datos-macula-preprocesados.RData")
-write.csv(file = "datos/datos-macula-preprocesados-expandido.csv", data.macula.expandido, row.names=F)
-save(data.macula.expandido, file = "datos/datos-macula-preprocesados-expandido.RData")
+write_csv(df, file = "data/datos-preprocesados.csv")
+save(df, file = "data/datos-preprocesados.RData")
+write_csv(df.anillos, file = "data/data-rims-preprocesed.csv")
+save(df.anillos, file = "data/data-rims-preprocesed.RData")
+write_csv(df.macula, file = "data/datos-macula-preprocesados.csv")
+save(df.macula, file = "data/datos-macula-preprocesados.RData")
+write_csv(df.macula.expandido, file = "data/datos-macula-preprocesados-expandido.csv")
+save(df.macula.expandido, file = "data/datos-macula-preprocesados-expandido.RData")

@@ -9,7 +9,7 @@ if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
 
 # Data loading (see file data-preprocessing.R)
-data <- read.csv(file="datos/datos-anillos-preprocesados-estadios-izdo.csv", header=T, sep=",")
+data <- read.csv(file="data/datos-anillos-preprocesados-estadios-izdo.csv", header=T, sep=",")
 
 # Set of variables
 varBMO <- startsWith(colnames(data),"AnilloBMO")

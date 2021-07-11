@@ -10,17 +10,26 @@
 
 
 
-<meta name="date" content="2021-04-08" />
+<meta name="date" content="2021-07-11" />
 
-<title>Clasificación mediante análsisi discriminante lineal (ojos izquierdos)</title>
+<title>Clasificación mediante análisis discriminante lineal (ojos izquierdos)</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -29,6 +38,8 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -42,11 +53,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -59,32 +65,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 
@@ -95,10 +75,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -115,40 +91,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -176,7 +125,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -188,7 +137,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -199,10 +148,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -214,7 +176,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -340,7 +301,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -373,6 +334,9 @@ div.tocify {
   <a href="glaucoma-clusters-izdo.html">Estadios</a>
 </li>
 <li>
+  <a href="glaucoma-lda-anillos-izdo.html">Análisis Discriminante</a>
+</li>
+<li>
   <a href="glaucoma-campo-visual.html">Campo visual</a>
 </li>
 <li>
@@ -382,7 +346,7 @@ div.tocify {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://aprendeconalf.es/">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -391,147 +355,1739 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
-<h1 class="title toc-ignore">Clasificación mediante análsisi discriminante lineal (ojos izquierdos)</h1>
-<h4 class="date">2021-04-08</h4>
+<h1 class="title toc-ignore">Clasificación mediante análisis discriminante lineal (ojos izquierdos)</h1>
+<h4 class="date">2021-07-11</h4>
 
 </div>
 
 
 <div id="análisis-discriminante-lineal" class="section level1">
 <h1>Análisis discriminante lineal</h1>
-<!-- ## Comparación de modelos -->
-<!-- ```{r model-comparison} -->
-<!-- # Comparison of classification models with different variables -->
-<!-- accuracy.table <- data.frame(vars=character(), accuracy1=double(), accuracy2=double()) -->
-<!-- # All the variables -->
-<!-- vars <- "Todas las variables" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars = varRims) -->
-<!-- classification <- classify(data, vars = varRims) -->
-<!-- accuracy.table %<>% add_row(vars = vars, accuracy1 = classification.glaucoma$performance$overall[1], accuracy2 = classification$performance$overall[1]) -->
-<!-- # Clusters basados en todos los sectores globales y temporales inferiores -->
-<!-- vars <- "Sectores G y TI del BMO y todos los anillos" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c(varG, varTI)) -->
-<!-- classification <- classify(data, vars=c(varG, varTI)) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en todos los sectores globales -->
-<!-- vars <- "Sectores G del BMO y todos los anillos" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=varG) -->
-<!-- classification <- classify(data, vars=varG) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en todos los sectores temporales inferiores -->
-<!-- vars <- "Sectores TI del BMO y todos los anillos" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=varTI) -->
-<!-- classification <- classify(data, vars=varTI) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global y temporal inferior de losa Rims BMO y 3.5 -->
-<!-- vars <- "Sectores G y TI del BMO y anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global y temporal inferior del Rim BMO -->
-<!-- vars <- "Sectores G y TI del BMO" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "AnilloBMO.TI")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "AnilloBMO.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global y temporal inferior del Rim 3.5 -->
-<!-- vars <- "Sectores G y TI del anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- classification <- classify(data, vars=c("Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores global de los Rims BMO y 3.5 -->
-<!-- vars <- "Sectores G del BMO y el anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "Anillo3.5.G")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "Anillo3.5.G")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados en los sectores temporales inferiores de los Rims BMO y 3.5 -->
-<!-- vars <- "Sectores TI del BMO y el anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.TI", "Anillo3.5.TI")) -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.TI", "Anillo3.5.TI")) -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector global del Rim BMO -->
-<!-- vars <- "Sector G del BMO" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="AnilloBMO.G") -->
-<!-- classification <- classify(data, vars="AnilloBMO.G") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector global del Rim 3.5 -->
-<!-- vars <- "Sector G del 3.5 rim" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="Anillo3.5.G") -->
-<!-- classification <- classify(data, vars="Anillo3.5.G") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector temporal inferior del Rim BMO -->
-<!-- vars <- "Sector TI del BMO" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="AnilloBMO.TI") -->
-<!-- classification <- classify(data, vars="AnilloBMO.TI") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- # classification basados el sector temporal inferior del Rim 3.5 -->
-<!-- vars <- "Sector TI del anillo 3.5" -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars="Anillo3.5.TI") -->
-<!-- classification <- classify(data, vars="Anillo3.5.TI") -->
-<!-- accuracy.table %<>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1]) -->
-<!-- colnames(accuracy.table) <- c("Variables usadas en el modelo", "Precisión global<br> sin incluir ojos sanos", "Precisión global<br> incluyendo ojos sanos") -->
-<!-- pander(accuracy.table, justify = c('left', 'right', 'right'),  split.cells = c(25, 1, 1)) -->
-<!-- ``` -->
-<!-- ## Modelo usando todas las variables -->
-<!-- ### Matriz de confusión sin incluir ojos sanos -->
-<!-- ```{r confusion-matrix-without-healthy-eyes} -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=varRims) -->
-<!-- pander(classification.glaucoma$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo sin incluir ojos sanos -->
-<!-- ```{r performance-without-healthy-eyes} -->
-<!-- pander(classification.glaucoma$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ### Matriz de confusión incluyendo ojos sanos -->
-<!-- ```{r confusion-matrix-with-healthy-eyes} -->
-<!-- classification <- classify(data, vars=varRims) -->
-<!-- pander(classification$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo incluyendo ojos sanos -->
-<!-- ```{r performance-with-healthy-eyes} -->
-<!-- pander(classification$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ## Modelo usando los sectores G y TI del BMO y todos los anillos -->
-<!-- ### Matriz de confusión sin incluir ojos sanos -->
-<!-- ```{r confusion-matrix-without-healthy-eyes-G-TI} -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c(varG, varTI)) -->
-<!-- pander(classification.glaucoma$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo sin incluir ojos sanos -->
-<!-- ```{r performance-without-healthy-eyes-G-TI} -->
-<!-- pander(classification.glaucoma$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ### Matriz de confusión incluyendo ojos sanos -->
-<!-- ```{r confusion-matrix-with-healthy-eyes-G-TI} -->
-<!-- classification <- classify(data, vars=c(varG, varTI)) -->
-<!-- pander(classification$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo incluyendo ojos sanos -->
-<!-- ```{r performance-with-healthy-eyes-G-TI} -->
-<!-- pander(classification$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ## Modelo usando los sectores G y TI del BMO y el anillo 3.5 -->
-<!-- ### Matriz de confusión sin incluir ojos sanos -->
-<!-- ```{r confusion-matrix-without-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- classification.glaucoma <- classify(data.glaucoma, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- pander(classification.glaucoma$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo sin incluir ojos sanos -->
-<!-- ```{r performance-without-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- pander(classification.glaucoma$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
-<!-- ### Matriz de confusión incluyendo ojos sanos -->
-<!-- ```{r confusion-matrix-with-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- classification <- classify(data, vars=c("AnilloBMO.G", "AnilloBMO.TI", "Anillo3.5.G", "Anillo3.5.TI")) -->
-<!-- pander(classification$performance$table) -->
-<!-- ``` -->
-<!-- ### Evaluación del modelo incluyendo ojos sanos -->
-<!-- ```{r performance-with-healthy-eyes-G-TI-BMO-3.5} -->
-<!-- pander(classification$performance$byClass, split.cells = 1) -->
-<!-- ``` -->
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables usadas en el modelo
+</th>
+<th style="text-align:right;">
+Precisión global con ojos sanos
+</th>
+<th style="text-align:right;">
+Precisión global sin ojos sanos
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Todas las variables
+</td>
+<td style="text-align:right;">
+0.9204
+</td>
+<td style="text-align:right;">
+0.8769
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectoress G y TI del BMO y todos los RNFL
+</td>
+<td style="text-align:right;">
+0.9381
+</td>
+<td style="text-align:right;">
+0.8870
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G del BMO y G y TI de todos los RNFL
+</td>
+<td style="text-align:right;">
+0.9381
+</td>
+<td style="text-align:right;">
+0.8860
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G del BMO y todos los RNFL y TI del RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.9425
+</td>
+<td style="text-align:right;">
+0.8880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G y TI de todos los RNFL
+</td>
+<td style="text-align:right;">
+0.9115
+</td>
+<td style="text-align:right;">
+0.8638
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G del BMO y todos los RNFL
+</td>
+<td style="text-align:right;">
+0.8850
+</td>
+<td style="text-align:right;">
+0.8789
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores TI del BMO y todos los RNFL
+</td>
+<td style="text-align:right;">
+0.7080
+</td>
+<td style="text-align:right;">
+0.8375
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G y TI del BMO y el RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.9204
+</td>
+<td style="text-align:right;">
+0.8829
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G del BMO y G y TI del RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.9204
+</td>
+<td style="text-align:right;">
+0.8890
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G y TI del BMO
+</td>
+<td style="text-align:right;">
+0.5929
+</td>
+<td style="text-align:right;">
+0.8375
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G y TI de RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.8894
+</td>
+<td style="text-align:right;">
+0.8648
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores G del BMO y RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.8894
+</td>
+<td style="text-align:right;">
+0.8799
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sectores TI del BMO y RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.6991
+</td>
+<td style="text-align:right;">
+0.8385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sector G del BMO
+</td>
+<td style="text-align:right;">
+0.5664
+</td>
+<td style="text-align:right;">
+0.8285
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sector G del RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.8717
+</td>
+<td style="text-align:right;">
+0.8557
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sector TI del BMO
+</td>
+<td style="text-align:right;">
+0.5973
+</td>
+<td style="text-align:right;">
+0.8214
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sector TI del RNFL 3.5
+</td>
+<td style="text-align:right;">
+0.6416
+</td>
+<td style="text-align:right;">
+0.8224
+</td>
+</tr>
+</tbody>
+</table>
+<div id="modelo-con-todas-las-variables" class="section level2">
+<h2>Modelo con todas las variables</h2>
+<div id="matriz-de-confusión-sin-ojos-sanos" class="section level3">
+<h3>Matriz de confusión sin ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+I
+</th>
+<th style="text-align:right;">
+II
+</th>
+<th style="text-align:right;">
+III
+</th>
+<th style="text-align:right;">
+IV
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+37
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="efectividad-sin-ojos-sanos" class="section level3">
+<h3>Efectividad sin ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+Precisión.Global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Estadio I
+</td>
+<td style="text-align:right;">
+0.9216
+</td>
+<td style="text-align:right;">
+0.9943
+</td>
+<td style="text-align:right;">
+0.9579
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio II
+</td>
+<td style="text-align:right;">
+0.9615
+</td>
+<td style="text-align:right;">
+0.9459
+</td>
+<td style="text-align:right;">
+0.9537
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio III
+</td>
+<td style="text-align:right;">
+0.8750
+</td>
+<td style="text-align:right;">
+0.9647
+</td>
+<td style="text-align:right;">
+0.9199
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio IV
+</td>
+<td style="text-align:right;">
+0.9024
+</td>
+<td style="text-align:right;">
+0.9838
+</td>
+<td style="text-align:right;">
+0.9431
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="matriz-de-confusión-con-ojos-sanos" class="section level3">
+<h3>Matriz de confusión con ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sano
+</th>
+<th style="text-align:right;">
+I
+</th>
+<th style="text-align:right;">
+II
+</th>
+<th style="text-align:right;">
+III
+</th>
+<th style="text-align:right;">
+IV
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Sano
+</td>
+<td style="text-align:right;">
+745
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+33
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="efectividad-con-ojos-sanos" class="section level3">
+<h3>Efectividad con ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+Precisión.Global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Estadio Sano
+</td>
+<td style="text-align:right;">
+0.9739
+</td>
+<td style="text-align:right;">
+0.6504
+</td>
+<td style="text-align:right;">
+0.8121
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio I
+</td>
+<td style="text-align:right;">
+0.1961
+</td>
+<td style="text-align:right;">
+0.9872
+</td>
+<td style="text-align:right;">
+0.5917
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio II
+</td>
+<td style="text-align:right;">
+0.4615
+</td>
+<td style="text-align:right;">
+0.9803
+</td>
+<td style="text-align:right;">
+0.7209
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio III
+</td>
+<td style="text-align:right;">
+0.8036
+</td>
+<td style="text-align:right;">
+0.9872
+</td>
+<td style="text-align:right;">
+0.8954
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio IV
+</td>
+<td style="text-align:right;">
+0.8049
+</td>
+<td style="text-align:right;">
+0.9989
+</td>
+<td style="text-align:right;">
+0.9019
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="modelo-con-los-sectores-g-y-ti-del-bmo-y-rnfl-3.5" class="section level2">
+<h2>Modelo con los sectores G y TI del BMO y RNFL 3.5</h2>
+<div id="funciones-discriminates-sin-ojos-sanos" class="section level3">
+<h3>Funciones discriminates sin ojos sanos</h3>
+<p>Coeficientes de las funciones discriminantes lineales:</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+LD1
+</th>
+<th style="text-align:right;">
+LD2
+</th>
+<th style="text-align:right;">
+LD3
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:right;">
+-0.1881
+</td>
+<td style="text-align:right;">
+0.7502
+</td>
+<td style="text-align:right;">
+-0.9165
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:right;">
+-0.0943
+</td>
+<td style="text-align:right;">
+-0.2901
+</td>
+<td style="text-align:right;">
+1.5660
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:right;">
+-0.8857
+</td>
+<td style="text-align:right;">
+0.4810
+</td>
+<td style="text-align:right;">
+0.0849
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:right;">
+-0.4108
+</td>
+<td style="text-align:right;">
+-0.6927
+</td>
+<td style="text-align:right;">
+-0.5217
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="matriz-de-confusión-sin-ojos-sanos-1" class="section level3">
+<h3>Matriz de confusión sin ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+I
+</th>
+<th style="text-align:right;">
+II
+</th>
+<th style="text-align:right;">
+III
+</th>
+<th style="text-align:right;">
+IV
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="efectividad-sin-ojos-sanos-1" class="section level3">
+<h3>Efectividad sin ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+Precisión.Global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Estadio I
+</td>
+<td style="text-align:right;">
+0.8824
+</td>
+<td style="text-align:right;">
+1.0000
+</td>
+<td style="text-align:right;">
+0.9412
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio II
+</td>
+<td style="text-align:right;">
+0.9615
+</td>
+<td style="text-align:right;">
+0.9324
+</td>
+<td style="text-align:right;">
+0.9470
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio III
+</td>
+<td style="text-align:right;">
+0.8929
+</td>
+<td style="text-align:right;">
+0.9647
+</td>
+<td style="text-align:right;">
+0.9288
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio IV
+</td>
+<td style="text-align:right;">
+0.9268
+</td>
+<td style="text-align:right;">
+0.9892
+</td>
+<td style="text-align:right;">
+0.9580
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="funciones-discriminantes-con-ojos-sanos" class="section level3">
+<h3>Funciones discriminantes con ojos sanos</h3>
+<p>Coeficientes de las funciones discriminantes lineales:</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+LD1
+</th>
+<th style="text-align:right;">
+LD2
+</th>
+<th style="text-align:right;">
+LD3
+</th>
+<th style="text-align:right;">
+LD4
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:right;">
+-0.2069
+</td>
+<td style="text-align:right;">
+1.2241
+</td>
+<td style="text-align:right;">
+-0.2007
+</td>
+<td style="text-align:right;">
+-1.1987
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:right;">
+-0.1555
+</td>
+<td style="text-align:right;">
+-0.4096
+</td>
+<td style="text-align:right;">
+-0.2255
+</td>
+<td style="text-align:right;">
+1.7378
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:right;">
+-0.6034
+</td>
+<td style="text-align:right;">
+-0.1298
+</td>
+<td style="text-align:right;">
+1.0720
+</td>
+<td style="text-align:right;">
+0.2322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:right;">
+-0.2950
+</td>
+<td style="text-align:right;">
+-0.4165
+</td>
+<td style="text-align:right;">
+-0.8337
+</td>
+<td style="text-align:right;">
+-0.6390
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mariz-de-confusión-con-ojos-sanos" class="section level3">
+<h3>Mariz de confusión con ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sano
+</th>
+<th style="text-align:right;">
+I
+</th>
+<th style="text-align:right;">
+II
+</th>
+<th style="text-align:right;">
+III
+</th>
+<th style="text-align:right;">
+IV
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Sano
+</td>
+<td style="text-align:right;">
+755
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+37
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="efectividad-con-ojos-sanos-1" class="section level3">
+<h3>Efectividad con ojos sanos</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+Precisión.Global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Estadio Sano
+</td>
+<td style="text-align:right;">
+0.9869
+</td>
+<td style="text-align:right;">
+0.6018
+</td>
+<td style="text-align:right;">
+0.7943
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio I
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.4989
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio II
+</td>
+<td style="text-align:right;">
+0.4744
+</td>
+<td style="text-align:right;">
+0.9836
+</td>
+<td style="text-align:right;">
+0.7290
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio III
+</td>
+<td style="text-align:right;">
+0.8214
+</td>
+<td style="text-align:right;">
+0.9914
+</td>
+<td style="text-align:right;">
+0.9064
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estadio IV
+</td>
+<td style="text-align:right;">
+0.9024
+</td>
+<td style="text-align:right;">
+0.9989
+</td>
+<td style="text-align:right;">
+0.9507
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="estadísticos-para-la-distribución-de-bmo.g-rim3.5.g-and-rim3.5.ti-por-estadios" class="section level3">
+<h3>Estadísticos para la distribución de BMO.G, Rim3.5.G and Rim3.5.TI por Estadios</h3>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Sector
+</th>
+<th style="text-align:left;">
+Estadio
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+se
+</th>
+<th style="text-align:right;">
+lower.ci
+</th>
+<th style="text-align:right;">
+upper.ci
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:left;">
+Sano
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3400
+</td>
+<td style="text-align:right;">
+1.0372
+</td>
+<td style="text-align:right;">
+0.0375
+</td>
+<td style="text-align:right;">
+0.2664
+</td>
+<td style="text-align:right;">
+0.4136
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+-0.3516
+</td>
+<td style="text-align:right;">
+0.9794
+</td>
+<td style="text-align:right;">
+0.1372
+</td>
+<td style="text-align:right;">
+-0.6271
+</td>
+<td style="text-align:right;">
+-0.0762
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+-1.4718
+</td>
+<td style="text-align:right;">
+0.8091
+</td>
+<td style="text-align:right;">
+0.0916
+</td>
+<td style="text-align:right;">
+-1.6542
+</td>
+<td style="text-align:right;">
+-1.2894
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+-1.9757
+</td>
+<td style="text-align:right;">
+0.8783
+</td>
+<td style="text-align:right;">
+0.1174
+</td>
+<td style="text-align:right;">
+-2.2109
+</td>
+<td style="text-align:right;">
+-1.7405
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+-3.1883
+</td>
+<td style="text-align:right;">
+0.8738
+</td>
+<td style="text-align:right;">
+0.1365
+</td>
+<td style="text-align:right;">
+-3.4641
+</td>
+<td style="text-align:right;">
+-2.9125
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:left;">
+Sano
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2184
+</td>
+<td style="text-align:right;">
+0.9992
+</td>
+<td style="text-align:right;">
+0.0361
+</td>
+<td style="text-align:right;">
+0.1475
+</td>
+<td style="text-align:right;">
+0.2893
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+-0.2698
+</td>
+<td style="text-align:right;">
+0.9536
+</td>
+<td style="text-align:right;">
+0.1335
+</td>
+<td style="text-align:right;">
+-0.5380
+</td>
+<td style="text-align:right;">
+-0.0016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+-1.2304
+</td>
+<td style="text-align:right;">
+0.9312
+</td>
+<td style="text-align:right;">
+0.1054
+</td>
+<td style="text-align:right;">
+-1.4404
+</td>
+<td style="text-align:right;">
+-1.0205
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+-2.3249
+</td>
+<td style="text-align:right;">
+1.0073
+</td>
+<td style="text-align:right;">
+0.1346
+</td>
+<td style="text-align:right;">
+-2.5946
+</td>
+<td style="text-align:right;">
+-2.0551
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+-3.3770
+</td>
+<td style="text-align:right;">
+0.8779
+</td>
+<td style="text-align:right;">
+0.1371
+</td>
+<td style="text-align:right;">
+-3.6541
+</td>
+<td style="text-align:right;">
+-3.0999
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:left;">
+Sano
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3165
+</td>
+<td style="text-align:right;">
+1.0444
+</td>
+<td style="text-align:right;">
+0.0378
+</td>
+<td style="text-align:right;">
+0.2423
+</td>
+<td style="text-align:right;">
+0.3906
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+0.6000
+</td>
+<td style="text-align:right;">
+0.7404
+</td>
+<td style="text-align:right;">
+0.1037
+</td>
+<td style="text-align:right;">
+0.3918
+</td>
+<td style="text-align:right;">
+0.8082
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+-1.3375
+</td>
+<td style="text-align:right;">
+0.7206
+</td>
+<td style="text-align:right;">
+0.0816
+</td>
+<td style="text-align:right;">
+-1.4999
+</td>
+<td style="text-align:right;">
+-1.1750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+-3.1287
+</td>
+<td style="text-align:right;">
+0.7729
+</td>
+<td style="text-align:right;">
+0.1033
+</td>
+<td style="text-align:right;">
+-3.3357
+</td>
+<td style="text-align:right;">
+-2.9218
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+-5.4930
+</td>
+<td style="text-align:right;">
+1.1323
+</td>
+<td style="text-align:right;">
+0.1768
+</td>
+<td style="text-align:right;">
+-5.8504
+</td>
+<td style="text-align:right;">
+-5.1356
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:left;">
+Sano
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.0750
+</td>
+<td style="text-align:right;">
+1.1143
+</td>
+<td style="text-align:right;">
+0.0403
+</td>
+<td style="text-align:right;">
+-0.0040
+</td>
+<td style="text-align:right;">
+0.1541
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+0.0527
+</td>
+<td style="text-align:right;">
+0.8429
+</td>
+<td style="text-align:right;">
+0.1180
+</td>
+<td style="text-align:right;">
+-0.1843
+</td>
+<td style="text-align:right;">
+0.2898
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+-1.0176
+</td>
+<td style="text-align:right;">
+1.0403
+</td>
+<td style="text-align:right;">
+0.1178
+</td>
+<td style="text-align:right;">
+-1.2522
+</td>
+<td style="text-align:right;">
+-0.7831
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+-3.6541
+</td>
+<td style="text-align:right;">
+1.2586
+</td>
+<td style="text-align:right;">
+0.1682
+</td>
+<td style="text-align:right;">
+-3.9912
+</td>
+<td style="text-align:right;">
+-3.3171
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+-5.3054
+</td>
+<td style="text-align:right;">
+1.1174
+</td>
+<td style="text-align:right;">
+0.1745
+</td>
+<td style="text-align:right;">
+-5.6580
+</td>
+<td style="text-align:right;">
+-4.9527
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-lda-anillos-izdo_files/figure-html/confidence-intervals-means-clusters-1.svg" width="768" /></p>
+</div>
+</div>
 </div>
 
 
@@ -563,7 +2119,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -572,6 +2128,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')

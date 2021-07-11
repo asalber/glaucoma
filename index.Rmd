@@ -20,8 +20,8 @@ lapply(.packages, require, character.only=T)
 
 ```{r carga-datos}
 # Carga de datos
-#datos <- read.csv(file="datos/datos.csv", header=T, sep=",")
-load("datos/datos-preprocesados.RData")
+#datos <- read.csv(file="data/datos.csv", header=T, sep=",")
+load("data/data-preprocesed.RData")
 ```
 
 # Autores
@@ -41,19 +41,19 @@ Estudio analítico observacional transversal comparativo.
 
 # Tamaño muestral
 
-Número total de ojos: `r nrow(data)`
+Número total de ojos: `r nrow(df)`
 
 Distribución por grupos:
 
 ```{r tamaño-muestral}
-result <- count(data, Glaucoma)
+result <- count(df, Glaucoma)
 result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
 # Variables
 
 ```{r variables}
-variables <- read.csv(file="datos/variables.csv", encoding="UTF-8", header=T, sep=",")
+variables <- read.csv(file="data/variables.csv", encoding="UTF-8", header=T, sep=",")
 datatable(variables, rownames = F, escape=F, class = 'display', options = list(pageLength = 10, dom="ltip", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 variables.Num <- variables[variables$Type=="Num",]
 variables.Factors <- variables[variables$Type=="Factor",]
@@ -64,7 +64,7 @@ variables.Factors <- variables[variables$Type=="Factor",]
 ## Distribución por Ojo
 
 ```{r frecuencias-ojo}
-eyes.count <- data %>% 
+eyes.count <- df %>% 
   group_by(Glaucoma) %>% 
   count(Ojo) %>% 
   pivot_wider(names_from = Glaucoma, values_from = n)
@@ -77,7 +77,7 @@ eyes.count %>%
 ## Distribución por Sexo
 
 ```{r frecuencias-sexo}
-gender.count <- data %>% 
+gender.count <- df %>% 
   group_by(Glaucoma) %>% 
   count(Sexo) %>%
   pivot_wider(names_from = Glaucoma, values_from = n)
@@ -90,7 +90,7 @@ gender.count %>%
 ## Distribución por Edad
 
 ```{r frecuencias-edad}
-result <- data %>% 
+result <- df %>% 
   group_by(Glaucoma) %>% 
   summarise(Media = mean(Edad), "Desviación Típica" = sd(Edad), Mínimo = min(Edad), Máximo = max(Edad))
 result %>% 
@@ -99,7 +99,7 @@ result %>%
 ```
 
 ```{r descriptiva-edad-genero-ojos}
-ggpairs(data, mapping=aes(color=Glaucoma, alpha=0.5), columns=c("Sexo", "Edad", "Ojo"))
+ggpairs(df, mapping=aes(color=Glaucoma, alpha=0.5), columns=c("Sexo", "Edad", "Ojo"))
 ```
 
 # Glosario

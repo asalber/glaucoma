@@ -10,56 +10,69 @@ options(digits = 4)
 opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message = F, warning = F, dev = "svg")
 ```
 
-```{r carga-datos}
-# Carga de la base de data preprocesados (ver fichero glaucoma-preprocesamiento-data.r)
-source("carga-datos-anillos.R")
-```
-
 ```{r carga-paquetes, results='hide'}
 # Carga de paquetes
-.packages <- c("reshape2", "FactoMineR", "factoextra", "MASS", "caret", "GGally", "kableExtra")
+# .packages <- c("tidyverse", "reshape2", "FactoMineR", "factoextra", "MASS", "caret", "GGally", "kableExtra")
+.packages <- c("tidyverse", "FactoMineR", "factoextra")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
+```
+
+
+```{r carga-datos}
+# Carga de la base de datos preprocesados (ver fichero glaucoma-preprocesamiento-datos.r)
+load("data/data-rims-preprocesed.RData")
+df <- df.anillos
+
+# Set of variables
+varBMO <- startsWith(colnames(df),"BMO")
+varBMO[11] <- F
+varBMO <- colnames(df)[varBMO]
+var3.5 <- startsWith(colnames(df),"RNFL3.5")
+var3.5 <- colnames(df)[var3.5]
+var4.1 <- startsWith(colnames(df),"RNFL4.1")
+var4.1 <- colnames(df)[var4.1]
+var4.7 <- startsWith(colnames(df),"RNFL4.7")
+var4.7 <- colnames(df)[var4.7]
+varG <- endsWith(colnames(df), ".G")
+varG <- colnames(df[varG])
+varTI <- endsWith(colnames(df), ".TI")
+varTI <- colnames(df[varTI])
+varT <- endsWith(colnames(df), ".T")
+varT <- colnames(df[varT])
+varTS <- endsWith(colnames(df), ".TS")
+varTS <- colnames(df[varTS])
+varNS <- endsWith(colnames(df), ".NS")
+varNS <- colnames(df[varNS])
+varN<- endsWith(colnames(df), ".N")
+varN <- colnames(df[varN])
+varNI <- endsWith(colnames(df), ".NI")
+varNI <- colnames(df[varNI])
+varRims <- c(varBMO, var3.5, var4.1, var4.7)
+varSectors <- c(varG, varTI, varT, varTS, varNS, varN, varNI)
+
+# Variables selection
+df <- df %>% 
+  select(c("Id", "Sexo", "Edad", "Glaucoma", "Ojo", "BMO.Area", all_of(varRims))) %>%
+  # Filter left eyes
+  filter(Ojo == "L") %>%
+  # Remove rows with Nas
+  na.omit()
+
+# Glaucoma eyes data frame
+df.glaucoma <- df %>% filter(Glaucoma == "Y")
 ```
 
 # Objetivo
 
 En este estudio se pretende definir distintos grupos de gravedad de glaucoma (estadíos de desarrollo de la enfermedad) en función del grosor de los anillos neuroretinianos, mediante la técnica de las $k$-medias.
 
-# Correlación
-
-```{r matriz-correlacion}
-# Correlación entre todos los sectores de los anillos
-ggcorr(data[, varSectors], hjust = 0.9, size = 3, layout.exp = 2, label = TRUE, label_size = 2, label_round = 2, low = "darkred", high = "#0072B2") +
-  ggtitle("Matriz de correlación entre los sectores del BMO y de los anillos RFNL") +
-  guides(fill = guide_colourbar(title="Coef. correlación\n Pearson r")) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), plot.title = element_text(hjust = 0.5))
-```
-
-# Análisis de componentes principales
-
-```{r componentes-principales}
-# Análisis de componentes principales de sanos y enfermos
-result.pca <- PCA(data[, c(varRims)], scale.unit = F, graph=F)
-fviz_eig(result.pca, main = "Variabilidad explicada por las dimensiones de los componentes principales", ylab = "Porcentaje de la variabilidad explicada", xlab = "Dimensiones")
-```
-
-Se observa que la mayor parte de la variabilidad la explica la primera dimensión. Ello es debido a la alta correlación entre los sectores de los distintos anillos.
-
-```{r componentes-principales-2}
-var <- get_pca_var(result.pca)
-fviz_pca_var(result.pca, col.var = "contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel=T, title="Coordenadas de las variables en los dos primeros componentes principales")
-fviz_cos2(result.pca, choice = "var", axes=1, title="Correlación de cada variable con el primer componente principal") + ylab("Coef. Determinación r²")
-```
-
-Se observa que los sectores que más peso tienen en el primer componente principal son el global y el temporal inferior de todos los anillos. Estas variables son precisamente las más correlacionadas entre si tal y como se aprecia en el siguente gráfico.
-
 # Estadios
 
 ```{r numero-clusters}
 # Number of clusters
-fviz_nbclust(data.glaucoma[, varRims], kmeans, method = "wss") + 
+fviz_nbclust(df.glaucoma[, varRims], kmeans, method = "wss") + 
   xlab("Número de grupos") + 
   ylab("Suma de cuadrados intra-grupos") + 
   ggtitle("Reducción de la variabilidad intra-grupos según el número de grupos")
@@ -75,43 +88,48 @@ vars = varRims
 # Número de clusters
 n = 4
 labels <- c("I", "II", "III", "IV")
-  # Color palette
-  colfunc <- colorRampPalette(c("#FD8D3C", "#800026"))
-  palette <- colfunc(n)
-  palette.healthy <- c("#00BFC4", palette)
+# Color palette
+# colfunc <- colorRampPalette(c("#FD8D3C", "#800026"))
+#palette.healty <- colorRamps::green2red(5)
+palette.healthy <- c("#00FF00", "#3FBF00", "#7F7F00", "#BF3F00", "#FF0000")
+palette <- palette.healthy[-1]
+# palette.healthy <- c("#00BFC4", palette)
 # Shapes
 shapes <- c(1, 3, 15, 17, 16)
 # k-means
-# C <- chol( var(data[data$Glaucoma=="Y", vars]) )
-# y <- as.matrix(data[data$Glaucoma=="Y", vars]) %*% solve(C)
+# C <- chol( var(df[df$Glaucoma=="Y", vars]) )
+# y <- as.matrix(df[df$Glaucoma=="Y", vars]) %*% solve(C)
 # clusters <- kmeans(y, centers = n, nstart = 25)
 # centers <- clusters$centers[order(clusters$centers[,1], decreasing = T),]
 # clusters <- kmeans(y, centers = centers)
 
-clusters <- kmeans(data[data$Glaucoma=="Y", vars], centers = n, nstart = 25)
+clusters <- kmeans(df[df$Glaucoma=="Y", vars], centers = n, nstart = 25)
 centers <- clusters$centers[order(clusters$centers[,1], decreasing = T),]
-clusters <- kmeans(data[data$Glaucoma=="Y", vars], centers = centers)
+clusters <- kmeans(df[df$Glaucoma=="Y", vars], centers = centers)
 # Convert the cluster into a factor
 clusters$cluster <- as.factor(clusters$cluster)
 # Assign labels to factors
 levels(clusters$cluster) <- labels
 # Add cluster to data frame
-data$Estadio <- factor("Sano", levels=c("Sano", labels))
-data[data$Glaucoma=="Y", "Estadio"] <- clusters$cluster
+df$Estadio <- factor("Sano", levels=c("Sano", labels))
+df[df$Glaucoma=="Y", "Estadio"] <- clusters$cluster
+# Save clusters dafa frame
+df %>% write_csv("data/data-rims-preprocesed-stages.csv")
+df %>% select(Id, Estadio) %>% write_csv("data/data-stages.csv")
 ```
 
 ## Mapa de los estadíos de glaucoma sin incluir ojos sanos
 
 ```{r map-clusters-whithout-healthy}
 # Principal components
-result.pca <- PCA(data[, vars], scale.unit = F, graph=F) 
+result.pca <- PCA(df[, vars], scale.unit = F, graph=F) 
 # Map of clusters (without healthy eyes)
 fviz_pca_ind(
   result.pca,
   geom = c("point"),
   axes = c(1, 2),
-  select.ind = list(name = rownames(data[data$Glaucoma == "Y", ])),
-  col.ind = data$Estadio,
+  select.ind = list(name = df %>% rownames_to_column() %>% filter(Glaucoma == "Y") %>% .$rowname),
+  col.ind = df$Estadio,
   palette = palette,
   addEllipses = T,
   ellipse.type = "t",
@@ -136,7 +154,7 @@ fviz_pca_ind(
   result.pca,
   geom = c("point"),
   axes = c(1, 2),
-  col.ind = data$Estadio,
+  col.ind = df$Estadio,
   palette = palette.healthy,
   addEllipses = T,
   ellipse.type = "t",
@@ -150,27 +168,40 @@ fviz_pca_ind(
 #ggsave("img/map-clusters-with-healthy.pdf")
 ```
 
+## Distribución del primer componente principal por estadíos de glaucoma
 
-<!-- ### Estadísticos de la distribución de AnilloBMO.G, AnilloBMO.TI, Anillo3.5.G y Anillo3.5.TI por Estadios stages -->
-<!-- ```{r confidence-intervals-means-clusters} -->
-<!-- # Means of variables by stages -->
-<!-- melted.data <- melt(data[, c("Estadio", vars=c("BMO.G", "BMO.TI", "RNFL3.5.G", "RNFL3.5.TI"))]) -->
-<!-- colnames(melted.data)[2] <- "Sector"  -->
-<!-- means <- melted.data %>% group_by(Sector, Estadio) %>%  -->
-<!--   summarise(n = n(), mean = mean(value, na.rm = T), sd = sd(value, na.rm = T))  %>% -->
-<!--   mutate(se = sd/sqrt(n), lower.ci = mean-qt(1-(0.05/2), n-1)*se, upper.ci = mean+qt(1-(0.05/2), n-1)*se) -->
-<!-- means %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F) -->
+```{r clusters-distribution}
+# Add principal components coordinates to a data frame
+df.pca <- as.data.frame(result.pca$ind$coord)
+# Add cluster to principal components data frame
+df.pca$Estadio <- df$Estadio
+ggplot(df.pca, aes(x = Dim.1)) +
+  geom_density(aes(fill = Estadio), colour = I("white"), position = "identity", alpha = .5) + 
+  ggtitle("Distribución del primer componente principal según los estadios de glaucoma") +
+  xlab("Primer componente principal") +
+  ylab("Densidad de probabilidad") +
+  scale_fill_manual(values = palette.healthy) +
+  theme(legend.position = "top", plot.title = element_text(hjust = 0.5))
+#ggsave("img/clusters-distributions.pdf", width = 7, height = 5)
+```
 
-<!-- # Color palette -->
-<!-- colfunc <- colorRampPalette(c("#FD8D3C", "#800026")) -->
-<!-- palette <- colfunc(4) -->
-<!-- palette.healthy <- c("#00BFC4", palette) -->
+## Intervalos de confianza para las medias según estadios de glaucoma
 
-<!-- # Plot of means by stages -->
-<!-- ggplot(means, aes(x = Sector, y = mean, colour = Estadio, shape = Estadio )) + -->
-<!--   geom_pointrange(aes(ymin = lower.ci, ymax = upper.ci), position = position_dodge(width = 0.5)) + -->
-<!--   ggtitle("Intervalos de confianza para las medias de los sectores G y TI\n del BMO y el anillo 3.5 por estadios de glaucoma") + -->
-<!--   scale_colour_manual(values = palette.healthy) + -->
-<!--   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=0.5), plot.title = element_text(hjust = 0.5)) -->
-<!-- ``` -->
+```{r confidence-intervals-means-by-stages}
+# Means of variables by clusters
+df.long <- df %>% select(Estadio, vars) %>% pivot_longer(-Estadio, names_to = "Sector") 
+
+means <- df.long %>% group_by(Estadio, Sector) %>% 
+  summarise(n = n(), mean = mean(value, na.rm = T), sd = sd(value, na.rm = T))  %>%
+  mutate(se = sd/sqrt(n), lower.ci = mean-qt(1-(0.05/2), n-1)*se, upper.ci = mean+qt(1-(0.05/2), n-1)*se)
+
+# Plot of means by clusters
+ggplot(means, aes(x = Sector, y = mean, colour = Estadio, shape = Estadio)) +
+  geom_pointrange(aes(ymin = lower.ci, ymax = upper.ci), position = position_dodge(width = 0.5)) +
+  ggtitle("Intervalos de confianza para la medias del BMO y los anillos neuroretinianos según estadios") +
+  scale_colour_manual(values = palette.healthy) +
+  scale_shape_manual(values = shapes) +
+  ylab("Media") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=0.5), plot.title = element_text(hjust = 0.5))
+```
 

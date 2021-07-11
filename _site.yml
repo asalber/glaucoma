@@ -14,10 +14,10 @@ navbar:
     href: glaucoma-clusters-izdo.html
 #  - text: Estadios glaucoma Dcho
 #    href: glaucoma-clusters-dcho.html
+  - text: Análisis Discriminante
+    href: glaucoma-lda-anillos-izdo.html
   - text: Campo visual
     href: glaucoma-campo-visual.html
-#  - text: An.Disriminante.Anillos.Izdo
-#    href: glaucoma-lda-anillos-izdo.html
   - text: Mácula
     href: glaucoma-macula.html
 #  - text: Mácula.Estadios

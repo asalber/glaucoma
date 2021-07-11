@@ -10,17 +10,26 @@
 
 
 
-<meta name="date" content="2021-04-08" />
+<meta name="date" content="2021-07-11" />
 
 <title>Análisis de los anillos neuroretinianos</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -30,6 +39,7 @@
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -43,11 +53,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -60,32 +65,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 
@@ -96,10 +75,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -116,40 +91,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -177,7 +125,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -189,7 +137,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -200,10 +148,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -215,7 +176,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -341,7 +301,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -374,6 +334,9 @@ div.tocify {
   <a href="glaucoma-clusters-izdo.html">Estadios</a>
 </li>
 <li>
+  <a href="glaucoma-lda-anillos-izdo.html">Análisis Discriminante</a>
+</li>
+<li>
   <a href="glaucoma-campo-visual.html">Campo visual</a>
 </li>
 <li>
@@ -383,7 +346,7 @@ div.tocify {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="http://aprendeconalf.es/">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -392,12 +355,12 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
 <h1 class="title toc-ignore">Análisis de los anillos neuroretinianos</h1>
-<h4 class="date">2021-04-08</h4>
+<h4 class="date">2021-07-11</h4>
 
 </div>
 
@@ -5124,6 +5087,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -5146,6 +5111,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+BMO.G
+</td>
 <td style="text-align:right;">
 0.3400
 </td>
@@ -5166,6 +5134,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.NS
+</td>
 <td style="text-align:right;">
 0.4397
 </td>
@@ -5186,6 +5157,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.N
+</td>
 <td style="text-align:right;">
 0.2598
 </td>
@@ -5206,6 +5180,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.NI
+</td>
 <td style="text-align:right;">
 0.1597
 </td>
@@ -5226,6 +5203,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
 <td style="text-align:right;">
 0.2184
 </td>
@@ -5246,6 +5226,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.T
+</td>
 <td style="text-align:right;">
 0.3613
 </td>
@@ -5266,6 +5249,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.TS
+</td>
 <td style="text-align:right;">
 0.3555
 </td>
@@ -5294,6 +5280,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -5316,6 +5304,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+BMO.G
+</td>
 <td style="text-align:right;">
 0.3819
 </td>
@@ -5336,6 +5327,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.NS
+</td>
 <td style="text-align:right;">
 0.2847
 </td>
@@ -5356,6 +5350,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.N
+</td>
 <td style="text-align:right;">
 0.3697
 </td>
@@ -5376,6 +5373,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.NI
+</td>
 <td style="text-align:right;">
 0.2365
 </td>
@@ -5396,6 +5396,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
 <td style="text-align:right;">
 0.2865
 </td>
@@ -5416,6 +5419,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.T
+</td>
 <td style="text-align:right;">
 0.4179
 </td>
@@ -5436,6 +5442,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.TS
+</td>
 <td style="text-align:right;">
 0.2915
 </td>
@@ -5470,6 +5479,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -5492,6 +5503,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
 <td style="text-align:right;">
 0.3165
 </td>
@@ -5512,6 +5526,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.NS
+</td>
 <td style="text-align:right;">
 0.3233
 </td>
@@ -5532,6 +5549,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.N
+</td>
 <td style="text-align:right;">
 0.3330
 </td>
@@ -5552,6 +5572,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.NI
+</td>
 <td style="text-align:right;">
 0.3420
 </td>
@@ -5572,6 +5595,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
 <td style="text-align:right;">
 0.0750
 </td>
@@ -5592,6 +5618,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.T
+</td>
 <td style="text-align:right;">
 -0.0569
 </td>
@@ -5612,6 +5641,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.TS
+</td>
 <td style="text-align:right;">
 -0.0809
 </td>
@@ -5640,6 +5672,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -5662,6 +5696,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
 <td style="text-align:right;">
 0.4013
 </td>
@@ -5682,6 +5719,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.NS
+</td>
 <td style="text-align:right;">
 0.0026
 </td>
@@ -5702,6 +5742,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.N
+</td>
 <td style="text-align:right;">
 0.3634
 </td>
@@ -5722,6 +5765,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.NI
+</td>
 <td style="text-align:right;">
 0.3355
 </td>
@@ -5742,6 +5788,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
 <td style="text-align:right;">
 0.1194
 </td>
@@ -5762,6 +5811,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.T
+</td>
 <td style="text-align:right;">
 0.1853
 </td>
@@ -5782,6 +5834,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.TS
+</td>
 <td style="text-align:right;">
 0.2665
 </td>
@@ -5816,6 +5871,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -5838,6 +5895,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.G
+</td>
 <td style="text-align:right;">
 0.2628
 </td>
@@ -5858,6 +5918,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.NS
+</td>
 <td style="text-align:right;">
 0.3481
 </td>
@@ -5878,6 +5941,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.N
+</td>
 <td style="text-align:right;">
 0.2877
 </td>
@@ -5898,6 +5964,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.NI
+</td>
 <td style="text-align:right;">
 0.3224
 </td>
@@ -5918,6 +5987,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.TI
+</td>
 <td style="text-align:right;">
 0.0955
 </td>
@@ -5938,6 +6010,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.T
+</td>
 <td style="text-align:right;">
 -0.0934
 </td>
@@ -5958,6 +6033,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.TS
+</td>
 <td style="text-align:right;">
 -0.1093
 </td>
@@ -5986,6 +6064,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -6008,6 +6088,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.G
+</td>
 <td style="text-align:right;">
 0.3151
 </td>
@@ -6028,6 +6111,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.NS
+</td>
 <td style="text-align:right;">
 0.0233
 </td>
@@ -6048,6 +6134,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.N
+</td>
 <td style="text-align:right;">
 0.3128
 </td>
@@ -6068,6 +6157,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.NI
+</td>
 <td style="text-align:right;">
 0.2692
 </td>
@@ -6088,6 +6180,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.TI
+</td>
 <td style="text-align:right;">
 0.1200
 </td>
@@ -6108,6 +6203,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.T
+</td>
 <td style="text-align:right;">
 0.1295
 </td>
@@ -6128,6 +6226,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.TS
+</td>
 <td style="text-align:right;">
 0.1890
 </td>
@@ -6162,6 +6263,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -6184,6 +6287,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.G
+</td>
 <td style="text-align:right;">
 0.2549
 </td>
@@ -6204,6 +6310,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.NS
+</td>
 <td style="text-align:right;">
 0.4029
 </td>
@@ -6224,6 +6333,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.N
+</td>
 <td style="text-align:right;">
 0.2470
 </td>
@@ -6244,6 +6356,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.NI
+</td>
 <td style="text-align:right;">
 0.2995
 </td>
@@ -6264,6 +6379,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.TI
+</td>
 <td style="text-align:right;">
 0.1484
 </td>
@@ -6284,6 +6402,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.T
+</td>
 <td style="text-align:right;">
 -0.1307
 </td>
@@ -6304,6 +6425,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.TS
+</td>
 <td style="text-align:right;">
 -0.0544
 </td>
@@ -6332,6 +6456,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.Sanos
 </th>
@@ -6354,6 +6480,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.G
+</td>
 <td style="text-align:right;">
 0.2876
 </td>
@@ -6374,6 +6503,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.NS
+</td>
 <td style="text-align:right;">
 0.0300
 </td>
@@ -6394,6 +6526,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.N
+</td>
 <td style="text-align:right;">
 0.2722
 </td>
@@ -6414,6 +6549,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.NI
+</td>
 <td style="text-align:right;">
 0.2406
 </td>
@@ -6434,6 +6572,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.TI
+</td>
 <td style="text-align:right;">
 0.1169
 </td>
@@ -6454,6 +6595,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.T
+</td>
 <td style="text-align:right;">
 0.1077
 </td>
@@ -6474,6 +6618,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.TS
+</td>
 <td style="text-align:right;">
 0.2474
 </td>
@@ -6508,6 +6655,8 @@ p-valor
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 Media.diferencia
 </th>
@@ -6524,20 +6673,9 @@ p-valor
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
-0.0095
-</td>
-<td style="text-align:right;">
--0.0057
-</td>
-<td style="text-align:right;">
-0.0248
-</td>
 <td style="text-align:left;">
-0.2212
+BMO.G.L - BMO.G.R
 </td>
-</tr>
-<tr>
 <td style="text-align:right;">
 -0.0409
 </td>
@@ -6552,6 +6690,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.NS.L - BMO.NS.R
+</td>
 <td style="text-align:right;">
 0.1192
 </td>
@@ -6566,6 +6707,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.N.L - BMO.N.R
+</td>
 <td style="text-align:right;">
 -0.1095
 </td>
@@ -6580,6 +6724,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.NI.L - BMO.NI.R
+</td>
 <td style="text-align:right;">
 -0.0595
 </td>
@@ -6594,6 +6741,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.TI.L - BMO.TI.R
+</td>
 <td style="text-align:right;">
 -0.0388
 </td>
@@ -6608,6 +6758,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.T.L - BMO.T.R
+</td>
 <td style="text-align:right;">
 -0.0349
 </td>
@@ -6622,6 +6775,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+BMO.TS.L - BMO.TS.R
+</td>
 <td style="text-align:right;">
 0.0276
 </td>
@@ -6636,6 +6792,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.G.L - RNFL3.5.G.R
+</td>
 <td style="text-align:right;">
 -0.1174
 </td>
@@ -6650,6 +6809,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.NS.L - RNFL3.5.NS.R
+</td>
 <td style="text-align:right;">
 0.2595
 </td>
@@ -6664,6 +6826,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.N.L - RNFL3.5.N.R
+</td>
 <td style="text-align:right;">
 -0.0521
 </td>
@@ -6678,6 +6843,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.NI.L - RNFL3.5.NI.R
+</td>
 <td style="text-align:right;">
 -0.0199
 </td>
@@ -6692,6 +6860,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.TI.L - RNFL3.5.TI.R
+</td>
 <td style="text-align:right;">
 -0.0575
 </td>
@@ -6706,6 +6877,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.T.L - RNFL3.5.T.R
+</td>
 <td style="text-align:right;">
 -0.2451
 </td>
@@ -6720,6 +6894,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL3.5.TS.L - RNFL3.5.TS.R
+</td>
 <td style="text-align:right;">
 -0.3300
 </td>
@@ -6734,6 +6911,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.G.L - RNFL4.1.G.R
+</td>
 <td style="text-align:right;">
 -0.0778
 </td>
@@ -6748,6 +6928,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.NS.L - RNFL4.1.NS.R
+</td>
 <td style="text-align:right;">
 0.2921
 </td>
@@ -6762,6 +6945,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.N.L - RNFL4.1.N.R
+</td>
 <td style="text-align:right;">
 -0.0419
 </td>
@@ -6776,6 +6962,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.NI.L - RNFL4.1.NI.R
+</td>
 <td style="text-align:right;">
 0.0325
 </td>
@@ -6790,6 +6979,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.TI.L - RNFL4.1.TI.R
+</td>
 <td style="text-align:right;">
 -0.0241
 </td>
@@ -6804,6 +6996,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.T.L - RNFL4.1.T.R
+</td>
 <td style="text-align:right;">
 -0.2402
 </td>
@@ -6818,6 +7013,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.1.TS.L - RNFL4.1.TS.R
+</td>
 <td style="text-align:right;">
 -0.2996
 </td>
@@ -6832,6 +7030,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.G.L - RNFL4.7.G.R
+</td>
 <td style="text-align:right;">
 -0.0676
 </td>
@@ -6846,6 +7047,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.NS.L - RNFL4.7.NS.R
+</td>
 <td style="text-align:right;">
 0.3177
 </td>
@@ -6860,6 +7064,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.N.L - RNFL4.7.N.R
+</td>
 <td style="text-align:right;">
 -0.0207
 </td>
@@ -6874,6 +7081,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.NI.L - RNFL4.7.NI.R
+</td>
 <td style="text-align:right;">
 0.0275
 </td>
@@ -6888,6 +7098,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.TI.L - RNFL4.7.TI.R
+</td>
 <td style="text-align:right;">
 0.0190
 </td>
@@ -6902,6 +7115,9 @@ p-valor
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+RNFL4.7.T.L - RNFL4.7.T.R
+</td>
 <td style="text-align:right;">
 -0.2738
 </td>
@@ -6910,6 +7126,23 @@ p-valor
 </td>
 <td style="text-align:right;">
 -0.1884
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS.L - RNFL4.7.TS.R
+</td>
+<td style="text-align:right;">
+-0.3060
+</td>
+<td style="text-align:right;">
+-0.3754
+</td>
+<td style="text-align:right;">
+-0.2367
 </td>
 <td style="text-align:left;">
 &lt;0.001
@@ -6950,7 +7183,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -6959,6 +7192,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
