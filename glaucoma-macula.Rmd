@@ -11,7 +11,7 @@ opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message 
 ```
 
 ```{r carga-paquetes, results='hide'}
-.packages <- c("tidyverse", "reshape2", "GGally", "gridExtra", "ggpubr", "DT", "kableExtra", "psych")
+.packages <- c("tidyverse", "GGally", "gridExtra", "psych", "DT", "kableExtra" )
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)

@@ -9,10 +9,8 @@ purrr
 dplyr
 stringr
 forcats
-reshape2
 GGally
 gridExtra
-ggpubr
 DT
 kableExtra
 psych

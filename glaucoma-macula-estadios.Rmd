@@ -1,5 +1,5 @@
 ---
-title: "Análisis del cubo macular por estadios de glaucoma"
+title: "Clasifiación del Glaucoma en estadíos a partir del cubo macular"
 date: "`r Sys.Date()`"
 ---
 
@@ -11,306 +11,192 @@ opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message 
 ```
 
 ```{r carga-paquetes, results='hide'}
-.packages <- c("readxl", "tidyverse", "reshape2", "GGally", "gridExtra", "ggpubr", "DT", "psych", "pander")
+.packages <- c("tidyverse", "tensorflow", "keras")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
+Sys.setenv(RETICULATE_PYTHON="/usr/bin/python")
 ```
 
-<!-- <!-- ```{r carga-datos} --> -->
-<!-- <!-- # Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r) --> -->
-<!-- <!-- datos.macula <- read.csv(file="data/datos-macula-preprocesados.csv", header=T, sep=",") --> -->
-<!-- <!-- datos.anillos <- read.csv(file="data/data-rims-preprocesed.csv", header=T, sep=",") --> -->
+```{r carga-datos}
+# Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
+load("data/data-macula-preprocesed.RData")
+df <- df.macula %>%
+  # Filter left eyes
+  filter(Ojo == "L") %>%
+  # Remove FULL layer
+  filter(Capa == "RNFL")
 
-<!-- <!-- varRims <- startsWith(colnames(datos.anillos), "Anillo") --> -->
-<!-- <!-- varRims <- colnames(datos.anillos[varRims])[-1] --> -->
-<!-- <!-- varG <- endsWith(colnames(datos.anillos), ".G") --> -->
-<!-- <!-- varG <- colnames(datos.anillos[varG]) --> -->
+# Conjunto de variables
+varCells <- NULL
+for (i in 1:8){
+  for (j in 1:8){
+    varCells <- c(varCells, paste0("Celda",j,".",i))
+  }
+}
 
-<!-- <!-- # Selección de variables --> -->
-<!-- <!-- datos.anillos %<>% dplyr::select(c("Id", "Ojo", "Glaucoma", varRims)) --> -->
-<!-- <!-- # Casos completos --> -->
-<!-- <!-- datos.anillos <- datos.anillos[complete.cases(datos.anillos), ] --> -->
-<!-- <!-- # Ojo izquierdo  --> -->
-<!-- <!-- datos.anillos.L <- filter(datos.anillos, Ojo=="L") --> -->
-<!-- <!-- # Ojo derecho --> -->
-<!-- <!-- datos.anillos.R <- filter(datos.anillos, Ojo=="R") --> -->
+# Eliminación datos atípicos
+removeOutliers <- function(x) {
+  qnt <- quantile(x, probs=c(.25, .75, 0.05, 0.95), na.rm = T)
+  iqr <- qnt[2]-qnt[1]
+  fence1 <- qnt[1]-1.5*iqr
+  fence2 <- qnt[2]+1.5*iqr
+  x[x < fence1] <- qnt[3]
+  x[x > fence2] <- qnt[4]
+  return(x)
+}
 
-<!-- <!-- # Creación de los clusters de los estadios mediante k medias utilizando los sectores globales de todos los anillos (ver fichero glaucoma-clusters.r) --> -->
-<!-- <!-- seed = 123 --> -->
-<!-- <!-- labels=c("I", "II", "III", "IV") --> -->
-<!-- <!-- n = length(labels) --> -->
-<!-- <!-- # Ojo izquierdo --> -->
-<!-- <!-- clusters <- kmeans(datos.anillos.L[datos.anillos.L$Glaucoma=="Y", varG], centers = n, nstart = 25) --> -->
-<!-- <!-- centers <- clusters$centers[order(clusters$centers[,1], decreasing = T),] --> -->
-<!-- <!-- clusters <- kmeans(datos.anillos.L[datos.anillos.L$Glaucoma=="Y", varG], centers = centers) --> -->
-<!-- <!-- # Convertir el cluster en un factor --> -->
-<!-- <!-- clusters$cluster <- as.factor(clusters$cluster) --> -->
-<!-- <!-- # Asignar etiquetas a los niveles del factor --> -->
-<!-- <!-- levels(clusters$cluster) <- labels --> -->
-<!-- <!-- # Añadir el cluster al conjunto de datos --> -->
-<!-- <!-- datos.anillos.L$Estadio<- factor("Sano", levels=c("Sano", labels)) --> -->
-<!-- <!-- datos.anillos.L[datos.anillos.L$Glaucoma=="Y", "Estadio"] <- clusters$cluster --> -->
+df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="GCL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="INL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="INL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="IPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="OPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="ONL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="PRL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RPE", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RPE", varCells], removeOutliers)
 
-<!-- <!-- # Ojo derecho --> -->
-<!-- <!-- clusters <- kmeans(datos.anillos.R[datos.anillos.R$Glaucoma=="Y", varG], centers = n, nstart = 25) --> -->
-<!-- <!-- centers <- clusters$centers[order(clusters$centers[,1], decreasing = T),] --> -->
-<!-- <!-- clusters <- kmeans(datos.anillos.R[datos.anillos.R$Glaucoma=="Y", varG], centers = centers) --> -->
-<!-- <!-- # Convertir el cluster en un factor --> -->
-<!-- <!-- clusters$cluster <- as.factor(clusters$cluster) --> -->
-<!-- <!-- # Asignar etiquetas a los niveles del factor --> -->
-<!-- <!-- levels(clusters$cluster) <- labels --> -->
-<!-- <!-- # Añadir el cluster al conjunto de datos --> -->
-<!-- <!-- datos.anillos.R$Estadio<- factor("Sano", levels=c("Sano", labels)) --> -->
-<!-- <!-- datos.anillos.R[datos.anillos.R$Glaucoma=="Y", "Estadio"] <- clusters$cluster --> -->
+# Arrange cells of the same eye in the same row
+df.wide <- df %>% 
+  # Convert to long format
+  pivot_longer(-c(Glaucoma, Ojo, Capa, Id), names_to = "cell") %>%
+  # Join the layer and cell columns
+  unite(temp, Capa, cell, sep = ".") %>%
+  # Come back to wide format
+  pivot_wider(names_from = temp, values_from = value)
+  
+# Añadir capa OPL+ONL
+# dfOPLONL <- cbind(df[df$Capa=="OPL", 1:4], df[df$Capa=="OPL", varCells] + df[df$Capa=="ONL", varCells])
+# dfOPLONL$Capa <- "OPL+ONL" 
+# df <- rbind(df, dfOPLONL)
 
-<!-- <!-- datos.anillos[datos.anillos$Ojo=="L","Estadio"] <- datos.anillos.L$Estadio --> -->
-<!-- <!-- datos.anillos[datos.anillos$Ojo=="R","Estadio"] <- datos.anillos.R$Estadio --> -->
+df.wide <- df
+# Cargar conjunto datos con estadios
+df.stages <- read_csv("data/data-stages.csv") %>% 
+  select(-c(Ojo, Glaucoma))
+# Añadir estadios al conjunto de datos de la mácula
+df <- inner_join(df.wide, df.stages, by="Id") %>%
+  # Mover la columna del Estadio al principio
+  select(Id, Sexo, Edad, Glaucoma, Ojo, Estadio, everything())
 
-<!-- <!-- # Añadir estadios al conjunto de datos de la mácula --> -->
-<!-- <!-- datos <- left_join(datos.macula, datos.anillos[, c("Id", "Estadio")], by="Id") %>% --> -->
-<!-- <!--   # Mover la columna del Estadio al principio --> -->
-<!-- <!--   dplyr::select(Id, Capa, Estadio, everything()) --> -->
+# Look for rows with more than 64 NA
+rows <- NULL
+for (i in 1:nrow(df)){
+  if (sum(is.na(df[i,])) > 10) {
+    rows <- append(rows, i)
+  }
+}
+# Remove rows from the data frame
+df <- df %>% slice(-rows)
+# Replace NAs by the column mean
+col_means <- lapply(df %>% select(-c(Id, Sexo, Edad, Glaucoma, Ojo, Estadio)), mean, na.rm = TRUE)
+df <- df %>% replace_na(col_means)
+```
 
-<!-- <!-- # Conjuntos de variables --> -->
-<!-- <!-- # celdas <- startsWith(colnames(datos),"Cell") --> -->
-<!-- <!-- # celdas <- colnames(datos)[celdas] --> -->
-<!-- <!-- celdas <- NULL --> -->
-<!-- <!-- for (i in 1:8){ --> -->
-<!-- <!--   for (j in 8:1){ --> -->
-<!-- <!--     celdas <- c(celdas, paste0("Celda",j,".",i)) --> -->
-<!-- <!--   } --> -->
-<!-- <!-- } --> -->
-<!-- <!-- matriz.celdas <- matrix(celdas, nrow=8, ncol=8) --> -->
-<!-- <!-- submatriz.celdas1 <- t(matriz.celdas[5:8,1:4]) --> -->
-<!-- <!-- submatriz.celdas2 <- t(matriz.celdas[5:8,5:8]) --> -->
-<!-- <!-- submatriz.celdas3 <- t(matriz.celdas[1:4,1:4]) --> -->
-<!-- <!-- submatriz.celdas4 <- t(matriz.celdas[1:4,5:8]) --> -->
-<!-- <!-- submatriz.celdas <- list(submatriz.celdas1, submatriz.celdas2, submatriz.celdas3, submatriz.celdas4) --> -->
-<!-- <!-- celdas <- NULL --> -->
-<!-- <!-- for (i in 1:8){ --> -->
-<!-- <!--   for (j in 1:8){ --> -->
-<!-- <!--     celdas <- c(celdas, paste0("Celda",j,".",i)) --> -->
-<!-- <!--   } --> -->
-<!-- <!-- } --> -->
-<!-- <!-- # Celdas hemisferio inferior --> -->
-<!-- <!-- celdas.HI <- c(as.vector(submatriz.celdas1),as.vector(submatriz.celdas2)) --> -->
-<!-- <!-- # Celdas hemisferio superior --> -->
-<!-- <!-- celdas.HS <- c(as.vector(submatriz.celdas3),as.vector(submatriz.celdas4)) --> -->
+```{r prepare-input-layer}
+# Rename the stage levels to numbers
+df$Estadio <- recode_factor(df$Estadio, "Sano"=0, "I"=1, "II"=2, "III"=3, "IV"=4)
 
-<!-- <!-- # Sustitución datos atípicos --> -->
-<!-- <!-- eliminar.datos.atipicos <- function(x) { --> -->
-<!-- <!--   qnt <- quantile(x, probs=c(.25, .75, 0.05, 0.95), na.rm = T) --> -->
-<!-- <!--   iqr <- qnt[2]-qnt[1] --> -->
-<!-- <!--   fence1 <- qnt[1]-1.5*iqr --> -->
-<!-- <!--   fence2 <- qnt[2]+1.5*iqr --> -->
-<!-- <!--   x[x < fence1] <- qnt[3] --> -->
-<!-- <!--   x[x > fence2] <- qnt[4] --> -->
-<!-- <!--   return(x) --> -->
-<!-- <!-- } --> -->
+df <- df %>% 
+  # Remove non numeric variables
+  select(-c(Id, Sexo, Edad, Glaucoma, Ojo, Capa)) %>%
+  # Convert state to numeric
+  mutate(Estadio = as.numeric(Estadio)-1)
 
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="RPE", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="RPE", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="RPE", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="RPE", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="GCL", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="GCL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="GCL", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="GCL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="INL", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="INL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="INL", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="INL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="IPL", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="IPL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="IPL", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="IPL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="ONL", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="ONL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="ONL", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="ONL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="OPL", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="OPL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="OPL", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="OPL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="RNFL", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="RNFL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="RNFL", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="RNFL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="Y" & datos$Capa=="FULL", celdas] <- sapply(datos[datos$Glaucoma=="Y" & datos$Capa=="FULL", celdas], eliminar.datos.atipicos) --> -->
-<!-- <!-- datos[datos$Glaucoma=="N" & datos$Capa=="FULL", celdas ] <- sapply(datos[datos$Glaucoma=="N" & datos$Capa=="FULL", celdas], eliminar.datos.atipicos) --> -->
+# Turn data frame into a matrix
+df <- as.matrix(df)
 
-<!-- <!-- # Añadir capas externas OPL+ONL+RPE --> -->
-<!-- <!-- datos.OPLONLRPE <- cbind(datos[datos$Capa=="OPL", 1:5], datos[datos$Capa=="OPL", celdas] + datos[datos$Capa=="ONL", celdas] + datos[datos$Capa=="RPE", celdas]) --> -->
-<!-- <!-- datos.OPLONLRPE$Capa <- "OPL+ONL+RPE"  --> -->
-<!-- <!-- datos <- rbind(datos, datos.OPLONLRPE) --> -->
+# Set `dimnames` to `NULL`
+dimnames(df) <- NULL
 
-<!-- <!-- # Añadir capas internas RNFL+GCL+IPL --> -->
-<!-- <!-- datos.RNFLGCLIPL <- cbind(datos[datos$Capa=="RNFL", 1:5], datos[datos$Capa=="RNFL", celdas] + datos[datos$Capa=="GCL", celdas] + datos[datos$Capa=="IPL", celdas]) --> -->
-<!-- <!-- datos.RNFLGCLIPL$Capa <- "RNFL+GCL+IPL"  --> -->
-<!-- <!-- datos <- rbind(datos, datos.RNFLGCLIPL) --> -->
+# Split data set into features and labels
+# Features
+x <- df[,2:ncol(df)] 
+# Labels
+y <- df[,1]
+# Normalize features to 0-1 scale
+x <- x / max(x)
 
-<!-- <!-- # Añadir capas internas RNFL+GCL+IPL+INL --> -->
-<!-- <!-- datos.RNFLGCLIPLINL <- cbind(datos[datos$Capa=="RNFL", 1:5], datos[datos$Capa=="RNFL", celdas] + datos[datos$Capa=="GCL", celdas] + datos[datos$Capa=="IPL", celdas]) --> -->
-<!-- <!-- datos.RNFLGCLIPLINL$Capa <- "RNFL+GCL+IPL+INL"  --> -->
-<!-- <!-- datos <- rbind(datos, datos.RNFLGCLIPLINL) --> -->
+# Semilla
+set.seed(123)
 
-<!-- <!-- # Datos hemisferio superior e inferior --> -->
-<!-- <!-- datos$Celda.HI <- apply(datos[,celdas.HI], 1, mean, na.rm=T) --> -->
-<!-- <!-- datos$Celda.HS <- apply(datos[,celdas.HS], 1, mean, na.rm=T) --> -->
+# Determine sample size
+ind <- sample(2, nrow(df), replace=TRUE, prob=c(0.8, 0.2))
 
-<!-- <!-- # Selección de datos --> -->
-<!-- <!-- # Casos completos --> -->
-<!-- <!-- datos %<>% na.omit --> -->
-<!-- <!-- # Ojo izquierdo  --> -->
-<!-- <!-- datos.L <- datos[datos$Ojo=="L",] --> -->
-<!-- <!-- # Ojo derecho --> -->
-<!-- <!-- datos.R <- datos[datos$Ojo=="R",] --> -->
-<!-- <!-- # Datos Glaucoma --> -->
-<!-- <!-- datos.Glaucoma = datos[datos$Glaucoma=="Y",] --> -->
-<!-- <!-- # Datos Sanos --> -->
-<!-- <!-- datos.Sanos = datos[datos$Glaucoma=="N",] --> -->
-<!-- <!-- # Datos hemisferios --> -->
-<!-- <!-- datos.Hemisferios <- gather(datos[, c("Capa", "Estadio", "Glaucoma", "Ojo", "Celda.HI", "Celda.HS")], Hemisferio, Grosor, -Capa, -Estadio, -Glaucoma, -Ojo) --> -->
-<!-- <!-- ``` --> -->
+# Split the data into train and test.x
+train.x <- x[ind == 1, ]
+test.x <- x[ind == 2, ]
+# Split the class attribute
+train.y <- y[ind == 1]
+test.y <- y[ind == 2]
+# One hot encode target values
+train.y <- to_categorical(train.y)
+test.y.labels <- to_categorical(test.y)
+```
 
-<!-- ```{r funciones} -->
-<!-- # Funciones para dibujar distribuciones por grupos -->
-<!-- # Resumen estadístico -->
-<!-- describir <- function(vars, ojo, capa){ -->
-<!--   if (ojo=="L"){ -->
-<!--     result <- describeBy(datos[datos$Ojo=="L" & datos$Capa==capa, varCells], datos[datos$Ojo=="L" & datos$Capa==capa, "Glaucoma"], mat = T, digits = 4) -->
-<!--   } else { -->
-<!--     result <- describeBy(datos[datos$Ojo=="R" & datos$Capa==capa, varCells], datos[datos$Ojo=="R" & datos$Capa==capa, "Glaucoma"], mat = T, digits = 4) -->
-<!--   } -->
-<!--   result[,c("item","vars","trimmed", "mad","range","se")] <- NULL -->
-<!--   colnames(result)[1] <- "Glaucoma" -->
-<!--   return(result) -->
-<!-- } -->
+# Resumen
+En este trabajo se presenta un estudio de clasificación del Glaucoma en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias ([más info](https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html)).
 
-<!-- # Histogramas de las variables vars de la capa Capa según Estadío y Ojos -->
-<!-- histograma.celdas.capa <- function(celdas, capa){ -->
-<!--   p <- ggplot(datos[datos$Capa==capa,], aes_string(x = celdas)) + geom_histogram(aes(fill=Estadio), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.) -->
-<!--   return(p) -->
-<!-- } -->
+## Redes neuronales profundas
+### Red neuronal con tres capas
+#### Estructura de la red
 
-<!-- matriz.histogramas.capa <- function(matriz, capa){ -->
-<!--   for (i in 1:length(matriz)){ -->
-<!--     p <- lapply(unlist(matriz[i]), histograma.celdas.capa, capa=capa) -->
-<!--     print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))) -->
-<!--   } -->
-<!-- } -->
+```{r neural-net-model1}
+# Initialize a sequential model
+model <- keras_model_sequential() 
 
-<!-- # Densidad de las variables vars de la capa Capa según glaucoma y ojos -->
-<!-- densidad.celdas.capa <- function(celdas, capa){ -->
-<!--   p <- ggplot(datos[datos$Capa==capa,], aes_string(x = celdas)) + geom_density(aes(fill=Estadio), colour=I("white"), position="identity", alpha=.5) + facet_grid(Ojo~.) -->
-<!--   return(p) -->
-<!-- } -->
+# Add layers to the model
+model %>% 
+  layer_dense(units = 48, activation = "relu", input_shape = c(ncol(train.x))) %>% 
+  layer_dense(units = 24, activation = "relu") %>%
+  layer_dense(units = 5, activation = "softmax")
 
-<!-- matriz.densidad.capa <- function(matriz, capa){ -->
-<!--   for (i in 1:length(matriz)){ -->
-<!--     p <- lapply(unlist(matriz[i]), densidad.celdas.capa, capa=capa) -->
-<!--     print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))) -->
-<!--   } -->
-<!-- } -->
+summary(model)
+```
 
-<!-- # Diagrama de las variables vars de la capa Capa según glaucoma y ojos -->
-<!-- cajas.celdas.capa <- function(celdas, capa){ -->
-<!--   p <- ggplot(datos[datos$Capa==capa,], aes_string(x="Ojo", y = celdas)) + geom_boxplot(aes(fill=Estadio)) -->
-<!--   return(p) -->
-<!-- } -->
+#### Resumen del entrenamiento
 
-<!-- matriz.cajas.capa <- function(matriz, capa){ -->
-<!--   for (i in 1:length(matriz)){ -->
-<!--     p <- lapply(unlist(matriz[i]), cajas.celdas.capa, capa=capa) -->
-<!--     print(do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))) -->
-<!--   } -->
-<!-- } -->
-<!-- ``` -->
+```{r neural-net-model1-fit}
+# Compile the model
+model %>% compile(
+  loss = 'categorical_crossentropy',
+  optimizer = 'adam',
+  metrics = 'accuracy'
+)
+# Fit the model
+history <- model %>% fit(train.x, train.y, epochs = 50, verbose = 2, batch_size = 5, validation_split = 0.1)
+# Plot fit history
+plot(history)
+# Save the model
+save_model_tf(object = model, filepath = "macula-model")
+```
 
-<!-- # Capa total -->
-<!-- ## Estadística Descriptiva -->
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-total} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "FULL") -->
-<!-- ``` -->
+#### Evaluación del modelo
+```{r neural-net-model1-evaluation}
+# Confusion matrix
+predicciones <- model %>% predict_classes(test.x)
+estadio <- test.y
+table(estadio, predicciones)
+# mean(test.y == predicciones)
+# Evaluate the model
+score <- model %>% evaluate(test.x, test.y.labels, verbose = 0)
+```
 
-<!-- ```{r cajas-macula-total} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "FULL") -->
-<!-- ``` -->
-
-<!-- # Capa RNFL -->
-<!-- ## Estadística Descriptiva -->
-
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-rnfl} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "RNFL") -->
-<!-- ``` -->
-
-<!-- ```{r cajas-macula-rnfl} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "RNFL") -->
-<!-- ``` -->
-
-
-<!-- # Capa GCL -->
-<!-- ## Estadística Descriptiva -->
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-gcl} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "GCL") -->
-<!-- ``` -->
-
-<!-- ```{r cajas-macula-gcl} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "GCL") -->
-<!-- ``` -->
-
-
-<!-- # Capa IPL -->
-<!-- ## Estadística Descriptiva -->
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-ipl} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "IPL") -->
-<!-- ``` -->
-
-<!-- ```{r cajas-macula-ipl} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "IPL") -->
-<!-- ``` -->
-
-
-<!-- # Capa INL -->
-<!-- ## Estadística Descriptiva -->
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-inl} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "INL") -->
-<!-- ``` -->
-
-<!-- ```{r cajas-macula-inl} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "INL") -->
-<!-- ``` -->
-
-
-<!-- # Capa OPL -->
-<!-- ## Estadística Descriptiva -->
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-opl} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "OPL") -->
-<!-- ``` -->
-
-<!-- ```{r cajas-macula-opl} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "OPL") -->
-<!-- ``` -->
-
-
-<!-- # Capa ONL -->
-<!-- ## Estadística Descriptiva -->
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-onl} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "ONL") -->
-<!-- ``` -->
-
-<!-- ```{r cajas-macula-onl} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "ONL") -->
-<!-- ``` -->
-
-
-<!-- # Capa RPE -->
-<!-- ## Estadística Descriptiva -->
-<!-- ### Comparación de distribuciones por glaucoma y ojo -->
-<!-- ```{r densidad-macula-rpe} -->
-<!-- matriz.densidad.capa(submatriz.celdas, "RPE") -->
-<!-- ``` -->
-
-<!-- ```{r cajas-macula-rpe} -->
-<!-- matriz.cajas.capa(submatriz.celdas, "RPE") -->
-<!-- ``` -->
+**Error**: `r score[1]`
+**Precisión**: `r score[2]`
 
 
 
-<!-- En este trabajo se presenta un estudio comparativo inferencial del grosor de las distintas capas nerviosas del cubo macular en pacientes diagnosticados con glaucoma de ángulo abierto y clasificados en distintos estadíos de la enfermedad.  -->
-<!-- Los pacientes fueron clasificados previante en cuatro estadíos en función del grosor de los anillos peripapilares (BMO, 3.5, 4.1 y 4.7) y posteriormente, para cada capa de fibras nerviosas de la mácula, se compararon los grosores medios de las celdas del cubo macular según el estadío del glaucoma. El análisis demuestra no sólo que existen diferencias estadísticamente significativas entre sanos y enfermos en las capas externas de la retina (RNFL, CGL e IPL) sino también entre los distintos estadíos del glaucoma. En las capas externas de la retina (OPL, ONL y RPE) no se apreciaron diferencias estadísticamente significativas. -->
+
+
+
+
+
 

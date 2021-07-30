@@ -72,7 +72,7 @@ df.PRL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_PRL", col_types = 
 id <- df.RNFL %>% mutate(Id=paste(PatientID, ExamDate, Eye, sep="-"))
 # Crear claves en la capa PRL
 df.PRL <- df.PRL %>% 
-  mutate(Id=paste(PatientID, ExamDate, Eye, sep="-")) %>% 
+  mutate(Id = paste(PatientID, ExamDate, Eye, sep="-")) %>% 
   distinct(Id, .keep_all = TRUE) %>% 
   filter(Id %in% id$Id) %>%
   # Eliminar columna Glaucoma (vacía)
@@ -105,25 +105,16 @@ colnames(df.macula)[5:68] <- paste0("Celda",substr(colnames(df.macula)[5:68],6,8
 # Convertir en factores el glaucoma y el ojo y la capa
 df.macula <- df.macula %>% 
   mutate_at(vars(Glaucoma, Layer, Eye), factor) %>%
-  mutate(Layer = fct_relevel(Layer, "RNFL", "GCL", "IPL", "INL", "OPL", "ONL", "PRL", "RPE", "FULL"))
+  mutate(Layer = fct_relevel(Layer, "RNFL", "GCL", "IPL", "INL", "OPL", "ONL", "PRL", "RPE", "FULL")) %>%
+  # Rename variables
+  rename(Ojo = Eye, Capa = Layer)
 
-# Expandir capas a columnas 
-df.macula.expandido <- gather(df.macula, cell, value, -c(Glaucoma, Eye, Layer, Id)) %>%
-  unite(temp, Layer, cell, sep = ".") %>%
-  spread(temp, value)
-# Renombrar variables
-df.macula <- df.macula %>% rename(Ojo = Eye, Capa = Layer)
-df.macula.expandido <- df.macula.expandido %>% rename(Ojo = Eye, )
 
-# Fusionar data mácula y anillos
-df <- inner_join(df.anillos, df.macula.expandido)
 
-# Exportar data 
-write_csv(df, file = "data/datos-preprocesados.csv")
-save(df, file = "data/datos-preprocesados.RData")
+# Export data
+write_csv(df, file = "data/data-preprocesed.csv")
+save(df, file = "data/data-preprocesed.RData")
 write_csv(df.anillos, file = "data/data-rims-preprocesed.csv")
 save(df.anillos, file = "data/data-rims-preprocesed.RData")
-write_csv(df.macula, file = "data/datos-macula-preprocesados.csv")
-save(df.macula, file = "data/datos-macula-preprocesados.RData")
-write_csv(df.macula.expandido, file = "data/datos-macula-preprocesados-expandido.csv")
-save(df.macula.expandido, file = "data/datos-macula-preprocesados-expandido.RData")
+write_csv(df.macula, file = "data/data-macula-preprocesed.csv")
+save(df.macula, file = "data/data-macula-preprocesed.RData")

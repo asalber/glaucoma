@@ -115,7 +115,7 @@ df$Estadio <- factor("Sano", levels=c("Sano", labels))
 df[df$Glaucoma=="Y", "Estadio"] <- clusters$cluster
 # Save clusters dafa frame
 df %>% write_csv("data/data-rims-preprocesed-stages.csv")
-df %>% select(Id, Estadio) %>% write_csv("data/data-stages.csv")
+df %>% select(Id, Sexo, Edad, Glaucoma, Ojo, Estadio) %>% write_csv("data/data-stages.csv")
 ```
 
 ## Mapa de los estadíos de glaucoma sin incluir ojos sanos
