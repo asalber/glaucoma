@@ -1,4 +1,5 @@
 base
+rmarkdown
 knitr
 tidyverse
 ggplot2
@@ -11,3 +12,7 @@ stringr
 forcats
 tensorflow
 keras
+lattice
+caret
+rcompanion
+kableExtra
