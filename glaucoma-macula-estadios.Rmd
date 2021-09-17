@@ -62,9 +62,9 @@ df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells] <- sapply(df[df$Glaucoma=="Y" & 
 df[df$Glaucoma=="N" & df$Capa=="RPE", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RPE", varCells], removeOutliers)
 
 # Añadir capa OPL+ONL
-# dfOPLONL <- cbind(df[df$Capa=="OPL", 1:4], df[df$Capa=="OPL", varCells] + df[df$Capa=="ONL", varCells])
-# dfOPLONL$Capa <- "OPL+ONL" 
-# df <- rbind(df, dfOPLONL)
+dfOPLONL <- cbind(df[df$Capa=="OPL", 1:4], df[df$Capa=="OPL", varCells] + df[df$Capa=="ONL", varCells])
+dfOPLONL$Capa <- "OPL+ONL" 
+df <- rbind(df, dfOPLONL)
 
 # Load stages data
 df.stages <- read_csv("data/data-stages.csv") %>% 
@@ -89,7 +89,7 @@ nbatch = 50
 ```
 
 
-```{r functions}
+```{r functions, echo=F}
 # function to prepare the input of glaucoma detection (binary classification)
 prepare.input.glaucoma <- function(df, layers){
   input <- df %>%
@@ -166,8 +166,13 @@ net.arch.glaucoma <-function(input.size){
   model <- keras_model_sequential() 
   # Add layers to the model
   model %>% 
+    layer_dense(units = 1024, activation = "relu", input_shape = input.size) %>%
+    layer_dense(units = 512, activation = "relu", input_shape = input.size) %>%
+    layer_dropout(rate = 0.3) %>% 
+    layer_dense(units = 512, activation = "relu", input_shape = input.size) %>% 
+    layer_dropout(rate = 0.3) %>% 
     layer_dense(units = 256, activation = "relu", input_shape = input.size) %>% 
-    layer_dropout(rate = 0.4) %>% 
+    layer_dropout(rate = 0.3) %>% 
     layer_dense(units = 128, activation = "relu") %>%
     layer_dropout(rate = 0.3) %>%
     layer_dense(units = 2, activation = "sigmoid")
@@ -180,8 +185,11 @@ net.arch.stages <-function(input.size){
   model <- keras_model_sequential() 
   # Add layers to the model
   model %>% 
+    layer_dense(units = 1024, activation = "relu", input_shape = input.size) %>% 
+    layer_dense(units = 512, activation = "relu", input_shape = input.size) %>% 
+    layer_dropout(rate = 0.3) %>% 
     layer_dense(units = 256, activation = "relu", input_shape = input.size) %>% 
-    layer_dropout(rate = 0.4) %>% 
+    layer_dropout(rate = 0.3) %>% 
     layer_dense(units = 128, activation = "relu") %>%
     layer_dropout(rate = 0.3) %>%
     layer_dense(units = 4, activation = "softmax")
@@ -284,7 +292,7 @@ train.stages <- function(input, epochs=nepochs, batch_size=nbatch){
   # Set net architecture
   model.json <- net.arch.stages(ncol(input)-1)
   for (i in 1:nrep){
-    # cat("Repetición:", i, "\n")
+    #cat("Repetición:", i, "\n")
     # Create k folds for cross-validation
     input$folds <- createFolds(input$Estadio, k=nfolds, list=F)
     # Vectors with sensitivities, specificities and accuracies of folds
@@ -450,7 +458,7 @@ train.stages(input) %>%
 ```
 
 
-# Capa IPL
+# Capa INL
 
 ## Detección del Glaucoma
 
@@ -459,7 +467,7 @@ train.stages(input) %>%
 - Arquitectura 
 
 ```{r net-glaucoma-ipl-arch}
-input <- prepare.input.glaucoma(df, layers = "IPL")
+input <- prepare.input.glaucoma(df, layers = "INL")
 model.json <- net.arch.glaucoma(ncol(input)-1)
 summary(model_from_json(model.json))
 ```
@@ -486,21 +494,133 @@ train.glaucoma(input) %>%
 - Arquitectura
 
 ```{r net-stages-ipl-arch}
-input <- prepare.input.stages(df, layers = "IPL")
+input <- prepare.input.stages(df, layers = "INL")
 model.json <- net.arch.stages(ncol(input)-1)
 summary(model_from_json(model.json))
 ```
 
 - Número de iteraciones: `r nepochs`
 - Tamaño del lote: `r nbatch`
-- Medida de error: Entropía múltiple
+- Medida de error: Entropía múltinle
 - Algorimo de aprendizaje: Adam
 - Validación cruzada: `r nfolds`-folds
 - Número de repeticiones: `r nrep`
 
 ### Evaluación del modelo
 
-```{r net-stages-ipl-eval}
+```{r net-stages-inl-eval}
+train.stages(input) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+# Capas RNFL + GCL + INL
+
+## Detección del Glaucoma
+
+### Parámetros de la red
+
+- Arquitectura 
+
+```{r net-glaucoma-rnfl-gcl-inl-arch}
+input <- prepare.input.glaucoma(df, layers = c("RNFL", "GCL", "INL"))
+model.json <- net.arch.glaucoma(ncol(input)-1)
+summary(model_from_json(model.json))
+```
+
+- Número de iteraciones: `r nepochs`
+- Tamaño del lote: `r nbatch`
+- Medida de error: Entropía binaria
+- Algorimo de aprendizaje: Adam
+- Validación cruzada: `r nfolds`-folds
+- Número de repeticiones: `r nrep`
+
+### Evaluación del modelo
+
+```{r net-glaucoma-rnfl-gcl-inl-eval}
+train.glaucoma(input) %>%  
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Clasificación en estadíos
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-rnfl-gcl-inl-arch}
+input <- prepare.input.stages(df, layers = c("RNFL", "GCL", "INL"))
+model.json <- net.arch.stages(ncol(input)-1)
+summary(model_from_json(model.json))
+```
+
+- Número de iteraciones: `r nepochs`
+- Tamaño del lote: `r nbatch`
+- Medida de error: Entropía múltrnfl-gcl-inle
+- Algorimo de aprendizaje: Adam
+- Validación cruzada: `r nfolds`-folds
+- Número de repeticiones: `r nrep`
+
+### Evaluación del modelo
+
+```{r net-stages-rnfl-gcl-inl-eval}
+train.stages(input) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+# Capas RNFL + GCL + INL + IPL + OPL + ONL + PRL + RPE
+
+## Detección del Glaucoma
+
+### Parámetros de la red
+
+- Arquitectura 
+
+```{r net-glaucoma-all-arch}
+input <- prepare.input.glaucoma(df, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"))
+model.json <- net.arch.glaucoma(ncol(input)-1)
+summary(model_from_json(model.json))
+```
+
+- Número de iteraciones: `r nepochs`
+- Tamaño del lote: `r nbatch`
+- Medida de error: Entropía binaria
+- Algorimo de aprendizaje: Adam
+- Validación cruzada: `r nfolds`-folds
+- Número de repeticiones: `r nrep`
+
+### Evaluación del modelo
+
+```{r net-glaucoma-all-eval}
+train.glaucoma(input) %>%  
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Clasificación en estadíos
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-all-arch}
+input <- prepare.input.stages(df, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"))
+model.json <- net.arch.stages(ncol(input)-1)
+summary(model_from_json(model.json))
+```
+
+- Número de iteraciones: `r nepochs`
+- Tamaño del lote: `r nbatch`
+- Medida de error: Entropía múltalle
+- Algorimo de aprendizaje: Adam
+- Validación cruzada: `r nfolds`-folds
+- Número de repeticiones: `r nrep`
+
+### Evaluación del modelo
+
+```{r net-stages-all-eval}
 train.stages(input) %>% 
   kable() %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)

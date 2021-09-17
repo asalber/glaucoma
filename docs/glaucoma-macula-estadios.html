@@ -10,11 +10,11 @@
 
 
 
-<meta name="date" content="2021-09-16" />
+<meta name="date" content="2021-09-17" />
 
 <title>Clasifiación del Glaucoma en estadíos a partir del cubo macular</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -363,7 +363,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Clasifiación del Glaucoma en estadíos a partir del cubo macular</h1>
-<h4 class="date">2021-09-16</h4>
+<h4 class="date">2021-09-17</h4>
 
 </div>
 
@@ -386,7 +386,17 @@ div.tocify {
 ________________________________________________________________________________
 Layer (type)                        Output Shape                    Param #     
 ================================================================================
-dense_2 (Dense)                     (None, 256)                     16640       
+dense_5 (Dense)                     (None, 1024)                    66560       
+________________________________________________________________________________
+dense_4 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_3 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     262656      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
 ________________________________________________________________________________
 dropout_1 (Dropout)                 (None, 256)                     0           
 ________________________________________________________________________________
@@ -396,8 +406,8 @@ dropout (Dropout)                   (None, 128)                     0
 ________________________________________________________________________________
 dense (Dense)                       (None, 2)                       258         
 ================================================================================
-Total params: 49,794
-Trainable params: 49,794
+Total params: 1,018,498
+Trainable params: 1,018,498
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 <ul>
@@ -434,13 +444,13 @@ lim.sup.ci
 Especificidad
 </td>
 <td style="text-align:right;">
-0.986
+0.979
 </td>
 <td style="text-align:right;">
-0.973
+0.964
 </td>
 <td style="text-align:right;">
-0.998
+0.994
 </td>
 </tr>
 <tr>
@@ -448,13 +458,13 @@ Especificidad
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.886
+0.884
 </td>
 <td style="text-align:right;">
-0.872
+0.876
 </td>
 <td style="text-align:right;">
-0.900
+0.893
 </td>
 </tr>
 <tr>
@@ -462,13 +472,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.736
+0.738
 </td>
 <td style="text-align:right;">
-0.715
+0.713
 </td>
 <td style="text-align:right;">
-0.757
+0.763
 </td>
 </tr>
 <tr>
@@ -476,13 +486,13 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.486
+0.497
 </td>
 <td style="text-align:right;">
-0.452
+0.433
 </td>
 <td style="text-align:right;">
-0.520
+0.560
 </td>
 </tr>
 </tbody>
@@ -500,7 +510,13 @@ Sensibilidad
 ________________________________________________________________________________
 Layer (type)                        Output Shape                    Param #     
 ================================================================================
-dense_2 (Dense)                     (None, 256)                     16640       
+dense_4 (Dense)                     (None, 1024)                    66560       
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
 ________________________________________________________________________________
 dropout_1 (Dropout)                 (None, 256)                     0           
 ________________________________________________________________________________
@@ -510,8 +526,8 @@ dropout (Dropout)                   (None, 128)                     0
 ________________________________________________________________________________
 dense (Dense)                       (None, 4)                       516         
 ================================================================================
-Total params: 50,052
-Trainable params: 50,052
+Total params: 756,100
+Trainable params: 756,100
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 <ul>
@@ -548,13 +564,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.880
+0.861
 </td>
 <td style="text-align:right;">
-0.828
+0.692
 </td>
 <td style="text-align:right;">
-0.931
+1.030
 </td>
 </tr>
 <tr>
@@ -562,13 +578,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.658
+0.768
 </td>
 <td style="text-align:right;">
-0.570
+0.677
 </td>
 <td style="text-align:right;">
-0.745
+0.859
 </td>
 </tr>
 <tr>
@@ -576,13 +592,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.912
+0.872
 </td>
 <td style="text-align:right;">
-0.876
+0.761
 </td>
 <td style="text-align:right;">
-0.947
+0.983
 </td>
 </tr>
 <tr>
@@ -590,13 +606,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.945
+0.935
 </td>
 <td style="text-align:right;">
-0.925
+0.920
 </td>
 <td style="text-align:right;">
-0.964
+0.951
 </td>
 </tr>
 <tr>
@@ -604,13 +620,13 @@ Especificidad.EstadioIV
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-0.646
+0.701
 </td>
 <td style="text-align:right;">
-0.605
+0.662
 </td>
 <td style="text-align:right;">
-0.688
+0.741
 </td>
 </tr>
 <tr>
@@ -618,13 +634,13 @@ Precisión.media.EstadioI
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.662
+0.682
 </td>
 <td style="text-align:right;">
-0.611
+0.523
 </td>
 <td style="text-align:right;">
-0.712
+0.841
 </td>
 </tr>
 <tr>
@@ -632,13 +648,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.708
+0.738
 </td>
 <td style="text-align:right;">
-0.643
+0.641
 </td>
 <td style="text-align:right;">
-0.773
+0.834
 </td>
 </tr>
 <tr>
@@ -646,13 +662,13 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.842
+0.812
 </td>
 <td style="text-align:right;">
-0.805
+0.735
 </td>
 <td style="text-align:right;">
-0.878
+0.889
 </td>
 </tr>
 <tr>
@@ -660,13 +676,13 @@ Precisión.media.EstadioIV
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.413
+0.542
 </td>
 <td style="text-align:right;">
-0.279
+0.450
 </td>
 <td style="text-align:right;">
-0.548
+0.633
 </td>
 </tr>
 <tr>
@@ -674,13 +690,13 @@ Sensibilidad.EstadioI
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.666
+0.596
 </td>
 <td style="text-align:right;">
-0.560
+0.339
 </td>
 <td style="text-align:right;">
-0.771
+0.853
 </td>
 </tr>
 <tr>
@@ -688,13 +704,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.503
+0.603
 </td>
 <td style="text-align:right;">
-0.348
+0.342
 </td>
 <td style="text-align:right;">
-0.659
+0.864
 </td>
 </tr>
 <tr>
@@ -702,13 +718,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.739
+0.689
 </td>
 <td style="text-align:right;">
-0.653
+0.522
 </td>
 <td style="text-align:right;">
-0.825
+0.856
 </td>
 </tr>
 <tr>
@@ -716,13 +732,13 @@ Sensibilidad.EstadioIV
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.573
+0.587
 </td>
 <td style="text-align:right;">
-0.485
+0.487
 </td>
 <td style="text-align:right;">
-0.661
+0.687
 </td>
 </tr>
 </tbody>
@@ -743,7 +759,17 @@ Precisión.global
 ________________________________________________________________________________
 Layer (type)                        Output Shape                    Param #     
 ================================================================================
-dense_2 (Dense)                     (None, 256)                     16640       
+dense_5 (Dense)                     (None, 1024)                    66560       
+________________________________________________________________________________
+dense_4 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_3 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     262656      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
 ________________________________________________________________________________
 dropout_1 (Dropout)                 (None, 256)                     0           
 ________________________________________________________________________________
@@ -753,8 +779,8 @@ dropout (Dropout)                   (None, 128)                     0
 ________________________________________________________________________________
 dense (Dense)                       (None, 2)                       258         
 ================================================================================
-Total params: 49,794
-Trainable params: 49,794
+Total params: 1,018,498
+Trainable params: 1,018,498
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 <ul>
@@ -791,10 +817,10 @@ lim.sup.ci
 Especificidad
 </td>
 <td style="text-align:right;">
-0.995
+0.993
 </td>
 <td style="text-align:right;">
-0.991
+0.986
 </td>
 <td style="text-align:right;">
 0.999
@@ -805,13 +831,13 @@ Especificidad
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.872
+0.871
 </td>
 <td style="text-align:right;">
-0.868
+0.861
 </td>
 <td style="text-align:right;">
-0.877
+0.880
 </td>
 </tr>
 <tr>
@@ -819,13 +845,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.687
+0.689
 </td>
 <td style="text-align:right;">
-0.672
+0.652
 </td>
 <td style="text-align:right;">
-0.702
+0.726
 </td>
 </tr>
 <tr>
@@ -833,13 +859,13 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.379
+0.385
 </td>
 <td style="text-align:right;">
-0.348
+0.307
 </td>
 <td style="text-align:right;">
-0.410
+0.463
 </td>
 </tr>
 </tbody>
@@ -857,7 +883,13 @@ Sensibilidad
 ________________________________________________________________________________
 Layer (type)                        Output Shape                    Param #     
 ================================================================================
-dense_2 (Dense)                     (None, 256)                     16640       
+dense_4 (Dense)                     (None, 1024)                    66560       
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
 ________________________________________________________________________________
 dropout_1 (Dropout)                 (None, 256)                     0           
 ________________________________________________________________________________
@@ -867,8 +899,8 @@ dropout (Dropout)                   (None, 128)                     0
 ________________________________________________________________________________
 dense (Dense)                       (None, 4)                       516         
 ================================================================================
-Total params: 50,052
-Trainable params: 50,052
+Total params: 756,100
+Trainable params: 756,100
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 <ul>
@@ -905,13 +937,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.902
+0.900
 </td>
 <td style="text-align:right;">
-0.8340
+0.806
 </td>
 <td style="text-align:right;">
-0.969
+0.993
 </td>
 </tr>
 <tr>
@@ -919,13 +951,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.589
+0.636
 </td>
 <td style="text-align:right;">
-0.4670
+0.596
 </td>
 <td style="text-align:right;">
-0.710
+0.677
 </td>
 </tr>
 <tr>
@@ -933,13 +965,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.887
+0.876
 </td>
 <td style="text-align:right;">
-0.8610
+0.762
 </td>
 <td style="text-align:right;">
-0.913
+0.990
 </td>
 </tr>
 <tr>
@@ -947,13 +979,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.932
+0.928
 </td>
 <td style="text-align:right;">
-0.8870
+0.870
 </td>
 <td style="text-align:right;">
-0.977
+0.987
 </td>
 </tr>
 <tr>
@@ -961,13 +993,13 @@ Especificidad.EstadioIV
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-0.589
+0.621
 </td>
 <td style="text-align:right;">
-0.4920
+0.584
 </td>
 <td style="text-align:right;">
-0.687
+0.658
 </td>
 </tr>
 <tr>
@@ -975,13 +1007,13 @@ Precisión.media.EstadioI
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.638
+0.646
 </td>
 <td style="text-align:right;">
-0.6100
+0.543
 </td>
 <td style="text-align:right;">
-0.667
+0.750
 </td>
 </tr>
 <tr>
@@ -989,13 +1021,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.659
+0.685
 </td>
 <td style="text-align:right;">
-0.5780
+0.642
 </td>
 <td style="text-align:right;">
-0.741
+0.728
 </td>
 </tr>
 <tr>
@@ -1003,13 +1035,13 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.791
+0.792
 </td>
 <td style="text-align:right;">
-0.7120
+0.633
 </td>
 <td style="text-align:right;">
-0.871
+0.951
 </td>
 </tr>
 <tr>
@@ -1017,13 +1049,13 @@ Precisión.media.EstadioIV
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.277
+0.342
 </td>
 <td style="text-align:right;">
-0.0272
+0.212
 </td>
 <td style="text-align:right;">
-0.527
+0.472
 </td>
 </tr>
 <tr>
@@ -1031,13 +1063,13 @@ Sensibilidad.EstadioI
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.688
+0.656
 </td>
 <td style="text-align:right;">
-0.5150
+0.432
 </td>
 <td style="text-align:right;">
-0.861
+0.881
 </td>
 </tr>
 <tr>
@@ -1045,13 +1077,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.432
+0.493
 </td>
 <td style="text-align:right;">
-0.2440
+0.369
 </td>
 <td style="text-align:right;">
-0.620
+0.618
 </td>
 </tr>
 <tr>
@@ -1059,13 +1091,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.650
+0.656
 </td>
 <td style="text-align:right;">
-0.4840
+0.282
 </td>
 <td style="text-align:right;">
-0.816
+1.030
 </td>
 </tr>
 <tr>
@@ -1073,13 +1105,13 @@ Sensibilidad.EstadioIV
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.516
+0.531
 </td>
 <td style="text-align:right;">
-0.4760
+0.428
 </td>
 <td style="text-align:right;">
-0.555
+0.634
 </td>
 </tr>
 </tbody>
@@ -1087,8 +1119,8 @@ Precisión.global
 </div>
 </div>
 </div>
-<div id="capa-ipl" class="section level1">
-<h1>Capa IPL</h1>
+<div id="capa-inl" class="section level1">
+<h1>Capa INL</h1>
 <div id="detección-del-glaucoma-2" class="section level2">
 <h2>Detección del Glaucoma</h2>
 <div id="parámetros-de-la-red-4" class="section level3">
@@ -1100,7 +1132,17 @@ Precisión.global
 ________________________________________________________________________________
 Layer (type)                        Output Shape                    Param #     
 ================================================================================
-dense_2 (Dense)                     (None, 256)                     16640       
+dense_5 (Dense)                     (None, 1024)                    66560       
+________________________________________________________________________________
+dense_4 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_3 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     262656      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
 ________________________________________________________________________________
 dropout_1 (Dropout)                 (None, 256)                     0           
 ________________________________________________________________________________
@@ -1110,8 +1152,8 @@ dropout (Dropout)                   (None, 128)                     0
 ________________________________________________________________________________
 dense (Dense)                       (None, 2)                       258         
 ================================================================================
-Total params: 49,794
-Trainable params: 49,794
+Total params: 1,018,498
+Trainable params: 1,018,498
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 <ul>
@@ -1148,13 +1190,13 @@ lim.sup.ci
 Especificidad
 </td>
 <td style="text-align:right;">
-0.989
+0.9830
 </td>
 <td style="text-align:right;">
-0.987
+0.9700
 </td>
 <td style="text-align:right;">
-0.991
+0.996
 </td>
 </tr>
 <tr>
@@ -1162,13 +1204,13 @@ Especificidad
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.856
+0.8000
 </td>
 <td style="text-align:right;">
-0.854
+0.7790
 </td>
 <td style="text-align:right;">
-0.857
+0.822
 </td>
 </tr>
 <tr>
@@ -1176,13 +1218,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.652
+0.5220
 </td>
 <td style="text-align:right;">
-0.650
+0.4870
 </td>
 <td style="text-align:right;">
-0.654
+0.557
 </td>
 </tr>
 <tr>
@@ -1190,13 +1232,13 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.316
+0.0611
 </td>
 <td style="text-align:right;">
-0.314
+-0.0024
 </td>
 <td style="text-align:right;">
-0.317
+0.125
 </td>
 </tr>
 </tbody>
@@ -1214,7 +1256,13 @@ Sensibilidad
 ________________________________________________________________________________
 Layer (type)                        Output Shape                    Param #     
 ================================================================================
-dense_2 (Dense)                     (None, 256)                     16640       
+dense_4 (Dense)                     (None, 1024)                    66560       
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
 ________________________________________________________________________________
 dropout_1 (Dropout)                 (None, 256)                     0           
 ________________________________________________________________________________
@@ -1224,14 +1272,14 @@ dropout (Dropout)                   (None, 128)                     0
 ________________________________________________________________________________
 dense (Dense)                       (None, 4)                       516         
 ================================================================================
-Total params: 50,052
-Trainable params: 50,052
+Total params: 756,100
+Trainable params: 756,100
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 <ul>
 <li>Número de iteraciones: 100</li>
 <li>Tamaño del lote: 50</li>
-<li>Medida de error: Entropía múltiple</li>
+<li>Medida de error: Entropía múltinle</li>
 <li>Algorimo de aprendizaje: Adam</li>
 <li>Validación cruzada: 10-folds</li>
 <li>Número de repeticiones: 3</li>
@@ -1262,13 +1310,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.943
+1.000
 </td>
 <td style="text-align:right;">
-0.9110
+1.000
 </td>
 <td style="text-align:right;">
-0.974
+1.000
 </td>
 </tr>
 <tr>
@@ -1276,13 +1324,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.494
+0.000
 </td>
 <td style="text-align:right;">
-0.3900
+0.000
 </td>
 <td style="text-align:right;">
-0.598
+0.000
 </td>
 </tr>
 <tr>
@@ -1290,10 +1338,10 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.910
+1.000
 </td>
 <td style="text-align:right;">
-0.8200
+1.000
 </td>
 <td style="text-align:right;">
 1.000
@@ -1304,13 +1352,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.945
+1.000
 </td>
 <td style="text-align:right;">
-0.9280
+1.000
 </td>
 <td style="text-align:right;">
-0.962
+1.000
 </td>
 </tr>
 <tr>
@@ -1318,13 +1366,13 @@ Especificidad.EstadioIV
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-0.526
+0.500
 </td>
 <td style="text-align:right;">
-0.4850
+0.500
 </td>
 <td style="text-align:right;">
-0.567
+0.500
 </td>
 </tr>
 <tr>
@@ -1332,13 +1380,13 @@ Precisión.media.EstadioI
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.654
+0.500
 </td>
 <td style="text-align:right;">
-0.6300
+0.500
 </td>
 <td style="text-align:right;">
-0.679
+0.500
 </td>
 </tr>
 <tr>
@@ -1346,13 +1394,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.626
+0.500
 </td>
 <td style="text-align:right;">
-0.5690
+0.500
 </td>
 <td style="text-align:right;">
-0.683
+0.500
 </td>
 </tr>
 <tr>
@@ -1360,13 +1408,13 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.833
+0.500
 </td>
 <td style="text-align:right;">
-0.7770
+0.500
 </td>
 <td style="text-align:right;">
-0.890
+0.500
 </td>
 </tr>
 <tr>
@@ -1374,13 +1422,13 @@ Precisión.media.EstadioIV
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.109
+0.000
 </td>
 <td style="text-align:right;">
-0.0068
+0.000
 </td>
 <td style="text-align:right;">
-0.211
+0.000
 </td>
 </tr>
 <tr>
@@ -1388,13 +1436,13 @@ Sensibilidad.EstadioI
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.815
+1.000
 </td>
 <td style="text-align:right;">
-0.7160
+1.000
 </td>
 <td style="text-align:right;">
-0.913
+1.000
 </td>
 </tr>
 <tr>
@@ -1402,13 +1450,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.342
+0.000
 </td>
 <td style="text-align:right;">
-0.1590
+0.000
 </td>
 <td style="text-align:right;">
-0.525
+0.000
 </td>
 </tr>
 <tr>
@@ -1416,13 +1464,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.722
+0.000
 </td>
 <td style="text-align:right;">
-0.5960
+0.000
 </td>
 <td style="text-align:right;">
-0.849
+0.000
 </td>
 </tr>
 <tr>
@@ -1430,13 +1478,759 @@ Sensibilidad.EstadioIV
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.514
+0.368
 </td>
 <td style="text-align:right;">
-0.4690
+0.367
 </td>
 <td style="text-align:right;">
-0.558
+0.369
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="capas-rnfl-gcl-inl" class="section level1">
+<h1>Capas RNFL + GCL + INL</h1>
+<div id="detección-del-glaucoma-3" class="section level2">
+<h2>Detección del Glaucoma</h2>
+<div id="parámetros-de-la-red-6" class="section level3">
+<h3>Parámetros de la red</h3>
+<ul>
+<li>Arquitectura</li>
+</ul>
+<pre><code>Model: &quot;sequential&quot;
+________________________________________________________________________________
+Layer (type)                        Output Shape                    Param #     
+================================================================================
+dense_5 (Dense)                     (None, 1024)                    197632      
+________________________________________________________________________________
+dense_4 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_3 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     262656      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
+________________________________________________________________________________
+dropout_1 (Dropout)                 (None, 256)                     0           
+________________________________________________________________________________
+dense_1 (Dense)                     (None, 128)                     32896       
+________________________________________________________________________________
+dropout (Dropout)                   (None, 128)                     0           
+________________________________________________________________________________
+dense (Dense)                       (None, 2)                       258         
+================================================================================
+Total params: 1,149,570
+Trainable params: 1,149,570
+Non-trainable params: 0
+________________________________________________________________________________</code></pre>
+<ul>
+<li>Número de iteraciones: 100</li>
+<li>Tamaño del lote: 50</li>
+<li>Medida de error: Entropía binaria</li>
+<li>Algorimo de aprendizaje: Adam</li>
+<li>Validación cruzada: 10-folds</li>
+<li>Número de repeticiones: 3</li>
+</ul>
+</div>
+<div id="evaluación-del-modelo-6" class="section level3">
+<h3>Evaluación del modelo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Medida
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+lim.inf.ci
+</th>
+<th style="text-align:right;">
+lim.sup.ci
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Especificidad
+</td>
+<td style="text-align:right;">
+0.972
+</td>
+<td style="text-align:right;">
+0.955
+</td>
+<td style="text-align:right;">
+0.989
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.global
+</td>
+<td style="text-align:right;">
+0.890
+</td>
+<td style="text-align:right;">
+0.882
+</td>
+<td style="text-align:right;">
+0.898
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media
+</td>
+<td style="text-align:right;">
+0.765
+</td>
+<td style="text-align:right;">
+0.757
+</td>
+<td style="text-align:right;">
+0.772
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad
+</td>
+<td style="text-align:right;">
+0.557
+</td>
+<td style="text-align:right;">
+0.525
+</td>
+<td style="text-align:right;">
+0.590
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="clasificación-en-estadíos-3" class="section level2">
+<h2>Clasificación en estadíos</h2>
+<div id="parámetros-de-la-red-7" class="section level3">
+<h3>Parámetros de la red</h3>
+<ul>
+<li>Arquitectura</li>
+</ul>
+<pre><code>Model: &quot;sequential&quot;
+________________________________________________________________________________
+Layer (type)                        Output Shape                    Param #     
+================================================================================
+dense_4 (Dense)                     (None, 1024)                    197632      
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
+________________________________________________________________________________
+dropout_1 (Dropout)                 (None, 256)                     0           
+________________________________________________________________________________
+dense_1 (Dense)                     (None, 128)                     32896       
+________________________________________________________________________________
+dropout (Dropout)                   (None, 128)                     0           
+________________________________________________________________________________
+dense (Dense)                       (None, 4)                       516         
+================================================================================
+Total params: 887,172
+Trainable params: 887,172
+Non-trainable params: 0
+________________________________________________________________________________</code></pre>
+<ul>
+<li>Número de iteraciones: 100</li>
+<li>Tamaño del lote: 50</li>
+<li>Medida de error: Entropía múltrnfl-gcl-inle</li>
+<li>Algorimo de aprendizaje: Adam</li>
+<li>Validación cruzada: 10-folds</li>
+<li>Número de repeticiones: 3</li>
+</ul>
+</div>
+<div id="evaluación-del-modelo-7" class="section level3">
+<h3>Evaluación del modelo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Medida
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+lim.inf.ci
+</th>
+<th style="text-align:right;">
+lim.sup.ci
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioI
+</td>
+<td style="text-align:right;">
+0.867
+</td>
+<td style="text-align:right;">
+0.743
+</td>
+<td style="text-align:right;">
+0.992
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.790
+</td>
+<td style="text-align:right;">
+0.706
+</td>
+<td style="text-align:right;">
+0.873
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.905
+</td>
+<td style="text-align:right;">
+0.859
+</td>
+<td style="text-align:right;">
+0.952
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.932
+</td>
+<td style="text-align:right;">
+0.912
+</td>
+<td style="text-align:right;">
+0.951
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioI
+</td>
+<td style="text-align:right;">
+0.724
+</td>
+<td style="text-align:right;">
+0.673
+</td>
+<td style="text-align:right;">
+0.776
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioII
+</td>
+<td style="text-align:right;">
+0.721
+</td>
+<td style="text-align:right;">
+0.639
+</td>
+<td style="text-align:right;">
+0.803
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIII
+</td>
+<td style="text-align:right;">
+0.744
+</td>
+<td style="text-align:right;">
+0.653
+</td>
+<td style="text-align:right;">
+0.836
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIV
+</td>
+<td style="text-align:right;">
+0.849
+</td>
+<td style="text-align:right;">
+0.763
+</td>
+<td style="text-align:right;">
+0.935
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioI
+</td>
+<td style="text-align:right;">
+0.581
+</td>
+<td style="text-align:right;">
+0.560
+</td>
+<td style="text-align:right;">
+0.603
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.652
+</td>
+<td style="text-align:right;">
+0.416
+</td>
+<td style="text-align:right;">
+0.889
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.583
+</td>
+<td style="text-align:right;">
+0.378
+</td>
+<td style="text-align:right;">
+0.788
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.767
+</td>
+<td style="text-align:right;">
+0.586
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.global
+</td>
+<td style="text-align:right;">
+0.633
+</td>
+<td style="text-align:right;">
+0.551
+</td>
+<td style="text-align:right;">
+0.714
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="capas-rnfl-gcl-inl-ipl-opl-onl-prl-rpe" class="section level1">
+<h1>Capas RNFL + GCL + INL + IPL + OPL + ONL + PRL + RPE</h1>
+<div id="detección-del-glaucoma-4" class="section level2">
+<h2>Detección del Glaucoma</h2>
+<div id="parámetros-de-la-red-8" class="section level3">
+<h3>Parámetros de la red</h3>
+<ul>
+<li>Arquitectura</li>
+</ul>
+<pre><code>Model: &quot;sequential&quot;
+________________________________________________________________________________
+Layer (type)                        Output Shape                    Param #     
+================================================================================
+dense_5 (Dense)                     (None, 1024)                    459776      
+________________________________________________________________________________
+dense_4 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_3 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     262656      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
+________________________________________________________________________________
+dropout_1 (Dropout)                 (None, 256)                     0           
+________________________________________________________________________________
+dense_1 (Dense)                     (None, 128)                     32896       
+________________________________________________________________________________
+dropout (Dropout)                   (None, 128)                     0           
+________________________________________________________________________________
+dense (Dense)                       (None, 2)                       258         
+================================================================================
+Total params: 1,411,714
+Trainable params: 1,411,714
+Non-trainable params: 0
+________________________________________________________________________________</code></pre>
+<ul>
+<li>Número de iteraciones: 100</li>
+<li>Tamaño del lote: 50</li>
+<li>Medida de error: Entropía binaria</li>
+<li>Algorimo de aprendizaje: Adam</li>
+<li>Validación cruzada: 10-folds</li>
+<li>Número de repeticiones: 3</li>
+</ul>
+</div>
+<div id="evaluación-del-modelo-8" class="section level3">
+<h3>Evaluación del modelo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Medida
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+lim.inf.ci
+</th>
+<th style="text-align:right;">
+lim.sup.ci
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Especificidad
+</td>
+<td style="text-align:right;">
+0.985
+</td>
+<td style="text-align:right;">
+0.979
+</td>
+<td style="text-align:right;">
+0.991
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.global
+</td>
+<td style="text-align:right;">
+0.885
+</td>
+<td style="text-align:right;">
+0.878
+</td>
+<td style="text-align:right;">
+0.892
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media
+</td>
+<td style="text-align:right;">
+0.732
+</td>
+<td style="text-align:right;">
+0.728
+</td>
+<td style="text-align:right;">
+0.737
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad
+</td>
+<td style="text-align:right;">
+0.480
+</td>
+<td style="text-align:right;">
+0.466
+</td>
+<td style="text-align:right;">
+0.493
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="clasificación-en-estadíos-4" class="section level2">
+<h2>Clasificación en estadíos</h2>
+<div id="parámetros-de-la-red-9" class="section level3">
+<h3>Parámetros de la red</h3>
+<ul>
+<li>Arquitectura</li>
+</ul>
+<pre><code>Model: &quot;sequential&quot;
+________________________________________________________________________________
+Layer (type)                        Output Shape                    Param #     
+================================================================================
+dense_4 (Dense)                     (None, 1024)                    459776      
+________________________________________________________________________________
+dense_3 (Dense)                     (None, 512)                     524800      
+________________________________________________________________________________
+dropout_2 (Dropout)                 (None, 512)                     0           
+________________________________________________________________________________
+dense_2 (Dense)                     (None, 256)                     131328      
+________________________________________________________________________________
+dropout_1 (Dropout)                 (None, 256)                     0           
+________________________________________________________________________________
+dense_1 (Dense)                     (None, 128)                     32896       
+________________________________________________________________________________
+dropout (Dropout)                   (None, 128)                     0           
+________________________________________________________________________________
+dense (Dense)                       (None, 4)                       516         
+================================================================================
+Total params: 1,149,316
+Trainable params: 1,149,316
+Non-trainable params: 0
+________________________________________________________________________________</code></pre>
+<ul>
+<li>Número de iteraciones: 100</li>
+<li>Tamaño del lote: 50</li>
+<li>Medida de error: Entropía múltalle</li>
+<li>Algorimo de aprendizaje: Adam</li>
+<li>Validación cruzada: 10-folds</li>
+<li>Número de repeticiones: 3</li>
+</ul>
+</div>
+<div id="evaluación-del-modelo-9" class="section level3">
+<h3>Evaluación del modelo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Medida
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+lim.inf.ci
+</th>
+<th style="text-align:right;">
+lim.sup.ci
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioI
+</td>
+<td style="text-align:right;">
+0.841
+</td>
+<td style="text-align:right;">
+0.723
+</td>
+<td style="text-align:right;">
+0.960
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.794
+</td>
+<td style="text-align:right;">
+0.783
+</td>
+<td style="text-align:right;">
+0.806
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.922
+</td>
+<td style="text-align:right;">
+0.920
+</td>
+<td style="text-align:right;">
+0.924
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.936
+</td>
+<td style="text-align:right;">
+0.905
+</td>
+<td style="text-align:right;">
+0.968
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioI
+</td>
+<td style="text-align:right;">
+0.726
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+0.773
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioII
+</td>
+<td style="text-align:right;">
+0.695
+</td>
+<td style="text-align:right;">
+0.571
+</td>
+<td style="text-align:right;">
+0.820
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIII
+</td>
+<td style="text-align:right;">
+0.728
+</td>
+<td style="text-align:right;">
+0.650
+</td>
+<td style="text-align:right;">
+0.807
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIV
+</td>
+<td style="text-align:right;">
+0.912
+</td>
+<td style="text-align:right;">
+0.857
+</td>
+<td style="text-align:right;">
+0.968
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioI
+</td>
+<td style="text-align:right;">
+0.611
+</td>
+<td style="text-align:right;">
+0.531
+</td>
+<td style="text-align:right;">
+0.691
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.596
+</td>
+<td style="text-align:right;">
+0.336
+</td>
+<td style="text-align:right;">
+0.857
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.535
+</td>
+<td style="text-align:right;">
+0.379
+</td>
+<td style="text-align:right;">
+0.691
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.889
+</td>
+<td style="text-align:right;">
+0.762
+</td>
+<td style="text-align:right;">
+1.020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.global
+</td>
+<td style="text-align:right;">
+0.627
+</td>
+<td style="text-align:right;">
+0.513
+</td>
+<td style="text-align:right;">
+0.741
 </td>
 </tr>
 </tbody>
