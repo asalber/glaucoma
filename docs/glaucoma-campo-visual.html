@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-09-17" />
+<meta name="date" content="2021-10-06" />
 
 <title>Análisis de concordancia entre las clasificaciones del glaucoma según los anillos retinianos y según el campo visual</title>
 
@@ -361,17 +361,155 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Análisis de concordancia entre las clasificaciones del glaucoma según los anillos retinianos y según el campo visual</h1>
-<h4 class="date">2021-09-17</h4>
+<h4 class="date">2021-10-06</h4>
 
 </div>
 
 
 <div id="objetivo" class="section level1">
 <h1>Objetivo</h1>
-<p>Este estudio pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadíos de glaucoma definidos a partir de los anillos retinianos (ver <a href="http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html" class="uri">http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html</a>) y la clasifiación clásica a partir de campo visual.</p>
+<p>El objetivo de este estudio de los campos visuales es doble. Por un lado estudiar la variabilidad subjetiva en la medición de los campos visuales mediante la repetición de la prueba en los mismos individuos. Por otro lado se pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadíos de glaucoma definidos a partir de los anillos retinianos (ver <a href="http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html" class="uri">http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html</a>) y la clasifiación clásica a partir de campo visual.</p>
 </div>
-<div id="análisis-del-campo-visual" class="section level1">
-<h1>Análisis del campo visual</h1>
+<div id="análisis-de-la-variabilidad-del-campo-visual" class="section level1">
+<h1>Análisis de la variabilidad del campo visual</h1>
+<p>Se ha tomado una muestra de 216 individuos a quienes se les ha medido el campo visual en tres momentos distintos (m1, m2 y m3).</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Medida</th>
+<th align="left">Sexo</th>
+<th align="right">n</th>
+<th align="right">Media</th>
+<th align="right">Desv.Est</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">m1</td>
+<td align="left">M</td>
+<td align="right">35</td>
+<td align="right">-0.5257</td>
+<td align="right">2.643</td>
+</tr>
+<tr class="even">
+<td align="left">m1</td>
+<td align="left">V</td>
+<td align="right">37</td>
+<td align="right">0.4162</td>
+<td align="right">1.907</td>
+</tr>
+<tr class="odd">
+<td align="left">m2</td>
+<td align="left">M</td>
+<td align="right">35</td>
+<td align="right">-0.1143</td>
+<td align="right">2.057</td>
+</tr>
+<tr class="even">
+<td align="left">m2</td>
+<td align="left">V</td>
+<td align="right">37</td>
+<td align="right">-0.1243</td>
+<td align="right">1.497</td>
+</tr>
+<tr class="odd">
+<td align="left">m3</td>
+<td align="left">M</td>
+<td align="right">35</td>
+<td align="right">-0.3429</td>
+<td align="right">2.350</td>
+</tr>
+<tr class="even">
+<td align="left">m3</td>
+<td align="left">V</td>
+<td align="right">37</td>
+<td align="right">0.4243</td>
+<td align="right">1.632</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-campo-visual_files/figure-html/boxplot-1.png" width="2400" /></p>
+<div id="análisis-de-la-varianza-de-medidas-repetidas" class="section level2">
+<h2>Análisis de la varianza de medidas repetidas</h2>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Effect"],"name":[1],"type":["chr"],"align":["left"]},{"label":["DFn"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["DFd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["p<.05"],"name":[6],"type":["chr"],"align":["left"]},{"label":["ges"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Medida","2":"1.8","3":"127.6","4":"0.371","5":"0.668","6":"","7":"0.001","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>No se observan diferecias significativas entre los tres momentos de medición.</p>
+</div>
+<div id="análisis-de-la-variabilidad-de-la-medición-del-campo-visual" class="section level2">
+<h2>Análisis de la variabilidad de la medición del campo visual</h2>
+<p>Para cada individuo se calcula la desviación típica de las tres medidas. La siguiente tabla contiene los estadísticos de esta nueva variable.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">n</th>
+<th align="right">Media</th>
+<th align="right">Desv.Est</th>
+<th align="right">Error.Est</th>
+<th align="right">IC.inf</th>
+<th align="right">IC.sup</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">72</td>
+<td align="right">0.9826</td>
+<td align="right">0.67</td>
+<td align="right">0.079</td>
+<td align="right">0.8251</td>
+<td align="right">1.14</td>
+</tr>
+</tbody>
+</table>
+<p>La variabilidad media es que es bastante alta en comparación con la magnitud de los campos visuales.</p>
+<div id="variabilidad-del-campo-visual-según-el-sexo" class="section level3">
+<h3>Variabilidad del campo visual según el sexo</h3>
+<p>La siguiente tabla refleja la variabilidad del campo visual según el sexo.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Sexo</th>
+<th align="right">n</th>
+<th align="right">Media</th>
+<th align="right">Desv.Est</th>
+<th align="right">Error.Est</th>
+<th align="right">IC.inf</th>
+<th align="right">IC.sup</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">M</td>
+<td align="right">35</td>
+<td align="right">1.009</td>
+<td align="right">0.6832</td>
+<td align="right">0.1155</td>
+<td align="right">0.7739</td>
+<td align="right">1.243</td>
+</tr>
+<tr class="even">
+<td align="left">V</td>
+<td align="right">37</td>
+<td align="right">0.958</td>
+<td align="right">0.6658</td>
+<td align="right">0.1095</td>
+<td align="right">0.7360</td>
+<td align="right">1.180</td>
+</tr>
+</tbody>
+</table>
+<p>No se observa una diferencia significativa entre la variabiidad del campo visual de hombres y mujeres.</p>
+</div>
+<div id="correlación-entre-la-variabilidad-del-campo-visual-y-la-edad" class="section level3">
+<h3>Correlación entre la variabilidad del campo visual y la edad</h3>
+<p><img src="glaucoma-campo-visual_files/figure-html/variabilidad-edad-1.png" width="2400" /> Según el diagrama de dispersión no se aprecia una relación clara entre el campo visual y la edad. El coeficiente de determinación lineal es <span class="math inline">\(r^2 = 0.0039\)</span> lo que indica que no existe relación lineal entre el campo visual y la edad.</p>
+</div>
+</div>
+</div>
+<div id="análisis-de-la-concordancia-entre-el-campo-visual-y-los-estadíos-de-glaucoma" class="section level1">
+<h1>Análisis de la concordancia entre el campo visual y los estadíos de glaucoma</h1>
 <div id="diagrama-de-cajas-del-campo-vistual-según-estadíos-de-glaucoma" class="section level2">
 <h2>Diagrama de cajas del campo vistual según estadíos de glaucoma</h2>
 <p><img src="glaucoma-campo-visual_files/figure-html/distribution-1.png" width="2400" /></p>

@@ -1,6 +1,13 @@
 ---
 title: "Clasifiación del Glaucoma en estadíos a partir del cubo macular"
 date: "`r Sys.Date()`"
+jupyter:
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+output:
+    ipynbdocument::ipynb_document
 ---
 
 ```{r setup, include=F, cache = F, echo = F}

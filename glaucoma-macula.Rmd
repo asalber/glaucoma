@@ -19,7 +19,7 @@ lapply(.packages, require, character.only=T)
 
 ```{r carga-datos}
 # Carga de la base de datos (ver fichero glaucoma-preprocesamiento-data.HemisferiosNT)
-load("data/datos-macula-preprocesados.RData")
+load("data/data-macula-preprocesed.RData")
 df <- df.macula
 
 # Conjuntos de variables

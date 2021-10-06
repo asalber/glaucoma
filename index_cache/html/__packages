@@ -7,3 +7,16 @@ kableExtra
 psych
 ggplot2
 GGally
+rmarkdown
+tidyverse
+tibble
+readr
+purrr
+stringr
+forcats
+gridExtra
+tensorflow
+keras
+lattice
+caret
+rcompanion

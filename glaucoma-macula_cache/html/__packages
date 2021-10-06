@@ -14,3 +14,9 @@ gridExtra
 DT
 kableExtra
 psych
+rmarkdown
+tensorflow
+keras
+lattice
+caret
+rcompanion

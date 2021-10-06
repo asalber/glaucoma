@@ -11,29 +11,102 @@ opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning
 ```
 
 ```{r packages, results='hide'}
-.packages <- c("tidyverse", "irr")
+.packages <- c("tidyverse", "rstatix", "irr", "modeest")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
 ```
 
+# Objetivo
+
+El objetivo de este estudio de los campos visuales es doble. Por un lado estudiar la variabilidad subjetiva en la medición de los campos visuales mediante la repetición de la prueba en los mismos individuos. 
+Por otro lado se pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadíos de glaucoma definidos a partir de los anillos retinianos (ver http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html) y la clasifiación clásica a partir de campo visual. 
+
+# Análisis de la variabilidad del campo visual
+
+```{r data-loading-repetated-measures, results='hide'}
+df <- read_csv('data/campos-visuales-repetidos.csv') %>%
+  mutate(Sexo = as.factor(Sexo), Medida = as.factor(Medida))
+```
+
+Se ha tomado una muestra de `r nrow(df)` individuos a quienes se les ha medido el campo visual en tres momentos distintos (m1, m2 y m3).
+
+```{r descriptive-statistics}
+df %>% 
+  group_by(Medida, Sexo) %>%
+  summarise(n=n(), Media = mean(Md), Desv.Est= sd(Md)) %>%
+  kable()
+```
+
+```{r boxplot}
+df %>%
+  ggplot(aes(x = Medida, y = Md, col=Sexo)) + geom_boxplot()
+```
+
+## Análisis de la varianza de medidas repetidas
+
+```{r anova}
+aov <- anova_test(df, dv = Md, wid = Id, within = Medida)
+get_anova_table(aov)
+```
+
+No se observan diferecias significativas entre los tres momentos de medición.
+
+## Análisis de la variabilidad de la medición del campo visual
+
+Para cada individuo se calcula la desviación típica de las tres medidas. La siguiente tabla contiene los estadísticos de esta nueva variable.
+
+```{r variability}
+df <- df %>% 
+  group_by(Id) %>%
+  summarise("Variabilidad CV" = sd(Md), Sexo = mfv(Sexo), Edad = mfv(Edad))
+
+result <- df %>% 
+  summarise(n=n(), Media = mean(`Variabilidad CV`), Desv.Est= sd(`Variabilidad CV`)) %>%
+  mutate(Error.Est = Desv.Est / sqrt(n), IC.inf = Media - qt(1 - (0.05 / 2), n - 1) * Error.Est, IC.sup = Media + qt(1 - (0.05 / 2), n - 1) * Error.Est) 
+result %>%
+  kable()
+```
+
+La variabilidad media es `r result$media` que es bastante alta en comparación con la magnitud de los campos visuales.
+
+### Variabilidad del campo visual según el sexo
+
+La siguiente tabla refleja la variabilidad del campo visual según el sexo.
+
+```{r variability-gender}
+result <- df %>% 
+  group_by(Sexo) %>%
+  summarise(n=n(), Media = mean(`Variabilidad CV`), Desv.Est= sd(`Variabilidad CV`)) %>%
+  mutate(Error.Est = Desv.Est / sqrt(n), IC.inf = Media - qt(1 - (0.05 / 2), n - 1) * Error.Est, IC.sup = Media + qt(1 - (0.05 / 2), n - 1) * Error.Est) 
+result %>%
+  kable()
+```
+
+No se observa una diferencia significativa entre la variabiidad del campo visual de hombres y mujeres.
+
+### Correlación entre la variabilidad del campo visual y la edad
+
+```{r variabilidad-edad}
+df %>%
+  ggplot(aes(x = Edad, y = `Variabilidad CV`)) + geom_point()
+```
+Según el diagrama de dispersión no se aprecia una relación clara entre el campo visual y la edad. El coeficiente de determinación lineal es $r^2 = `r cor(df$Edad, df[["Variabilidad CV"]])^2`$ lo que indica que no existe relación lineal entre el campo visual y la edad.
+
+# Análisis de la concordancia entre el campo visual y los estadíos de glaucoma
+
 ```{r data-loading, results='hide'}
-data <- read_csv('data/campo-visual.csv', col_types = cols(Estadio = "f"))
-data$Estadio <- ordered(data$Estadio, levels=levels(data$Estadio))
+df <- read_csv('data/campo-visual.csv', col_types = cols(Estadio = "f"))
+df$Estadio <- ordered(df$Estadio, levels=levels(df$Estadio))
 # Filtramos los ojos con glaucoma en un nuevo conjunto de datos
-data.glaucoma <- data %>% filter(Estadio != 'Sano')
+df.glaucoma <- df %>% filter(Estadio != 'Sano')
 ```
 
 ```{r data-filtering, results='hide'}
-data <- data %>% # Eliminar los casos con errores mayores del 16%
+df <- df %>% # Eliminar los casos con errores mayores del 16%
   filter(Error <= 16)
 ```
 
-# Objetivo
-
-Este estudio pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadíos de glaucoma definidos a partir de los anillos retinianos (ver http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html) y la clasifiación clásica a partir de campo visual. 
-
-# Análisis del campo visual
 
 ## Diagrama de cajas del campo vistual según estadíos de glaucoma
 
@@ -46,7 +119,7 @@ Este estudio pretende comprobar si existe concordancia entre la clasificación d
 #palette.healthy <- c("#00FF00", "#3FBF00", "#7F7F00", "#BF3F00", "#FF0000")
 #palette <- palette.healthy[-1]
 
-data %>% 
+df %>% 
   ggplot(aes(x=Dm, fill=Estadio)) +
   geom_boxplot() +
   scale_fill_manual(values = palette) + 
@@ -57,7 +130,7 @@ data %>%
 ## Intervalos de confianza para la media del campo visual según estadíos de glaucoma
 
 ```{r confidence-intervals-glaucoma-stages}
-means <- data %>% 
+means <- df %>% 
   group_by(Estadio) %>%
   summarise(n=n(), media = mean(Dm), desv.est= sd(Dm)) %>%
   mutate(error.est = desv.est / sqrt(n), lim.inf.ic = media - qt(1 - (0.05 / 2), n - 1) * error.est, lim.sup.ic = media + qt(1 - (0.05 / 2), n - 1) * error.est)
@@ -90,20 +163,20 @@ labels <- c("I", "II", "III", "IV")
 # Shapes
 shapes <- c(1, 3, 15, 17, 16)
 # K-means clusters
-clusters <- kmeans(data.glaucoma[, vars], centers = n, nstart = 25)
+clusters <- kmeans(df.glaucoma[, vars], centers = n, nstart = 25)
 centers <- clusters$centers[order(clusters$centers[,1], decreasing = T),]
-clusters <- kmeans(data.glaucoma[, vars], centers = centers)
+clusters <- kmeans(df.glaucoma[, vars], centers = centers)
 # Convert the cluster into a factor
 clusters$cluster <- as.factor(clusters$cluster)
 # Assign labels to factors
 levels(clusters$cluster) <- labels
 # Add cluster to data frame
-data.glaucoma[, "Estadio.CV"] <- ordered(clusters$cluster)
-# data %>% ggplot(aes(x=Dm, y=Estadio.CV, colour=Estadio.CV)) + geom_point()
+df.glaucoma[, "Estadio.CV"] <- ordered(clusters$cluster)
+# df %>% ggplot(aes(x=Dm, y=Estadio.CV, colour=Estadio.CV)) + geom_point()
 ```
 
 ```{r confidence-intervals-visual-field-stages}
-means <- data.glaucoma %>% 
+means <- df.glaucoma %>% 
   group_by(Estadio.CV) %>%
   summarise(n=n(), media = mean(Dm), desv.est= sd(Dm)) %>%
   mutate(error.est = desv.est / sqrt(n), lim.inf.ic = media - qt(1 - (0.05 / 2), n - 1) * error.est, lim.sup.ic = media + qt(1 - (0.05 / 2), n - 1) * error.est)
@@ -115,7 +188,7 @@ kable(means)
 Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadíos definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual. No se consideran los ojos sanos ya que la concordancia en este grupo es perfecta.
 
 ```{r Kendalls-coefficient}
-k <- kendall(data.glaucoma[, c("Estadio", "Estadio.CV")], correct = T)
+k <- kendall(df.glaucoma[, c("Estadio", "Estadio.CV")], correct = T)
 k
 ```
 Se puede concluir que existe una concordancia fuerte ($W=`r round(k$value,2)`$) y muy significativa ($p<0.01$) entre ambos rankings de clasificación del glaucoma.
