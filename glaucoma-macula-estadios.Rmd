@@ -98,10 +98,12 @@ nbatch = 50
 
 ```{r functions, echo=F}
 # function to prepare the input of glaucoma detection (binary classification)
-prepare.input.glaucoma <- function(df, layers){
+prepare.input.glaucoma <- function(df, layers, cells = varCells){
   input <- df %>%
     # Filter layer
     filter(Capa %in% layers) %>%
+    # Select cells
+    select("Id", "Glaucoma", "Ojo", "Capa", "Estadio", cells) %>%
     # Convert to long format
     pivot_longer(-c(Id, Glaucoma, Ojo, Capa, Estadio), names_to = "cell") %>%
     # Join the layer and cell columns
@@ -131,12 +133,14 @@ prepare.input.glaucoma <- function(df, layers){
 }
 
 # function to prepare the input of stages classification (multiple classification)
-prepare.input.stages <- function(df, layers){
+prepare.input.stages <- function(df, layers, cells = varCells){
   input <- df %>%
     # Filter glaucoma
     filter(Glaucoma == "Y") %>%
     # Filter layer
     filter(Capa %in% layers) %>%
+    # Select cells
+    select("Id", "Glaucoma", "Ojo", "Capa", "Estadio", cells) %>%
     # Convert to long format
     pivot_longer(-c(Id, Glaucoma, Ojo, Capa, Estadio), names_to = "cell") %>%
     # Join the layer and cell columns
@@ -202,7 +206,6 @@ net.arch.stages <-function(input.size){
     layer_dense(units = 4, activation = "softmax")
   return(model_to_json(model))
 }
-
 
 # function for building and training nets for binary classification
 net.glaucoma <- function(model.json, x, y, epochs=nepochs, batch_size=nbatch){
@@ -361,6 +364,7 @@ train.stages <- function(input, epochs=nepochs, batch_size=nbatch){
 - Arquitectura 
 
 ```{r net-glaucoma-rnfl-arch}
+#cells = varCells[c(25,33,34,40,41,42,43,47,48,49,50,51,55,56,57,58,59,60,61,62,63,64)]
 input <- prepare.input.glaucoma(df, layers = "RNFL")
 model.json <- net.arch.glaucoma(ncol(input)-1)
 summary(model_from_json(model.json))
@@ -465,7 +469,7 @@ train.stages(input) %>%
 ```
 
 
-# Capa INL
+# Capa IPL
 
 ## Detección del Glaucoma
 
@@ -474,7 +478,7 @@ train.stages(input) %>%
 - Arquitectura 
 
 ```{r net-glaucoma-ipl-arch}
-input <- prepare.input.glaucoma(df, layers = "INL")
+input <- prepare.input.glaucoma(df, layers = "IPL")
 model.json <- net.arch.glaucoma(ncol(input)-1)
 summary(model_from_json(model.json))
 ```
@@ -501,7 +505,7 @@ train.glaucoma(input) %>%
 - Arquitectura
 
 ```{r net-stages-ipl-arch}
-input <- prepare.input.stages(df, layers = "INL")
+input <- prepare.input.stages(df, layers = "IPL")
 model.json <- net.arch.stages(ncol(input)-1)
 summary(model_from_json(model.json))
 ```
@@ -521,7 +525,7 @@ train.stages(input) %>%
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-# Capas RNFL + GCL + INL
+# Capas RNFL + GCL + IPL
 
 ## Detección del Glaucoma
 
@@ -530,7 +534,7 @@ train.stages(input) %>%
 - Arquitectura 
 
 ```{r net-glaucoma-rnfl-gcl-inl-arch}
-input <- prepare.input.glaucoma(df, layers = c("RNFL", "GCL", "INL"))
+input <- prepare.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"))
 model.json <- net.arch.glaucoma(ncol(input)-1)
 summary(model_from_json(model.json))
 ```
@@ -557,7 +561,7 @@ train.glaucoma(input) %>%
 - Arquitectura
 
 ```{r net-stages-rnfl-gcl-inl-arch}
-input <- prepare.input.stages(df, layers = c("RNFL", "GCL", "INL"))
+input <- prepare.input.stages(df, layers = c("RNFL", "GCL", "IPL"))
 model.json <- net.arch.stages(ncol(input)-1)
 summary(model_from_json(model.json))
 ```

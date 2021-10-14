@@ -11,3 +11,12 @@ stringr
 forcats
 FactoMineR
 factoextra
+GGally
+gridExtra
+ggpubr
+kableExtra
+psych
+lpSolve
+irr
+rstatix
+modeest
