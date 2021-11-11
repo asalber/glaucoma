@@ -1,0 +1,429 @@
+---
+title: "Clasifiación del Glaucoma en estadíos a partir del cubo macular"
+date: "`r Sys.Date()`"
+jupyter:
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+output:
+    ipynbdocument::ipynb_document
+---
+
+```{r setup, include=F, cache = F, echo = F}
+library(rmarkdown)
+library(knitr)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message = F, warning = F, dev = "svg")
+```
+
+```{r carga-paquetes, results='hide'}
+.packages <- c("MASS", "tidyverse", "caret", "rcompanion", "kableExtra", "tidymodels", "discrim")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+Sys.setenv(RETICULATE_PYTHON="/usr/bin/python")
+```
+
+```{r carga-datos}
+# Set random seed for reproducibility
+set.seed(123)
+# Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
+load("data/data-macula-preprocesed.RData")
+# Filter left eyes
+df <- df.macula %>% filter(Ojo == "L")
+
+# Conjunto de variables
+varCells <- NULL
+for (i in 1:8){
+  for (j in 1:8){
+    varCells <- c(varCells, paste0("Celda",j,".",i))
+  }
+}
+
+# Layers set
+varLayers <- c("RNFL", "GCL", "IPL", "INL", "OPL+ONL", "PRL", "RPE")
+
+# Eliminación datos atípicos
+removeOutliers <- function(x) {
+  qnt <- quantile(x, probs=c(.25, .75, 0.05, 0.95), na.rm = T)
+  iqr <- qnt[2]-qnt[1]
+  fence1 <- qnt[1]-1.5*iqr
+  fence2 <- qnt[2]+1.5*iqr
+  x[x < fence1] <- qnt[3]
+  x[x > fence2] <- qnt[4]
+  return(x)
+}
+
+df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="GCL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="INL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="INL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="IPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="OPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="ONL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="PRL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RPE", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RPE", varCells], removeOutliers)
+
+# Añadir capa OPL+ONL
+dfOPLONL <- cbind(df[df$Capa=="OPL", 1:4], df[df$Capa=="OPL", varCells] + df[df$Capa=="ONL", varCells])
+dfOPLONL$Capa <- "OPL+ONL" 
+df <- rbind(df, dfOPLONL)
+
+# Load stages data
+df.stages <- read_csv("data/data-stages.csv") %>% 
+  select(-c(Ojo, Glaucoma, Sexo, Edad))
+# Add stages to the dataframe
+df <- df %>% inner_join(df.stages, by="Id") %>%
+  # Move the stage column to the beginning
+  select(Id, Glaucoma, Ojo, Estadio, everything()) %>%
+  # Convert stages into a factor
+  mutate(Estadio = fct_relevel(as.factor(Estadio), "Sano"))
+
+# Change order of Glaucoma levels
+df <- df %>% 
+  mutate(Glaucoma = fct_relevel(as.factor(Glaucoma), "Y"))
+
+## GLAUCOMA DATASET
+df.glaucoma <- df %>%
+  filter(Glaucoma == "Y") %>%
+  mutate(Estadio = droplevels(Estadio))
+
+## BALANCED DATASET
+# Sample size glaucoma eyes
+n <- df %>% 
+  filter(Capa == "RNFL", Glaucoma == "Y") %>% 
+  summarise(n=n())
+# Select sample of healthy eyes to balance data
+id.healthy <- df %>% 
+  filter(Capa == "RNFL", Glaucoma == "N") %>% 
+  select(Id) %>% 
+  sample_n(n$n)
+id.glaucoma <- df %>%
+  filter(Capa == "RNFL", Glaucoma == "Y") %>% 
+  select(Id)
+id.balanced <- bind_rows(id.healthy, id.glaucoma)
+  
+# Get the balanced data set
+df.balanced <- df %>%
+  # Right join with significant cells
+    right_join(id.balanced)
+```
+
+# Resumen
+
+En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias ([más info](https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html)).
+
+Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).
+
+# Análisis discriminante
+
+```{r lda functions, echo=F}
+# function to prepare the input of glaucoma detection (binary classification)
+df.sig <- read_csv("data/significant-cells.csv") 
+
+lda.input.glaucoma <- function(df, layers, sigcells = F, cells = varCells){
+  #cells = varCells
+  #layers = "RNFL"
+  # Get cells with a significant difference.
+  sig.cells <- df.sig %>%
+    filter(Capa %in% layers) %>%
+    unite(var, Capa, Celda, sep = ".")
+  
+  input <- df %>%
+    # Filter layer
+    filter(Capa %in% layers) %>%
+    # Select cells
+    select("Id", "Glaucoma", "Ojo", "Capa", "Estadio", all_of(cells)) %>%
+    # Convert to long format
+    pivot_longer(-c(Id, Glaucoma, Ojo, Capa, Estadio), names_to = "cell") %>%
+    # Join the layer and cell columns
+    unite(var, Capa, cell, sep = ".")
+  if (sigcells) {
+    # Right join with significant cells
+    input <- input %>% right_join(sig.cells) 
+  }
+  input <- input %>%
+    # Come back to wide format
+    pivot_wider(names_from = var, values_from = value) %>% 
+    # Remove non numeric variables
+    select(-c(Id, Ojo, Estadio))
+  # Look for rows with more than 20% of NA
+  rows <- NULL
+  for (i in 1:nrow(input)){
+    if (sum(is.na(input[i,])) > (ncol(input) / 5)) {
+      rows <- append(rows, i)
+    }
+  }
+  # Remove rows from the data frame
+  input <- input %>% slice(-rows)
+  # Replace NAs by the column mean
+  col_means <- lapply(input %>% select(-c(Glaucoma)), mean, na.rm = T)
+  input <- input %>% replace_na(col_means)
+  return(input)
+}
+
+lda.input.stages <- function(df, layers, sigcells = F, cells = varCells){
+  # cells = varCells
+  # layers = "RNFL"
+  # Get cells with a significant difference.
+  sig.cells <- df.sig %>%
+    filter(Capa %in% layers) %>%
+    unite(var, Capa, Celda, sep = ".")
+  
+  input <- df %>%
+    # Filter layer
+    filter(Capa %in% layers) %>%
+    # Select cells
+    select("Id", "Glaucoma", "Ojo", "Capa", "Estadio", all_of(cells)) %>%
+    # Convert to long format
+    pivot_longer(-c(Id, Glaucoma, Ojo, Capa, Estadio), names_to = "cell") %>%
+    # Join the layer and cell columns
+    unite(var, Capa, cell, sep = ".")
+  if (sigcells) {
+    # Right join with significant cells
+    input <- input %>% right_join(sig.cells) 
+  }
+  input <- input %>%
+    # Come back to wide format
+    pivot_wider(names_from = var, values_from = value) %>% 
+    # Remove non numeric variables
+    select(-c(Id, Ojo, Glaucoma)) 
+  # Look for rows with more than 20% of NA
+  rows <- NULL
+  for (i in 1:nrow(input)){
+    if (sum(is.na(input[i,])) > (ncol(input) / 5)) {
+      rows <- append(rows, i)
+    }
+  }
+  # Remove rows from the data frame
+  input <- input %>% slice(-rows)
+  # Replace NAs by the column mean
+  col_means <- lapply(input %>% select(-c(Estadio)), mean, na.rm = T)
+  input <- input %>% replace_na(col_means)
+  return(input)
+}
+
+# Linear discriminant analysis function for Glaucoma
+lda.glaucoma.old <- function(input){
+  # Linear discriminant
+  result.lda <- lda(Glaucoma~., data=input)
+  result.eval <- lda(Glaucoma~., data=input, CV=T)
+  # Model goodness
+  performance <- confusionMatrix(factor(result.eval$class), input$Glaucoma, positive = "Y")
+  names(performance$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  #rownames(performance$byClass) <- gsub("Class:", "Estadio", rownames(performance$byClass))
+  performance$byClass <- performance$byClass[c("Sensibilidad","Especificidad","Precisión.Global")]
+  return(list(lda = result.lda, performance = performance))
+}
+
+# Linear discriminant analysis function for Stages
+lda.stages <- function(input){
+  # Linear discriminant
+  result.lda <- lda(Estadio~., data=input)
+  result.eval <- lda(Estadio~., data=input, CV=T)
+  # Model goodness
+  performance <- confusionMatrix(result.eval$class, input$Estadio)
+  colnames(performance$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
+  rownames(performance$byClass) <- gsub("Class:", "Estadio", rownames(performance$byClass))
+  performance$byClass <- performance$byClass[, c("Sensibilidad","Especificidad","Precisión.Global")]
+  return(list(lda = result.lda, performance = performance))
+}
+
+lda.glaucoma <- function(input){
+  # # Define training control using 10-fold cross validation
+  # control <- trainControl(method = "cv", number = 10, savePredictions = T)
+  # # Train the model
+  # model <- train(Glaucoma ~ ., data = input, trControl = control, method = "glm", family = binomial())
+  # Using tidymodels
+  # cross valiation folds
+  set.seed(123)
+  input.folds <- vfold_cv(input, v = 10, strata = Glaucoma)
+  # feature enginering recipe
+  logit.recipe <- recipe(Glaucoma ~ ., data = input) %>%
+    # Correlation filter
+    step_corr(all_numeric(), threshold = 0.7) %>%
+    # Normalize numeric predictors
+    step_normalize(all_numeric())
+  # model settings
+  logit.model <- discrim_linear()  %>%
+    set_engine("MASS") %>%
+    set_mode("classification")
+  # workflow
+  logit.wkfl <- workflow() %>%
+    add_model(logit.model) %>%
+    add_recipe(logit.recipe)
+  # set performance metrics
+  perf.metrics <- metric_set(sens, spec, roc_auc, accuracy)
+  # training
+  logit.wkfl.fit <- logit.wkfl %>%
+    fit_resamples(resamples = input.folds, metrics = perf.metrics)
+  # compute performance metrics
+  result <- logit.wkfl.fit %>% collect_metrics() %>%
+    rename(Media = mean, Error.std = std_err) %>%
+    mutate(Metrica = c("Precisión global", "AUC", "Sensibilidd", "Especificiad")) %>%
+    select(Metrica, Media, Error.std, n)
+  return(result)
+}
+
+logit.glaucoma <- function(input){
+  # # Define training control using 10-fold cross validation
+  # control <- trainControl(method = "cv", number = 10, savePredictions = T)
+  # # Train the model
+  # model <- train(Glaucoma ~ ., data = input, trControl = control, method = "glm", family = binomial())
+  # Using tidymodels
+  # cross valiation folds
+  set.seed(123)
+  input.folds <- vfold_cv(input, v = 10, strata = Glaucoma)
+  # feature enginering recipe
+  logit.recipe <- recipe(Glaucoma ~ ., data = input) %>%
+    # Correlation filter
+    step_corr(all_numeric(), threshold = 0.7) %>%
+    # Normalize numeric predictors
+    step_normalize(all_numeric())
+  # model settings
+  logit.model <- logistic_reg() %>%
+    set_engine("glm") %>%
+    set_mode("classification")
+  # workflow
+  logit.wkfl <- workflow() %>%
+    add_model(logit.model) %>%
+    add_recipe(logit.recipe)
+  # set performance metrics
+  perf.metrics <- metric_set(sens, spec, roc_auc, accuracy)
+  # training
+  logit.wkfl.fit <- logit.wkfl %>%
+    fit_resamples(resamples = input.folds, metrics = perf.metrics)
+  # compute performance metrics
+  result <- logit.wkfl.fit %>% collect_metrics() %>%
+    rename(Media = mean, Error.std = std_err) %>%
+    mutate(Metrica = c("Precisión global", "AUC", "Sensibilidd", "Especificiad")) %>%
+    select(Metrica, Media, Error.std, n)
+  return(result)
+}
+```
+
+## Clasifiación binaria (glaucoma vs no glaucoma)
+
+### Todas las capas y celdas
+
+#### Análisis discriminante
+```{r lda-glaucoma-all-layers-all-cells}
+input <- lda.input.glaucoma(df, layers = varLayers)
+lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+#### Regresión logística
+```{r logit-glaucoma-all-layers-all-cells}
+logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+### Capas significativas y todas las celdas
+
+#### Analisis discriminante
+
+```{r lda-glaucoma-sig-layers-all-cells}
+input <- lda.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"))
+lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+#### Regresión logística
+```{r logit-glaucoma-sig-layers-all-cells}
+logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+### Capas significativas y celdas significativas
+
+#### Análisis discriminante
+```{r lda-glaucoma-sig-layers-sig-cells}
+input <- lda.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+#### Regresión logística
+```{r logit-glaucoma-sig-layers-sig-cells}
+logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+### Capas significativas y celdas significativas con datos balanceados
+
+#### Análisis discriminante
+```{r lda-glaucoma-sig-layers-sig-cells-balanced}
+input <- lda.input.glaucoma(df.balanced, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+#### Regresión logística
+```{r logit-glaucoma-sig-layers-sig-cells-balanced}
+logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Clasificación en estadíos (incluyendo sanos)
+
+### Todas las capas y celdas
+
+```{r}
+input <- lda.input.stages(df, layers = varLayers)
+result <- lda.stages(input)
+result$performance
+```
+
+### Capas significativas y todas las celdas
+
+```{r}
+input <- lda.input.stages(df, layers = c("RNFL", "GCL", "IPL"))
+result <- lda.stages(input)
+result$performance
+```
+
+
+### Capas significativas y celdas significativas
+
+```{r}
+input <- lda.input.stages(df, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+result <- lda.stages(input)
+result$performance
+```
+
+### Capas significativas y celdas significativas con datos balanceados
+
+```{r}
+input <- lda.input.stages(df.balanced, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+result <- lda.stages(input)
+result$performance
+```
+
+## Clasificación en estadíos (sin incluir sanos)
+
+### Todas las capas y celdas
+
+```{r}
+input <- lda.input.stages(df.glaucoma, layers = varLayers)
+result <- lda.stages(input)
+result$performance
+```
+
+### Capas significativas y todas las celdas
+
+```{r}
+input <- lda.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "IPL"))
+result <- lda.stages(input)
+result$performance
+```
+
+### Capas significativas y celdas significativas
+
+```{r}
+input <- lda.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+result <- lda.stages(input)
+result$performance
+```
+
+

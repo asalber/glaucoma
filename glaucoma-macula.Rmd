@@ -212,6 +212,9 @@ cellCorrelation <- function (ojo, capa){
 
 # Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
 means.comparison <- function (vars, capa, ojo){
+  vars <- varCells
+  capa <- "RNFL"
+  ojo <- "L"
   df.capa.ojo <- df[df$Ojo==ojo & df$Capa==capa, ]
   result <- data.frame(t(sapply(df.capa.ojo[, vars], function(x) unlist(t.test(x~df.capa.ojo$Glaucoma)[c("estimate","conf.int", "p.value")]))))
   result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y
@@ -314,6 +317,10 @@ No se observa una correlación fuerte entre el grosor de las celdas a excepción
 ```{r}
 medias.L <- means.comparison(varCells, "RNFL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+df.sig <- medias.L %>% 
+  filter(`p-valor` < 0.05) %>% 
+  select(Celda) %>% 
+  add_column(Capa="RNFL")
 ```
 
 ### Ojo derecho
@@ -445,6 +452,11 @@ Se observa una correlación moderada entre el grosor de las celdas a excepción 
 ```{r}
 medias.L <- means.comparison(varCells, "GCL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+df.sig <- medias.L %>% 
+  filter(`p-valor` < 0.05) %>% 
+  select(Celda) %>% 
+  add_column(Capa="GCL") %>%
+  bind_rows(df.sig)
 ```
 
 ### Ojo derecho
@@ -574,6 +586,13 @@ Se observa una correlación moderada entre el grosor de las celdas a excepción 
 ```{r}
 medias.L <- means.comparison(varCells, "IPL", "L")
 datatable(format(medias.L, nsmall=2), rownames = T, escape=F, options = list(pageLength = 8, autoWidth = T, language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+df.sig <- medias.L %>% 
+  filter(`p-valor` < 0.05) %>% 
+  select(Celda) %>% 
+  add_column(Capa="IPL") %>%
+  bind_rows(df.sig)
+# Export cells with a significant difference
+df.sig %>% write.csv("data/significant-cells.csv", row.names = F)
 ```
 
 ### Ojo derecho

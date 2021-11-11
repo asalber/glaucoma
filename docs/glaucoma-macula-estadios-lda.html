@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2021-11-11" />
+
+<title>Clasifiación del Glaucoma en estadíos a partir del cubo macular</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Glaucoma</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Descripción</a>
+</li>
+<li>
+  <a href="glaucoma-anillos.html">Anillos</a>
+</li>
+<li>
+  <a href="glaucoma-clusters-izdo.html">Estadios</a>
+</li>
+<li>
+  <a href="glaucoma-lda-anillos-izdo.html">Análisis Discriminante</a>
+</li>
+<li>
+  <a href="glaucoma-campo-visual.html">Campo visual</a>
+</li>
+<li>
+  <a href="glaucoma-macula.html">Mácula</a>
+</li>
+<li>
+  <a href="glaucoma-macula-estadios.html">Estadios Mácula</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://aprendeconalf.es/">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Clasifiación del Glaucoma en estadíos a partir del cubo macular</h1>
+<h4 class="date">2021-11-11</h4>
+
+</div>
+
+
+<div id="resumen" class="section level1">
+<h1>Resumen</h1>
+<p>En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias (<a href="https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html">más info</a>).</p>
+<p>Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).</p>
+</div>
+<div id="análisis-discriminante" class="section level1">
+<h1>Análisis discriminante</h1>
+<div id="clasifiación-binaria-glaucoma-vs-no-glaucoma" class="section level2">
+<h2>Clasifiación binaria (glaucoma vs no glaucoma)</h2>
+<div id="todas-las-capas-y-celdas" class="section level3">
+<h3>Todas las capas y celdas</h3>
+<div id="análisis-discriminante-1" class="section level4">
+<h4>Análisis discriminante</h4>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8767
+</td>
+<td style="text-align:right;">
+0.0070
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8463
+</td>
+<td style="text-align:right;">
+0.0165
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5453
+</td>
+<td style="text-align:right;">
+0.0338
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9585
+</td>
+<td style="text-align:right;">
+0.0076
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística" class="section level4">
+<h4>Regresión logística</h4>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Metrica"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Media"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Error.std"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Precisión global","2":"0.8497","3":"0.008499","4":"10"},{"1":"AUC","2":"0.8210","3":"0.016223","4":"10"},{"1":"Sensibilidd","2":"0.5506","3":"0.030624","4":"10"},{"1":"Especificiad","2":"0.9236","3":"0.009489","4":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="capas-significativas-y-todas-las-celdas" class="section level3">
+<h3>Capas significativas y todas las celdas</h3>
+<div id="analisis-discriminante" class="section level4">
+<h4>Analisis discriminante</h4>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8798
+</td>
+<td style="text-align:right;">
+0.0069
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8540
+</td>
+<td style="text-align:right;">
+0.0160
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5351
+</td>
+<td style="text-align:right;">
+0.0242
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9652
+</td>
+<td style="text-align:right;">
+0.0061
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-1" class="section level4">
+<h4>Regresión logística</h4>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Metrica"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Media"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Error.std"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Precisión global","2":"0.8767","3":"0.00792","4":"10"},{"1":"AUC","2":"0.8408","3":"0.01660","4":"10"},{"1":"Sensibilidd","2":"0.5573","3":"0.03210","4":"10"},{"1":"Especificiad","2":"0.9558","3":"0.00695","4":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="capas-significativas-y-celdas-significativas" class="section level3">
+<h3>Capas significativas y celdas significativas</h3>
+<div id="análisis-discriminante-2" class="section level4">
+<h4>Análisis discriminante</h4>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8809
+</td>
+<td style="text-align:right;">
+0.0068
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8452
+</td>
+<td style="text-align:right;">
+0.0195
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5351
+</td>
+<td style="text-align:right;">
+0.0195
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9665
+</td>
+<td style="text-align:right;">
+0.0073
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-2" class="section level4">
+<h4>Regresión logística</h4>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Metrica"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Media"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Error.std"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Precisión global","2":"0.8831","3":"0.008965","4":"10"},{"1":"AUC","2":"0.8345","3":"0.019629","4":"10"},{"1":"Sensibilidd","2":"0.5623","3":"0.032452","4":"10"},{"1":"Especificiad","2":"0.9625","3":"0.008630","4":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="capas-significativas-y-celdas-significativas-con-datos-balanceados" class="section level3">
+<h3>Capas significativas y celdas significativas con datos balanceados</h3>
+<div id="análisis-discriminante-3" class="section level4">
+<h4>Análisis discriminante</h4>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.7421
+</td>
+<td style="text-align:right;">
+0.0266
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8121
+</td>
+<td style="text-align:right;">
+0.0286
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.6699
+</td>
+<td style="text-align:right;">
+0.0298
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.8105
+</td>
+<td style="text-align:right;">
+0.0307
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-3" class="section level4">
+<h4>Regresión logística</h4>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Metrica"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Media"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Error.std"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Precisión global","2":"0.7419","3":"0.03081","4":"10"},{"1":"AUC","2":"0.8075","3":"0.02976","4":"10"},{"1":"Sensibilidd","2":"0.7076","3":"0.03611","4":"10"},{"1":"Especificiad","2":"0.7745","3":"0.03773","4":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+<div id="clasificación-en-estadíos-incluyendo-sanos" class="section level2">
+<h2>Clasificación en estadíos (incluyendo sanos)</h2>
+<div id="todas-las-capas-y-celdas-1" class="section level3">
+<h3>Todas las capas y celdas</h3>
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Sano   I  II III  IV
+      Sano  646  28  37   4   1
+      I      42   7   4   1   0
+      II     50   4  15  18   3
+      III     5   3  11  17   5
+      IV      4   1   1   5  20
+
+Overall Statistics
+                                        
+               Accuracy : 0.756         
+                 95% CI : (0.728, 0.784)
+    No Information Rate : 0.802         
+    P-Value [Acc &gt; NIR] : 1.000         
+                                        
+                  Kappa : 0.344         
+                                        
+ Mcnemar&#39;s Test P-Value : 0.331         
+
+Statistics by Class:
+
+                 Estadio Sano Estadio I Estadio II Estadio III Estadio IV
+Sensibilidad            0.865     0.163      0.221       0.378      0.690
+Especificidad           0.622     0.947      0.913       0.973      0.988
+Precisión.Global        0.743     0.555      0.567       0.675      0.839</code></pre>
+</div>
+<div id="capas-significativas-y-todas-las-celdas-1" class="section level3">
+<h3>Capas significativas y todas las celdas</h3>
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Sano   I  II III  IV
+      Sano  708  31  42   1   0
+      I      20   8   1   0   0
+      II     17   1  18  15   2
+      III     2   1   7  24   6
+      IV      0   2   0   5  21
+
+Overall Statistics
+                                       
+               Accuracy : 0.836        
+                 95% CI : (0.81, 0.859)
+    No Information Rate : 0.802        
+    P-Value [Acc &gt; NIR] : 0.00417      
+                                       
+                  Kappa : 0.485        
+                                       
+ Mcnemar&#39;s Test P-Value : NA           
+
+Statistics by Class:
+
+                 Estadio Sano Estadio I Estadio II Estadio III Estadio IV
+Sensibilidad            0.948     0.186      0.265       0.533      0.724
+Especificidad           0.600     0.976      0.959       0.982      0.992
+Precisión.Global        0.774     0.581      0.612       0.758      0.858</code></pre>
+</div>
+<div id="capas-significativas-y-celdas-significativas-1" class="section level3">
+<h3>Capas significativas y celdas significativas</h3>
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Sano   I  II III  IV
+      Sano  706  30  42   2   0
+      I      21  10   1   0   0
+      II     19   2  19  13   2
+      III     1   1   6  25   3
+      IV      0   0   0   5  24
+
+Overall Statistics
+                                        
+               Accuracy : 0.841         
+                 95% CI : (0.816, 0.864)
+    No Information Rate : 0.802         
+    P-Value [Acc &gt; NIR] : 0.00107       
+                                        
+                  Kappa : 0.505         
+                                        
+ Mcnemar&#39;s Test P-Value : NA            
+
+Statistics by Class:
+
+                 Estadio Sano Estadio I Estadio II Estadio III Estadio IV
+Sensibilidad            0.945     0.233      0.279       0.556      0.828
+Especificidad           0.600     0.975      0.958       0.988      0.994
+Precisión.Global        0.773     0.604      0.619       0.772      0.911</code></pre>
+</div>
+<div id="capas-significativas-y-celdas-significativas-con-datos-balanceados-1" class="section level3">
+<h3>Capas significativas y celdas significativas con datos balanceados</h3>
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Sano   I  II III  IV
+      Sano  123  30  29   0   0
+      I      33   7   6   0   0
+      II     35   6  24  15   0
+      III     4   0   8  24   8
+      IV      0   0   1   6  21
+
+Overall Statistics
+                                        
+               Accuracy : 0.524         
+                 95% CI : (0.472, 0.575)
+    No Information Rate : 0.513         
+    P-Value [Acc &gt; NIR] : 0.36          
+                                        
+                  Kappa : 0.303         
+                                        
+ Mcnemar&#39;s Test P-Value : NA            
+
+Statistics by Class:
+
+                 Estadio Sano Estadio I Estadio II Estadio III Estadio IV
+Sensibilidad            0.631     0.163      0.353       0.533      0.724
+Especificidad           0.681     0.884      0.821       0.940      0.980
+Precisión.Global        0.656     0.524      0.587       0.737      0.852</code></pre>
+</div>
+</div>
+<div id="clasificación-en-estadíos-sin-incluir-sanos" class="section level2">
+<h2>Clasificación en estadíos (sin incluir sanos)</h2>
+<div id="todas-las-capas-y-celdas-2" class="section level3">
+<h3>Todas las capas y celdas</h3>
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  I II III IV
+       I   15 23  11  7
+       II   7 20  14  8
+       III 10 15   7  9
+       IV  11 10  13  5
+
+Overall Statistics
+                                        
+               Accuracy : 0.254         
+                 95% CI : (0.193, 0.323)
+    No Information Rate : 0.368         
+    P-Value [Acc &gt; NIR] : 1.000         
+                                        
+                  Kappa : -0.001        
+                                        
+ Mcnemar&#39;s Test P-Value : 0.107         
+
+Statistics by Class:
+
+                 Estadio I Estadio II Estadio III Estadio IV
+Sensibilidad         0.349      0.294       0.156      0.172
+Especificidad        0.711      0.752       0.757      0.782
+Precisión.Global     0.530      0.523       0.456      0.477</code></pre>
+</div>
+<div id="capas-significativas-y-todas-las-celdas-2" class="section level3">
+<h3>Capas significativas y todas las celdas</h3>
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  I II III IV
+       I    8 19  12  7
+       II   8 19   9  4
+       III 12 14   9  9
+       IV  15 16  15  9
+
+Overall Statistics
+                                        
+               Accuracy : 0.243         
+                 95% CI : (0.183, 0.312)
+    No Information Rate : 0.368         
+    P-Value [Acc &gt; NIR] : 0.99989       
+                                        
+                  Kappa : 0.002         
+                                        
+ Mcnemar&#39;s Test P-Value : 0.00865       
+
+Statistics by Class:
+
+                 Estadio I Estadio II Estadio III Estadio IV
+Sensibilidad         0.186      0.279       0.200      0.310
+Especificidad        0.732      0.821       0.750      0.705
+Precisión.Global     0.459      0.550       0.475      0.508</code></pre>
+</div>
+<div id="capas-significativas-y-celdas-significativas-2" class="section level3">
+<h3>Capas significativas y celdas significativas</h3>
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  I II III IV
+       I   16 18   9  7
+       II  12 18  13  9
+       III  3 21  13  8
+       IV  12 11  10  5
+
+Overall Statistics
+                                        
+               Accuracy : 0.281         
+                 95% CI : (0.218, 0.352)
+    No Information Rate : 0.368         
+    P-Value [Acc &gt; NIR] : 0.995         
+                                        
+                  Kappa : 0.032         
+                                        
+ Mcnemar&#39;s Test P-Value : 0.252         
+
+Statistics by Class:
+
+                 Estadio I Estadio II Estadio III Estadio IV
+Sensibilidad         0.372      0.265       0.289      0.172
+Especificidad        0.761      0.709       0.771      0.788
+Precisión.Global     0.566      0.487       0.530      0.480</code></pre>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

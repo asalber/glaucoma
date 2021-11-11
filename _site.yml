@@ -20,10 +20,10 @@ navbar:
     href: glaucoma-campo-visual.html
   - text: Mácula
     href: glaucoma-macula.html
-  - text: Estadios Mácula
+  - text: Redes Mácula
     href: glaucoma-macula-estadios.html
-#  - text: An.Discrimiante.Macula.Izdo
-#    href: glaucoma-lda-macula-izdo.html
+  - text: Clasificación Mácula
+    href: clasificacion-macula.html
   right:
   - icon: fa-home fa-lg
     href: http://aprendeconalf.es/
