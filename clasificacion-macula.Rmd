@@ -13,7 +13,7 @@ output:
 ```{r setup, include=F, cache = F, echo = F}
 library(rmarkdown)
 library(knitr)
-## Global options
+# Global options
 options(digits = 4)
 opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message = F, warning = F, dev = "svg")
 ```
@@ -27,8 +27,6 @@ Sys.setenv(RETICULATE_PYTHON="/usr/bin/python")
 ```
 
 ```{r carga-datos}
-# Set random seed for reproducibility
-set.seed(123)
 # Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
 load("data/data-macula-preprocesed.RData")
 # Filter left eyes
@@ -92,12 +90,12 @@ df <- df %>% inner_join(df.stages, by="Id") %>%
 df <- df %>% 
   mutate(Glaucoma = fct_relevel(as.factor(Glaucoma), "Y"))
 
-## GLAUCOMA DATASET
+# GLAUCOMA DATASET
 df.glaucoma <- df %>%
   filter(Glaucoma == "Y") %>%
   mutate(Estadio = droplevels(Estadio))
 
-## BALANCED DATASET
+# BALANCED DATASET
 # Sample size glaucoma eyes
 n <- df %>% 
   filter(Capa == "RNFL", Glaucoma == "Y") %>% 
@@ -123,8 +121,6 @@ df.balanced <- df %>%
 En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias ([más info](https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html)).
 
 Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).
-
-# Análisis discriminante
 
 ```{r lda functions, echo=F}
 # function to prepare the input of glaucoma detection (binary classification)
@@ -232,10 +228,10 @@ lda.stages <- function(input){
   result.eval <- lda(Estadio~., data=input, CV=T)
   # Model goodness
   performance <- confusionMatrix(result.eval$class, input$Estadio)
-  colnames(performance$byClass) <- c("Sensibilidad", "Especificidad", "VPP", "VPN", "Precisión", "Exhaustividad", "Medida.F", "Prevalencia", "Detection.Rate", "Detection.Prevalence", "Precisión.Global")
-  rownames(performance$byClass) <- gsub("Class:", "Estadio", rownames(performance$byClass))
-  performance$byClass <- performance$byClass[, c("Sensibilidad","Especificidad","Precisión.Global")]
-  return(list(lda = result.lda, performance = performance))
+  result <- data.frame(performance$byClass) %>% 
+    select(Sensitivity, Specificity, Pos.Pred.Value, Neg.Pred.Value, Balanced.Accuracy) %>%
+    rename(Sensibilidad = Sensitivity, Especificidad = Specificity, VPP = Pos.Pred.Value, VPN = Neg.Pred.Value, `Precisión global` = Balanced.Accuracy)
+  return(result)
 }
 
 lda.glaucoma <- function(input){
@@ -309,121 +305,234 @@ logit.glaucoma <- function(input){
     select(Metrica, Media, Error.std, n)
   return(result)
 }
+
+
+net.glaucoma <- function(input){
+  # cross validation folds
+  set.seed(123)
+  input.folds <- vfold_cv(input, v = 3, strata = Glaucoma)
+  # feature engineering recipe
+  net.recipe <- recipe(Glaucoma ~ ., data = input) %>%
+    # Normalize numeric predictors
+    step_normalize(all_numeric())
+  # model settings
+  net.model <- mlp(epochs = 100, hidden_units = 100, dropout = 0.1) %>%
+    set_engine("keras", verbose = 0) %>%
+    set_mode("classification")
+  # workflow
+  net.wkfl <- workflow() %>%
+    add_model(net.model) %>%
+    add_recipe(net.recipe)
+  # set performance metrics
+  perf.metrics <- metric_set(sens, spec, roc_auc, accuracy)
+  # training
+  net.wkfl.fit <- net.wkfl %>%
+    fit_resamples(resamples = input.folds, metrics = perf.metrics)
+  # compute performance metrics
+  result <- net.wkfl.fit %>% collect_metrics() %>%
+    rename(Media = mean, Error.std = std_err) %>%
+    mutate(Metrica = c("Precisión global", "AUC", "Sensibilidd", "Especificiad")) %>%
+    select(Metrica, Media, Error.std, n)
+  return(result)
+}
+
+logit.stages <- function(input){
+  # cross valiation folds
+  set.seed(123)
+  input.folds <- vfold_cv(input, v = 10, strata = Estadio)
+  # feature enginering recipe
+  logit.recipe <- recipe(Estadio ~ ., data = input) %>%
+    # Correlation filter
+    step_corr(all_numeric(), threshold = 0.7) %>%
+    # Normalize numeric predictors
+    step_normalize(all_numeric())
+  # model settings
+  logit.model <- multinom_reg() %>%
+    set_engine("nnet") %>%
+    set_mode("classification")
+  # workflow
+  logit.wkfl <- workflow() %>%
+    add_model(logit.model) %>%
+    add_recipe(logit.recipe)
+  # set performance metrics
+  perf.metrics <- metric_set(sens, spec, accuracy)
+  # training
+  logit.wkfl.fit <- logit.wkfl %>%
+    fit_resamples(resamples = input.folds, metrics=perf.metrics, control = control_resamples(save_pred = TRUE))
+  # compute performance metrics
+  result <- logit.wkfl.fit %>% collect_metrics() 
+  predictions <- logit.wkfl.fit %>% 
+    collect_predictions()
+  # Confuson matrix
+  # predictions %>% conf_mat(Estadio, .pred_class)
+  # Metrics
+  performance <- confusionMatrix(predictions$.pred_class, predictions$Estadio)
+  result <- data.frame(performance$byClass) %>% 
+    select(Sensitivity, Specificity, Pos.Pred.Value, Neg.Pred.Value, Balanced.Accuracy) %>%
+    rename(Sensibilidad = Sensitivity, Especificidad = Specificity, VPP = Pos.Pred.Value, VPN = Neg.Pred.Value, `Precisión global` = Balanced.Accuracy)
+  return(result)
+}
+
 ```
 
-## Clasifiación binaria (glaucoma vs no glaucoma)
+# Clasifiación binaria (glaucoma vs no glaucoma)
 
-### Todas las capas y celdas
+## Todas las capas y celdas
 
-#### Análisis discriminante
+### Análisis discriminante
 ```{r lda-glaucoma-all-layers-all-cells}
 input <- lda.input.glaucoma(df, layers = varLayers)
 lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-#### Regresión logística
+### Regresión logística
 ```{r logit-glaucoma-all-layers-all-cells}
 logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-### Capas significativas y todas las celdas
+## Capas significativas y todas las celdas
 
-#### Analisis discriminante
+### Analisis discriminante
 
 ```{r lda-glaucoma-sig-layers-all-cells}
 input <- lda.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"))
 lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
-#### Regresión logística
+### Regresión logística
 ```{r logit-glaucoma-sig-layers-all-cells}
 logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-### Capas significativas y celdas significativas
+## Capas significativas y celdas significativas
 
-#### Análisis discriminante
+### Análisis discriminante
 ```{r lda-glaucoma-sig-layers-sig-cells}
 input <- lda.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
 lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-#### Regresión logística
+### Regresión logística
 ```{r logit-glaucoma-sig-layers-sig-cells}
 logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-### Capas significativas y celdas significativas con datos balanceados
+## Capas significativas y celdas significativas con datos balanceados
 
-#### Análisis discriminante
+### Análisis discriminante
 ```{r lda-glaucoma-sig-layers-sig-cells-balanced}
 input <- lda.input.glaucoma(df.balanced, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
 lda.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-#### Regresión logística
+### Regresión logística
 ```{r logit-glaucoma-sig-layers-sig-cells-balanced}
 logit.glaucoma(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-## Clasificación en estadíos (incluyendo sanos)
+# Clasificación en estadíos (incluyendo sanos)
 
-### Todas las capas y celdas
+## Todas las capas y celdas
 
-```{r}
+### Análisis discriminante
+
+```{r lda-stages-all-layers-all-cells}
 input <- lda.input.stages(df, layers = varLayers)
-result <- lda.stages(input)
-result$performance
+lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-### Capas significativas y todas las celdas
+### Regresión logística
 
-```{r}
+```{r logit-stages-all-layers-all-cells}
+logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Capas significativas y todas las celdas
+
+### Análisis discriminante
+```{r lda-stages-sig-layers-all-cells}
 input <- lda.input.stages(df, layers = c("RNFL", "GCL", "IPL"))
-result <- lda.stages(input)
-result$performance
+lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
+### Regresión logística
 
-### Capas significativas y celdas significativas
+```{r logit-stages-sig-layers-all-cells}
+logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
 
-```{r}
+## Capas significativas y celdas significativas
+
+### Análisis discriminante
+
+```{r lda-stages-sig-layers-sig-cells}
 input <- lda.input.stages(df, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
-result <- lda.stages(input)
-result$performance
+lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-### Capas significativas y celdas significativas con datos balanceados
+### Regresión logística
 
-```{r}
+```{r logit-stages-sig-layers-sig-cells}
+logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Capas significativas y celdas significativas con datos balanceados
+
+### Análisis discriminante
+
+```{r lda-stages-sig-layers-sig-cells-balanced}
 input <- lda.input.stages(df.balanced, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
-result <- lda.stages(input)
-result$performance
+lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-## Clasificación en estadíos (sin incluir sanos)
+### Regresión logística
 
-### Todas las capas y celdas
+```{r logit-stages-sig-layers-sig-cells-balanced}
+logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
 
-```{r}
+# Clasificación en estadíos (sin incluir sanos)
+
+## Todas las capas y celdas
+
+### Análisis discriminante
+
+```{r lda-stages-all-layers-all-cells-no-healthy}
 input <- lda.input.stages(df.glaucoma, layers = varLayers)
-result <- lda.stages(input)
-result$performance
+lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-### Capas significativas y todas las celdas
+### Regresión logística
 
-```{r}
+```{r logit-stages-all-layers-all-cells-no-healthy}
+logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Capas significativas y todas las celdas
+
+### Análisis discriminante
+```{r lda-stages-sig-layers-all-cells-no-healthy}
 input <- lda.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "IPL"))
-result <- lda.stages(input)
-result$performance
+lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-### Capas significativas y celdas significativas
+### Regresión logística
 
-```{r}
+```{r logit-stages-sig-layers-all-cells-no-healthy}
+logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Capas significativas y celdas significativas
+
+### Análisis discriminante
+
+```{r lda-stages-sig-layers-sig-cells-no-healthy}
 input <- lda.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
-result <- lda.stages(input)
-result$performance
+lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
+### Regresión logística
+
+```{r logit-stages-sig-layers-sig-cells-no-healthy}
+logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+```
 

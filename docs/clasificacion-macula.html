@@ -1,0 +1,2803 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2021-11-12" />
+
+<title>Clasifiación del Glaucoma en estadíos a partir del cubo macular</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Glaucoma</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Descripción</a>
+</li>
+<li>
+  <a href="glaucoma-anillos.html">Anillos</a>
+</li>
+<li>
+  <a href="glaucoma-clusters-izdo.html">Estadios</a>
+</li>
+<li>
+  <a href="glaucoma-lda-anillos-izdo.html">Análisis Discriminante</a>
+</li>
+<li>
+  <a href="glaucoma-campo-visual.html">Campo visual</a>
+</li>
+<li>
+  <a href="glaucoma-macula.html">Mácula</a>
+</li>
+<li>
+  <a href="glaucoma-macula-estadios.html">Redes Mácula</a>
+</li>
+<li>
+  <a href="clasificacion-macula.html">Clasificación Mácula</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://aprendeconalf.es/">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Clasifiación del Glaucoma en estadíos a partir del cubo macular</h1>
+<h4 class="date">2021-11-12</h4>
+
+</div>
+
+
+<div id="resumen" class="section level1">
+<h1>Resumen</h1>
+<p>En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias (<a href="https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html">más info</a>).</p>
+<p>Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).</p>
+</div>
+<div id="clasifiación-binaria-glaucoma-vs-no-glaucoma" class="section level1">
+<h1>Clasifiación binaria (glaucoma vs no glaucoma)</h1>
+<div id="todas-las-capas-y-celdas" class="section level2">
+<h2>Todas las capas y celdas</h2>
+<div id="análisis-discriminante" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8767
+</td>
+<td style="text-align:right;">
+0.0070
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8463
+</td>
+<td style="text-align:right;">
+0.0165
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5453
+</td>
+<td style="text-align:right;">
+0.0338
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9585
+</td>
+<td style="text-align:right;">
+0.0076
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8497
+</td>
+<td style="text-align:right;">
+0.0085
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8210
+</td>
+<td style="text-align:right;">
+0.0162
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5506
+</td>
+<td style="text-align:right;">
+0.0306
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9236
+</td>
+<td style="text-align:right;">
+0.0095
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-todas-las-celdas" class="section level2">
+<h2>Capas significativas y todas las celdas</h2>
+<div id="analisis-discriminante" class="section level3">
+<h3>Analisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8798
+</td>
+<td style="text-align:right;">
+0.0069
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8540
+</td>
+<td style="text-align:right;">
+0.0160
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5351
+</td>
+<td style="text-align:right;">
+0.0242
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9652
+</td>
+<td style="text-align:right;">
+0.0061
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-1" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8767
+</td>
+<td style="text-align:right;">
+0.0079
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8408
+</td>
+<td style="text-align:right;">
+0.0166
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5573
+</td>
+<td style="text-align:right;">
+0.0321
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9558
+</td>
+<td style="text-align:right;">
+0.0069
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-celdas-significativas" class="section level2">
+<h2>Capas significativas y celdas significativas</h2>
+<div id="análisis-discriminante-1" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8809
+</td>
+<td style="text-align:right;">
+0.0068
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8452
+</td>
+<td style="text-align:right;">
+0.0195
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5351
+</td>
+<td style="text-align:right;">
+0.0195
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9665
+</td>
+<td style="text-align:right;">
+0.0073
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-2" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.8831
+</td>
+<td style="text-align:right;">
+0.0090
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8345
+</td>
+<td style="text-align:right;">
+0.0196
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.5623
+</td>
+<td style="text-align:right;">
+0.0325
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.9625
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-celdas-significativas-con-datos-balanceados" class="section level2">
+<h2>Capas significativas y celdas significativas con datos balanceados</h2>
+<div id="análisis-discriminante-2" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.7421
+</td>
+<td style="text-align:right;">
+0.0266
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8121
+</td>
+<td style="text-align:right;">
+0.0286
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.6699
+</td>
+<td style="text-align:right;">
+0.0298
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.8105
+</td>
+<td style="text-align:right;">
+0.0307
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-3" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metrica
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+Error.std
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Precisión global
+</td>
+<td style="text-align:right;">
+0.7419
+</td>
+<td style="text-align:right;">
+0.0308
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AUC
+</td>
+<td style="text-align:right;">
+0.8075
+</td>
+<td style="text-align:right;">
+0.0298
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidd
+</td>
+<td style="text-align:right;">
+0.7076
+</td>
+<td style="text-align:right;">
+0.0361
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificiad
+</td>
+<td style="text-align:right;">
+0.7745
+</td>
+<td style="text-align:right;">
+0.0377
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="clasificación-en-estadíos-incluyendo-sanos" class="section level1">
+<h1>Clasificación en estadíos (incluyendo sanos)</h1>
+<div id="todas-las-capas-y-celdas-1" class="section level2">
+<h2>Todas las capas y celdas</h2>
+<div id="análisis-discriminante-3" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.8648
+</td>
+<td style="text-align:right;">
+0.6216
+</td>
+<td style="text-align:right;">
+0.9022
+</td>
+<td style="text-align:right;">
+0.5324
+</td>
+<td style="text-align:right;">
+0.7432
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.1628
+</td>
+<td style="text-align:right;">
+0.9471
+</td>
+<td style="text-align:right;">
+0.1296
+</td>
+<td style="text-align:right;">
+0.9590
+</td>
+<td style="text-align:right;">
+0.5550
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.2206
+</td>
+<td style="text-align:right;">
+0.9132
+</td>
+<td style="text-align:right;">
+0.1667
+</td>
+<td style="text-align:right;">
+0.9371
+</td>
+<td style="text-align:right;">
+0.5669
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.3778
+</td>
+<td style="text-align:right;">
+0.9729
+</td>
+<td style="text-align:right;">
+0.4146
+</td>
+<td style="text-align:right;">
+0.9686
+</td>
+<td style="text-align:right;">
+0.6754
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.6897
+</td>
+<td style="text-align:right;">
+0.9878
+</td>
+<td style="text-align:right;">
+0.6452
+</td>
+<td style="text-align:right;">
+0.9900
+</td>
+<td style="text-align:right;">
+0.8387
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-4" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.7309
+</td>
+<td style="text-align:right;">
+0.7243
+</td>
+<td style="text-align:right;">
+0.9146
+</td>
+<td style="text-align:right;">
+0.4000
+</td>
+<td style="text-align:right;">
+0.7276
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.1860
+</td>
+<td style="text-align:right;">
+0.9156
+</td>
+<td style="text-align:right;">
+0.0964
+</td>
+<td style="text-align:right;">
+0.9588
+</td>
+<td style="text-align:right;">
+0.5508
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.3235
+</td>
+<td style="text-align:right;">
+0.9016
+</td>
+<td style="text-align:right;">
+0.2056
+</td>
+<td style="text-align:right;">
+0.9442
+</td>
+<td style="text-align:right;">
+0.6126
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.3556
+</td>
+<td style="text-align:right;">
+0.9324
+</td>
+<td style="text-align:right;">
+0.2105
+</td>
+<td style="text-align:right;">
+0.9661
+</td>
+<td style="text-align:right;">
+0.6440
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.4828
+</td>
+<td style="text-align:right;">
+0.9391
+</td>
+<td style="text-align:right;">
+0.2029
+</td>
+<td style="text-align:right;">
+0.9826
+</td>
+<td style="text-align:right;">
+0.7109
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-todas-las-celdas-1" class="section level2">
+<h2>Capas significativas y todas las celdas</h2>
+<div id="análisis-discriminante-4" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.9478
+</td>
+<td style="text-align:right;">
+0.5946
+</td>
+<td style="text-align:right;">
+0.9042
+</td>
+<td style="text-align:right;">
+0.7383
+</td>
+<td style="text-align:right;">
+0.7712
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.1860
+</td>
+<td style="text-align:right;">
+0.9764
+</td>
+<td style="text-align:right;">
+0.2759
+</td>
+<td style="text-align:right;">
+0.9612
+</td>
+<td style="text-align:right;">
+0.5812
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.2647
+</td>
+<td style="text-align:right;">
+0.9595
+</td>
+<td style="text-align:right;">
+0.3396
+</td>
+<td style="text-align:right;">
+0.9431
+</td>
+<td style="text-align:right;">
+0.6121
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.5333
+</td>
+<td style="text-align:right;">
+0.9820
+</td>
+<td style="text-align:right;">
+0.6000
+</td>
+<td style="text-align:right;">
+0.9765
+</td>
+<td style="text-align:right;">
+0.7576
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.7241
+</td>
+<td style="text-align:right;">
+0.9934
+</td>
+<td style="text-align:right;">
+0.7778
+</td>
+<td style="text-align:right;">
+0.9912
+</td>
+<td style="text-align:right;">
+0.8587
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-5" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.9317
+</td>
+<td style="text-align:right;">
+0.5676
+</td>
+<td style="text-align:right;">
+0.8969
+</td>
+<td style="text-align:right;">
+0.6731
+</td>
+<td style="text-align:right;">
+0.7496
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.0930
+</td>
+<td style="text-align:right;">
+0.9831
+</td>
+<td style="text-align:right;">
+0.2105
+</td>
+<td style="text-align:right;">
+0.9573
+</td>
+<td style="text-align:right;">
+0.5381
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.1471
+</td>
+<td style="text-align:right;">
+0.9676
+</td>
+<td style="text-align:right;">
+0.2632
+</td>
+<td style="text-align:right;">
+0.9351
+</td>
+<td style="text-align:right;">
+0.5573
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.4444
+</td>
+<td style="text-align:right;">
+0.9617
+</td>
+<td style="text-align:right;">
+0.3704
+</td>
+<td style="text-align:right;">
+0.9715
+</td>
+<td style="text-align:right;">
+0.7031
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.5517
+</td>
+<td style="text-align:right;">
+0.9679
+</td>
+<td style="text-align:right;">
+0.3556
+</td>
+<td style="text-align:right;">
+0.9853
+</td>
+<td style="text-align:right;">
+0.7598
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-celdas-significativas-1" class="section level2">
+<h2>Capas significativas y celdas significativas</h2>
+<div id="análisis-discriminante-5" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.9451
+</td>
+<td style="text-align:right;">
+0.5946
+</td>
+<td style="text-align:right;">
+0.9040
+</td>
+<td style="text-align:right;">
+0.7285
+</td>
+<td style="text-align:right;">
+0.7699
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.2093
+</td>
+<td style="text-align:right;">
+0.9753
+</td>
+<td style="text-align:right;">
+0.2903
+</td>
+<td style="text-align:right;">
+0.9623
+</td>
+<td style="text-align:right;">
+0.5923
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.2794
+</td>
+<td style="text-align:right;">
+0.9583
+</td>
+<td style="text-align:right;">
+0.3455
+</td>
+<td style="text-align:right;">
+0.9441
+</td>
+<td style="text-align:right;">
+0.6189
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.5556
+</td>
+<td style="text-align:right;">
+0.9876
+</td>
+<td style="text-align:right;">
+0.6944
+</td>
+<td style="text-align:right;">
+0.9777
+</td>
+<td style="text-align:right;">
+0.7716
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.8276
+</td>
+<td style="text-align:right;">
+0.9945
+</td>
+<td style="text-align:right;">
+0.8276
+</td>
+<td style="text-align:right;">
+0.9945
+</td>
+<td style="text-align:right;">
+0.9110
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-6" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.9384
+</td>
+<td style="text-align:right;">
+0.5514
+</td>
+<td style="text-align:right;">
+0.8941
+</td>
+<td style="text-align:right;">
+0.6892
+</td>
+<td style="text-align:right;">
+0.7449
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.0233
+</td>
+<td style="text-align:right;">
+0.9865
+</td>
+<td style="text-align:right;">
+0.0769
+</td>
+<td style="text-align:right;">
+0.9543
+</td>
+<td style="text-align:right;">
+0.5049
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.1765
+</td>
+<td style="text-align:right;">
+0.9595
+</td>
+<td style="text-align:right;">
+0.2553
+</td>
+<td style="text-align:right;">
+0.9367
+</td>
+<td style="text-align:right;">
+0.5680
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.5333
+</td>
+<td style="text-align:right;">
+0.9696
+</td>
+<td style="text-align:right;">
+0.4706
+</td>
+<td style="text-align:right;">
+0.9762
+</td>
+<td style="text-align:right;">
+0.7514
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.5862
+</td>
+<td style="text-align:right;">
+0.9779
+</td>
+<td style="text-align:right;">
+0.4595
+</td>
+<td style="text-align:right;">
+0.9866
+</td>
+<td style="text-align:right;">
+0.7820
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-celdas-significativas-con-datos-balanceados-1" class="section level2">
+<h2>Capas significativas y celdas significativas con datos balanceados</h2>
+<div id="análisis-discriminante-6" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.6753
+</td>
+<td style="text-align:right;">
+0.7027
+</td>
+<td style="text-align:right;">
+0.7043
+</td>
+<td style="text-align:right;">
+0.6736
+</td>
+<td style="text-align:right;">
+0.6890
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.2558
+</td>
+<td style="text-align:right;">
+0.9077
+</td>
+<td style="text-align:right;">
+0.2619
+</td>
+<td style="text-align:right;">
+0.9050
+</td>
+<td style="text-align:right;">
+0.5818
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.3971
+</td>
+<td style="text-align:right;">
+0.8360
+</td>
+<td style="text-align:right;">
+0.3462
+</td>
+<td style="text-align:right;">
+0.8638
+</td>
+<td style="text-align:right;">
+0.6165
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.5556
+</td>
+<td style="text-align:right;">
+0.9461
+</td>
+<td style="text-align:right;">
+0.5814
+</td>
+<td style="text-align:right;">
+0.9405
+</td>
+<td style="text-align:right;">
+0.7508
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.7931
+</td>
+<td style="text-align:right;">
+0.9800
+</td>
+<td style="text-align:right;">
+0.7667
+</td>
+<td style="text-align:right;">
+0.9828
+</td>
+<td style="text-align:right;">
+0.8866
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-7" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: Sano
+</td>
+<td style="text-align:right;">
+0.7629
+</td>
+<td style="text-align:right;">
+0.7243
+</td>
+<td style="text-align:right;">
+0.7437
+</td>
+<td style="text-align:right;">
+0.7444
+</td>
+<td style="text-align:right;">
+0.7436
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.1860
+</td>
+<td style="text-align:right;">
+0.9286
+</td>
+<td style="text-align:right;">
+0.2500
+</td>
+<td style="text-align:right;">
+0.8991
+</td>
+<td style="text-align:right;">
+0.5573
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.2353
+</td>
+<td style="text-align:right;">
+0.8553
+</td>
+<td style="text-align:right;">
+0.2623
+</td>
+<td style="text-align:right;">
+0.8365
+</td>
+<td style="text-align:right;">
+0.5453
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.5333
+</td>
+<td style="text-align:right;">
+0.9192
+</td>
+<td style="text-align:right;">
+0.4706
+</td>
+<td style="text-align:right;">
+0.9360
+</td>
+<td style="text-align:right;">
+0.7262
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.6897
+</td>
+<td style="text-align:right;">
+0.9543
+</td>
+<td style="text-align:right;">
+0.5556
+</td>
+<td style="text-align:right;">
+0.9738
+</td>
+<td style="text-align:right;">
+0.8220
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="clasificación-en-estadíos-sin-incluir-sanos" class="section level1">
+<h1>Clasificación en estadíos (sin incluir sanos)</h1>
+<div id="todas-las-capas-y-celdas-2" class="section level2">
+<h2>Todas las capas y celdas</h2>
+<div id="análisis-discriminante-7" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.2558
+</td>
+<td style="text-align:right;">
+0.7535
+</td>
+<td style="text-align:right;">
+0.2391
+</td>
+<td style="text-align:right;">
+0.7698
+</td>
+<td style="text-align:right;">
+0.5047
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.2647
+</td>
+<td style="text-align:right;">
+0.8034
+</td>
+<td style="text-align:right;">
+0.4390
+</td>
+<td style="text-align:right;">
+0.6528
+</td>
+<td style="text-align:right;">
+0.5341
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.2000
+</td>
+<td style="text-align:right;">
+0.6929
+</td>
+<td style="text-align:right;">
+0.1731
+</td>
+<td style="text-align:right;">
+0.7293
+</td>
+<td style="text-align:right;">
+0.4464
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.2759
+</td>
+<td style="text-align:right;">
+0.7564
+</td>
+<td style="text-align:right;">
+0.1739
+</td>
+<td style="text-align:right;">
+0.8489
+</td>
+<td style="text-align:right;">
+0.5161
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-8" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.3721
+</td>
+<td style="text-align:right;">
+0.8380
+</td>
+<td style="text-align:right;">
+0.4103
+</td>
+<td style="text-align:right;">
+0.8151
+</td>
+<td style="text-align:right;">
+0.6051
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.3529
+</td>
+<td style="text-align:right;">
+0.6496
+</td>
+<td style="text-align:right;">
+0.3692
+</td>
+<td style="text-align:right;">
+0.6333
+</td>
+<td style="text-align:right;">
+0.5013
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.3778
+</td>
+<td style="text-align:right;">
+0.7429
+</td>
+<td style="text-align:right;">
+0.3208
+</td>
+<td style="text-align:right;">
+0.7879
+</td>
+<td style="text-align:right;">
+0.5603
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.4828
+</td>
+<td style="text-align:right;">
+0.9103
+</td>
+<td style="text-align:right;">
+0.5000
+</td>
+<td style="text-align:right;">
+0.9045
+</td>
+<td style="text-align:right;">
+0.6965
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-todas-las-celdas-2" class="section level2">
+<h2>Capas significativas y todas las celdas</h2>
+<div id="análisis-discriminante-8" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.1860
+</td>
+<td style="text-align:right;">
+0.7465
+</td>
+<td style="text-align:right;">
+0.1818
+</td>
+<td style="text-align:right;">
+0.7518
+</td>
+<td style="text-align:right;">
+0.4663
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.2794
+</td>
+<td style="text-align:right;">
+0.7094
+</td>
+<td style="text-align:right;">
+0.3585
+</td>
+<td style="text-align:right;">
+0.6288
+</td>
+<td style="text-align:right;">
+0.4944
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.1778
+</td>
+<td style="text-align:right;">
+0.7929
+</td>
+<td style="text-align:right;">
+0.2162
+</td>
+<td style="text-align:right;">
+0.7500
+</td>
+<td style="text-align:right;">
+0.4853
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.3103
+</td>
+<td style="text-align:right;">
+0.7308
+</td>
+<td style="text-align:right;">
+0.1765
+</td>
+<td style="text-align:right;">
+0.8507
+</td>
+<td style="text-align:right;">
+0.5206
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-9" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.5349
+</td>
+<td style="text-align:right;">
+0.7817
+</td>
+<td style="text-align:right;">
+0.4259
+</td>
+<td style="text-align:right;">
+0.8473
+</td>
+<td style="text-align:right;">
+0.6583
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.3676
+</td>
+<td style="text-align:right;">
+0.7350
+</td>
+<td style="text-align:right;">
+0.4464
+</td>
+<td style="text-align:right;">
+0.6667
+</td>
+<td style="text-align:right;">
+0.5513
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.4667
+</td>
+<td style="text-align:right;">
+0.8357
+</td>
+<td style="text-align:right;">
+0.4773
+</td>
+<td style="text-align:right;">
+0.8298
+</td>
+<td style="text-align:right;">
+0.6512
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.4828
+</td>
+<td style="text-align:right;">
+0.8910
+</td>
+<td style="text-align:right;">
+0.4516
+</td>
+<td style="text-align:right;">
+0.9026
+</td>
+<td style="text-align:right;">
+0.6869
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="capas-significativas-y-celdas-significativas-2" class="section level2">
+<h2>Capas significativas y celdas significativas</h2>
+<div id="análisis-discriminante-9" class="section level3">
+<h3>Análisis discriminante</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.3953
+</td>
+<td style="text-align:right;">
+0.7958
+</td>
+<td style="text-align:right;">
+0.3696
+</td>
+<td style="text-align:right;">
+0.8129
+</td>
+<td style="text-align:right;">
+0.5956
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.3676
+</td>
+<td style="text-align:right;">
+0.7265
+</td>
+<td style="text-align:right;">
+0.4386
+</td>
+<td style="text-align:right;">
+0.6641
+</td>
+<td style="text-align:right;">
+0.5471
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.3111
+</td>
+<td style="text-align:right;">
+0.8143
+</td>
+<td style="text-align:right;">
+0.3500
+</td>
+<td style="text-align:right;">
+0.7862
+</td>
+<td style="text-align:right;">
+0.5627
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.3793
+</td>
+<td style="text-align:right;">
+0.8013
+</td>
+<td style="text-align:right;">
+0.2619
+</td>
+<td style="text-align:right;">
+0.8741
+</td>
+<td style="text-align:right;">
+0.5903
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="regresión-logística-10" class="section level3">
+<h3>Regresión logística</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Sensibilidad
+</th>
+<th style="text-align:right;">
+Especificidad
+</th>
+<th style="text-align:right;">
+VPP
+</th>
+<th style="text-align:right;">
+VPN
+</th>
+<th style="text-align:right;">
+Precisión global
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Class: I
+</td>
+<td style="text-align:right;">
+0.5814
+</td>
+<td style="text-align:right;">
+0.8380
+</td>
+<td style="text-align:right;">
+0.5208
+</td>
+<td style="text-align:right;">
+0.8686
+</td>
+<td style="text-align:right;">
+0.7097
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: II
+</td>
+<td style="text-align:right;">
+0.4412
+</td>
+<td style="text-align:right;">
+0.7521
+</td>
+<td style="text-align:right;">
+0.5085
+</td>
+<td style="text-align:right;">
+0.6984
+</td>
+<td style="text-align:right;">
+0.5967
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: III
+</td>
+<td style="text-align:right;">
+0.4889
+</td>
+<td style="text-align:right;">
+0.8643
+</td>
+<td style="text-align:right;">
+0.5366
+</td>
+<td style="text-align:right;">
+0.8403
+</td>
+<td style="text-align:right;">
+0.6766
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Class: IV
+</td>
+<td style="text-align:right;">
+0.5862
+</td>
+<td style="text-align:right;">
+0.8718
+</td>
+<td style="text-align:right;">
+0.4595
+</td>
+<td style="text-align:right;">
+0.9189
+</td>
+<td style="text-align:right;">
+0.7290
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
