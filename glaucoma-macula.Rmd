@@ -212,9 +212,6 @@ cellCorrelation <- function (ojo, capa){
 
 # Comparación de medias del grosor de las celdas del cubo macular de enfermos y sanos según ojos
 means.comparison <- function (vars, capa, ojo){
-  vars <- varCells
-  capa <- "RNFL"
-  ojo <- "L"
   df.capa.ojo <- df[df$Ojo==ojo & df$Capa==capa, ]
   result <- data.frame(t(sapply(df.capa.ojo[, vars], function(x) unlist(t.test(x~df.capa.ojo$Glaucoma)[c("estimate","conf.int", "p.value")]))))
   result$difference <- result$estimate.mean.in.group.N-result$estimate.mean.in.group.Y

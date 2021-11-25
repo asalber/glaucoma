@@ -11,12 +11,6 @@ stringr
 forcats
 GGally
 gridExtra
+psych
 DT
 kableExtra
-psych
-rmarkdown
-tensorflow
-keras
-lattice
-caret
-rcompanion
