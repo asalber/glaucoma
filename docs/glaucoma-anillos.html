@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-11-12" />
+<meta name="date" content="2021-11-25" />
 
 <title>Análisis de los anillos neuroretinianos</title>
 
@@ -38,6 +38,8 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -364,7 +366,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Análisis de los anillos neuroretinianos</h1>
-<h4 class="date">2021-11-12</h4>
+<h4 class="date">2021-11-25</h4>
 
 </div>
 
@@ -375,23 +377,1459 @@ div.tocify {
 <h2>FoBMO.Angle, Displacement y BMO.Area</h2>
 <div id="ojo-izquierdo" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+FoBMO.Angle1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+-7.338
+</td>
+<td style="text-align:right;">
+3.4959
+</td>
+<td style="text-align:right;">
+-7.300
+</td>
+<td style="text-align:right;">
+-27.170
+</td>
+<td style="text-align:right;">
+4.040
+</td>
+<td style="text-align:right;">
+-0.3192
+</td>
+<td style="text-align:right;">
+1.107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FoBMO.Angle2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-9.387
+</td>
+<td style="text-align:right;">
+4.4497
+</td>
+<td style="text-align:right;">
+-9.130
+</td>
+<td style="text-align:right;">
+-29.640
+</td>
+<td style="text-align:right;">
+14.390
+</td>
+<td style="text-align:right;">
+0.0893
+</td>
+<td style="text-align:right;">
+4.277
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Displacement1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+38.428
+</td>
+<td style="text-align:right;">
+31.6572
+</td>
+<td style="text-align:right;">
+31.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+275.000
+</td>
+<td style="text-align:right;">
+2.8283
+</td>
+<td style="text-align:right;">
+12.751
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Displacement2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+47.189
+</td>
+<td style="text-align:right;">
+39.6793
+</td>
+<td style="text-align:right;">
+34.000
+</td>
+<td style="text-align:right;">
+2.000
+</td>
+<td style="text-align:right;">
+287.000
+</td>
+<td style="text-align:right;">
+2.2079
+</td>
+<td style="text-align:right;">
+7.310
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.Area1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+1.983
+</td>
+<td style="text-align:right;">
+0.3969
+</td>
+<td style="text-align:right;">
+1.936
+</td>
+<td style="text-align:right;">
+0.914
+</td>
+<td style="text-align:right;">
+4.280
+</td>
+<td style="text-align:right;">
+0.9594
+</td>
+<td style="text-align:right;">
+2.481
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.Area2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+1.968
+</td>
+<td style="text-align:right;">
+0.4519
+</td>
+<td style="text-align:right;">
+1.925
+</td>
+<td style="text-align:right;">
+0.530
+</td>
+<td style="text-align:right;">
+3.448
+</td>
+<td style="text-align:right;">
+0.4599
+</td>
+<td style="text-align:right;">
+1.056
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-izdo-1.png" width="2400" /></p>
 </div>
 <div id="ojo-derecho" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+FoBMO.Angle1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+-5.715
+</td>
+<td style="text-align:right;">
+3.5182
+</td>
+<td style="text-align:right;">
+-5.825
+</td>
+<td style="text-align:right;">
+-19.660
+</td>
+<td style="text-align:right;">
+6.050
+</td>
+<td style="text-align:right;">
+-0.1487
+</td>
+<td style="text-align:right;">
+0.6303
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FoBMO.Angle2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-6.029
+</td>
+<td style="text-align:right;">
+4.1506
+</td>
+<td style="text-align:right;">
+-5.820
+</td>
+<td style="text-align:right;">
+-20.220
+</td>
+<td style="text-align:right;">
+4.880
+</td>
+<td style="text-align:right;">
+-0.2271
+</td>
+<td style="text-align:right;">
+-0.0264
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Displacement1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+37.466
+</td>
+<td style="text-align:right;">
+31.4592
+</td>
+<td style="text-align:right;">
+29.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+268.000
+</td>
+<td style="text-align:right;">
+2.5031
+</td>
+<td style="text-align:right;">
+9.6806
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Displacement2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+44.264
+</td>
+<td style="text-align:right;">
+42.8260
+</td>
+<td style="text-align:right;">
+33.000
+</td>
+<td style="text-align:right;">
+3.000
+</td>
+<td style="text-align:right;">
+351.000
+</td>
+<td style="text-align:right;">
+3.4655
+</td>
+<td style="text-align:right;">
+18.1061
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.Area1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+1.976
+</td>
+<td style="text-align:right;">
+0.3900
+</td>
+<td style="text-align:right;">
+1.927
+</td>
+<td style="text-align:right;">
+1.083
+</td>
+<td style="text-align:right;">
+3.901
+</td>
+<td style="text-align:right;">
+0.7385
+</td>
+<td style="text-align:right;">
+0.9184
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.Area2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+1.944
+</td>
+<td style="text-align:right;">
+0.4416
+</td>
+<td style="text-align:right;">
+1.902
+</td>
+<td style="text-align:right;">
+0.783
+</td>
+<td style="text-align:right;">
+3.674
+</td>
+<td style="text-align:right;">
+0.6451
+</td>
+<td style="text-align:right;">
+1.1240
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-dcho-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-fobmoangle-displacement-bmoarea-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-fobmoangle-displacement-bmoarea-1.png" width="2400" /></p>
 </div>
 </div>
 <div id="bmo" class="section level2">
 <h2>BMO</h2>
 <div id="ojo-izquierdo-1" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3400
+</td>
+<td style="text-align:right;">
+1.0372
+</td>
+<td style="text-align:right;">
+0.2073
+</td>
+<td style="text-align:right;">
+-2.297
+</td>
+<td style="text-align:right;">
+4.515
+</td>
+<td style="text-align:right;">
+0.6321
+</td>
+<td style="text-align:right;">
+0.9840
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+232
+</td>
+<td style="text-align:right;">
+-1.6426
+</td>
+<td style="text-align:right;">
+1.2592
+</td>
+<td style="text-align:right;">
+-1.7345
+</td>
+<td style="text-align:right;">
+-4.585
+</td>
+<td style="text-align:right;">
+1.903
+</td>
+<td style="text-align:right;">
+0.1879
+</td>
+<td style="text-align:right;">
+0.1352
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.4397
+</td>
+<td style="text-align:right;">
+1.0591
+</td>
+<td style="text-align:right;">
+0.4243
+</td>
+<td style="text-align:right;">
+-3.176
+</td>
+<td style="text-align:right;">
+4.570
+</td>
+<td style="text-align:right;">
+0.2453
+</td>
+<td style="text-align:right;">
+0.1437
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-1.3922
+</td>
+<td style="text-align:right;">
+1.1453
+</td>
+<td style="text-align:right;">
+-1.4937
+</td>
+<td style="text-align:right;">
+-4.216
+</td>
+<td style="text-align:right;">
+1.586
+</td>
+<td style="text-align:right;">
+0.2333
+</td>
+<td style="text-align:right;">
+-0.0575
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2598
+</td>
+<td style="text-align:right;">
+1.0009
+</td>
+<td style="text-align:right;">
+0.1834
+</td>
+<td style="text-align:right;">
+-3.646
+</td>
+<td style="text-align:right;">
+3.998
+</td>
+<td style="text-align:right;">
+0.2154
+</td>
+<td style="text-align:right;">
+0.4909
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-1.4743
+</td>
+<td style="text-align:right;">
+1.2666
+</td>
+<td style="text-align:right;">
+-1.5424
+</td>
+<td style="text-align:right;">
+-4.486
+</td>
+<td style="text-align:right;">
+2.263
+</td>
+<td style="text-align:right;">
+0.3144
+</td>
+<td style="text-align:right;">
+0.0927
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.1597
+</td>
+<td style="text-align:right;">
+0.9507
+</td>
+<td style="text-align:right;">
+0.1108
+</td>
+<td style="text-align:right;">
+-2.242
+</td>
+<td style="text-align:right;">
+3.901
+</td>
+<td style="text-align:right;">
+0.3962
+</td>
+<td style="text-align:right;">
+0.2345
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-1.4314
+</td>
+<td style="text-align:right;">
+1.2723
+</td>
+<td style="text-align:right;">
+-1.4855
+</td>
+<td style="text-align:right;">
+-4.657
+</td>
+<td style="text-align:right;">
+2.070
+</td>
+<td style="text-align:right;">
+0.1657
+</td>
+<td style="text-align:right;">
+-0.2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2184
+</td>
+<td style="text-align:right;">
+0.9992
+</td>
+<td style="text-align:right;">
+0.1531
+</td>
+<td style="text-align:right;">
+-1.917
+</td>
+<td style="text-align:right;">
+4.227
+</td>
+<td style="text-align:right;">
+0.6943
+</td>
+<td style="text-align:right;">
+0.8149
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+232
+</td>
+<td style="text-align:right;">
+-1.6449
+</td>
+<td style="text-align:right;">
+1.4342
+</td>
+<td style="text-align:right;">
+-1.5303
+</td>
+<td style="text-align:right;">
+-4.870
+</td>
+<td style="text-align:right;">
+2.135
+</td>
+<td style="text-align:right;">
+0.0605
+</td>
+<td style="text-align:right;">
+-0.2913
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3613
+</td>
+<td style="text-align:right;">
+1.1621
+</td>
+<td style="text-align:right;">
+0.2348
+</td>
+<td style="text-align:right;">
+-2.185
+</td>
+<td style="text-align:right;">
+6.747
+</td>
+<td style="text-align:right;">
+1.0155
+</td>
+<td style="text-align:right;">
+2.6196
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+232
+</td>
+<td style="text-align:right;">
+-1.1338
+</td>
+<td style="text-align:right;">
+1.1756
+</td>
+<td style="text-align:right;">
+-1.1512
+</td>
+<td style="text-align:right;">
+-4.055
+</td>
+<td style="text-align:right;">
+2.123
+</td>
+<td style="text-align:right;">
+0.0755
+</td>
+<td style="text-align:right;">
+0.0603
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3555
+</td>
+<td style="text-align:right;">
+1.0926
+</td>
+<td style="text-align:right;">
+0.2221
+</td>
+<td style="text-align:right;">
+-3.522
+</td>
+<td style="text-align:right;">
+5.422
+</td>
+<td style="text-align:right;">
+0.7828
+</td>
+<td style="text-align:right;">
+1.5411
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-1.5714
+</td>
+<td style="text-align:right;">
+1.2523
+</td>
+<td style="text-align:right;">
+-1.6551
+</td>
+<td style="text-align:right;">
+-4.788
+</td>
+<td style="text-align:right;">
+1.764
+</td>
+<td style="text-align:right;">
+0.0683
+</td>
+<td style="text-align:right;">
+-0.1903
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-bmo-ojo-izdo-1.png" width="2400" /></p>
 <p>Se observan correlaciones fuertes entre todos los sectores tanto de ojos sanos como de enfermos.</p>
 </div>
 <div id="ojo-derecho-1" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.3819
+</td>
+<td style="text-align:right;">
+1.0306
+</td>
+<td style="text-align:right;">
+0.2859
+</td>
+<td style="text-align:right;">
+-2.250
+</td>
+<td style="text-align:right;">
+4.196
+</td>
+<td style="text-align:right;">
+0.6408
+</td>
+<td style="text-align:right;">
+0.8955
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-1.6452
+</td>
+<td style="text-align:right;">
+1.2315
+</td>
+<td style="text-align:right;">
+-1.8462
+</td>
+<td style="text-align:right;">
+-5.116
+</td>
+<td style="text-align:right;">
+1.293
+</td>
+<td style="text-align:right;">
+0.2346
+</td>
+<td style="text-align:right;">
+-0.2352
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2847
+</td>
+<td style="text-align:right;">
+1.0077
+</td>
+<td style="text-align:right;">
+0.2359
+</td>
+<td style="text-align:right;">
+-2.183
+</td>
+<td style="text-align:right;">
+4.108
+</td>
+<td style="text-align:right;">
+0.4498
+</td>
+<td style="text-align:right;">
+0.2030
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-1.4270
+</td>
+<td style="text-align:right;">
+1.1544
+</td>
+<td style="text-align:right;">
+-1.5735
+</td>
+<td style="text-align:right;">
+-4.031
+</td>
+<td style="text-align:right;">
+1.763
+</td>
+<td style="text-align:right;">
+0.2928
+</td>
+<td style="text-align:right;">
+-0.3167
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.3697
+</td>
+<td style="text-align:right;">
+0.9891
+</td>
+<td style="text-align:right;">
+0.3399
+</td>
+<td style="text-align:right;">
+-3.225
+</td>
+<td style="text-align:right;">
+4.104
+</td>
+<td style="text-align:right;">
+0.1906
+</td>
+<td style="text-align:right;">
+0.5142
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-1.4021
+</td>
+<td style="text-align:right;">
+1.1819
+</td>
+<td style="text-align:right;">
+-1.5674
+</td>
+<td style="text-align:right;">
+-4.578
+</td>
+<td style="text-align:right;">
+1.766
+</td>
+<td style="text-align:right;">
+0.3531
+</td>
+<td style="text-align:right;">
+-0.1204
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2365
+</td>
+<td style="text-align:right;">
+0.9860
+</td>
+<td style="text-align:right;">
+0.1846
+</td>
+<td style="text-align:right;">
+-2.904
+</td>
+<td style="text-align:right;">
+4.070
+</td>
+<td style="text-align:right;">
+0.3249
+</td>
+<td style="text-align:right;">
+0.1417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-1.5128
+</td>
+<td style="text-align:right;">
+1.2405
+</td>
+<td style="text-align:right;">
+-1.6201
+</td>
+<td style="text-align:right;">
+-4.457
+</td>
+<td style="text-align:right;">
+2.172
+</td>
+<td style="text-align:right;">
+0.3538
+</td>
+<td style="text-align:right;">
+0.0272
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2865
+</td>
+<td style="text-align:right;">
+1.0441
+</td>
+<td style="text-align:right;">
+0.1741
+</td>
+<td style="text-align:right;">
+-2.785
+</td>
+<td style="text-align:right;">
+4.627
+</td>
+<td style="text-align:right;">
+0.7393
+</td>
+<td style="text-align:right;">
+0.9975
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-1.7914
+</td>
+<td style="text-align:right;">
+1.4238
+</td>
+<td style="text-align:right;">
+-1.8551
+</td>
+<td style="text-align:right;">
+-5.333
+</td>
+<td style="text-align:right;">
+2.178
+</td>
+<td style="text-align:right;">
+-0.0015
+</td>
+<td style="text-align:right;">
+-0.1164
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.4179
+</td>
+<td style="text-align:right;">
+1.1804
+</td>
+<td style="text-align:right;">
+0.2900
+</td>
+<td style="text-align:right;">
+-2.608
+</td>
+<td style="text-align:right;">
+6.702
+</td>
+<td style="text-align:right;">
+0.9181
+</td>
+<td style="text-align:right;">
+1.8453
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-1.1837
+</td>
+<td style="text-align:right;">
+1.2249
+</td>
+<td style="text-align:right;">
+-1.1891
+</td>
+<td style="text-align:right;">
+-4.983
+</td>
+<td style="text-align:right;">
+2.287
+</td>
+<td style="text-align:right;">
+-0.0651
+</td>
+<td style="text-align:right;">
+0.1899
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2915
+</td>
+<td style="text-align:right;">
+1.0650
+</td>
+<td style="text-align:right;">
+0.1721
+</td>
+<td style="text-align:right;">
+-2.378
+</td>
+<td style="text-align:right;">
+4.323
+</td>
+<td style="text-align:right;">
+0.7791
+</td>
+<td style="text-align:right;">
+0.8315
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+-1.4586
+</td>
+<td style="text-align:right;">
+1.2522
+</td>
+<td style="text-align:right;">
+-1.4919
+</td>
+<td style="text-align:right;">
+-4.787
+</td>
+<td style="text-align:right;">
+2.422
+</td>
+<td style="text-align:right;">
+0.1038
+</td>
+<td style="text-align:right;">
+0.1230
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-bmo-ojo-dcho-1.png" width="2400" /></p>
 <p>Se observan correlaciones fuertes entre todos los sectores tanto de ojos sanos como de enfermos.</p>
 </div>
 <div id="comparación-de-distribuciones-por-glaucoma-y-ojo" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histograma-bmo-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-bmo-1.png" width="2400" /></p>
 <p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
 </div>
 </div>
@@ -399,14 +1837,988 @@ div.tocify {
 <h2>Anillo 3.5</h2>
 <div id="ojo-izquierdo-2" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3165
+</td>
+<td style="text-align:right;">
+1.044
+</td>
+<td style="text-align:right;">
+0.2286
+</td>
+<td style="text-align:right;">
+-2.475
+</td>
+<td style="text-align:right;">
+4.849
+</td>
+<td style="text-align:right;">
+0.4677
+</td>
+<td style="text-align:right;">
+0.7237
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-2.0620
+</td>
+<td style="text-align:right;">
+2.217
+</td>
+<td style="text-align:right;">
+-1.8682
+</td>
+<td style="text-align:right;">
+-9.038
+</td>
+<td style="text-align:right;">
+2.653
+</td>
+<td style="text-align:right;">
+-0.3847
+</td>
+<td style="text-align:right;">
+-0.3382
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3233
+</td>
+<td style="text-align:right;">
+1.048
+</td>
+<td style="text-align:right;">
+0.2814
+</td>
+<td style="text-align:right;">
+-2.403
+</td>
+<td style="text-align:right;">
+4.192
+</td>
+<td style="text-align:right;">
+0.1916
+</td>
+<td style="text-align:right;">
+-0.0365
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-0.8490
+</td>
+<td style="text-align:right;">
+1.292
+</td>
+<td style="text-align:right;">
+-0.8485
+</td>
+<td style="text-align:right;">
+-4.627
+</td>
+<td style="text-align:right;">
+2.425
+</td>
+<td style="text-align:right;">
+-0.1510
+</td>
+<td style="text-align:right;">
+-0.1184
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3330
+</td>
+<td style="text-align:right;">
+1.032
+</td>
+<td style="text-align:right;">
+0.3109
+</td>
+<td style="text-align:right;">
+-2.756
+</td>
+<td style="text-align:right;">
+5.438
+</td>
+<td style="text-align:right;">
+0.3134
+</td>
+<td style="text-align:right;">
+0.7024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-0.9634
+</td>
+<td style="text-align:right;">
+1.532
+</td>
+<td style="text-align:right;">
+-0.8913
+</td>
+<td style="text-align:right;">
+-5.529
+</td>
+<td style="text-align:right;">
+2.818
+</td>
+<td style="text-align:right;">
+-0.1334
+</td>
+<td style="text-align:right;">
+-0.2155
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3420
+</td>
+<td style="text-align:right;">
+1.061
+</td>
+<td style="text-align:right;">
+0.2626
+</td>
+<td style="text-align:right;">
+-2.495
+</td>
+<td style="text-align:right;">
+4.587
+</td>
+<td style="text-align:right;">
+0.2445
+</td>
+<td style="text-align:right;">
+0.1357
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-0.7874
+</td>
+<td style="text-align:right;">
+1.334
+</td>
+<td style="text-align:right;">
+-0.7640
+</td>
+<td style="text-align:right;">
+-4.580
+</td>
+<td style="text-align:right;">
+3.259
+</td>
+<td style="text-align:right;">
+0.1069
+</td>
+<td style="text-align:right;">
+0.1685
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.0750
+</td>
+<td style="text-align:right;">
+1.114
+</td>
+<td style="text-align:right;">
+0.0006
+</td>
+<td style="text-align:right;">
+-3.876
+</td>
+<td style="text-align:right;">
+4.059
+</td>
+<td style="text-align:right;">
+0.2181
+</td>
+<td style="text-align:right;">
+0.2132
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-2.1971
+</td>
+<td style="text-align:right;">
+2.258
+</td>
+<td style="text-align:right;">
+-1.6980
+</td>
+<td style="text-align:right;">
+-7.488
+</td>
+<td style="text-align:right;">
+2.116
+</td>
+<td style="text-align:right;">
+-0.3816
+</td>
+<td style="text-align:right;">
+-0.9634
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+-0.0569
+</td>
+<td style="text-align:right;">
+1.056
+</td>
+<td style="text-align:right;">
+-0.1589
+</td>
+<td style="text-align:right;">
+-3.866
+</td>
+<td style="text-align:right;">
+6.672
+</td>
+<td style="text-align:right;">
+0.8073
+</td>
+<td style="text-align:right;">
+2.7563
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-0.9180
+</td>
+<td style="text-align:right;">
+1.693
+</td>
+<td style="text-align:right;">
+-0.8819
+</td>
+<td style="text-align:right;">
+-5.901
+</td>
+<td style="text-align:right;">
+5.290
+</td>
+<td style="text-align:right;">
+0.3332
+</td>
+<td style="text-align:right;">
+1.3751
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+-0.0809
+</td>
+<td style="text-align:right;">
+1.046
+</td>
+<td style="text-align:right;">
+-0.0990
+</td>
+<td style="text-align:right;">
+-3.018
+</td>
+<td style="text-align:right;">
+3.191
+</td>
+<td style="text-align:right;">
+0.0632
+</td>
+<td style="text-align:right;">
+-0.1836
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+-1.7229
+</td>
+<td style="text-align:right;">
+1.612
+</td>
+<td style="text-align:right;">
+-1.5007
+</td>
+<td style="text-align:right;">
+-5.588
+</td>
+<td style="text-align:right;">
+1.892
+</td>
+<td style="text-align:right;">
+-0.2025
+</td>
+<td style="text-align:right;">
+-0.5980
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-3.5-ojo-izdo-1.png" width="2400" /></p>
 <p>Se observan correlaciones moderadas entre todos los sectores de los ojos enfermos y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO, aunque podría ser debido a la existencia de bastantes datos atípicos.</p>
 </div>
 <div id="ojo-derecho-2" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.4013
+</td>
+<td style="text-align:right;">
+1.135
+</td>
+<td style="text-align:right;">
+0.3483
+</td>
+<td style="text-align:right;">
+-2.958
+</td>
+<td style="text-align:right;">
+7.019
+</td>
+<td style="text-align:right;">
+0.7211
+</td>
+<td style="text-align:right;">
+2.2206
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.9004
+</td>
+<td style="text-align:right;">
+2.131
+</td>
+<td style="text-align:right;">
+-1.5407
+</td>
+<td style="text-align:right;">
+-8.184
+</td>
+<td style="text-align:right;">
+4.000
+</td>
+<td style="text-align:right;">
+-0.3996
+</td>
+<td style="text-align:right;">
+-0.0834
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+1.047
+</td>
+<td style="text-align:right;">
+-0.0115
+</td>
+<td style="text-align:right;">
+-2.544
+</td>
+<td style="text-align:right;">
+4.284
+</td>
+<td style="text-align:right;">
+0.3830
+</td>
+<td style="text-align:right;">
+0.2974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.9335
+</td>
+<td style="text-align:right;">
+1.252
+</td>
+<td style="text-align:right;">
+-0.9472
+</td>
+<td style="text-align:right;">
+-4.079
+</td>
+<td style="text-align:right;">
+3.428
+</td>
+<td style="text-align:right;">
+0.2904
+</td>
+<td style="text-align:right;">
+0.5073
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.3634
+</td>
+<td style="text-align:right;">
+1.052
+</td>
+<td style="text-align:right;">
+0.3090
+</td>
+<td style="text-align:right;">
+-3.877
+</td>
+<td style="text-align:right;">
+5.688
+</td>
+<td style="text-align:right;">
+0.3658
+</td>
+<td style="text-align:right;">
+1.2031
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.8959
+</td>
+<td style="text-align:right;">
+1.491
+</td>
+<td style="text-align:right;">
+-0.6676
+</td>
+<td style="text-align:right;">
+-6.152
+</td>
+<td style="text-align:right;">
+2.485
+</td>
+<td style="text-align:right;">
+-0.7478
+</td>
+<td style="text-align:right;">
+0.8523
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.3355
+</td>
+<td style="text-align:right;">
+1.086
+</td>
+<td style="text-align:right;">
+0.2302
+</td>
+<td style="text-align:right;">
+-3.267
+</td>
+<td style="text-align:right;">
+3.574
+</td>
+<td style="text-align:right;">
+0.2538
+</td>
+<td style="text-align:right;">
+-0.0163
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-0.7697
+</td>
+<td style="text-align:right;">
+1.309
+</td>
+<td style="text-align:right;">
+-0.7903
+</td>
+<td style="text-align:right;">
+-4.913
+</td>
+<td style="text-align:right;">
+4.390
+</td>
+<td style="text-align:right;">
+0.2011
+</td>
+<td style="text-align:right;">
+1.2097
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.1194
+</td>
+<td style="text-align:right;">
+1.140
+</td>
+<td style="text-align:right;">
+0.0252
+</td>
+<td style="text-align:right;">
+-3.480
+</td>
+<td style="text-align:right;">
+7.139
+</td>
+<td style="text-align:right;">
+0.6601
+</td>
+<td style="text-align:right;">
+2.2965
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-2.2296
+</td>
+<td style="text-align:right;">
+2.201
+</td>
+<td style="text-align:right;">
+-1.9845
+</td>
+<td style="text-align:right;">
+-8.300
+</td>
+<td style="text-align:right;">
+2.113
+</td>
+<td style="text-align:right;">
+-0.3747
+</td>
+<td style="text-align:right;">
+-0.7253
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.1853
+</td>
+<td style="text-align:right;">
+1.193
+</td>
+<td style="text-align:right;">
+0.0475
+</td>
+<td style="text-align:right;">
+-3.321
+</td>
+<td style="text-align:right;">
+10.705
+</td>
+<td style="text-align:right;">
+1.6848
+</td>
+<td style="text-align:right;">
+9.7955
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.6099
+</td>
+<td style="text-align:right;">
+1.948
+</td>
+<td style="text-align:right;">
+-0.7075
+</td>
+<td style="text-align:right;">
+-5.547
+</td>
+<td style="text-align:right;">
+12.434
+</td>
+<td style="text-align:right;">
+1.5618
+</td>
+<td style="text-align:right;">
+8.6056
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2665
+</td>
+<td style="text-align:right;">
+1.038
+</td>
+<td style="text-align:right;">
+0.2646
+</td>
+<td style="text-align:right;">
+-2.929
+</td>
+<td style="text-align:right;">
+4.882
+</td>
+<td style="text-align:right;">
+0.1697
+</td>
+<td style="text-align:right;">
+0.5138
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.4382
+</td>
+<td style="text-align:right;">
+1.639
+</td>
+<td style="text-align:right;">
+-1.1764
+</td>
+<td style="text-align:right;">
+-5.292
+</td>
+<td style="text-align:right;">
+2.872
+</td>
+<td style="text-align:right;">
+-0.2846
+</td>
+<td style="text-align:right;">
+-0.5951
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-3.5-ojo-dcho-1.png" width="2400" /></p>
 <p>Se observan correlaciones moderadas entre todos los sectores de los ojos enfermos, excepto entre el sector temporal y los sectores nasal y nasal inferior, y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO, aunque podría ser debido a la existencia de bastantes datos atípicos.</p>
 </div>
 <div id="comparación-de-distribuciones-por-glaucoma-y-ojo-1" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-3.5-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-3.5-1.png" width="2400" /></p>
 <p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
 </div>
 </div>
@@ -414,14 +2826,988 @@ div.tocify {
 <h2>Anillo 4.1</h2>
 <div id="ojo-izquierdo-3" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2628
+</td>
+<td style="text-align:right;">
+1.111
+</td>
+<td style="text-align:right;">
+0.1760
+</td>
+<td style="text-align:right;">
+-2.257
+</td>
+<td style="text-align:right;">
+11.255
+</td>
+<td style="text-align:right;">
+1.7655
+</td>
+<td style="text-align:right;">
+13.6244
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.9319
+</td>
+<td style="text-align:right;">
+2.154
+</td>
+<td style="text-align:right;">
+-1.6899
+</td>
+<td style="text-align:right;">
+-7.297
+</td>
+<td style="text-align:right;">
+2.535
+</td>
+<td style="text-align:right;">
+-0.3803
+</td>
+<td style="text-align:right;">
+-0.4746
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3481
+</td>
+<td style="text-align:right;">
+1.124
+</td>
+<td style="text-align:right;">
+0.2581
+</td>
+<td style="text-align:right;">
+-3.509
+</td>
+<td style="text-align:right;">
+6.004
+</td>
+<td style="text-align:right;">
+0.4200
+</td>
+<td style="text-align:right;">
+0.8504
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.6872
+</td>
+<td style="text-align:right;">
+1.315
+</td>
+<td style="text-align:right;">
+-0.7069
+</td>
+<td style="text-align:right;">
+-4.170
+</td>
+<td style="text-align:right;">
+3.156
+</td>
+<td style="text-align:right;">
+-0.0228
+</td>
+<td style="text-align:right;">
+-0.0956
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2877
+</td>
+<td style="text-align:right;">
+1.116
+</td>
+<td style="text-align:right;">
+0.2516
+</td>
+<td style="text-align:right;">
+-3.064
+</td>
+<td style="text-align:right;">
+9.628
+</td>
+<td style="text-align:right;">
+1.3854
+</td>
+<td style="text-align:right;">
+9.4579
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.9694
+</td>
+<td style="text-align:right;">
+1.559
+</td>
+<td style="text-align:right;">
+-0.9630
+</td>
+<td style="text-align:right;">
+-5.436
+</td>
+<td style="text-align:right;">
+2.474
+</td>
+<td style="text-align:right;">
+-0.2879
+</td>
+<td style="text-align:right;">
+-0.1935
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.3224
+</td>
+<td style="text-align:right;">
+1.084
+</td>
+<td style="text-align:right;">
+0.2504
+</td>
+<td style="text-align:right;">
+-2.168
+</td>
+<td style="text-align:right;">
+7.387
+</td>
+<td style="text-align:right;">
+0.5957
+</td>
+<td style="text-align:right;">
+2.0107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-0.6539
+</td>
+<td style="text-align:right;">
+1.240
+</td>
+<td style="text-align:right;">
+-0.6889
+</td>
+<td style="text-align:right;">
+-4.330
+</td>
+<td style="text-align:right;">
+3.879
+</td>
+<td style="text-align:right;">
+0.1977
+</td>
+<td style="text-align:right;">
+0.4344
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.0955
+</td>
+<td style="text-align:right;">
+1.114
+</td>
+<td style="text-align:right;">
+0.0311
+</td>
+<td style="text-align:right;">
+-3.556
+</td>
+<td style="text-align:right;">
+4.688
+</td>
+<td style="text-align:right;">
+0.2315
+</td>
+<td style="text-align:right;">
+0.2618
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-2.0818
+</td>
+<td style="text-align:right;">
+2.173
+</td>
+<td style="text-align:right;">
+-1.6561
+</td>
+<td style="text-align:right;">
+-6.844
+</td>
+<td style="text-align:right;">
+3.085
+</td>
+<td style="text-align:right;">
+-0.3355
+</td>
+<td style="text-align:right;">
+-0.7560
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+-0.0934
+</td>
+<td style="text-align:right;">
+1.038
+</td>
+<td style="text-align:right;">
+-0.1701
+</td>
+<td style="text-align:right;">
+-3.636
+</td>
+<td style="text-align:right;">
+6.373
+</td>
+<td style="text-align:right;">
+0.8933
+</td>
+<td style="text-align:right;">
+3.4642
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.7825
+</td>
+<td style="text-align:right;">
+1.650
+</td>
+<td style="text-align:right;">
+-0.7862
+</td>
+<td style="text-align:right;">
+-5.422
+</td>
+<td style="text-align:right;">
+5.751
+</td>
+<td style="text-align:right;">
+0.4945
+</td>
+<td style="text-align:right;">
+1.6557
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+-0.1093
+</td>
+<td style="text-align:right;">
+1.086
+</td>
+<td style="text-align:right;">
+-0.0996
+</td>
+<td style="text-align:right;">
+-3.111
+</td>
+<td style="text-align:right;">
+3.149
+</td>
+<td style="text-align:right;">
+0.0581
+</td>
+<td style="text-align:right;">
+-0.1056
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.8867
+</td>
+<td style="text-align:right;">
+1.738
+</td>
+<td style="text-align:right;">
+-1.6648
+</td>
+<td style="text-align:right;">
+-5.798
+</td>
+<td style="text-align:right;">
+2.118
+</td>
+<td style="text-align:right;">
+-0.2578
+</td>
+<td style="text-align:right;">
+-0.7424
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.1-ojo-izdo-1.png" width="2400" /></p>
 <p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO y similares a las del anillo 3.5.</p>
 </div>
 <div id="ojo-derecho-3" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.3151
+</td>
+<td style="text-align:right;">
+1.081
+</td>
+<td style="text-align:right;">
+0.2831
+</td>
+<td style="text-align:right;">
+-2.872
+</td>
+<td style="text-align:right;">
+5.419
+</td>
+<td style="text-align:right;">
+0.5040
+</td>
+<td style="text-align:right;">
+0.9347
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.7466
+</td>
+<td style="text-align:right;">
+1.978
+</td>
+<td style="text-align:right;">
+-1.4785
+</td>
+<td style="text-align:right;">
+-7.538
+</td>
+<td style="text-align:right;">
+2.818
+</td>
+<td style="text-align:right;">
+-0.3612
+</td>
+<td style="text-align:right;">
+-0.2002
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.0233
+</td>
+<td style="text-align:right;">
+1.052
+</td>
+<td style="text-align:right;">
+-0.0370
+</td>
+<td style="text-align:right;">
+-2.881
+</td>
+<td style="text-align:right;">
+4.674
+</td>
+<td style="text-align:right;">
+0.4450
+</td>
+<td style="text-align:right;">
+0.2621
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.8666
+</td>
+<td style="text-align:right;">
+1.258
+</td>
+<td style="text-align:right;">
+-0.8412
+</td>
+<td style="text-align:right;">
+-4.744
+</td>
+<td style="text-align:right;">
+3.308
+</td>
+<td style="text-align:right;">
+-0.0470
+</td>
+<td style="text-align:right;">
+0.6142
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.3128
+</td>
+<td style="text-align:right;">
+1.023
+</td>
+<td style="text-align:right;">
+0.2502
+</td>
+<td style="text-align:right;">
+-3.785
+</td>
+<td style="text-align:right;">
+4.151
+</td>
+<td style="text-align:right;">
+0.2982
+</td>
+<td style="text-align:right;">
+0.6877
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.8714
+</td>
+<td style="text-align:right;">
+1.481
+</td>
+<td style="text-align:right;">
+-0.6784
+</td>
+<td style="text-align:right;">
+-6.248
+</td>
+<td style="text-align:right;">
+2.888
+</td>
+<td style="text-align:right;">
+-0.7018
+</td>
+<td style="text-align:right;">
+0.9491
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2692
+</td>
+<td style="text-align:right;">
+1.078
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+-3.156
+</td>
+<td style="text-align:right;">
+3.922
+</td>
+<td style="text-align:right;">
+0.3049
+</td>
+<td style="text-align:right;">
+0.0774
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.6504
+</td>
+<td style="text-align:right;">
+1.182
+</td>
+<td style="text-align:right;">
+-0.6611
+</td>
+<td style="text-align:right;">
+-4.191
+</td>
+<td style="text-align:right;">
+3.865
+</td>
+<td style="text-align:right;">
+0.3069
+</td>
+<td style="text-align:right;">
+1.2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.1200
+</td>
+<td style="text-align:right;">
+1.138
+</td>
+<td style="text-align:right;">
+0.0734
+</td>
+<td style="text-align:right;">
+-3.286
+</td>
+<td style="text-align:right;">
+9.241
+</td>
+<td style="text-align:right;">
+0.8608
+</td>
+<td style="text-align:right;">
+4.9385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-2.1100
+</td>
+<td style="text-align:right;">
+2.142
+</td>
+<td style="text-align:right;">
+-1.8268
+</td>
+<td style="text-align:right;">
+-7.313
+</td>
+<td style="text-align:right;">
+1.617
+</td>
+<td style="text-align:right;">
+-0.3368
+</td>
+<td style="text-align:right;">
+-0.8805
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.1295
+</td>
+<td style="text-align:right;">
+1.118
+</td>
+<td style="text-align:right;">
+0.0350
+</td>
+<td style="text-align:right;">
+-3.358
+</td>
+<td style="text-align:right;">
+7.845
+</td>
+<td style="text-align:right;">
+1.2307
+</td>
+<td style="text-align:right;">
+5.3646
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.3605
+</td>
+<td style="text-align:right;">
+2.146
+</td>
+<td style="text-align:right;">
+-0.6394
+</td>
+<td style="text-align:right;">
+-6.169
+</td>
+<td style="text-align:right;">
+13.896
+</td>
+<td style="text-align:right;">
+2.1378
+</td>
+<td style="text-align:right;">
+10.6103
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.1890
+</td>
+<td style="text-align:right;">
+1.019
+</td>
+<td style="text-align:right;">
+0.1600
+</td>
+<td style="text-align:right;">
+-3.166
+</td>
+<td style="text-align:right;">
+3.104
+</td>
+<td style="text-align:right;">
+-0.0081
+</td>
+<td style="text-align:right;">
+-0.0629
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.5375
+</td>
+<td style="text-align:right;">
+1.679
+</td>
+<td style="text-align:right;">
+-1.3021
+</td>
+<td style="text-align:right;">
+-5.544
+</td>
+<td style="text-align:right;">
+2.357
+</td>
+<td style="text-align:right;">
+-0.3609
+</td>
+<td style="text-align:right;">
+-0.5693
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.1-ojo-dcho-1.png" width="2400" /></p>
 <p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, excepto en el temporal con los sectores nasales, y más débiles en los ojos sanos. Las correlaciones son menores que en el anillo BMO y que en el 3.5, aunque podría ser debido a la existencia de datos atípicos.</p>
 </div>
 <div id="comparación-de-distribuciones-por-glaucoma-y-ojo-2" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-4.1-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-4.1-1.png" width="2400" /></p>
 <p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
 </div>
 </div>
@@ -429,14 +3815,988 @@ div.tocify {
 <h2>Anillo 4.7</h2>
 <div id="ojo-izquierdo-4" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2549
+</td>
+<td style="text-align:right;">
+1.020
+</td>
+<td style="text-align:right;">
+0.1506
+</td>
+<td style="text-align:right;">
+-2.157
+</td>
+<td style="text-align:right;">
+8.158
+</td>
+<td style="text-align:right;">
+0.9095
+</td>
+<td style="text-align:right;">
+4.3942
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.7491
+</td>
+<td style="text-align:right;">
+2.145
+</td>
+<td style="text-align:right;">
+-1.4577
+</td>
+<td style="text-align:right;">
+-8.625
+</td>
+<td style="text-align:right;">
+3.019
+</td>
+<td style="text-align:right;">
+-0.3462
+</td>
+<td style="text-align:right;">
+-0.2706
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.4029
+</td>
+<td style="text-align:right;">
+1.189
+</td>
+<td style="text-align:right;">
+0.2562
+</td>
+<td style="text-align:right;">
+-2.393
+</td>
+<td style="text-align:right;">
+5.164
+</td>
+<td style="text-align:right;">
+0.5254
+</td>
+<td style="text-align:right;">
+0.2907
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.5863
+</td>
+<td style="text-align:right;">
+1.407
+</td>
+<td style="text-align:right;">
+-0.6698
+</td>
+<td style="text-align:right;">
+-4.364
+</td>
+<td style="text-align:right;">
+4.065
+</td>
+<td style="text-align:right;">
+0.0329
+</td>
+<td style="text-align:right;">
+0.2343
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2470
+</td>
+<td style="text-align:right;">
+1.105
+</td>
+<td style="text-align:right;">
+0.1721
+</td>
+<td style="text-align:right;">
+-4.731
+</td>
+<td style="text-align:right;">
+9.861
+</td>
+<td style="text-align:right;">
+0.9943
+</td>
+<td style="text-align:right;">
+7.9764
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-0.8849
+</td>
+<td style="text-align:right;">
+1.699
+</td>
+<td style="text-align:right;">
+-0.8514
+</td>
+<td style="text-align:right;">
+-6.764
+</td>
+<td style="text-align:right;">
+4.125
+</td>
+<td style="text-align:right;">
+-0.1691
+</td>
+<td style="text-align:right;">
+0.4904
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.2995
+</td>
+<td style="text-align:right;">
+1.061
+</td>
+<td style="text-align:right;">
+0.2448
+</td>
+<td style="text-align:right;">
+-2.333
+</td>
+<td style="text-align:right;">
+5.243
+</td>
+<td style="text-align:right;">
+0.3676
+</td>
+<td style="text-align:right;">
+0.4793
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-0.6255
+</td>
+<td style="text-align:right;">
+1.297
+</td>
+<td style="text-align:right;">
+-0.7081
+</td>
+<td style="text-align:right;">
+-4.546
+</td>
+<td style="text-align:right;">
+3.389
+</td>
+<td style="text-align:right;">
+0.0750
+</td>
+<td style="text-align:right;">
+0.2693
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+0.1484
+</td>
+<td style="text-align:right;">
+1.087
+</td>
+<td style="text-align:right;">
+0.0986
+</td>
+<td style="text-align:right;">
+-3.712
+</td>
+<td style="text-align:right;">
+3.772
+</td>
+<td style="text-align:right;">
+0.1768
+</td>
+<td style="text-align:right;">
+0.1596
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-1.8012
+</td>
+<td style="text-align:right;">
+2.202
+</td>
+<td style="text-align:right;">
+-1.5719
+</td>
+<td style="text-align:right;">
+-8.086
+</td>
+<td style="text-align:right;">
+2.915
+</td>
+<td style="text-align:right;">
+-0.3359
+</td>
+<td style="text-align:right;">
+-0.5617
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+-0.1307
+</td>
+<td style="text-align:right;">
+1.064
+</td>
+<td style="text-align:right;">
+-0.2635
+</td>
+<td style="text-align:right;">
+-3.593
+</td>
+<td style="text-align:right;">
+6.121
+</td>
+<td style="text-align:right;">
+0.7909
+</td>
+<td style="text-align:right;">
+2.2575
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-0.7118
+</td>
+<td style="text-align:right;">
+1.881
+</td>
+<td style="text-align:right;">
+-0.9538
+</td>
+<td style="text-align:right;">
+-5.576
+</td>
+<td style="text-align:right;">
+10.080
+</td>
+<td style="text-align:right;">
+1.2116
+</td>
+<td style="text-align:right;">
+4.3754
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+765
+</td>
+<td style="text-align:right;">
+-0.0544
+</td>
+<td style="text-align:right;">
+1.037
+</td>
+<td style="text-align:right;">
+-0.0385
+</td>
+<td style="text-align:right;">
+-3.529
+</td>
+<td style="text-align:right;">
+2.990
+</td>
+<td style="text-align:right;">
+-0.0884
+</td>
+<td style="text-align:right;">
+0.1423
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.8754
+</td>
+<td style="text-align:right;">
+1.775
+</td>
+<td style="text-align:right;">
+-1.7172
+</td>
+<td style="text-align:right;">
+-6.069
+</td>
+<td style="text-align:right;">
+1.943
+</td>
+<td style="text-align:right;">
+-0.2890
+</td>
+<td style="text-align:right;">
+-0.7169
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.7-ojo-izdo-1.png" width="2400" /></p>
 <p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, y más débiles o casi nulas en los ojos sanos. Las correlaciones son menores que en el anillo BMO pero mayores que en los anillos 3.5 y 4.1.</p>
 </div>
 <div id="ojo-derecho-4" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Glaucoma
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+skew
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.G1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2876
+</td>
+<td style="text-align:right;">
+1.075
+</td>
+<td style="text-align:right;">
+0.2125
+</td>
+<td style="text-align:right;">
+-3.716
+</td>
+<td style="text-align:right;">
+6.234
+</td>
+<td style="text-align:right;">
+0.6826
+</td>
+<td style="text-align:right;">
+2.1602
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.G2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+228
+</td>
+<td style="text-align:right;">
+-1.5673
+</td>
+<td style="text-align:right;">
+2.001
+</td>
+<td style="text-align:right;">
+-1.1813
+</td>
+<td style="text-align:right;">
+-6.835
+</td>
+<td style="text-align:right;">
+3.812
+</td>
+<td style="text-align:right;">
+-0.2828
+</td>
+<td style="text-align:right;">
+-0.1858
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.0300
+</td>
+<td style="text-align:right;">
+1.070
+</td>
+<td style="text-align:right;">
+-0.0561
+</td>
+<td style="text-align:right;">
+-4.266
+</td>
+<td style="text-align:right;">
+4.748
+</td>
+<td style="text-align:right;">
+0.5009
+</td>
+<td style="text-align:right;">
+0.6371
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-0.6855
+</td>
+<td style="text-align:right;">
+1.335
+</td>
+<td style="text-align:right;">
+-0.6468
+</td>
+<td style="text-align:right;">
+-4.410
+</td>
+<td style="text-align:right;">
+6.538
+</td>
+<td style="text-align:right;">
+0.6229
+</td>
+<td style="text-align:right;">
+3.5804
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.N1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2722
+</td>
+<td style="text-align:right;">
+1.069
+</td>
+<td style="text-align:right;">
+0.2278
+</td>
+<td style="text-align:right;">
+-6.868
+</td>
+<td style="text-align:right;">
+7.175
+</td>
+<td style="text-align:right;">
+0.0106
+</td>
+<td style="text-align:right;">
+5.1776
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.N2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-0.8956
+</td>
+<td style="text-align:right;">
+1.642
+</td>
+<td style="text-align:right;">
+-0.7090
+</td>
+<td style="text-align:right;">
+-6.919
+</td>
+<td style="text-align:right;">
+3.145
+</td>
+<td style="text-align:right;">
+-0.8347
+</td>
+<td style="text-align:right;">
+1.2151
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2406
+</td>
+<td style="text-align:right;">
+1.091
+</td>
+<td style="text-align:right;">
+0.1951
+</td>
+<td style="text-align:right;">
+-2.624
+</td>
+<td style="text-align:right;">
+5.231
+</td>
+<td style="text-align:right;">
+0.4780
+</td>
+<td style="text-align:right;">
+0.5766
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-0.5567
+</td>
+<td style="text-align:right;">
+1.238
+</td>
+<td style="text-align:right;">
+-0.5418
+</td>
+<td style="text-align:right;">
+-4.398
+</td>
+<td style="text-align:right;">
+3.654
+</td>
+<td style="text-align:right;">
+0.0567
+</td>
+<td style="text-align:right;">
+1.0404
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TI1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.1169
+</td>
+<td style="text-align:right;">
+1.064
+</td>
+<td style="text-align:right;">
+0.1037
+</td>
+<td style="text-align:right;">
+-3.758
+</td>
+<td style="text-align:right;">
+3.304
+</td>
+<td style="text-align:right;">
+0.1737
+</td>
+<td style="text-align:right;">
+0.1215
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TI2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+-1.8590
+</td>
+<td style="text-align:right;">
+2.058
+</td>
+<td style="text-align:right;">
+-1.6821
+</td>
+<td style="text-align:right;">
+-6.719
+</td>
+<td style="text-align:right;">
+1.974
+</td>
+<td style="text-align:right;">
+-0.3455
+</td>
+<td style="text-align:right;">
+-0.8234
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.T1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.1077
+</td>
+<td style="text-align:right;">
+1.195
+</td>
+<td style="text-align:right;">
+0.0023
+</td>
+<td style="text-align:right;">
+-2.774
+</td>
+<td style="text-align:right;">
+11.134
+</td>
+<td style="text-align:right;">
+2.0939
+</td>
+<td style="text-align:right;">
+14.5711
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.T2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+228
+</td>
+<td style="text-align:right;">
+-0.2328
+</td>
+<td style="text-align:right;">
+2.534
+</td>
+<td style="text-align:right;">
+-0.6949
+</td>
+<td style="text-align:right;">
+-5.582
+</td>
+<td style="text-align:right;">
+16.183
+</td>
+<td style="text-align:right;">
+2.8467
+</td>
+<td style="text-align:right;">
+13.6964
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS1
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:right;">
+764
+</td>
+<td style="text-align:right;">
+0.2474
+</td>
+<td style="text-align:right;">
+1.014
+</td>
+<td style="text-align:right;">
+0.2378
+</td>
+<td style="text-align:right;">
+-3.259
+</td>
+<td style="text-align:right;">
+4.987
+</td>
+<td style="text-align:right;">
+0.1447
+</td>
+<td style="text-align:right;">
+1.0116
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS2
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+-1.4881
+</td>
+<td style="text-align:right;">
+1.686
+</td>
+<td style="text-align:right;">
+-1.2475
+</td>
+<td style="text-align:right;">
+-5.767
+</td>
+<td style="text-align:right;">
+2.974
+</td>
+<td style="text-align:right;">
+-0.2875
+</td>
+<td style="text-align:right;">
+-0.4932
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/grafico-descriptivo-4.7-ojo-dcho-1.png" width="2400" /></p>
 <p>Se observan correlaciones de moderadas a fuertes entre todos los sectores de los ojos enfermos, excepto en el temporal con los sectores nasales, y más débiles o casi nulas en los ojos sanos. Las correlaciones son menores que en el anillo BMO similares a los anillos 3.5 y 4.1, aunque podría ser debido a la existencia de datos atípicos.</p>
 </div>
 <div id="comparación-de-distribuciones-por-glaucoma-y-ojo-3" class="section level3">
 <h3>Comparación de distribuciones por glaucoma y ojo</h3>
+<p><img src="glaucoma-anillos_files/figure-html/histogramas-4.7-1.png" width="2400" /></p>
+<p><img src="glaucoma-anillos_files/figure-html/cajas-4.7-1.png" width="2400" /></p>
 <p>Se aprecian distribuciones similares en los ojos izquierdos y derechos tanto de pacientes sanos como enfermos.</p>
 </div>
 </div>
@@ -446,25 +4806,282 @@ div.tocify {
 <div id="sexo" class="section level2">
 <h2>Sexo</h2>
 <p>Comparación de la proporción de mujeres y hombres con glaucoma</p>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Proporción.Mujeres
+</th>
+<th style="text-align:right;">
+Proporción.Hombres
+</th>
+<th style="text-align:right;">
+Diferencia.proporciones
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:right;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.5668
+</td>
+<td style="text-align:right;">
+0.4284
+</td>
+<td style="text-align:right;">
+0.1384
+</td>
+<td style="text-align:right;">
+0.0856
+</td>
+<td style="text-align:right;">
+0.1913
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="ojo" class="section level2">
 <h2>Ojo</h2>
 <p>Comparación de la proporción de ojos izquierdo y derechos con glaucoma.</p>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Estadístico de McNemar
+</th>
+<th style="text-align:right;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+281.7
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existe relación estadísticamente significativa entre el glaucoma y los ojos, es decir, los ojos izquierdo y derecho no son independientes.</p>
 </div>
 <div id="edad" class="section level2">
 <h2>Edad</h2>
 <p>Comparación de las edades medias en sanos y enfermos.</p>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:right;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Edad
+</td>
+<td style="text-align:right;">
+47.5
+</td>
+<td style="text-align:right;">
+67.13
+</td>
+<td style="text-align:right;">
+-19.63
+</td>
+<td style="text-align:right;">
+-21.18
+</td>
+<td style="text-align:right;">
+-18.07
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas entre las edades medias de los pacientes sanos y los pacientes con glaucoma. La edad media de los pacientes con glaucoma es entre 18.0724 y 21.1837 años mayor que la de los sanos.</p>
 <p>Comparación de las edades medias de mujeres y hombres con glaucoma.</p>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Media.Hombres
+</th>
+<th style="text-align:right;">
+Media.Mujeres
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:right;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+65.28
+</td>
+<td style="text-align:right;">
+69.54
+</td>
+<td style="text-align:right;">
+4.257
+</td>
+<td style="text-align:right;">
+-6.686
+</td>
+<td style="text-align:right;">
+-1.827
+</td>
+<td style="text-align:right;">
+6e-04
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas entre las edades medias de hombres y mujeres. La edad media de las mujeres con glaucoma es entre -6.6862 y -1.8271 años mayor que la de los hombres.</p>
 </div>
 <div id="area-bmo" class="section level2">
 <h2>Area BMO</h2>
-<p>Comparación de las medias del área de BMO en sanos y enfermos. ### Ojo izquierdo</p>
+Comparación de las medias del área de BMO en sanos y enfermos. ### Ojo izquierdo
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:right;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1.983
+</td>
+<td style="text-align:right;">
+1.968
+</td>
+<td style="text-align:right;">
+0.0152
+</td>
+<td style="text-align:right;">
+-0.0495
+</td>
+<td style="text-align:right;">
+0.0799
+</td>
+<td style="text-align:right;">
+0.6452
+</td>
+</tr>
+</tbody>
+</table>
 <p>No existen diferencias estadísticamente significativas en el area media del anillo BMO de ojos izquierdos sanos y enfermos.</p>
 <div id="ojo-derecho-5" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:right;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1.976
+</td>
+<td style="text-align:right;">
+1.944
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+-0.0325
+</td>
+<td style="text-align:right;">
+0.0945
+</td>
+<td style="text-align:right;">
+0.3379
+</td>
+</tr>
+</tbody>
+</table>
 <p>No existen diferencias estadísticamente significativas en el area media del anillo BMO de ojos derechos sanos y enfermos.</p>
 </div>
 </div>
@@ -473,11 +5090,390 @@ div.tocify {
 <p>Comparación de las medias de los sectores del BMO en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-5" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:right;">
+0.3400
+</td>
+<td style="text-align:right;">
+-1.643
+</td>
+<td style="text-align:right;">
+1.983
+</td>
+<td style="text-align:right;">
+1.804
+</td>
+<td style="text-align:right;">
+2.161
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NS
+</td>
+<td style="text-align:right;">
+0.4397
+</td>
+<td style="text-align:right;">
+-1.392
+</td>
+<td style="text-align:right;">
+1.832
+</td>
+<td style="text-align:right;">
+1.666
+</td>
+<td style="text-align:right;">
+1.998
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.N
+</td>
+<td style="text-align:right;">
+0.2598
+</td>
+<td style="text-align:right;">
+-1.474
+</td>
+<td style="text-align:right;">
+1.734
+</td>
+<td style="text-align:right;">
+1.556
+</td>
+<td style="text-align:right;">
+1.912
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NI
+</td>
+<td style="text-align:right;">
+0.1597
+</td>
+<td style="text-align:right;">
+-1.431
+</td>
+<td style="text-align:right;">
+1.591
+</td>
+<td style="text-align:right;">
+1.414
+</td>
+<td style="text-align:right;">
+1.768
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:right;">
+0.2184
+</td>
+<td style="text-align:right;">
+-1.645
+</td>
+<td style="text-align:right;">
+1.863
+</td>
+<td style="text-align:right;">
+1.665
+</td>
+<td style="text-align:right;">
+2.062
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.T
+</td>
+<td style="text-align:right;">
+0.3613
+</td>
+<td style="text-align:right;">
+-1.134
+</td>
+<td style="text-align:right;">
+1.495
+</td>
+<td style="text-align:right;">
+1.322
+</td>
+<td style="text-align:right;">
+1.668
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TS
+</td>
+<td style="text-align:right;">
+0.3555
+</td>
+<td style="text-align:right;">
+-1.571
+</td>
+<td style="text-align:right;">
+1.927
+</td>
+<td style="text-align:right;">
+1.748
+</td>
+<td style="text-align:right;">
+2.106
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo BMO.</p>
 </div>
 <div id="ojo-derecho-6" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G
+</td>
+<td style="text-align:right;">
+0.3819
+</td>
+<td style="text-align:right;">
+-1.645
+</td>
+<td style="text-align:right;">
+2.027
+</td>
+<td style="text-align:right;">
+1.852
+</td>
+<td style="text-align:right;">
+2.203
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NS
+</td>
+<td style="text-align:right;">
+0.2847
+</td>
+<td style="text-align:right;">
+-1.427
+</td>
+<td style="text-align:right;">
+1.712
+</td>
+<td style="text-align:right;">
+1.546
+</td>
+<td style="text-align:right;">
+1.877
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.N
+</td>
+<td style="text-align:right;">
+0.3697
+</td>
+<td style="text-align:right;">
+-1.402
+</td>
+<td style="text-align:right;">
+1.772
+</td>
+<td style="text-align:right;">
+1.603
+</td>
+<td style="text-align:right;">
+1.940
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NI
+</td>
+<td style="text-align:right;">
+0.2365
+</td>
+<td style="text-align:right;">
+-1.513
+</td>
+<td style="text-align:right;">
+1.749
+</td>
+<td style="text-align:right;">
+1.574
+</td>
+<td style="text-align:right;">
+1.925
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI
+</td>
+<td style="text-align:right;">
+0.2865
+</td>
+<td style="text-align:right;">
+-1.791
+</td>
+<td style="text-align:right;">
+2.078
+</td>
+<td style="text-align:right;">
+1.879
+</td>
+<td style="text-align:right;">
+2.277
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.T
+</td>
+<td style="text-align:right;">
+0.4179
+</td>
+<td style="text-align:right;">
+-1.184
+</td>
+<td style="text-align:right;">
+1.602
+</td>
+<td style="text-align:right;">
+1.422
+</td>
+<td style="text-align:right;">
+1.781
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TS
+</td>
+<td style="text-align:right;">
+0.2915
+</td>
+<td style="text-align:right;">
+-1.459
+</td>
+<td style="text-align:right;">
+1.750
+</td>
+<td style="text-align:right;">
+1.571
+</td>
+<td style="text-align:right;">
+1.929
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo BMO.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-bmo-1.png" width="2400" /></p>
 <p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
 </div>
 </div>
@@ -486,11 +5482,390 @@ div.tocify {
 <p>Comparación de las medias de los sectores del anillo 3.5 en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-6" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:right;">
+0.3165
+</td>
+<td style="text-align:right;">
+-2.0620
+</td>
+<td style="text-align:right;">
+2.3785
+</td>
+<td style="text-align:right;">
+2.0829
+</td>
+<td style="text-align:right;">
+2.674
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NS
+</td>
+<td style="text-align:right;">
+0.3233
+</td>
+<td style="text-align:right;">
+-0.8490
+</td>
+<td style="text-align:right;">
+1.1723
+</td>
+<td style="text-align:right;">
+0.9899
+</td>
+<td style="text-align:right;">
+1.355
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.N
+</td>
+<td style="text-align:right;">
+0.3330
+</td>
+<td style="text-align:right;">
+-0.9634
+</td>
+<td style="text-align:right;">
+1.2965
+</td>
+<td style="text-align:right;">
+1.0857
+</td>
+<td style="text-align:right;">
+1.507
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NI
+</td>
+<td style="text-align:right;">
+0.3420
+</td>
+<td style="text-align:right;">
+-0.7874
+</td>
+<td style="text-align:right;">
+1.1294
+</td>
+<td style="text-align:right;">
+0.9416
+</td>
+<td style="text-align:right;">
+1.317
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:right;">
+0.0750
+</td>
+<td style="text-align:right;">
+-2.1971
+</td>
+<td style="text-align:right;">
+2.2721
+</td>
+<td style="text-align:right;">
+1.9703
+</td>
+<td style="text-align:right;">
+2.574
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.T
+</td>
+<td style="text-align:right;">
+-0.0569
+</td>
+<td style="text-align:right;">
+-0.9180
+</td>
+<td style="text-align:right;">
+0.8611
+</td>
+<td style="text-align:right;">
+0.6302
+</td>
+<td style="text-align:right;">
+1.092
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TS
+</td>
+<td style="text-align:right;">
+-0.0809
+</td>
+<td style="text-align:right;">
+-1.7229
+</td>
+<td style="text-align:right;">
+1.6421
+</td>
+<td style="text-align:right;">
+1.4213
+</td>
+<td style="text-align:right;">
+1.863
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 3.5.</p>
 </div>
 <div id="ojo-derecho-7" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G
+</td>
+<td style="text-align:right;">
+0.4013
+</td>
+<td style="text-align:right;">
+-1.9004
+</td>
+<td style="text-align:right;">
+2.3017
+</td>
+<td style="text-align:right;">
+2.0129
+</td>
+<td style="text-align:right;">
+2.591
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NS
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+-0.9335
+</td>
+<td style="text-align:right;">
+0.9361
+</td>
+<td style="text-align:right;">
+0.7570
+</td>
+<td style="text-align:right;">
+1.115
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.N
+</td>
+<td style="text-align:right;">
+0.3634
+</td>
+<td style="text-align:right;">
+-0.8959
+</td>
+<td style="text-align:right;">
+1.2593
+</td>
+<td style="text-align:right;">
+1.0514
+</td>
+<td style="text-align:right;">
+1.467
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NI
+</td>
+<td style="text-align:right;">
+0.3355
+</td>
+<td style="text-align:right;">
+-0.7697
+</td>
+<td style="text-align:right;">
+1.1052
+</td>
+<td style="text-align:right;">
+0.9187
+</td>
+<td style="text-align:right;">
+1.292
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI
+</td>
+<td style="text-align:right;">
+0.1194
+</td>
+<td style="text-align:right;">
+-2.2296
+</td>
+<td style="text-align:right;">
+2.3489
+</td>
+<td style="text-align:right;">
+2.0519
+</td>
+<td style="text-align:right;">
+2.646
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.T
+</td>
+<td style="text-align:right;">
+0.1853
+</td>
+<td style="text-align:right;">
+-0.6099
+</td>
+<td style="text-align:right;">
+0.7952
+</td>
+<td style="text-align:right;">
+0.5280
+</td>
+<td style="text-align:right;">
+1.062
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TS
+</td>
+<td style="text-align:right;">
+0.2665
+</td>
+<td style="text-align:right;">
+-1.4382
+</td>
+<td style="text-align:right;">
+1.7047
+</td>
+<td style="text-align:right;">
+1.4791
+</td>
+<td style="text-align:right;">
+1.930
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 3.5.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-3.5-1.png" width="2400" /></p>
 <p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
 </div>
 </div>
@@ -499,11 +5874,390 @@ div.tocify {
 <p>Comparación de las medias de los sectores del anillo 4.1 en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-7" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.G
+</td>
+<td style="text-align:right;">
+0.2628
+</td>
+<td style="text-align:right;">
+-1.9319
+</td>
+<td style="text-align:right;">
+2.1947
+</td>
+<td style="text-align:right;">
+1.9035
+</td>
+<td style="text-align:right;">
+2.486
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NS
+</td>
+<td style="text-align:right;">
+0.3481
+</td>
+<td style="text-align:right;">
+-0.6872
+</td>
+<td style="text-align:right;">
+1.0353
+</td>
+<td style="text-align:right;">
+0.8466
+</td>
+<td style="text-align:right;">
+1.224
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.N
+</td>
+<td style="text-align:right;">
+0.2877
+</td>
+<td style="text-align:right;">
+-0.9694
+</td>
+<td style="text-align:right;">
+1.2571
+</td>
+<td style="text-align:right;">
+1.0393
+</td>
+<td style="text-align:right;">
+1.475
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NI
+</td>
+<td style="text-align:right;">
+0.3224
+</td>
+<td style="text-align:right;">
+-0.6539
+</td>
+<td style="text-align:right;">
+0.9763
+</td>
+<td style="text-align:right;">
+0.7979
+</td>
+<td style="text-align:right;">
+1.155
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TI
+</td>
+<td style="text-align:right;">
+0.0955
+</td>
+<td style="text-align:right;">
+-2.0818
+</td>
+<td style="text-align:right;">
+2.1773
+</td>
+<td style="text-align:right;">
+1.8843
+</td>
+<td style="text-align:right;">
+2.470
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.T
+</td>
+<td style="text-align:right;">
+-0.0934
+</td>
+<td style="text-align:right;">
+-0.7825
+</td>
+<td style="text-align:right;">
+0.6891
+</td>
+<td style="text-align:right;">
+0.4622
+</td>
+<td style="text-align:right;">
+0.916
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TS
+</td>
+<td style="text-align:right;">
+-0.1093
+</td>
+<td style="text-align:right;">
+-1.8867
+</td>
+<td style="text-align:right;">
+1.7774
+</td>
+<td style="text-align:right;">
+1.5385
+</td>
+<td style="text-align:right;">
+2.016
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 4.1.</p>
 </div>
 <div id="ojo-derecho-8" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.G
+</td>
+<td style="text-align:right;">
+0.3151
+</td>
+<td style="text-align:right;">
+-1.7466
+</td>
+<td style="text-align:right;">
+2.0617
+</td>
+<td style="text-align:right;">
+1.7931
+</td>
+<td style="text-align:right;">
+2.3304
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NS
+</td>
+<td style="text-align:right;">
+0.0233
+</td>
+<td style="text-align:right;">
+-0.8666
+</td>
+<td style="text-align:right;">
+0.8899
+</td>
+<td style="text-align:right;">
+0.7100
+</td>
+<td style="text-align:right;">
+1.0697
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.N
+</td>
+<td style="text-align:right;">
+0.3128
+</td>
+<td style="text-align:right;">
+-0.8714
+</td>
+<td style="text-align:right;">
+1.1842
+</td>
+<td style="text-align:right;">
+0.9783
+</td>
+<td style="text-align:right;">
+1.3901
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NI
+</td>
+<td style="text-align:right;">
+0.2692
+</td>
+<td style="text-align:right;">
+-0.6504
+</td>
+<td style="text-align:right;">
+0.9196
+</td>
+<td style="text-align:right;">
+0.7478
+</td>
+<td style="text-align:right;">
+1.0913
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TI
+</td>
+<td style="text-align:right;">
+0.1200
+</td>
+<td style="text-align:right;">
+-2.1100
+</td>
+<td style="text-align:right;">
+2.2299
+</td>
+<td style="text-align:right;">
+1.9398
+</td>
+<td style="text-align:right;">
+2.5201
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.T
+</td>
+<td style="text-align:right;">
+0.1295
+</td>
+<td style="text-align:right;">
+-0.3605
+</td>
+<td style="text-align:right;">
+0.4900
+</td>
+<td style="text-align:right;">
+0.1997
+</td>
+<td style="text-align:right;">
+0.7803
+</td>
+<td style="text-align:left;">
+0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TS
+</td>
+<td style="text-align:right;">
+0.1890
+</td>
+<td style="text-align:right;">
+-1.5375
+</td>
+<td style="text-align:right;">
+1.7265
+</td>
+<td style="text-align:right;">
+1.4965
+</td>
+<td style="text-align:right;">
+1.9566
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 4.1.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-4.1-1.png" width="2400" /></p>
 <p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
 </div>
 </div>
@@ -512,11 +6266,390 @@ div.tocify {
 <p>Comparación de las medias de los sectores del anillo 4.7 en ojos sanos y enfermos.</p>
 <div id="ojo-izquierdo-8" class="section level3">
 <h3>Ojo izquierdo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.G
+</td>
+<td style="text-align:right;">
+0.2549
+</td>
+<td style="text-align:right;">
+-1.7491
+</td>
+<td style="text-align:right;">
+2.0041
+</td>
+<td style="text-align:right;">
+1.7157
+</td>
+<td style="text-align:right;">
+2.2925
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NS
+</td>
+<td style="text-align:right;">
+0.4029
+</td>
+<td style="text-align:right;">
+-0.5863
+</td>
+<td style="text-align:right;">
+0.9892
+</td>
+<td style="text-align:right;">
+0.7877
+</td>
+<td style="text-align:right;">
+1.1908
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.N
+</td>
+<td style="text-align:right;">
+0.2470
+</td>
+<td style="text-align:right;">
+-0.8849
+</td>
+<td style="text-align:right;">
+1.1319
+</td>
+<td style="text-align:right;">
+0.8978
+</td>
+<td style="text-align:right;">
+1.3660
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NI
+</td>
+<td style="text-align:right;">
+0.2995
+</td>
+<td style="text-align:right;">
+-0.6255
+</td>
+<td style="text-align:right;">
+0.9250
+</td>
+<td style="text-align:right;">
+0.7406
+</td>
+<td style="text-align:right;">
+1.1093
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TI
+</td>
+<td style="text-align:right;">
+0.1484
+</td>
+<td style="text-align:right;">
+-1.8012
+</td>
+<td style="text-align:right;">
+1.9496
+</td>
+<td style="text-align:right;">
+1.6535
+</td>
+<td style="text-align:right;">
+2.2458
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.T
+</td>
+<td style="text-align:right;">
+-0.1307
+</td>
+<td style="text-align:right;">
+-0.7118
+</td>
+<td style="text-align:right;">
+0.5812
+</td>
+<td style="text-align:right;">
+0.3250
+</td>
+<td style="text-align:right;">
+0.8373
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS
+</td>
+<td style="text-align:right;">
+-0.0544
+</td>
+<td style="text-align:right;">
+-1.8754
+</td>
+<td style="text-align:right;">
+1.8210
+</td>
+<td style="text-align:right;">
+1.5787
+</td>
+<td style="text-align:right;">
+2.0634
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos izquierdos sanos y enfermos de todos los sectores del anillo 4.7.</p>
 </div>
 <div id="ojo-derecho-9" class="section level3">
 <h3>Ojo derecho</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.Sanos
+</th>
+<th style="text-align:right;">
+Media.Glaucoma
+</th>
+<th style="text-align:right;">
+Diferencia.medias
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.G
+</td>
+<td style="text-align:right;">
+0.2876
+</td>
+<td style="text-align:right;">
+-1.5673
+</td>
+<td style="text-align:right;">
+1.8549
+</td>
+<td style="text-align:right;">
+1.5830
+</td>
+<td style="text-align:right;">
+2.1268
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NS
+</td>
+<td style="text-align:right;">
+0.0300
+</td>
+<td style="text-align:right;">
+-0.6855
+</td>
+<td style="text-align:right;">
+0.7155
+</td>
+<td style="text-align:right;">
+0.5263
+</td>
+<td style="text-align:right;">
+0.9047
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.N
+</td>
+<td style="text-align:right;">
+0.2722
+</td>
+<td style="text-align:right;">
+-0.8956
+</td>
+<td style="text-align:right;">
+1.1678
+</td>
+<td style="text-align:right;">
+0.9415
+</td>
+<td style="text-align:right;">
+1.3941
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NI
+</td>
+<td style="text-align:right;">
+0.2406
+</td>
+<td style="text-align:right;">
+-0.5567
+</td>
+<td style="text-align:right;">
+0.7973
+</td>
+<td style="text-align:right;">
+0.6190
+</td>
+<td style="text-align:right;">
+0.9756
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TI
+</td>
+<td style="text-align:right;">
+0.1169
+</td>
+<td style="text-align:right;">
+-1.8590
+</td>
+<td style="text-align:right;">
+1.9759
+</td>
+<td style="text-align:right;">
+1.6982
+</td>
+<td style="text-align:right;">
+2.2536
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.T
+</td>
+<td style="text-align:right;">
+0.1077
+</td>
+<td style="text-align:right;">
+-0.2328
+</td>
+<td style="text-align:right;">
+0.3405
+</td>
+<td style="text-align:right;">
+-0.0009
+</td>
+<td style="text-align:right;">
+0.6818
+</td>
+<td style="text-align:left;">
+0.051
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS
+</td>
+<td style="text-align:right;">
+0.2474
+</td>
+<td style="text-align:right;">
+-1.4881
+</td>
+<td style="text-align:right;">
+1.7356
+</td>
+<td style="text-align:right;">
+1.5046
+</td>
+<td style="text-align:right;">
+1.9665
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>Existen diferencias estadísticamente muy significativas en el grosor medio de ojos derechos sanos y enfermos de todos los sectores del anillo 4.7.</p>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-4.7-1.png" width="2400" /></p>
 <p>Como se puede apreciar todos los intervalos se solapan, lo que indica que no hay diferencias estadísticamente significativas entre los ojos.</p>
 <p>Se obsevan diferencias muy significativas entre las medias del grosor de todos los anillos de pacientes sanos y con glaucoma. Las diferencias más significativas se dan en el BMO, pero las diferencias mayores se dan en el anillo 3.5. Por sectores las diferencias más significaivas se dan en el BMO global y nasal superior, y las mayores en el anillo 3.5 global y temporal inferior.</p>
 </div>
@@ -525,6 +6658,505 @@ div.tocify {
 <div id="comparación-de-ojos" class="section level1">
 <h1>Comparación de ojos</h1>
 <p>Comparación de las medias del ojo izquierdo y derecho para cada sector.</p>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Media.diferencia
+</th>
+<th style="text-align:right;">
+lim.inf.int.conf
+</th>
+<th style="text-align:right;">
+lim.sup.int.conf
+</th>
+<th style="text-align:left;">
+p-valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BMO.G.L - BMO.G.R
+</td>
+<td style="text-align:right;">
+-0.0409
+</td>
+<td style="text-align:right;">
+-0.0858
+</td>
+<td style="text-align:right;">
+0.0040
+</td>
+<td style="text-align:left;">
+0.0739
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NS.L - BMO.NS.R
+</td>
+<td style="text-align:right;">
+0.1192
+</td>
+<td style="text-align:right;">
+0.0682
+</td>
+<td style="text-align:right;">
+0.1703
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.N.L - BMO.N.R
+</td>
+<td style="text-align:right;">
+-0.1095
+</td>
+<td style="text-align:right;">
+-0.1572
+</td>
+<td style="text-align:right;">
+-0.0619
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.NI.L - BMO.NI.R
+</td>
+<td style="text-align:right;">
+-0.0595
+</td>
+<td style="text-align:right;">
+-0.1088
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:left;">
+0.0181
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TI.L - BMO.TI.R
+</td>
+<td style="text-align:right;">
+-0.0388
+</td>
+<td style="text-align:right;">
+-0.0964
+</td>
+<td style="text-align:right;">
+0.0188
+</td>
+<td style="text-align:left;">
+0.1869
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.T.L - BMO.T.R
+</td>
+<td style="text-align:right;">
+-0.0349
+</td>
+<td style="text-align:right;">
+-0.0871
+</td>
+<td style="text-align:right;">
+0.0172
+</td>
+<td style="text-align:left;">
+0.1890
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMO.TS.L - BMO.TS.R
+</td>
+<td style="text-align:right;">
+0.0276
+</td>
+<td style="text-align:right;">
+-0.0274
+</td>
+<td style="text-align:right;">
+0.0826
+</td>
+<td style="text-align:left;">
+0.3248
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.G.L - RNFL3.5.G.R
+</td>
+<td style="text-align:right;">
+-0.1174
+</td>
+<td style="text-align:right;">
+-0.1887
+</td>
+<td style="text-align:right;">
+-0.0462
+</td>
+<td style="text-align:left;">
+0.0013
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NS.L - RNFL3.5.NS.R
+</td>
+<td style="text-align:right;">
+0.2595
+</td>
+<td style="text-align:right;">
+0.2030
+</td>
+<td style="text-align:right;">
+0.3161
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.N.L - RNFL3.5.N.R
+</td>
+<td style="text-align:right;">
+-0.0521
+</td>
+<td style="text-align:right;">
+-0.1110
+</td>
+<td style="text-align:right;">
+0.0068
+</td>
+<td style="text-align:left;">
+0.0829
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.NI.L - RNFL3.5.NI.R
+</td>
+<td style="text-align:right;">
+-0.0199
+</td>
+<td style="text-align:right;">
+-0.0742
+</td>
+<td style="text-align:right;">
+0.0343
+</td>
+<td style="text-align:left;">
+0.4710
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TI.L - RNFL3.5.TI.R
+</td>
+<td style="text-align:right;">
+-0.0575
+</td>
+<td style="text-align:right;">
+-0.1397
+</td>
+<td style="text-align:right;">
+0.0247
+</td>
+<td style="text-align:left;">
+0.1703
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.T.L - RNFL3.5.T.R
+</td>
+<td style="text-align:right;">
+-0.2451
+</td>
+<td style="text-align:right;">
+-0.3117
+</td>
+<td style="text-align:right;">
+-0.1784
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL3.5.TS.L - RNFL3.5.TS.R
+</td>
+<td style="text-align:right;">
+-0.3300
+</td>
+<td style="text-align:right;">
+-0.3941
+</td>
+<td style="text-align:right;">
+-0.2659
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.G.L - RNFL4.1.G.R
+</td>
+<td style="text-align:right;">
+-0.0778
+</td>
+<td style="text-align:right;">
+-0.1485
+</td>
+<td style="text-align:right;">
+-0.0072
+</td>
+<td style="text-align:left;">
+0.0308
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NS.L - RNFL4.1.NS.R
+</td>
+<td style="text-align:right;">
+0.2921
+</td>
+<td style="text-align:right;">
+0.2348
+</td>
+<td style="text-align:right;">
+0.3493
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.N.L - RNFL4.1.N.R
+</td>
+<td style="text-align:right;">
+-0.0419
+</td>
+<td style="text-align:right;">
+-0.1044
+</td>
+<td style="text-align:right;">
+0.0206
+</td>
+<td style="text-align:left;">
+0.1888
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.NI.L - RNFL4.1.NI.R
+</td>
+<td style="text-align:right;">
+0.0325
+</td>
+<td style="text-align:right;">
+-0.0179
+</td>
+<td style="text-align:right;">
+0.0829
+</td>
+<td style="text-align:left;">
+0.2061
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TI.L - RNFL4.1.TI.R
+</td>
+<td style="text-align:right;">
+-0.0241
+</td>
+<td style="text-align:right;">
+-0.1061
+</td>
+<td style="text-align:right;">
+0.0580
+</td>
+<td style="text-align:left;">
+0.5652
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.T.L - RNFL4.1.T.R
+</td>
+<td style="text-align:right;">
+-0.2402
+</td>
+<td style="text-align:right;">
+-0.3141
+</td>
+<td style="text-align:right;">
+-0.1663
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.1.TS.L - RNFL4.1.TS.R
+</td>
+<td style="text-align:right;">
+-0.2996
+</td>
+<td style="text-align:right;">
+-0.3656
+</td>
+<td style="text-align:right;">
+-0.2336
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.G.L - RNFL4.7.G.R
+</td>
+<td style="text-align:right;">
+-0.0676
+</td>
+<td style="text-align:right;">
+-0.1387
+</td>
+<td style="text-align:right;">
+0.0035
+</td>
+<td style="text-align:left;">
+0.0625
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NS.L - RNFL4.7.NS.R
+</td>
+<td style="text-align:right;">
+0.3177
+</td>
+<td style="text-align:right;">
+0.2596
+</td>
+<td style="text-align:right;">
+0.3759
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.N.L - RNFL4.7.N.R
+</td>
+<td style="text-align:right;">
+-0.0207
+</td>
+<td style="text-align:right;">
+-0.0875
+</td>
+<td style="text-align:right;">
+0.0461
+</td>
+<td style="text-align:left;">
+0.5439
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.NI.L - RNFL4.7.NI.R
+</td>
+<td style="text-align:right;">
+0.0275
+</td>
+<td style="text-align:right;">
+-0.0220
+</td>
+<td style="text-align:right;">
+0.0770
+</td>
+<td style="text-align:left;">
+0.2765
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TI.L - RNFL4.7.TI.R
+</td>
+<td style="text-align:right;">
+0.0190
+</td>
+<td style="text-align:right;">
+-0.0611
+</td>
+<td style="text-align:right;">
+0.0991
+</td>
+<td style="text-align:left;">
+0.6416
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.T.L - RNFL4.7.T.R
+</td>
+<td style="text-align:right;">
+-0.2738
+</td>
+<td style="text-align:right;">
+-0.3592
+</td>
+<td style="text-align:right;">
+-0.1884
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RNFL4.7.TS.L - RNFL4.7.TS.R
+</td>
+<td style="text-align:right;">
+-0.3060
+</td>
+<td style="text-align:right;">
+-0.3754
+</td>
+<td style="text-align:right;">
+-0.2367
+</td>
+<td style="text-align:left;">
+&lt;0.001
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="glaucoma-anillos_files/figure-html/intervalos-confianza-comparacion-medias-ojos-1.png" width="2400" /></p>
 <p>En general se aprecian diferencias significativas entre las medias del grosor de los sectores de los ojos izquierdo y derecho en algunos sectores como el Nasal Superior, y no tan claras en otros. No obstante, se ha observado clínicamente que aparentemente no hay relación entre el estado de los dos ojos, por lo que se han cosiderado los ojos de cada paciente como individuos independientes en el estudio.</p>
 </div>
 
