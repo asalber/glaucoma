@@ -1,0 +1,887 @@
+---
+title: "Clasifiación del Glaucoma mediante redes neuronales"
+date: "`r Sys.Date()`"
+jupyter:
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+output:
+    ipynbdocument::ipynb_document
+---
+
+```{r setup, include=F, cache = F, echo = F}
+library(rmarkdown)
+library(knitr)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message = F, warning = F, dev = "svg")
+```
+
+```{r carga-paquetes, results='hide'}
+.packages <- c("tidyverse", "tensorflow", "keras", "caret", "pROC", "rcompanion", "kableExtra")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+Sys.setenv(RETICULATE_PYTHON="/usr/bin/python")
+```
+
+```{r carga-datos}
+# Carga de la base de datos (ver fichero glaucoma-preprocesamiento-datos.r)
+load("data/data-macula-preprocesed.RData")
+# Filter left eyes
+df <- df.macula %>% filter(Ojo == "L")
+
+# Conjunto de variables
+varCells <- NULL
+for (i in 1:8){
+  for (j in 1:8){
+    varCells <- c(varCells, paste0("Celda",j,".",i))
+  }
+}
+
+# Layers set
+varLayers <- c("RNFL", "GCL", "IPL", "INL", "OPL+ONL", "PRL", "RPE")
+
+# Eliminación datos atípicos
+removeOutliers <- function(x) {
+  qnt <- quantile(x, probs=c(.25, .75, 0.05, 0.95), na.rm = T)
+  iqr <- qnt[2]-qnt[1]
+  fence1 <- qnt[1]-1.5*iqr
+  fence2 <- qnt[2]+1.5*iqr
+  x[x < fence1] <- qnt[3]
+  x[x > fence2] <- qnt[4]
+  return(x)
+}
+
+df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RNFL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="GCL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="GCL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="INL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="INL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="INL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="IPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="IPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="OPL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="OPL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="ONL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="ONL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="PRL", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="PRL", varCells], removeOutliers)
+df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells] <- sapply(df[df$Glaucoma=="Y" & df$Capa=="RPE", varCells], removeOutliers)
+df[df$Glaucoma=="N" & df$Capa=="RPE", varCells ] <- sapply(df[df$Glaucoma=="N" & df$Capa=="RPE", varCells], removeOutliers)
+
+# Añadir capa OPL+ONL
+dfOPLONL <- cbind(df[df$Capa=="OPL", 1:4], df[df$Capa=="OPL", varCells] + df[df$Capa=="ONL", varCells])
+dfOPLONL$Capa <- "OPL+ONL" 
+df <- rbind(df, dfOPLONL)
+
+# Load stages data
+df.stages <- read_csv("data/data-stages.csv") %>% 
+  select(-c(Ojo, Glaucoma, Sexo, Edad))
+# Add stages to the dataframe
+df <- df %>% inner_join(df.stages, by="Id") %>%
+  # Move the stage column to the beginning
+  select(Id, Glaucoma, Ojo, Estadio, everything()) %>%
+  # Convert stages into a factor
+  mutate(Estadio = fct_relevel(as.factor(Estadio), "Sano"))
+
+# Change order of Glaucoma levels
+# df <- df %>% 
+#   mutate(Glaucoma = fct_relevel(as.factor(Glaucoma), "Y"))
+
+# GLAUCOMA DATASET
+df.glaucoma <- df %>%
+  filter(Glaucoma == "Y") %>%
+  mutate(Estadio = droplevels(Estadio))
+
+# BALANCED DATASET
+# Sample size glaucoma eyes
+n <- df %>% 
+  filter(Capa == "RNFL", Glaucoma == "Y") %>% 
+  summarise(n=n())
+# Select sample of healthy eyes to balance data
+id.healthy <- df %>% 
+  filter(Capa == "RNFL", Glaucoma == "N") %>% 
+  select(Id) %>% 
+  sample_n(n$n)
+id.glaucoma <- df %>%
+  filter(Capa == "RNFL", Glaucoma == "Y") %>% 
+  select(Id)
+id.balanced <- bind_rows(id.healthy, id.glaucoma)
+
+# Balanced data for classification in stages
+n2 <- df %>% 
+  filter(Capa == "RNFL", Estadio == "II") %>% 
+  summarise(n=n())
+# Select sample of healthy eyes to balance data
+id.healthy2 <- df %>% 
+  filter(Capa == "RNFL", Glaucoma == "N") %>% 
+  select(Id) %>% 
+  sample_n(n2$n)
+id.glaucoma <- df %>%
+  filter(Capa == "RNFL", Glaucoma == "Y") %>% 
+  select(Id)
+id.balanced2 <- bind_rows(id.healthy2, id.glaucoma)
+
+  
+# Get the balanced data set
+df.balanced <- df %>%
+  # Right join with significant cells
+    right_join(id.balanced)
+
+df.balanced2  <- df %>%
+  # Right join with significant cells
+    right_join(id.balanced2)
+```
+
+# Resumen
+
+En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias ([más info](https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html)).
+
+Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).
+
+```{r default-parameters}
+nrep = 3
+nfolds = 10
+nepochs = 100
+nbatch = 50
+```
+
+
+```{r net functions, echo=F}
+# Load significant cells
+df.sig <- read_csv("data/significant-cells.csv") 
+# function to prepare the input of glaucoma detection (binary classification)
+net.input.glaucoma <- function(df, layers, sigcells = F, cells = varCells){
+  # Get cells with a significant difference.
+  sig.cells <- df.sig %>%
+    filter(Capa %in% layers) %>%
+    unite(var, Capa, Celda, sep = ".")
+  
+  input <- df %>%
+    # Filter layer
+    filter(Capa %in% layers) %>%
+    # Select cells
+    select("Id", "Glaucoma", "Ojo", "Capa", "Estadio", all_of(cells)) %>%
+    # Convert to long format
+    pivot_longer(-c(Id, Glaucoma, Ojo, Capa, Estadio), names_to = "cell") %>%
+    # Join the layer and cell columns
+    unite(var, Capa, cell, sep = ".")
+  # Get significant cells
+  if (sigcells) {
+    # Right join with significant cells
+    input <- input %>% right_join(sig.cells) 
+  }
+  input <- input %>%
+    # Come back to wide format
+    pivot_wider(names_from = var, values_from = value) %>% 
+    # Remove non numeric variables
+    select(-c(Id, Ojo, Estadio)) %>%
+    # Convert Glaucoma to numeric
+    mutate(Glaucoma = as.numeric(Glaucoma)-1)
+  
+  # Look for rows with more than 20% of NA
+  rows <- NULL
+  for (i in 1:nrow(input)){
+    if (sum(is.na(input[i,])) > (ncol(input) / 5)) {
+      rows <- append(rows, i)
+    }
+  }
+  # Remove rows from the data frame
+  input <- input %>% slice(-rows)
+  # Replace NAs by the column mean
+  col_means <- lapply(input %>% select(-c(Glaucoma)), mean, na.rm = T)
+  input <- input %>% replace_na(col_means)
+  return(input)
+}
+
+# function to prepare the input of stages classification (multiple classification)
+net.input.stages <- function(df, layers, sigcells = F, cells = varCells){
+  # Get cells with a significant difference.
+  sig.cells <- df.sig %>%
+    filter(Capa %in% layers) %>%
+    unite(var, Capa, Celda, sep = ".")
+  
+  input <- df %>%
+    # Filter layer
+    filter(Capa %in% layers) %>%
+    # Select cells
+    select("Id", "Glaucoma", "Ojo", "Capa", "Estadio", all_of(cells)) %>%
+    # Convert to long format
+    pivot_longer(-c(Id, Glaucoma, Ojo, Capa, Estadio), names_to = "cell") %>%
+    # Join the layer and cell columns
+    unite(var, Capa, cell, sep = ".") 
+  # Get significant cells
+  if (sigcells) {
+    # Right join with significant cells
+    input <- input %>% right_join(sig.cells) 
+  }
+  
+  input <- input %>%
+    # Come back to wide format
+    pivot_wider(names_from = var, values_from = value) %>%
+    # Remove non numeric variables
+    select(-c(Id, Glaucoma, Ojo)) %>%
+    # Convert stage to numeric
+    mutate(Estadio = as.numeric(Estadio)-1)
+  
+  # Look for rows with more than 20% of NA
+  rows <- NULL
+  for (i in 1:nrow(input)){
+    if (sum(is.na(input[i,])) > (ncol(input) / 5)) {
+      rows <- append(rows, i)
+    }
+  }
+  # Remove rows from the data frame
+  input <- input %>% slice(-rows)
+  # Replace NAs by the column mean
+  col_means <- lapply(input %>% select(-c(Estadio)), mean, na.rm = TRUE)
+  input <- input %>% replace_na(col_means)
+}
+
+# Function to define the net architecture for binary classification
+net.arch.glaucoma <-function(input.size){
+  # Initialize a sequential model
+  model <- keras_model_sequential() 
+  # Add layers to the model
+  model %>% 
+    layer_dense(units = 1024, activation = "relu", input_shape = input.size) %>%
+    layer_dense(units = 512, activation = "relu") %>%
+    layer_dropout(rate = 0.3) %>% 
+    layer_dense(units = 512, activation = "relu") %>% 
+    layer_dropout(rate = 0.3) %>% 
+    layer_dense(units = 256, activation = "relu") %>% 
+    layer_dropout(rate = 0.3) %>% 
+    layer_dense(units = 128, activation = "relu") %>%
+    layer_dropout(rate = 0.3) %>%
+    layer_dense(units = 2, activation = "sigmoid")
+  return(model_to_json(model))
+}
+
+# Function to define the net architecture for stages classification
+net.arch.stages <-function(input.size, output.size){
+  # Initialize a sequential model
+  model <- keras_model_sequential() 
+  # Add layers to the model
+  model %>% 
+    layer_dense(units = 1024, activation = "relu", input_shape = input.size) %>% 
+    layer_dense(units = 512, activation = "relu") %>% 
+    layer_dropout(rate = 0.3) %>% 
+    layer_dense(units = 256, activation = "relu") %>% 
+    layer_dropout(rate = 0.3) %>% 
+    layer_dense(units = 128, activation = "relu") %>%
+    layer_dropout(rate = 0.3) %>%
+    layer_dense(units = output.size, activation = "softmax")
+  return(model_to_json(model))
+}
+
+# function for building and training nets for binary classification
+net.glaucoma <- function(model.json, x, y, epochs=nepochs, batch_size=nbatch){
+  # Initialize model
+  model <- model_from_json(model.json)
+  # Compile the model
+  model %>% compile(
+    loss = "binary_crossentropy",
+    optimizer = "adam",
+    metrics = "accuracy"
+  )
+  # Fit the model
+  model %>% fit(x, to_categorical(y), epochs = epochs, batch_size = batch_size, validation_split = 0, verbose = 0)
+  return(model)
+}
+
+# function for building and training nets for multiple classification
+net.stages <- function(model.json, x, y, epochs=nepochs, batch_size=nbatch){
+  # Initialize model
+  model <- model_from_json(model.json)
+  # Compile the model
+  model %>% compile(
+    loss = "categorical_crossentropy",
+    optimizer = "adam",
+    metrics = "accuracy"
+  )
+  # Fit the model
+  model %>% fit(x, to_categorical(y), epochs = epochs, batch_size = batch_size, validation_split = 0, verbose = 0)
+  return(model)
+}
+
+# Function to train several nets with crossvalidation
+train.glaucoma <- function(input, epochs=nepochs, batch_size=nbatch){
+  mean.sen <- NULL
+  mean.spe <- NULL
+  mean.acu <- NULL
+  mean.bacu <- NULL
+  mean.auc <- NULL
+  # Set net architecture
+  model.json <- net.arch.glaucoma(ncol(input)-1)
+  for (i in 1:nrep){
+    message("Repetición:", i, "\n")
+    # Create k folds for cross-validation
+    input$folds <- createFolds(input$Glaucoma, k=nfolds, list=F)
+    # Vectors with sensitivities, specificities and accuracies of folds
+    sen <- NULL
+    spe <- NULL
+    acu <- NULL
+    bacu <- NULL
+    auc <- NULL
+    for (j in unique(input$folds)){
+      ind <- which(input$folds == j)
+      train.x <- as.matrix(input[-ind, ] %>% select(-c("Glaucoma", "folds")))
+      train.y <- as.matrix(input[-ind, "Glaucoma"])
+      test.x <- as.matrix(input[ind, ] %>% select(-c("Glaucoma", "folds")))
+      test.y <- as.matrix(input[ind, "Glaucoma"])
+      # Clear the net
+      k_clear_session()
+      model <- net.glaucoma(model.json, train.x, train.y)
+      # score <- model %>% evaluate(test.x, to_categorical(test.y), verbose = 0)
+      # Model predictions
+      #predictions <- model %>% predict_classes(test.x)
+      predictions <-  model %>% predict(test.x) %>% `>`(0.5) 
+      predictions <- as.integer(predictions[,2])
+      # Confusion matrix
+      confusion <- confusionMatrix(factor(predictions), factor(test.y), positive = "1")
+      # Sensitivity
+      sen <- c(sen, confusion$byClass["Sensitivity"])
+      # Specificity
+      spe <- c(spe, confusion$byClass["Specificity"])
+      # Balanced accuracy
+      bacu <- c(bacu, confusion$byClass["Balanced Accuracy"])
+      # Accuracy
+      acu <- c(acu, confusion$overall["Accuracy"])
+      # AUC
+      auc <- c(auc, auc(factor(test.y), predictions))
+    }
+    mean.sen <- c(mean.sen, mean(sen))
+    mean.spe <- c(mean.spe, mean(spe))
+    mean.bacu <- c(mean.bacu, mean(bacu))
+    mean.acu <- c(mean.acu, mean(acu))
+    mean.auc <- c(mean.auc, mean(auc))
+  }
+  # Summarise results
+  scores <- data.frame("Sensibilidad" = mean.sen, "Especificidad" = mean.spe, "Precisión media" = mean.bacu, "Precisión global" = mean.acu, "AUC" = mean.auc) %>%
+    pivot_longer(everything(), names_to = "Medida")
+  result <- groupwiseMean(value ~ Medida, data = scores) %>%
+    rename(Media = Mean, lim.inf.ci = Trad.lower, lim.sup.ci = Trad.upper) %>%
+    select(-c(n,Conf.level))
+  return(result)
+}
+
+# Function to train several nets with crossvalidation for multiple classification
+train.stages <- function(input, epochs=nepochs, batch_size=nbatch){
+  mean.sen <- NULL
+  mean.spe <- NULL
+  mean.acu <- NULL
+  mean.bacu <- NULL
+  # Set net architecture
+  model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+  for (i in 1:nrep){
+    message("Repetición:", i, "\n")
+    # Create k folds for cross-validation
+    input$folds <- createFolds(input$Estadio, k=nfolds, list=F)
+    # Vectors with sensitivities, specificities and accuracies of folds
+    sen <- NULL
+    spe <- NULL
+    acu <- NULL
+    bacu <- NULL
+    for (j in unique(input$folds)){
+      ind <- which(input$folds == j)
+      train.x <- as.matrix(input[-ind, ] %>% select(-c("Estadio", "folds")))
+      train.y <- as.matrix(input[-ind, "Estadio"])
+      test.x <- as.matrix(input[ind, ] %>% select(-c("Estadio", "folds")))
+      test.y <- as.matrix(input[ind, "Estadio"])
+      # Clear the net
+      k_clear_session()
+      model <- net.stages(model.json, train.x, train.y)
+      # score <- model %>% evaluate(test.x, to_categorical(test.y), verbose = 0)
+      # Model predictions
+      # predictions <- model %>% predict_classes(test.x)
+      predictions <-  model %>% predict(test.x) %>% k_argmax() %>% as.integer()
+      # Confusion matrix
+      confusion <- confusionMatrix(factor(predictions, levels = c(0,1,2,3)), factor(test.y, levels = c(0,1,2,3)))
+      # Sensitivity
+      sen <- rbind(sen, confusion$byClass[ , "Sensitivity"])
+      # Specificity
+      spe <- rbind(spe, confusion$byClass[ , "Specificity"])
+      # Balanced accuracy
+      bacu <- rbind(bacu, confusion$byClass[ , "Balanced Accuracy"])
+      # Accuracy
+      acu <- c(acu, confusion$overall["Accuracy"])
+    }
+    mean.sen <- rbind(mean.sen, colMeans(sen))
+    mean.spe <- rbind(mean.spe, colMeans(spe))
+    mean.bacu <- rbind(mean.bacu, colMeans(bacu))
+    mean.acu <- c(mean.acu, mean(acu))
+  }
+  mean.sen <- as.tibble(mean.sen) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
+  mean.spe <- as.tibble(mean.spe) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
+  mean.bacu <- as.tibble(mean.bacu) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
+  # Summarise results
+  acu <- groupwiseMean(Precisión.global~1, data = data.frame("Precisión.global" = mean.acu)) %>% rename(Medida = `.id`)
+  acu$Medida <- "Precisión.global"
+  scores <- data.frame("Sensibilidad" = mean.sen, "Especificidad" = mean.spe, "Precisión media" = mean.bacu) %>%
+    pivot_longer(everything(), names_to = "Medida")
+  result <- groupwiseMean(value ~ Medida, data = scores) %>% 
+    union(acu) %>%
+    rename(Media = Mean, lim.inf.ci = Trad.lower, lim.sup.ci = Trad.upper) %>%
+    select(-c(n,Conf.level))
+  return(result)
+}
+
+# Function to train several nets with crossvalidation for multiple classification
+train.stages.glaucoma <- function(input, epochs=nepochs, batch_size=nbatch){
+  mean.sen <- NULL
+  mean.spe <- NULL
+  mean.acu <- NULL
+  mean.bacu <- NULL
+  # Set net architecture
+  model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+  for (i in 1:nrep){
+    message("Repetición:", i, "\n")
+    # Create k folds for cross-validation
+    input$folds <- createFolds(input$Estadio, k=nfolds, list=F)
+    # Vectors with sensitivities, specificities and accuracies of folds
+    sen <- NULL
+    spe <- NULL
+    acu <- NULL
+    bacu <- NULL
+    for (j in unique(input$folds)){
+      ind <- which(input$folds == j)
+      train.x <- as.matrix(input[-ind, ] %>% select(-c("Estadio", "folds")))
+      train.y <- as.matrix(input[-ind, "Estadio"])
+      test.x <- as.matrix(input[ind, ] %>% select(-c("Estadio", "folds")))
+      test.y <- as.matrix(input[ind, "Estadio"])
+      # Clear the net
+      k_clear_session()
+      model <- net.stages(model.json, train.x, train.y)
+      # score <- model %>% evaluate(test.x, to_categorical(test.y), verbose = 0)
+      # Model predictions
+      # predictions <- model %>% predict_classes(test.x)
+      predictions <-  model %>% predict(test.x) %>% k_argmax() %>% as.integer()
+      # Confusion matrix
+      confusion <- confusionMatrix(factor(predictions, levels = c(0,1,2,3,4)), factor(test.y, levels = c(0,1,2,3,4)))
+      # Sensitivity
+      sen <- rbind(sen, confusion$byClass[ , "Sensitivity"])
+      # Specificity
+      spe <- rbind(spe, confusion$byClass[ , "Specificity"])
+      # Balanced accuracy
+      bacu <- rbind(bacu, confusion$byClass[ , "Balanced Accuracy"])
+      # Accuracy
+      acu <- c(acu, confusion$overall["Accuracy"])
+    }
+    mean.sen <- rbind(mean.sen, colMeans(sen))
+    mean.spe <- rbind(mean.spe, colMeans(spe))
+    mean.bacu <- rbind(mean.bacu, colMeans(bacu))
+    mean.acu <- c(mean.acu, mean(acu))
+  }
+  mean.sen <- as.tibble(mean.sen) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
+  mean.spe <- as.tibble(mean.spe) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
+  mean.bacu <- as.tibble(mean.bacu) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
+  # Summarise results
+  acu <- groupwiseMean(Precisión.global~1, data = data.frame("Precisión.global" = mean.acu)) %>% rename(Medida = `.id`)
+  acu$Medida <- "Precisión.global"
+  scores <- data.frame("Sensibilidad" = mean.sen, "Especificidad" = mean.spe, "Precisión media" = mean.bacu) %>%
+    pivot_longer(everything(), names_to = "Medida")
+  result <- groupwiseMean(value ~ Medida, data = scores) %>% 
+    union(acu) %>%
+    rename(Media = Mean, lim.inf.ci = Trad.lower, lim.sup.ci = Trad.upper) %>%
+    select(-c(n,Conf.level))
+  return(result)
+}
+```
+
+# Parámetros de entrenamiento de las redes
+
+- Número de iteraciones: `r nepochs`
+- Tamaño del lote: `r nbatch`
+- Medida de error: Entropía binaria
+- Algorimo de aprendizaje: Adam
+- Validación cruzada: `r nfolds`-folds
+- Número de repeticiones: `r nrep`
+
+# Clasificación binaria (glaucoma vs no glaucoma)
+
+## Todas las capas y celdas
+
+### Parámetros de la red
+
+- Arquitectura 
+
+```{r net-glaucoma-all-arch}
+input <- net.input.glaucoma(df, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"))
+model.json <- net.arch.glaucoma(ncol(input)-1)
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-glaucoma-all-eval}
+train.glaucoma(input) %>%  
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Todas las capas y celdas significativas
+
+### Parámetros de la red
+
+- Arquitectura 
+
+```{r net-glaucoma-all-layers-sig-cells-arch}
+input <- net.input.glaucoma(df, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"), sigcells = T)
+model.json <- net.arch.glaucoma(ncol(input)-1)
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-glaucoma-all-layers-sig-cells-eval}
+train.glaucoma(input) %>%  
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Capas significativas y todas las celdas
+
+### Parámetros de la red
+
+- Arquitectura 
+
+```{r net-glaucoma-sig-layers-all-cells-arch}
+input <- net.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+model.json <- net.arch.glaucoma(ncol(input)-1)
+mod <- model_from_json(model.json)
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-glaucoma-sig-layers-all-cells-eval}
+train.glaucoma(input) %>%  
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Capas significativas y celdas significativas
+
+### Parámetros de la red
+
+- Arquitectura 
+
+```{r net-glaucoma-sig-layers-sig-cells-arch}
+input <- net.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+model.json <- net.arch.glaucoma(ncol(input)-1)
+mod <- model_from_json(model.json)
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-glaucoma-sig-layers-sig-cells-eval}
+train.glaucoma(input) %>%  
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+## Capas significativas y celdas significativas (datos balanceados)
+
+### Parámetros de la red
+
+- Arquitectura 
+
+```{r net-glaucoma-sig-layers-sig-cells-arch-balanced}
+input <- net.input.glaucoma(df.balanced, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+model.json <- net.arch.glaucoma(ncol(input)-1)
+mod <- model_from_json(model.json)
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-glaucoma-sig-layers-sig-cells-eval-balanced}
+train.glaucoma(input) %>%  
+  kable() %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+<!-- ## Capa RNFL y celdas significativas -->
+
+<!-- ### Parámetros de la red -->
+
+<!-- - Arquitectura  -->
+
+<!-- ```{r net-glaucoma-rnfl-arch} -->
+<!-- input <- net.input.glaucoma(df, layers = "RNFL") -->
+<!-- model.json <- net.arch.glaucoma(ncol(input)-1) -->
+<!-- summary(model_from_json(model.json)) -->
+<!-- ``` -->
+
+<!-- - Número de iteraciones: `r nepochs` -->
+<!-- - Tamaño del lote: `r nbatch` -->
+<!-- - Medida de error: Entropía binaria -->
+<!-- - Algorimo de aprendizaje: Adam -->
+<!-- - Validación cruzada: `r nfolds`-folds -->
+<!-- - Número de repeticiones: `r nrep` -->
+
+<!-- ### Evaluación del modelo -->
+
+<!-- ```{r net-glaucoma-rnfl-eval} -->
+<!-- train.glaucoma(input) %>%   -->
+<!--   kable() %>%  -->
+<!--   kable_styling(bootstrap_options = "hover", full_width = F) -->
+<!-- ``` -->
+
+
+<!-- ## Capa GCL y celdas significativas -->
+
+<!-- ### Parámetros de la red -->
+
+<!-- - Arquitectura  -->
+
+<!-- ```{r net-glaucoma-gcl-arch} -->
+<!-- input <- net.input.glaucoma(df, layers = "GCL") -->
+<!-- model.json <- net.arch.glaucoma(ncol(input)-1) -->
+<!-- summary(model_from_json(model.json)) -->
+<!-- ``` -->
+
+<!-- - Número de iteraciones: `r nepochs` -->
+<!-- - Tamaño del lote: `r nbatch` -->
+<!-- - Medida de error: Entropía binaria -->
+<!-- - Algorimo de aprendizaje: Adam -->
+<!-- - Validación cruzada: `r nfolds`-folds -->
+<!-- - Número de repeticiones: `r nrep` -->
+
+<!-- ### Evaluación del modelo -->
+
+<!-- ```{r net-glaucoma-gcl-eval} -->
+<!-- train.glaucoma(input) %>%   -->
+<!--   kable() %>%  -->
+<!--   kable_styling(bootstrap_options = "hover", full_width = F) -->
+<!-- ``` -->
+
+
+<!-- ## Capa IPL y celdas significativas -->
+
+<!-- ### Parámetros de la red -->
+
+<!-- - Arquitectura  -->
+
+<!-- ```{r net-glaucoma-ipl-arch} -->
+<!-- input <- net.input.glaucoma(df, layers = "IPL") -->
+<!-- model.json <- net.arch.glaucoma(ncol(input)-1) -->
+<!-- summary(model_from_json(model.json)) -->
+<!-- ``` -->
+
+<!-- - Número de iteraciones: `r nepochs` -->
+<!-- - Tamaño del lote: `r nbatch` -->
+<!-- - Medida de error: Entropía binaria -->
+<!-- - Algorimo de aprendizaje: Adam -->
+<!-- - Validación cruzada: `r nfolds`-folds -->
+<!-- - Número de repeticiones: `r nrep` -->
+
+<!-- ### Evaluación del modelo -->
+
+<!-- ```{r net-glaucoma-ipl-eval} -->
+<!-- train.glaucoma(input) %>%   -->
+<!--   kable() %>%  -->
+<!--   kable_styling(bootstrap_options = "hover", full_width = F) -->
+<!-- ``` -->
+
+
+# Clasificación en estadios (incluyendo sanos)
+
+## Todas las capas y celdas
+
+- Arquitectura
+
+```{r net-stages-glaucoma-all-layers-all-cells-arch}
+input <- net.input.stages(df, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"))
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-glaucoma-all-layers-all-cells-eval}
+train.stages.glaucoma(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Todas las capas y celdas significativas
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-glaucoma-all-layers-sig-cells-arch}
+input <- net.input.stages(df, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"), sigcells = T)
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-glaucoma-all-layers-sig-cells-eval}
+train.stages.glaucoma(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Capas significativas y todas las celdas
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-glaucoma-sig-layers-all-cells-arch}
+input <- net.input.stages(df, layers = c("RNFL", "GCL", "IPL"))
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-glaucoma-sig-layers-all-cells-eval}
+train.stages.glaucoma(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Capas significativas y celdas significativas
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-glaucoma-sig-layers-sig-cells-arch}
+input <- net.input.stages(df, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-glaucoma-sig-layers-sig-cells-eval}
+train.stages.glaucoma(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Capas significativas y celdas significativas
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-glaucoma-sig-layers-sig-cells-arch-balanced}
+input <- net.input.stages(df.balanced2, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-glaucoma-sig-layers-sig-cells-eval-balanced}
+train.stages.glaucoma(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+# Clasificación en estadios (sin incluir sanos)
+
+## Todas las capas y celdas
+
+- Arquitectura
+
+```{r net-stages-all-layers-all-cells-arch}
+input <- net.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"))
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-all-layers-all-cells-eval}
+train.stages(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Todas las capas y celdas significativas
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-all-layers-sig-cells-arch}
+input <- net.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "INL", "IPL", "OPL+ONL" , "PRL", "RPE"), sigcells = T)
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-all-layers-sig-cells-eval}
+train.stages(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Capas significativas y todas las celdas
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-sig-layers-all-cells-arch}
+input <- net.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "IPL"))
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-sig-layers-all-cells-eval}
+train.stages(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+## Capas significativas y celdas significativas
+
+### Parámetros de la red
+
+- Arquitectura
+
+```{r net-stages-sig-layers-sig-cells-arch}
+input <- net.input.stages(df.glaucoma, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
+model.json <- net.arch.stages(ncol(input)-1, output.size = length(unique(input$Estadio)))
+summary(model_from_json(model.json))
+```
+
+### Evaluación del modelo
+
+```{r net-stages-sig-layers-sig-cells-eval}
+train.stages(input) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
+
+
+
+
+

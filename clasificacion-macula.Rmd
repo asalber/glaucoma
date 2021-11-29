@@ -482,6 +482,9 @@ logit.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", f
 ```{r lda-stages-sig-layers-sig-cells-balanced}
 input <- lda.input.stages(df.balanced, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
 lda.stages(input) %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+
+
+input %>% ggplot(aes(x = GCL.Celda4.4, col= Estadio)) + geom_density()
 ```
 
 ### Regresión logística

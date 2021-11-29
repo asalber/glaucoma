@@ -20,8 +20,8 @@ navbar:
     href: glaucoma-campo-visual.html
   - text: Mácula
     href: glaucoma-macula.html
-  - text: Redes Mácula
-    href: glaucoma-macula-estadios.html
+  - text: Redes Neuronales
+    href: clasificacion-macula-redes.html
   - text: Clasificación Mácula
     href: clasificacion-macula.html
   right:
