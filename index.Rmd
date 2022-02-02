@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 
 ```{r knitr-init, echo=F}
 library(knitr)
+library(rmarkdown)
 ## Global options
 options(digits = 4)
 opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
@@ -12,10 +13,10 @@ opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning
 
 ```{r carga-paquetes, results='hide'}
 # Carga de paquetes
-.packages <- c("tidyr", "dplyr", "DT", "kableExtra", "psych", "GGally")
+.packages <- c("tidyverse", "DT", "kableExtra", "psych", "GGally")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
-lapply(.packages, require, character.only=T)
+lapply(.packages, library, character.only=T)
 ```
 
 ```{r carga-datos}
@@ -43,13 +44,6 @@ Estudio analítico observacional transversal comparativo.
 
 Número total de ojos: `r nrow(df)`
 
-Distribución por grupos:
-
-```{r tamaño-muestral}
-result <- count(df, Glaucoma)
-result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
-```
-
 # Variables
 
 ```{r variables}
@@ -61,17 +55,13 @@ variables.Factors <- variables[variables$Type=="Factor",]
 
 # Resumen descriptivo de las variables generales 
 
-## Distribución por Ojo
+## Distribución por Glaucoma
 
-```{r frecuencias-ojo}
-eyes.count <- df %>% 
-  group_by(Glaucoma) %>% 
-  count(Ojo) %>% 
-  pivot_wider(names_from = Glaucoma, values_from = n)
-eyes.count %>% 
-  kable() %>% 
-  kable_styling(bootstrap_options = "hover", full_width = F) %>%
-  add_header_above(c(" " = 1, "Glaucoma" = 2))
+```{r tamaño-muestral}
+result <- count(df, Glaucoma)
+result %>% 
+  kable(caption = "Distribución de ojos según glaucoma.") %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
 ## Distribución por Sexo
@@ -82,7 +72,7 @@ gender.count <- df %>%
   count(Sexo) %>%
   pivot_wider(names_from = Glaucoma, values_from = n)
 gender.count %>% 
-  kable() %>% 
+  kable(caption = "Distribución según sexo y glaucoma.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F) %>%
   add_header_above(c(" " = 1, "Glaucoma" = 2))
 ```
@@ -94,11 +84,19 @@ result <- df %>%
   group_by(Glaucoma) %>% 
   summarise(Media = mean(Edad), "Desviación Típica" = sd(Edad), Mínimo = min(Edad), Máximo = max(Edad))
 result %>% 
-  kable() %>% 
+  kable(caption = "Estadísticos descriptivos de la edad según glaucoma.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-```{r descriptiva-edad-genero-ojos}
+```{r distribucion-edad-glaucoma, fig.cap="Distribución de la edad según glaucoma."}
+df %>%
+  ggplot(aes(x = Edad, fill = Glaucoma)) + 
+  geom_histogram(breaks = seq(0, 100, by = 10), alpha=0.8, col = "white") +
+  scale_x_continuous(breaks = seq(0, 100, by = 10)) +
+  ylab("Número de ojos")
+```
+
+```{r descriptiva-edad-genero-ojos, fig.cap="Distribución de sexo, ojo y edad según glaucoma."}
 ggpairs(df, mapping=aes(color=Glaucoma, alpha=0.5), columns=c("Sexo", "Edad", "Ojo"))
 ```
 

@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 
 ```{r knitr_init, echo=F}
 library(knitr)
+library(rmarkdown)
 # Global options
 options(digits = 4)
 opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
@@ -12,10 +13,10 @@ opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning
 
 ```{r carga-paquetes, results='hide'}
 # Carga de paquetes
-.packages <- c("dplyr", "ggplot2", "GGally", "gridExtra", "ggpubr", "kableExtra", "psych")
+.packages <- c("tidyverse", "GGally", "gridExtra", "ggpubr", "kableExtra", "psych")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
-lapply(.packages, require, character.only=T)
+lapply(.packages, library, character.only=T)
 ```
 
 ```{r carga-datos}
@@ -88,7 +89,9 @@ overBoxplot <- function(i){
 result <- describeBy(df.L[,c("FoBMO.Angle", "Displacement", "BMO.Area")], df.L$Glaucoma, mat = T, digits = 4)
 result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
 colnames(result)[1] <- "Glaucoma"
-result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
+result %>% 
+  kable(caption = "Estadísticos descriptivos del ángulo con la fóbea, desplazamiento y área del BMO en ojos izquierdos") %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
 ```{r grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-izdo}
@@ -100,20 +103,17 @@ ggpairs(df.L[,c("Glaucoma", "FoBMO.Angle", "Displacement", "BMO.Area")], mapping
 result <- describeBy(df.R[,c("FoBMO.Angle", "Displacement", "BMO.Area")], df.R$Glaucoma, mat = T, digits = 4)
 result[,c("item","vars","trimmed", "mad","range","se")] <- NULL
 colnames(result)[1] <- "Glaucoma"
-result %>% kable() %>% kable_styling(bootstrap_options = "hover", full_width = F)
-# dftable(result, rownames = T, escape=F, options = list( paging=F, autoWidth = T, dom="t", language = list(url = 'http://cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+result %>% 
+  kable(caption = "Estadísticos descriptivos del ángulo con la fóbea, desplazamiento y área del BMO en ojos derechos") %>% 
+  kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
-```{r grafico-descriptivo-fobmoangle-displacement-bmoarea-ojo-dcho}
-ggpairs(df.R[,c("Glaucoma", "FoBMO.Angle", "Displacement", "BMO.Area")], mapping=aes(color=Glaucoma, alpha=0.5), columns =  c("FoBMO.Angle", "Displacement", "BMO.Area"))
-```
-
-```{r histogramas-fobmoangle-displacement-bmoarea}
+```{r histogramas-fobmoangle-displacement-bmoarea, fig.cap="Distribuciones de el ángulo con la fóbea, desplazamiento y área según glaucoma."}
 p <- lapply(c("FoBMO.Angle", "Displacement", "BMO.Area"), overHist)
 do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
 ```
 
-```{r cajas-fobmoangle-displacement-bmoarea}
+```{r cajas-fobmoangle-displacement-bmoarea, fig.cap="Diagramas de caja del ángulo con la fóbea, desplazamiento y área según glaucoma."}
 p <- lapply(c("FoBMO.Angle", "Displacement", "BMO.Area"), overBoxplot)
 do.call(ggarrange, c(p, common.legend = TRUE, legend = "top"))
 ```
