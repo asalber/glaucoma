@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-11-29" />
+<meta name="date" content="2022-02-03" />
 
 <title>Análisis de concordancia entre las clasificaciones del glaucoma según los anillos retinianos y según el campo visual</title>
 
@@ -38,6 +38,8 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -364,19 +366,22 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Análisis de concordancia entre las clasificaciones del glaucoma según los anillos retinianos y según el campo visual</h1>
-<h4 class="date">2021-11-29</h4>
+<h4 class="date">2022-02-03</h4>
 
 </div>
 
 
 <div id="objetivo" class="section level1">
 <h1>Objetivo</h1>
-<p>El objetivo de este estudio de los campos visuales es doble. Por un lado estudiar la variabilidad subjetiva en la medición de los campos visuales mediante la repetición de la prueba en los mismos individuos. Por otro lado se pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadíos de glaucoma definidos a partir de los anillos retinianos (ver <a href="http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html" class="uri">http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html</a>) y la clasifiación clásica a partir de campo visual.</p>
+<p>El objetivo de este estudio de los campos visuales es doble. Por un lado estudiar la variabilidad subjetiva en la medición de los campos visuales mediante la repetición de la prueba en los mismos individuos. Por otro lado se pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadios de glaucoma definidos a partir de los anillos retinianos (ver <a href="http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html" class="uri">http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html</a>) y la clasifiación clásica a partir de campo visual.</p>
 </div>
 <div id="análisis-de-la-variabilidad-del-campo-visual" class="section level1">
 <h1>Análisis de la variabilidad del campo visual</h1>
 <p>Se ha tomado una muestra de 216 individuos a quienes se les ha medido el campo visual en tres momentos distintos (m1, m2 y m3).</p>
-<table>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Estadísticos descritivos de las tres mediciones del campo visual según sexo.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -501,20 +506,77 @@ V
 </tr>
 </tbody>
 </table>
-<p><img src="glaucoma-campo-visual_files/figure-html/boxplot-1.png" width="2400" /></p>
+<div class="figure">
+<img src="glaucoma-campo-visual_files/figure-html/boxplot-1.png" alt="Diagramas de caja de las tres medidiones del campo visual según sexo." width="2400" />
+<p class="caption">
+Diagramas de caja de las tres medidiones del campo visual según sexo.
+</p>
+</div>
 <div id="análisis-de-la-varianza-de-medidas-repetidas" class="section level2">
 <h2>Análisis de la varianza de medidas repetidas</h2>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Effect"],"name":[1],"type":["chr"],"align":["left"]},{"label":["DFn"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["DFd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["p<.05"],"name":[6],"type":["chr"],"align":["left"]},{"label":["ges"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Medida","2":"1.8","3":"127.6","4":"0.371","5":"0.668","6":"","7":"0.001","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Contraste de ANOVA de medidas repetidas para el campo visual según el momento de medición.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Effect
+</th>
+<th style="text-align:right;">
+DFn
+</th>
+<th style="text-align:right;">
+DFd
+</th>
+<th style="text-align:right;">
+F
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+p&lt;.05
+</th>
+<th style="text-align:right;">
+ges
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Medida
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+127.6
+</td>
+<td style="text-align:right;">
+0.371
+</td>
+<td style="text-align:right;">
+0.668
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+</tr>
+</tbody>
+</table>
 <p>No se observan diferecias significativas entre los tres momentos de medición.</p>
 </div>
 <div id="análisis-de-la-variabilidad-de-la-medición-del-campo-visual" class="section level2">
 <h2>Análisis de la variabilidad de la medición del campo visual</h2>
 <p>Para cada individuo se calcula la desviación típica de las tres medidas. La siguiente tabla contiene los estadísticos de esta nueva variable.</p>
-<table>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Estadísticos descriptivos la desviación típica de las tres mediciones del campo visual realizadas en cada paciente.
+</caption>
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -564,7 +626,10 @@ IC.sup
 <div id="variabilidad-del-campo-visual-según-el-sexo" class="section level3">
 <h3>Variabilidad del campo visual según el sexo</h3>
 <p>La siguiente tabla refleja la variabilidad del campo visual según el sexo.</p>
-<table>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Estadísticos descriptivos la desviación típica de las tres mediciones del campo visual realizadas en cada paciente según sexo.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -643,19 +708,33 @@ V
 </div>
 <div id="correlación-entre-la-variabilidad-del-campo-visual-y-la-edad" class="section level3">
 <h3>Correlación entre la variabilidad del campo visual y la edad</h3>
-<p><img src="glaucoma-campo-visual_files/figure-html/variabilidad-edad-1.png" width="2400" /> Según el diagrama de dispersión no se aprecia una relación clara entre el campo visual y la edad. El coeficiente de determinación lineal es <span class="math inline">\(r^2 = 0.0039\)</span> lo que indica que no existe relación lineal entre el campo visual y la edad.</p>
+<div class="figure">
+<img src="glaucoma-campo-visual_files/figure-html/variabilidad-edad-1.png" alt="Diagrama de dispersión de la desviación típica de las tres mediciones del campo visual realizadas en cada paciente sobre su edad." width="2400" />
+<p class="caption">
+Diagrama de dispersión de la desviación típica de las tres mediciones del campo visual realizadas en cada paciente sobre su edad.
+</p>
+</div>
+<p>Según el diagrama de dispersión no se aprecia una relación clara entre la variabilidad de las mediciones del campo visual y la edad. El coeficiente de determinación lineal es <span class="math inline">\(r^2 = 0.0039\)</span> lo que indica que no existe relación lineal entre la variabilidad del campo visual y la edad.</p>
 </div>
 </div>
 </div>
-<div id="análisis-de-la-concordancia-entre-el-campo-visual-y-los-estadíos-de-glaucoma" class="section level1">
-<h1>Análisis de la concordancia entre el campo visual y los estadíos de glaucoma</h1>
-<div id="diagrama-de-cajas-del-campo-vistual-según-estadíos-de-glaucoma" class="section level2">
-<h2>Diagrama de cajas del campo vistual según estadíos de glaucoma</h2>
-<p><img src="glaucoma-campo-visual_files/figure-html/distribution-1.png" width="2400" /></p>
+<div id="análisis-de-la-concordancia-entre-el-campo-visual-y-los-estadios-de-glaucoma" class="section level1">
+<h1>Análisis de la concordancia entre el campo visual y los estadios de glaucoma</h1>
+<div id="diagrama-de-cajas-del-campo-vistual-según-estadios-de-glaucoma" class="section level2">
+<h2>Diagrama de cajas del campo vistual según estadios de glaucoma</h2>
+<div class="figure">
+<img src="glaucoma-campo-visual_files/figure-html/distribution-1.png" alt="Diagrams de caja del campo visual según estadios de glaucoma." width="2400" />
+<p class="caption">
+Diagrams de caja del campo visual según estadios de glaucoma.
+</p>
 </div>
-<div id="intervalos-de-confianza-para-la-media-del-campo-visual-según-estadíos-de-glaucoma" class="section level2">
-<h2>Intervalos de confianza para la media del campo visual según estadíos de glaucoma</h2>
-<table>
+</div>
+<div id="intervalos-de-confianza-para-la-media-del-campo-visual-según-estadios-de-glaucoma" class="section level2">
+<h2>Intervalos de confianza para la media del campo visual según estadios de glaucoma</h2>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Estadísticos descriptivos del campo visual según estadios de glaucoma.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -799,13 +878,22 @@ IV
 </tr>
 </tbody>
 </table>
-<p><img src="glaucoma-campo-visual_files/figure-html/confidence-intervals-plot-1.png" width="2400" /> Como se puede apreciar, existe una separación clara entre los intervalos de confianza para la media del campo visual de los estadíos de glaucoma excepto para los estadíos I y II que se solapan.</p>
+<div class="figure">
+<img src="glaucoma-campo-visual_files/figure-html/confidence-intervals-plot-1.png" alt="Intervalos de confianza del 95% para la media del campo visual según estadios de glaucoma." width="2400" />
+<p class="caption">
+Intervalos de confianza del 95% para la media del campo visual según estadios de glaucoma.
+</p>
+</div>
+<p>Como se puede apreciar, existe una separación clara entre los intervalos de confianza para la media del campo visual de los estadios de glaucoma excepto para los estadios I y II que se solapan.</p>
 <!-- Añadir ANOVA -->
 </div>
-<div id="definición-de-estadíos-a-partir-del-campo-visual" class="section level2">
-<h2>Definición de estadíos a partir del campo visual</h2>
-<p>Definimos a partir del campo visual 4 estadíos al igual que se hizo con los anillos retinianos.</p>
-<table>
+<div id="definición-de-estadios-a-partir-del-campo-visual" class="section level2">
+<h2>Definición de estadios a partir del campo visual</h2>
+<p>Definimos a partir del campo visual 4 estadios al igual que se hizo con los anillos retinianos.</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Estadísticos descriptivos del campo visual según los estadios basados en el campo visual.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -929,7 +1017,7 @@ IV
 </div>
 <div id="análisis-de-concordancia" class="section level2">
 <h2>Análisis de concordancia</h2>
-<p>Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadíos definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual. No se consideran los ojos sanos ya que la concordancia en este grupo es perfecta.</p>
+<p>Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadios definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual. No se consideran los ojos sanos ya que la concordancia en este grupo es perfecta.</p>
 <pre><code> Kendall&#39;s coefficient of concordance Wt
 
  Subjects = 226 

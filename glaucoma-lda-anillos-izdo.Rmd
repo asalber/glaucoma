@@ -170,7 +170,7 @@ classification <- classify(df, vars="RNFL3.5.TI")
 accuracy.table <- accuracy.table %>% add_row(vars=vars, accuracy1=classification.glaucoma$performance$overall[1], accuracy2=classification$performance$overall[1])
 
 colnames(accuracy.table) <- c("Variables usadas en el modelo", "Precisión global con ojos sanos", "Precisión global sin ojos sanos")
-kbl(accuracy.table) %>% kable_styling(full_width = F)
+kbl(accuracy.table, caption = "Resumen de la precisión global de los modelos de clasificación mediante análisis discriminante lineal usando distintos conjuntos de variables.") %>% kable_styling(full_width = F)
 ```
 
 ## Modelo con todas las variables
@@ -179,26 +179,26 @@ kbl(accuracy.table) %>% kable_styling(full_width = F)
 
 ```{r confusion-matrix-without-healthy-eyes}
 classification.glaucoma <- classify(df.glaucoma, vars=varRims)
-kbl(classification.glaucoma$performance$table) %>% kable_styling(full_width = F)
+kbl(classification.glaucoma$performance$table, caption = "Matriz de confusión del modelo de clasifiación de análisis discriminante lineal que usa todas las variables sin incluir ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Efectividad sin ojos sanos
 
 ```{r performance-without-healthy-eyes}
-kbl(classification.glaucoma$performance$byClass) %>% kable_styling(full_width = F)
+kbl(classification.glaucoma$performance$byClass, caption = "Sensibilidad y especificidad del modelo de clasificación de análisis discriminante lineal que usa todas las variables sin incluir ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Matriz de confusión con ojos sanos
 
 ```{r confusion-matrix-with-healthy-eyes}
 classification <- classify(df, vars=varRims)
-kbl(classification$performance$table) %>% kable_styling(full_width = F)
+kbl(classification$performance$table, caption = "Matriz de confusión del modelo de clasifiación de análisis discriminante lineal que usa todas las variables incluyendo ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Efectividad con ojos sanos
 
 ```{r performance-with-healthy-eyes}
-kbl(classification$performance$byClass) %>% kable_styling(full_width = F)
+kbl(classification$performance$byClass, caption = "Sensibilidad y especificidad del modelo de clasificación de análisis discriminante lineal que usa todas las variables sin incluir ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ## Modelo con los sectores G y TI del BMO y RNFL 3.5
@@ -209,19 +209,19 @@ Coeficientes de las funciones discriminantes lineales:
 
 ```{r discriminant-coeffitients-without-healthy-eyes-G-TI-BMO-3.5}
 classification.glaucoma <- classify(df.glaucoma, vars=c("BMO.G", "BMO.TI", "RNFL3.5.G", "RNFL3.5.TI"))
-kbl(classification.glaucoma$pc$rotation %*% classification.glaucoma$da$scaling) %>% kable_styling(full_width = F)
+kbl(classification.glaucoma$pc$rotation %*% classification.glaucoma$da$scaling, caption = "Coeficientes e las funciones discriminantes del modelo de clasificación por análisis discriminante lineal que usa los sectores G y TI del BMO y el anillo 3.5 sin incluir ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Matriz de confusión sin ojos sanos
 
 ```{r confusion-matrix-without-healthy-eyes-G-TI-BMO-3.5}
-kbl(classification.glaucoma$performance$table) %>% kable_styling(full_width = F)
+kbl(classification.glaucoma$performance$table, caption = "Matriz de confusión del modelo de clasifiación de análisis discriminante lineal que usa los sectores G y TI del BMO y el anillo 3.5 sin incluir ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Efectividad sin ojos sanos
 
 ```{r performance-without-healthy-eyes-G-TI-BMO-3.5}
-kbl(classification.glaucoma$performance$byClass) %>% kable_styling(full_width = F)
+kbl(classification.glaucoma$performance$byClass, caption = "Sensibilidad y especificidad del modelo de clasificación de análisis discriminante lineal que usa los sectores G y TI del BMO y el anillo 3.5 sin incluir ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Funciones discriminantes con ojos sanos
@@ -230,23 +230,23 @@ Coeficientes de las funciones discriminantes lineales:
 
 ```{r discriminant-coeffitients-with-healthy-eyes-G-TI-BMO-3.5}
 classification <- classify(df, vars=c("BMO.G", "BMO.TI", "RNFL3.5.G", "RNFL3.5.TI"))
-kbl(classification$pc$rotation %*% classification$da$scaling) %>% kable_styling(full_width = F)
+kbl(classification$pc$rotation %*% classification$da$scaling, caption = "Coeficientes e las funciones discriminantes del modelo de clasificación por análisis discriminante lineal que usa los sectores G y TI del BMO y el anillo 3.5 incluyendo ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Mariz de confusión con ojos sanos
   
 ```{r confusion-matrix-with-healthy-eyes-G-TI-BMO-3.5}
-kbl(classification$performance$table) %>% kable_styling(full_width = F)
+kbl(classification$performance$table, caption = "Matriz de confusión del modelo de clasifiación de análisis discriminante lineal que usa los sectores G y TI del BMO y el anillo 3.5 incluyendo ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Efectividad con ojos sanos
 
 ```{r performance-with-healthy-eyes-G-TI-BMO-3.5}
-kbl(classification$performance$byClass) %>% kable_styling(full_width = F)
+kbl(classification$performance$byClass, caption = "Sensibilidad y especificidad del modelo de clasificación de análisis discriminante lineal que usa los sectores G y TI del BMO y el anillo 3.5 incluyendo ojos sanos.") %>% kable_styling(full_width = F)
 ```
 
 ### Estadísticos para la distribución de BMO.G, Rim3.5.G and Rim3.5.TI por Estadios
-```{r confidence-intervals-means-clusters}
+```{r confidence-intervals-means-clusters, fig.cap="Intervalos de confianza de 95% para el grosor medio de los sectores G y TI del BMO y el anillo 3.5 según estadios de glaucoma."}
 # Means of variables by stages
 # Convert data frame to long format
 df.long <- df %>% 
@@ -265,7 +265,7 @@ palette <- palette.healthy[-1]
 # Plot of means by stages
 ggplot(means, aes(x = Sector, y = mean, colour = Estadio, shape = Estadio)) +
   geom_pointrange(aes(ymin = lower.ci, ymax = upper.ci), position = position_dodge(width = 0.5)) +
-  ggtitle("Intervalos de confianza para las medias de los sectores G y TI \n del BMO y RNFL 3.5 según estadíos de glaucoma") +
+  ggtitle("Intervalos de confianza para las medias de los sectores G y TI \n del BMO y el anillo 3.5 según estadios de glaucoma") +
   scale_colour_manual(values = palette.healthy) +
   ylab("Media") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=0.5), plot.title = element_text(hjust = 0.5))

@@ -66,11 +66,11 @@ df.glaucoma <- df %>% filter(Glaucoma == "Y")
 
 # Objetivo
 
-En este estudio se pretende definir distintos grupos de gravedad de glaucoma (estadíos de desarrollo de la enfermedad) en función del grosor de los anillos neuroretinianos, mediante la técnica de las $k$-medias.
+En este estudio se pretende definir distintos grupos de gravedad de glaucoma (estadios de desarrollo de la enfermedad) en función del grosor de los anillos neuroretinianos, mediante la técnica de las $k$-medias.
 
 # Estadios
 
-```{r numero-clusters}
+```{r numero-clusters, fig.cap="Reducción de la variabilidad intra-grupos según el número de grupos."}
 # Number of clusters
 fviz_nbclust(df.glaucoma[, varRims], kmeans, method = "wss") + 
   xlab("Número de grupos") + 
@@ -118,9 +118,9 @@ df %>% write_csv("data/data-rims-preprocesed-stages.csv")
 df %>% select(Id, Sexo, Edad, Glaucoma, Ojo, Estadio) %>% write_csv("data/data-stages.csv")
 ```
 
-## Mapa de los estadíos de glaucoma sin incluir ojos sanos
+## Mapa de los estadios de glaucoma sin incluir ojos sanos
 
-```{r map-clusters-whithout-healthy}
+```{r map-clusters-whithout-healthy, fig.cap="Mapa de los estadios de glaucoma sobre los dos primeros componentes principales sin incluir ojos sanos."}
 # Principal components
 result.pca <- PCA(df[, vars], scale.unit = F, graph=F) 
 # Map of clusters (without healthy eyes)
@@ -133,7 +133,7 @@ fviz_pca_ind(
   palette = palette,
   addEllipses = T,
   ellipse.type = "t",
-  title = "Mapa de estadios deglaucoma sobre los dos primeros componentes principales",
+  title = "Mapa de estadios de glaucoma sobre los dos primeros componentes principales",
   legend.title = "Estadio"
 ) +
   xlab("Primer componente principal") +
@@ -146,9 +146,9 @@ fviz_pca_ind(
 
 Como se puede apreciar en el gráfico, los cuatro estadios quedan separados bastante bien a lo largo del eje x que corresponde al primer componente principal.
 
-## Mapa de estadíos de glaucoma incluyendo ojos sanos
+## Mapa de estadios de glaucoma incluyendo ojos sanos
 
-```{r map-clusters-whith-healthy}
+```{r map-clusters-whith-healthy, fig.cap="Mapa de los estadios de glaucoma sobre los dos primeros componentes principales incluyendo ojos sanos."}
 # Map of clusters (with healthy eyes)
 fviz_pca_ind(
   result.pca,
@@ -168,9 +168,9 @@ fviz_pca_ind(
 #ggsave("img/map-clusters-with-healthy.pdf")
 ```
 
-## Distribución del primer componente principal por estadíos de glaucoma
+## Distribución del primer componente principal por estadios de glaucoma
 
-```{r clusters-distribution}
+```{r clusters-distribution, fig.cap="Distribución del primer componente principal según estadios de glaucoma"}
 # Add principal components coordinates to a data frame
 df.pca <- as.data.frame(result.pca$ind$coord)
 # Add cluster to principal components data frame
@@ -187,7 +187,7 @@ ggplot(df.pca, aes(x = Dim.1)) +
 
 ## Intervalos de confianza para las medias según estadios de glaucoma
 
-```{r confidence-intervals-means-by-stages}
+```{r confidence-intervals-means-by-stages, fig.cap="Intervalos de confianza para las medias del grosor los sectores de los distintos anillos según estadios de glaucoma."}
 # Means of variables by clusters
 df.long <- df %>% select(Estadio, vars) %>% pivot_longer(-Estadio, names_to = "Sector") 
 
