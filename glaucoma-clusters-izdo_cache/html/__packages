@@ -11,6 +11,7 @@ stringr
 forcats
 FactoMineR
 factoextra
+<<<<<<< HEAD
 rmarkdown
 MASS
 lattice
@@ -42,3 +43,7 @@ lpSolve
 irr
 rstatix
 modeest
+||||||| 06c74f5
+rmarkdown
+=======
+>>>>>>> f1151bb327a9a6dcb1d0a0e734bbfe368f02a683

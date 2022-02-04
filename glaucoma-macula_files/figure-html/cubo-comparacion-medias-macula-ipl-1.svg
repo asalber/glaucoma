@@ -339,9 +339,19 @@
 <clipPath id="clip37">
   <path d="M 452.042969 230.945312 L 469.324219 230.945312 L 469.324219 317.34375 L 452.042969 317.34375 Z M 452.042969 230.945312 "/>
 </clipPath>
+<<<<<<< HEAD
 <image id="image6037" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAApElEQVQ4jZ2TQRKDUAhDX/6xPGlv+7uoOkADdroCJxiSiBzHa0ksoU+VlqD0JxZ6BuziovKGuYzlOYdhOCQWce7UhL55Kb6cNqIH6XzOOeB4q6+wi5KJy85qGzjoNDX+a3ao+s4Z8u+uO7PJ6+98NieXdefL3ZXLZNKZ5h8yc99supnu7tp5/38kPor2wTd7r713qhB6h189PM/RvBsrDqPsurE3FuZp74WusBQAAAAASUVORK5CYII="/>
 <pattern id="pattern0" patternUnits="userSpaceOnUse" width="1" height="300"  patternTransform="matrix(17.28,0,0,0.288,452.041096,230.946027)">
   <use xlink:href="#image6037"/>
+||||||| 06c74f5
+<image id="image431" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAApElEQVQ4jZ2TQRKDUAhDX/6xPGlv+7uoOkADdroCJxiSiBzHa0ksoU+VlqD0JxZ6BuziovKGuYzlOYdhOCQWce7UhL55Kb6cNqIH6XzOOeB4q6+wi5KJy85qGzjoNDX+a3ao+s4Z8u+uO7PJ6+98NieXdefL3ZXLZNKZ5h8yc99supnu7tp5/38kPor2wTd7r713qhB6h189PM/RvBsrDqPsurE3FuZp74WusBQAAAAASUVORK5CYII="/>
+<pattern id="pattern0" patternUnits="userSpaceOnUse" width="1" height="300"  patternTransform="matrix(17.28,0,0,0.288,451.041096,230.946027)">
+  <use xlink:href="#image431"/>
+=======
+<image id="image431" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAApElEQVQ4jZ2TQRKDUAhDX/6xPGlv+7uoOkADdroCJxiSiBzHa0ksoU+VlqD0JxZ6BuziovKGuYzlOYdhOCQWce7UhL55Kb6cNqIH6XzOOeB4q6+wi5KJy85qGzjoNDX+a3ao+s4Z8u+uO7PJ6+98NieXdefL3ZXLZNKZ5h8yc99supnu7tp5/38kPor2wTd7r713qhB6h189PM/RvBsrDqPsurE3FuZp74WusBQAAAAASUVORK5CYII="/>
+<pattern id="pattern0" patternUnits="userSpaceOnUse" width="1" height="300"  patternTransform="matrix(17.28,0,0,0.288,452.041096,230.946027)">
+  <use xlink:href="#image431"/>
+>>>>>>> f1151bb327a9a6dcb1d0a0e734bbfe368f02a683
 </pattern>
 </defs>
 <g id="surface6033">

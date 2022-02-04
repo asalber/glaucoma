@@ -11,7 +11,7 @@ opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning
 ```
 
 ```{r packages, results='hide'}
-.packages <- c("tidyverse", "rstatix", "irr", "modeest")
+.packages <- c("tidyverse", "rstatix", "irr", "modeest", "kableExtra")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, require, character.only=T)
@@ -20,12 +20,13 @@ lapply(.packages, require, character.only=T)
 # Objetivo
 
 El objetivo de este estudio de los campos visuales es doble. Por un lado estudiar la variabilidad subjetiva en la medición de los campos visuales mediante la repetición de la prueba en los mismos individuos. 
-Por otro lado se pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadíos de glaucoma definidos a partir de los anillos retinianos (ver http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html) y la clasifiación clásica a partir de campo visual. 
+Por otro lado se pretende comprobar si existe concordancia entre la clasificación de los ojos en los estadios de glaucoma definidos a partir de los anillos retinianos (ver http://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html) y la clasifiación clásica a partir de campo visual. 
 
 # Análisis de la variabilidad del campo visual
 
 ```{r data-loading-repetated-measures, results='hide'}
 df <- read_csv('data/campos-visuales-repetidos.csv') %>%
+  rename(`Campo visual` = Md) %>%
   mutate(Sexo = as.factor(Sexo), Medida = as.factor(Medida))
 ```
 
@@ -34,20 +35,23 @@ Se ha tomado una muestra de `r nrow(df)` individuos a quienes se les ha medido e
 ```{r descriptive-statistics}
 df %>% 
   group_by(Medida, Sexo) %>%
-  summarise(n=n(), Media = mean(Md), Desv.Est= sd(Md)) %>%
-  kable()
+  summarise(n=n(), Media = mean(`Campo visual`), Desv.Est= sd(`Campo visual`)) %>%
+  kbl(caption = "Estadísticos descritivos de las tres mediciones del campo visual según sexo.") %>% 
+  kable_styling(full_width = F)
 ```
 
-```{r boxplot}
+```{r boxplot, fig.cap="Diagramas de caja de las tres medidiones del campo visual según sexo."}
 df %>%
-  ggplot(aes(x = Medida, y = Md, col=Sexo)) + geom_boxplot()
+  ggplot(aes(x = Medida, y = `Campo visual`, col=Sexo)) + geom_boxplot()
 ```
 
 ## Análisis de la varianza de medidas repetidas
 
 ```{r anova}
-aov <- anova_test(df, dv = Md, wid = Id, within = Medida)
-get_anova_table(aov)
+aov <- anova_test(df, dv = `Campo visual`, wid = Id, within = Medida)
+get_anova_table(aov) %>% 
+  kbl(caption = "Contraste de ANOVA de medidas repetidas para el campo visual según el momento de medición.") %>% 
+  kable_styling(full_width = F)
 ```
 
 No se observan diferecias significativas entre los tres momentos de medición.
@@ -59,13 +63,14 @@ Para cada individuo se calcula la desviación típica de las tres medidas. La si
 ```{r variability}
 df <- df %>% 
   group_by(Id) %>%
-  summarise("Variabilidad CV" = sd(Md), Sexo = mfv(Sexo), Edad = mfv(Edad))
+  summarise("Variabilidad CV" = sd(`Campo visual`), Sexo = mfv(Sexo), Edad = mfv(Edad))
 
 result <- df %>% 
   summarise(n=n(), Media = mean(`Variabilidad CV`), Desv.Est= sd(`Variabilidad CV`)) %>%
   mutate(Error.Est = Desv.Est / sqrt(n), IC.inf = Media - qt(1 - (0.05 / 2), n - 1) * Error.Est, IC.sup = Media + qt(1 - (0.05 / 2), n - 1) * Error.Est) 
 result %>%
-  kable()
+  kbl(caption = "Estadísticos descriptivos la desviación típica de las tres mediciones del campo visual realizadas en cada paciente.")   %>% 
+  kable_styling(full_width = F)
 ```
 
 La variabilidad media es `r result$media` que es bastante alta en comparación con la magnitud de los campos visuales.
@@ -80,23 +85,25 @@ result <- df %>%
   summarise(n=n(), Media = mean(`Variabilidad CV`), Desv.Est= sd(`Variabilidad CV`)) %>%
   mutate(Error.Est = Desv.Est / sqrt(n), IC.inf = Media - qt(1 - (0.05 / 2), n - 1) * Error.Est, IC.sup = Media + qt(1 - (0.05 / 2), n - 1) * Error.Est) 
 result %>%
-  kable()
+  kbl(caption = "Estadísticos descriptivos la desviación típica de las tres mediciones del campo visual realizadas en cada paciente según sexo.")   %>% 
+  kable_styling(full_width = F)
 ```
 
 No se observa una diferencia significativa entre la variabiidad del campo visual de hombres y mujeres.
 
 ### Correlación entre la variabilidad del campo visual y la edad
 
-```{r variabilidad-edad}
+```{r variabilidad-edad, fig.cap="Diagrama de dispersión de la desviación típica de las tres mediciones del campo visual realizadas en cada paciente sobre su edad."}
 df %>%
   ggplot(aes(x = Edad, y = `Variabilidad CV`)) + geom_point()
 ```
-Según el diagrama de dispersión no se aprecia una relación clara entre el campo visual y la edad. El coeficiente de determinación lineal es $r^2 = `r cor(df$Edad, df[["Variabilidad CV"]])^2`$ lo que indica que no existe relación lineal entre el campo visual y la edad.
+Según el diagrama de dispersión no se aprecia una relación clara entre la variabilidad de las mediciones del campo visual y la edad. El coeficiente de determinación lineal es $r^2 = `r cor(df$Edad, df[["Variabilidad CV"]])^2`$ lo que indica que no existe relación lineal entre la variabilidad del campo visual y la edad.
 
-# Análisis de la concordancia entre el campo visual y los estadíos de glaucoma
+# Análisis de la concordancia entre el campo visual y los estadios de glaucoma
 
 ```{r data-loading, results='hide'}
-df <- read_csv('data/campo-visual.csv', col_types = cols(Estadio = "f"))
+df <- read_csv('data/campo-visual.csv', col_types = cols(Estadio = "f")) %>%
+  rename(`Campo visual` = Dm)
 df$Estadio <- ordered(df$Estadio, levels=levels(df$Estadio))
 # Filtramos los ojos con glaucoma en un nuevo conjunto de datos
 df.glaucoma <- df %>% filter(Estadio != 'Sano')
@@ -108,9 +115,9 @@ df <- df %>% # Eliminar los casos con errores mayores del 16%
 ```
 
 
-## Diagrama de cajas del campo vistual según estadíos de glaucoma
+## Diagrama de cajas del campo vistual según estadios de glaucoma
 
-```{r distribution}
+```{r distribution, fig.cap="Diagrams de caja del campo visual según estadios de glaucoma."}
 # Color palette
   n <- 4
   colfunc <- colorRampPalette(c("#FD8D3C", "#800026"))
@@ -120,43 +127,44 @@ df <- df %>% # Eliminar los casos con errores mayores del 16%
 #palette <- palette.healthy[-1]
 
 df %>% 
-  ggplot(aes(x=Dm, fill=Estadio)) +
+  ggplot(aes(x=`Campo visual`, fill=Estadio)) +
   geom_boxplot() +
   scale_fill_manual(values = palette) + 
-  labs(title = "Diagrama de cajas del campo visual según estadíos de glaucoma") +
+  labs(title = "Diagrama de cajas del campo visual según estadios de glaucoma") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-## Intervalos de confianza para la media del campo visual según estadíos de glaucoma
+## Intervalos de confianza para la media del campo visual según estadios de glaucoma
 
 ```{r confidence-intervals-glaucoma-stages}
 means <- df %>% 
   group_by(Estadio) %>%
-  summarise(n=n(), media = mean(Dm), desv.est= sd(Dm)) %>%
+  summarise(n=n(), media = mean(`Campo visual`), desv.est= sd(`Campo visual`)) %>%
   mutate(error.est = desv.est / sqrt(n), lim.inf.ic = media - qt(1 - (0.05 / 2), n - 1) * error.est, lim.sup.ic = media + qt(1 - (0.05 / 2), n - 1) * error.est)
-kable(means)
+kbl(means, caption = "Estadísticos descriptivos del campo visual según estadios de glaucoma.") %>% 
+  kable_styling(full_width = F)
 ```
 
-```{r confidence-intervals-plot}
+```{r confidence-intervals-plot, fig.cap="Intervalos de confianza del 95% para la media del campo visual según estadios de glaucoma."}
 # Color palette
 ggplot(means, aes(x=Estadio, y = media, colour = Estadio, shape = Estadio)) +
   geom_pointrange(aes(ymin = lim.inf.ic, ymax = lim.sup.ic), position = position_dodge(width = 0.5)) +
-  ggtitle("Intervalos de confianza para la media del campo visual según estadíos de glaucoma") +
+  ggtitle("Intervalos de confianza para la media del campo visual según estadios de glaucoma") +
   scale_colour_manual(values = palette) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
-Como se puede apreciar, existe una separación clara entre los intervalos de confianza para la media del campo visual de los estadíos de glaucoma excepto para los estadíos I y II que se solapan.
+Como se puede apreciar, existe una separación clara entre los intervalos de confianza para la media del campo visual de los estadios de glaucoma excepto para los estadios I y II que se solapan.
 
 <!-- Añadir ANOVA -->
 
-## Definición de estadíos a partir del campo visual
+## Definición de estadios a partir del campo visual
 
-Definimos a partir del campo visual 4 estadíos al igual que se hizo con los anillos retinianos.
+Definimos a partir del campo visual 4 estadios al igual que se hizo con los anillos retinianos.
 
 ```{r k-means-clusters}
 seed = 123
 # Variables consideradas
-vars = "Dm"
+vars = "Campo visual"
 # Número de clusters
 n <- 4
 labels <- c("I", "II", "III", "IV")
@@ -178,14 +186,15 @@ df.glaucoma[, "Estadio.CV"] <- ordered(clusters$cluster)
 ```{r confidence-intervals-visual-field-stages}
 means <- df.glaucoma %>% 
   group_by(Estadio.CV) %>%
-  summarise(n=n(), media = mean(Dm), desv.est= sd(Dm)) %>%
+  summarise(n=n(), media = mean(`Campo visual`), desv.est= sd(`Campo visual`)) %>%
   mutate(error.est = desv.est / sqrt(n), lim.inf.ic = media - qt(1 - (0.05 / 2), n - 1) * error.est, lim.sup.ic = media + qt(1 - (0.05 / 2), n - 1) * error.est)
-kable(means)
+ kbl(means, caption = "Estadísticos descriptivos del campo visual según los estadios basados en el campo visual.")   %>% 
+  kable_styling(full_width = F)
 ```
 
 ## Análisis de concordancia
 
-Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadíos definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual. No se consideran los ojos sanos ya que la concordancia en este grupo es perfecta.
+Calculamos el coeficiente de concordancia de Kendall para comprobar si los estadios definidos a partir de los anillos retinianos concuerdan con los definidos a partir del campo visual. No se consideran los ojos sanos ya que la concordancia en este grupo es perfecta.
 
 ```{r Kendalls-coefficient}
 k <- kendall(df.glaucoma[, c("Estadio", "Estadio.CV")], correct = T)

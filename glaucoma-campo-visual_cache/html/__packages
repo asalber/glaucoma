@@ -1,4 +1,3 @@
-base
 knitr
 tidyverse
 ggplot2
@@ -9,14 +8,12 @@ purrr
 dplyr
 stringr
 forcats
+rstatix
 lpSolve
 irr
-rstatix
 modeest
-GGally
-gridExtra
-ggpubr
 kableExtra
+<<<<<<< HEAD
 psych
 rmarkdown
 MASS
@@ -40,3 +37,28 @@ discrim
 rlang
 vctrs
 nnet
+||||||| 06c74f5
+psych
+rmarkdown
+MASS
+lattice
+caret
+rcompanion
+tidymodels
+broom
+scales
+dials
+infer
+modeldata
+parsnip
+recipes
+rsample
+tune
+workflows
+workflowsets
+yardstick
+discrim
+rlang
+vctrs
+=======
+>>>>>>> f1151bb327a9a6dcb1d0a0e734bbfe368f02a683
