@@ -333,22 +333,12 @@
 <clipPath id="clip37">
   <path d="M 452.042969 156.988281 L 469.324219 156.988281 L 469.324219 243.386719 L 452.042969 243.386719 Z M 452.042969 156.988281 "/>
 </clipPath>
-<<<<<<< HEAD
-<image id="image7549" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAAlElEQVQ4jaVSWw7AMAgCj9WT7rj7aLb4QLtkf1YrCoi1LiNgII2AkTCCBqJ50/DkfZwwADb53bfzG1vnz3hhp6EHgsf4z/Ga5kqMwinjO4wwp+oS5ryx5hHmTrWil/D3C9921zOP1g+/X9ZF1jRf5Ufm29aU9+JGOvxW2/EOak1r/k2zGS/uNPkjb/qPZs3tj/5HnW5S/wURBC9jjQAAAABJRU5ErkJggg=="/>
-<pattern id="pattern0" patternUnits="userSpaceOnUse" width="1" height="300"  patternTransform="matrix(17.28,0,0,0.288,452.041096,156.988767)">
-  <use xlink:href="#image7549"/>
-||||||| 06c74f5
-<image id="image1943" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAAlElEQVQ4jaVSWw7AMAgCj9WT7rj7aLb4QLtkf1YrCoi1LiNgII2AkTCCBqJ50/DkfZwwADb53bfzG1vnz3hhp6EHgsf4z/Ga5kqMwinjO4wwp+oS5ryx5hHmTrWil/D3C9921zOP1g+/X9ZF1jRf5Ufm29aU9+JGOvxW2/EOak1r/k2zGS/uNPkjb/qPZs3tj/5HnW5S/wURBC9jjQAAAABJRU5ErkJggg=="/>
-<pattern id="pattern0" patternUnits="userSpaceOnUse" width="1" height="300"  patternTransform="matrix(17.28,0,0,0.288,451.041096,156.988767)">
-  <use xlink:href="#image1943"/>
-=======
 <image id="image1943" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAAlElEQVQ4jaVSWw7AMAgCj9WT7rj7aLb4QLtkf1YrCoi1LiNgII2AkTCCBqJ50/DkfZwwADb53bfzG1vnz3hhp6EHgsf4z/Ga5kqMwinjO4wwp+oS5ryx5hHmTrWil/D3C9921zOP1g+/X9ZF1jRf5Ufm29aU9+JGOvxW2/EOak1r/k2zGS/uNPkjb/qPZs3tj/5HnW5S/wURBC9jjQAAAABJRU5ErkJggg=="/>
 <pattern id="pattern0" patternUnits="userSpaceOnUse" width="1" height="300"  patternTransform="matrix(17.28,0,0,0.288,452.041096,156.988767)">
   <use xlink:href="#image1943"/>
->>>>>>> f1151bb327a9a6dcb1d0a0e734bbfe368f02a683
 </pattern>
 </defs>
-<g id="surface7545">
+<g id="surface1939">
 <rect x="0" y="0" width="576" height="432" style="fill:rgb(100%,100%,100%);fill-opacity:1;stroke:none;"/>
 <rect x="0" y="0" width="576" height="432" style="fill:rgb(100%,100%,100%);fill-opacity:1;stroke:none;"/>
 <path style="fill:none;stroke-width:1.066978;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:10;" d="M 0 432 L 576 432 L 576 0 L 0 0 Z M 0 432 "/>
