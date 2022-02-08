@@ -37,4 +37,5 @@ output:
     df_print: paged
     lib_dir: site_libs
     self_contained: no
+    css: "custom-style.css"
 
