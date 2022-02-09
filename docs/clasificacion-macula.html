@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2022-02-05" />
+<meta name="date" content="2022-02-09" />
 
 <title>Clasifiación del Glaucoma en estadíos a partir del cubo macular</title>
 
@@ -67,6 +67,7 @@ if (window.hljs) {
 
 
 
+<link rel="stylesheet" href="custom-style.css" type="text/css" />
 
 
 
@@ -366,15 +367,16 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Clasifiación del Glaucoma en estadíos a partir del cubo macular</h1>
-<h4 class="date">2022-02-05</h4>
+<h4 class="date">2022-02-09</h4>
 
 </div>
 
 
 <div id="resumen" class="section level1">
 <h1>Resumen</h1>
-<p>En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias (<a href="https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html">más info</a>).</p>
+<p>En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante distintos algoritmos de aprendizajes de aprendizaje automático (análisis discriminante lineal y regresión logística). Los estadíos se han generado mediante el algoritmo de K-medias (<a href="https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html">más info</a>).</p>
 <p>Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).</p>
+<p>Para evaluar a capacidad predictiva de cada modelo se utilizó validación cruzada y se repitió la construcción del modelo 10 veces.</p>
 </div>
 <div id="clasifiación-binaria-glaucoma-vs-no-glaucoma" class="section level1">
 <h1>Clasifiación binaria (glaucoma vs no glaucoma)</h1>
@@ -383,6 +385,9 @@ div.tocify {
 <div id="análisis-discriminante" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -462,6 +467,9 @@ Especificiad
 <div id="regresión-logística" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando todas las capas y celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -544,6 +552,9 @@ Especificiad
 <div id="analisis-discriminante" class="section level3">
 <h3>Analisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando solo las capas con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -623,6 +634,9 @@ Especificiad
 <div id="regresión-logística-1" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando solo las capas con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -705,6 +719,9 @@ Especificiad
 <div id="análisis-discriminante-1" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando solo las capas (RNFL, GCL e IPO) y las celdas con diferencias significativas entre sanos y glaucomatosos.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -784,6 +801,9 @@ Especificiad
 <div id="regresión-logística-2" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando solo las capas (RNFL, GCL e IPO) y las celdas con diferencias significativas entre sanos y glaucomatosos.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -866,6 +886,9 @@ Especificiad
 <div id="análisis-discriminante-2" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando solo las capas (RNFL, GCL e IPO) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con el mismo número de ojos sanos que glaucomatosos.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -945,6 +968,9 @@ Especificiad
 <div id="regresión-logística-3" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando solo las capas (RNFL, GCL e IPO) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con el mismo número de ojos sanos que glaucomatosos.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1030,6 +1056,9 @@ Especificiad
 <div id="análisis-discriminante-3" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1158,6 +1187,9 @@ Class: IV
 <div id="regresión-logística-4" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando todas las capas y celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1289,6 +1321,9 @@ Class: IV
 <div id="análisis-discriminante-4" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando solo las capas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1417,6 +1452,9 @@ Class: IV
 <div id="regresión-logística-5" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando solo las capas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1548,6 +1586,9 @@ Class: IV
 <div id="análisis-discriminante-5" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1676,6 +1717,9 @@ Class: IV
 <div id="regresión-logística-6" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1807,6 +1851,9 @@ Class: IV
 <div id="análisis-discriminante-6" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con el mismo número de ojos en cada estadio
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1931,11 +1978,13 @@ Class: IV
 </tr>
 </tbody>
 </table>
-<p><img src="clasificacion-macula_files/figure-html/lda-stages-sig-layers-sig-cells-balanced-1.svg" width="768" /></p>
 </div>
 <div id="regresión-logística-7" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con el mismo número de ojos en cada estadio
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2070,6 +2119,9 @@ Class: IV
 <div id="análisis-discriminante-7" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2097,19 +2149,19 @@ Precisión global
 Class: I
 </td>
 <td style="text-align:right;">
-0.2326
+0.1860
 </td>
 <td style="text-align:right;">
-0.7394
+0.7606
 </td>
 <td style="text-align:right;">
-0.2128
+0.1905
 </td>
 <td style="text-align:right;">
-0.7609
+0.7552
 </td>
 <td style="text-align:right;">
-0.4860
+0.4733
 </td>
 </tr>
 <tr>
@@ -2117,19 +2169,19 @@ Class: I
 Class: II
 </td>
 <td style="text-align:right;">
-0.2941
+0.2353
 </td>
 <td style="text-align:right;">
-0.7863
+0.7949
 </td>
 <td style="text-align:right;">
-0.4444
+0.4000
 </td>
 <td style="text-align:right;">
-0.6571
+0.6414
 </td>
 <td style="text-align:right;">
-0.5402
+0.5151
 </td>
 </tr>
 <tr>
@@ -2137,19 +2189,19 @@ Class: II
 Class: III
 </td>
 <td style="text-align:right;">
-0.3333
+0.2222
 </td>
 <td style="text-align:right;">
-0.7357
+0.6929
 </td>
 <td style="text-align:right;">
-0.2885
+0.1887
 </td>
 <td style="text-align:right;">
-0.7744
+0.7348
 </td>
 <td style="text-align:right;">
-0.5345
+0.4575
 </td>
 </tr>
 <tr>
@@ -2157,19 +2209,19 @@ Class: III
 Class: IV
 </td>
 <td style="text-align:right;">
-0.1724
+0.3448
 </td>
 <td style="text-align:right;">
-0.7692
+0.7436
 </td>
 <td style="text-align:right;">
-0.1220
+0.2000
 </td>
 <td style="text-align:right;">
-0.8333
+0.8593
 </td>
 <td style="text-align:right;">
-0.4708
+0.5442
 </td>
 </tr>
 </tbody>
@@ -2178,6 +2230,9 @@ Class: IV
 <div id="regresión-logística-8" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en regresión logística usando todas las capas y celdas la mácula
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2289,6 +2344,9 @@ Class: IV
 <div id="análisis-discriminante-8" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en análisis discriminate lineal usando solo las capas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2336,19 +2394,19 @@ Class: I
 Class: II
 </td>
 <td style="text-align:right;">
-0.2794
+0.2941
 </td>
 <td style="text-align:right;">
-0.7094
+0.7179
 </td>
 <td style="text-align:right;">
-0.3585
+0.3774
 </td>
 <td style="text-align:right;">
-0.6288
+0.6364
 </td>
 <td style="text-align:right;">
-0.4944
+0.5060
 </td>
 </tr>
 <tr>
@@ -2356,19 +2414,19 @@ Class: II
 Class: III
 </td>
 <td style="text-align:right;">
-0.1778
+0.1556
 </td>
 <td style="text-align:right;">
-0.7929
+0.7857
 </td>
 <td style="text-align:right;">
-0.2162
+0.1892
 </td>
 <td style="text-align:right;">
-0.7500
+0.7432
 </td>
 <td style="text-align:right;">
-0.4853
+0.4706
 </td>
 </tr>
 <tr>
@@ -2376,19 +2434,19 @@ Class: III
 Class: IV
 </td>
 <td style="text-align:right;">
-0.3103
+0.2069
 </td>
 <td style="text-align:right;">
-0.7308
+0.7115
 </td>
 <td style="text-align:right;">
-0.1765
+0.1176
 </td>
 <td style="text-align:right;">
-0.8507
+0.8284
 </td>
 <td style="text-align:right;">
-0.5206
+0.4592
 </td>
 </tr>
 </tbody>
@@ -2397,6 +2455,9 @@ Class: IV
 <div id="regresión-logística-9" class="section level3">
 <h3>Regresión logística</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en regresión logística usando solo las capas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2508,6 +2569,9 @@ Class: IV
 <div id="análisis-discriminante-9" class="section level3">
 <h3>Análisis discriminante</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en análisis discriminate lineal usando solo las capas (RNFL, GCL e IPL) y las celdas de la mácula con diferencias significativas entre sanos y glaucomatosos.
+</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
