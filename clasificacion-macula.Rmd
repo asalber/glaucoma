@@ -385,14 +385,14 @@ logit.stages <- function(input){
 ```{r lda-glaucoma-all-layers-all-cells}
 input <- lda.input.glaucoma(df, layers = varLayers)
 lda.glaucoma(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula") %>%
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula.") %>%
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
 ### Regresión logística
 ```{r logit-glaucoma-all-layers-all-cells}
 logit.glaucoma(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando todas las capas y celdas la mácula") %>% 
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando todas las capas y celdas la mácula.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
@@ -403,13 +403,13 @@ logit.glaucoma(input) %>%
 ```{r lda-glaucoma-sig-layers-all-cells}
 input <- lda.input.glaucoma(df, layers = c("RNFL", "GCL", "IPL"))
 lda.glaucoma(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando solo las capas con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula") %>% 
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en análisis discriminate lineal usando solo las capas con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 ### Regresión logística
 ```{r logit-glaucoma-sig-layers-all-cells}
 logit.glaucoma(input) %>%
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando solo las capas con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula") %>% 
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en regresión logística usando solo las capas con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas la mácula.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
@@ -456,7 +456,7 @@ logit.glaucoma(input) %>%
 ```{r lda-stages-all-layers-all-cells}
 input <- lda.input.stages(df, layers = varLayers)
 lda.stages(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula") %>%
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula.") %>%
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
@@ -464,7 +464,7 @@ lda.stages(input) %>%
 
 ```{r logit-stages-all-layers-all-cells}
 logit.stages(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando todas las capas y celdas la mácula") %>%
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando todas las capas y celdas la mácula.") %>%
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
@@ -512,14 +512,14 @@ logit.stages(input) %>%
 ```{r lda-stages-sig-layers-sig-cells-balanced}
 input <- lda.input.stages(df.balanced, layers = c("RNFL", "GCL", "IPL"), sigcells = T)
 lda.stages(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con el mismo número de ojos en cada estadio") %>% kable_styling(bootstrap_options = "hover", full_width = F)
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en análisis discriminate lineal usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con un número de ojos sanos similar al de los demás estadios.") %>% kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
 ### Regresión logística
 
 ```{r logit-stages-sig-layers-sig-cells-balanced}
 logit.stages(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con el mismo número de ojos en cada estadio") %>% 
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en regresión logística usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con un número de ojos sanos similar al de los demás estadios.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
@@ -532,7 +532,7 @@ logit.stages(input) %>%
 ```{r lda-stages-all-layers-all-cells-no-healthy}
 input <- lda.input.stages(df.glaucoma, layers = varLayers)
 lda.stages(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula") %>% 
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en análisis discriminate lineal usando todas las capas y celdas la mácula.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
@@ -540,7 +540,7 @@ lda.stages(input) %>%
 
 ```{r logit-stages-all-layers-all-cells-no-healthy}
 logit.stages(input) %>% 
-  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en regresión logística usando todas las capas y celdas la mácula") %>% 
+  kable(caption = "Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en regresión logística usando todas las capas y celdas la mácula.") %>% 
   kable_styling(bootstrap_options = "hover", full_width = F)
 ```
 
