@@ -16,7 +16,7 @@ opts_chunk$set(echo = F, cache = T, prompt = F, tidy = T, comment = NA, message 
 .packages <- c("tidyverse", "FactoMineR", "factoextra")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
-lapply(.packages, require, character.only=T)
+lapply(.packages, library, character.only=T)
 ```
 
 

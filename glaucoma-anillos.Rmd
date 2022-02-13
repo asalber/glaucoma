@@ -13,51 +13,15 @@ opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning
 
 ```{r carga-paquetes, results='hide'}
 # Carga de paquetes
-.packages <- c("tidyverse", "GGally", "gridExtra", "ggpubr", "kableExtra", "psych")
+.packages <- c("tidyverse", "GGally", "FactoMineR", "factoextra", "gridExtra", "gridExtra", "ggpubr", "kableExtra", "psych")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
 lapply(.packages, library, character.only=T)
 ```
 
 ```{r carga-datos}
-# Carga de datos
-load("data/data-rims-preprocesed.RData")
-df <- df.anillos
-# Conjuntos de variables
-varBMO <- startsWith(colnames(df),"BMO")
-varBMO[11] <- F
-varBMO <- colnames(df)[varBMO]
-var3.5 <- startsWith(colnames(df),"RNFL3.5")
-var3.5 <- colnames(df)[var3.5]
-var4.1 <- startsWith(colnames(df),"RNFL4.1")
-var4.1 <- colnames(df)[var4.1]
-var4.7 <- startsWith(colnames(df),"RNFL4.7")
-var4.7 <- colnames(df)[var4.7]
+source("data-rims-loading.R")
 ```
-
-
-```{r filtrado-datos}
-# Ojo izquierdo
-df.L <- df[df$Ojo=="L",]
-df.L$Ojo <- NULL
-colnames(df.L)[7:ncol(df.L)] <- paste0(colnames(df.L)[7:ncol(df.L)],rep(".L",ncol(df.L)-6)) 
-# Ojo derecho
-df.R <- df[df$Ojo=="R",]
-df.R$Ojo <- NULL
-colnames(df.R)[7:ncol(df.R)] <- paste0(colnames(df.R)[7:ncol(df.R)],rep(".R",ncol(df.R)-6)) 
-# Unión de ojos
-df.tidy <- inner_join(df.L, df.R[,-c(1,3,4,5,6)], by="Patient.Id")
-df.tidy <- na.omit(df.tidy)
-# Ojo izquierdo 
-df.L <- df[df$Ojo=="L",]
-# Ojo derecho
-df.R <- df[df$Ojo=="R",]
-# Datos Glaucoma
-df.Glaucoma <- df[df$Glaucoma=="Y",]
-# Datos Sanos
-df.Sanos <- df[df$Glaucoma=="N",]
-```
-
 
 # Estadística Descriptiva
 
@@ -575,16 +539,21 @@ Comparación de las medias del ojo izquierdo y derecho para cada sector.
 
 ```{r comparacion-medias-ojos}
 # Comparación de medias de los ojos izquierdo y derecho en cada sector.
+df.tidy <- df %>%
+  select(all_of(c("Measurement.Id", "Glaucoma", "Ojo", varRims))) %>%
+  pivot_wider(names_from = Ojo, names_sep = ".", values_from = all_of(varRims)) %>%
+  drop_na()
+
 fun <- function(i) {
-  unlist(t.test(unlist(df.tidy[,i]), unlist(df.tidy[,i+32]), paired = T)[c("estimate","conf.int", "p.value")])
+  unlist(t.test(unlist(df.tidy[, i]), unlist(df.tidy[, i+1]), paired = T)[c("estimate","conf.int", "p.value")])
 }
 
-result <- data.frame(t(sapply(11:38, fun)))
+result <- data.frame(t(sapply(seq(3, 58, 2), fun)))
 
 fun <- function(i) {
-  paste(colnames(df.tidy)[i], "-", colnames(df.tidy)[i+32])
+  paste(colnames(df.tidy)[i], "-", colnames(df.tidy)[i+1])
 }
-rownames(result) <- sapply(11:38, fun)
+rownames(result) <- sapply(seq(3, 58, 2), fun)
 colnames(result) <- c("Media.diferencia", "lim.inf.int.conf", "lim.sup.int.conf", "p-valor")
 result <- mutate(result, `p-valor` = format.pval(`p-valor`, eps = .001, digits = 2))
 result %>% 
@@ -605,4 +574,69 @@ ggplot(result, aes(x = Sector, y = Media.diferencia)) +
 
 En general se aprecian diferencias significativas entre las medias del grosor de los sectores de los ojos izquierdo y derecho en algunos sectores como el Nasal Superior, y no tan claras en otros.
 No obstante, se ha observado clínicamente que aparentemente no hay relación entre el estado de los dos ojos, por lo que se han cosiderado los ojos de cada paciente como individuos independientes en el estudio. 
+
+# Análisis de componentes principales
+
+Dada la gran correlación entre todos los sectores del BMO y los anillos neuroretinianos se realizó un análisis de componentes principales para reducir la dimensionalidad de los datos y ver qué combinaciones de variables explicaban la mayor parte de la variabilidad de los datos.
+
+```{r principal-components-explained-variability, fig.cap= "Porcentaje de la variabilidad total explicada por cada componente principal."}
+# Principal components healthy and glaucoma eyes
+result.pca <- PCA(df.L[, c(varRims)], scale.unit = F, graph=F)
+# eigenvalues <- get_eigenvalue(result.pca)
+# Explained variability by principal components
+fviz_eig(result.pca,
+  main = "Variabilidad explicada por los componentes principales",
+  ylab = "% de la variabilidad total",
+  xlab = "Componentes princiaples (dimensiones)") +
+  theme(plot.title = element_text(hjust = 0.5))
+# ggsave("img/explained-variability-principal-components.pdf", width = 7, height = 5)
+```
+El análisis de componentes principales muestra que el primer componente principal explica casi el 60% de la variabilidad total, mientras que el segundo solo explica el 11%. 
+
+```{r principal-components-correlation, fig.cap= "Correlación de los sectores del BMO y los anillos neuroretinianos con el primer componente principal."}
+# Correlation of variables with first principal component
+fviz_cos2(result.pca, 
+  choice = "var", 
+  axes=1, 
+  title="Correlación de las variables con el primer componente principal",
+  ) + 
+  ylab("Coeficiente de determinación r²") +
+  theme(plot.title = element_text(hjust = 0.5))
+#ggsave("img/correlation-pca.pdf", width = 7, height = 5)
+```
+Los sectores más correlacionados con el primer componente principal son el global (G) y el temporal inferior (TI) de los anillos neuroretinianos y el BMO.
+ 
+```{r principal-components-contribution, fig.cap= "Contribución de los sectores del BMO y los anillos neuroretinianos a los dos primeros componentes principales."}
+# Contribution of variables to first principal component
+p1 <- fviz_contrib(result.pca, choice="var", axes=1, top = 10, title="Contribución de las variables\n al primer componente principal") +
+  theme(plot.title = element_text(hjust = 0.5))
+#ggsave("img/contribution-variables-pca-dim1.pdf", width = 7, height = 5)
+
+# Contribution of variables to second principal component
+p2 <- fviz_contrib(result.pca, choice="var", axes=2, top = 10, title="Contribución de las variables al\n segundo componente principal") +
+  theme(plot.title = element_text(hjust = 0.5))
+#ggsave("img/contribution-variables-pca-dim2.pdf", width = 7, height = 5)
+grid.arrange(p1, p2, nrow = 1)
+```
+Las variables que más cotribuyen al valor del primer componente principal son los sectores globales de los anillos 3.5, 4.1 y 4.7 y los sectores temporales inferiores de los anillos 3.5, 4.1 y 4.7, seguidos del sector global del BMO, el sector temporal superior del anillo 4.7, el sector temporal superior del anillo 4.1 y el sector temporal inferior del BMO.
+
+```{r map-eyes-principal-components, fig.cap="Mapa de ojos sanos (N) y glaucomatosos (Y) sobre los dos primeros componentes principales."}
+palette <- c("#00FF00", "#FF0000")
+# Plot eyes on the two first principal components
+fviz_pca_ind(
+  result.pca,
+  geom = c("point"),
+  axes = c(1, 2),
+  habillage = df.L$Glaucoma,
+  palette = palette,
+  ddEllipses = T,
+  ellipse.type = "t",
+  title = "Mapa de ojos sanos y glaucomatosos sobre los dos primeros componentes principales"
+) +
+  theme(legend.position = "top", plot.title = element_text(hjust = 0.5))
+# ggsave("img/pca-map.pdf", width = 7, height = 5)
+```
+El mapa muestra una clara separación, con una pequeña región de solapamiento, entre ojos sanos y glaucomatosos a lo largo del primer componente principal, mientras que no se observa separación a lo largo del segundo componente principal.
+
+
 

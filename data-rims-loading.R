@@ -6,11 +6,11 @@
 .packages <- c("tidyverse")
 .installed <- .packages %in% installed.packages()
 if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
-lapply(.packages, require, character.only=T)
+lapply(.packages, library, character.only=T)
 
-# df loading (see file df-preprocessing.R)
-load("data/datos-RNFLs-preprocesados.Rdf")
-df <- df.RNFLs
+# Load rim data
+load("data/data-rims-preprocesed.RData")
+df <- df.anillos
 
 # Set of variables
 varBMO <- startsWith(colnames(df),"BMO")
@@ -39,9 +39,19 @@ varNI <- colnames(df[varNI])
 varRims <- c(varBMO, var3.5, var4.1, var4.7)
 varSectors <- c(varG, varTI, varT, varTS, varNS, varN, varNI)
 
+# Create a new column concatenating the Patient.Id and the date to identify the measurement id
+df <- df %>% unite("Measurement.Id", Patient.Id, ExamDate, sep = "-", remove = F)
+
 # Variables selection
-df <- dplyr::select(df, c("Id", "Ojo", "Glaucoma", varRims))
+df <- dplyr::select(df, c("Id", "Measurement.Id", "Glaucoma", "Edad" , "Sexo", "Ojo", "FoBMO.Angle", "Displacement", "BMO.Area", all_of(varRims)))
 # Select complete cases
 df <- df[complete.cases(df), ]
-
+# Filter left eyes
+df.L <- df %>% filter(Ojo == "L")
+# Filter right eyes
+df.R <- df %>% filter(Ojo == "R")
+# Filter glaucoma eyes
+df.glaucoma <- df %>% filter(Glaucoma == "Y")
+# Filter healthy eyes
+df.health <- df %>% filter(Glaucoma == "N")
 
