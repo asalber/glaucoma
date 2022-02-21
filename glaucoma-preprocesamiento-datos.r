@@ -16,7 +16,6 @@ df.anillos <- read_csv("data/datos.csv", col_types = paste0("cfffc",paste0(rep("
   # Reordenar columnas
   select(Id, everything())
 
-
 # Carga de datos atipicos 
 df.atipicos <- read.csv(file="data/datos-confrontacion.csv", header=T, sep=",")
 id.atipicos <- df.atipicos[is.na(df.atipicos$SUMA.V) | df.atipicos$SUMA.V>10, "Lastname"]
@@ -38,11 +37,11 @@ for (i in colnames(df.anillos)[12:ncol(df.anillos)]){
 }
 
 # Renombrar variables
-names(df.anillos) <- gsub("Rim", "RNFL", names(df.anillos))
 df.anillos <- df.anillos %>% 
-  rename(Ojo = Eye, Sexo = Gender, Edad = Age)
+  rename(Ojo = Eye, Sexo = Gender, Edad = Age) %>%
+  rename_with(~ gsub("Rim", "RNFL", .x))  
 # Renombrar los niveles del sexo
-levels(df.anillos$Sexo) <- list(H = "M", M = "F")
+df.anillos$Sexo <-  recode(df.anillos$Sexo, M = "H", F = "M")
 
 # Carga datos macula
 col.types = c(rep("text",3),"date", rep("text",3), rep("date",2), rep("numeric",2), rep("text",4), rep("numeric",64)) 
@@ -89,6 +88,10 @@ df.RPE <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_RPE", col_types = 
 # Grosor total
 df.FULL <- read_excel("data/datos-glaucoma.xlsx", sheet = "P_P_FULL", col_types = col.types) %>%
   mutate(Layer = "FULL")
+
+df.FULL %>% group_by(Eye) %>% summarise(n())
+
+
 # Fusión de datos
 df.macula <- rbind(df.RNFL, df.GCL, df.IPL, df.INL, df.OPL, df.ONL, df.PRL, df.RPE, df.FULL)
 # Crear clave
@@ -108,8 +111,6 @@ df.macula <- df.macula %>%
   mutate(Layer = fct_relevel(Layer, "RNFL", "GCL", "IPL", "INL", "OPL", "ONL", "PRL", "RPE", "FULL")) %>%
   # Rename variables
   rename(Ojo = Eye, Capa = Layer)
-
-
 
 # Export data
 write_csv(df, file = "data/data-preprocesed.csv")

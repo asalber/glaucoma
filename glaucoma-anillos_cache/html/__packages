@@ -1,3 +1,4 @@
+base
 knitr
 rmarkdown
 tidyverse
@@ -10,9 +11,9 @@ dplyr
 stringr
 forcats
 GGally
+FactoMineR
+factoextra
 gridExtra
 ggpubr
 kableExtra
 psych
-FactoMineR
-factoextra

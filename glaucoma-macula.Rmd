@@ -269,6 +269,18 @@ En este trabajo se presenta un estudio comparativo inferencial del grosor de las
 
 El análisis demuestra que existen diferencias estadísticamente significativas entre ojos glaucomatosos y sanos en las capas internas de la retina (RNFL, CGL e IPL) principalmente en las regiones nasal inferior y superior, mientras que las diferencias son menores en el centro de la mácula y en la región temporal. En las capas externas de la retina (OPL, ONL y RPE) no se apreciaron diferencias estadísticamente significativas.
 
+## Tamaño muestral
+
+```{r sample-size}
+df %>% filter(Capa == "RNFL") %>%
+  group_by(Ojo) %>%
+  summarise(n()) %>%
+  rename(n = "n()") %>%
+  kbl(caption = "Número de ojos considerados en el estudio de la mácula") %>%
+  kable_styling(bootstrap_options = "hover", full_width = F)
+```
+
+
 
 # Capa RNFL
 ## Estadística Descriptiva
