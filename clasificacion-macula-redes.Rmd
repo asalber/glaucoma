@@ -144,7 +144,7 @@ En este trabajo se presenta un estudio de detección del Glaucoma y clasificaci�
 Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).
 
 ```{r default-parameters}
-nrep = 3
+nrep = 10
 nfolds = 10
 nepochs = 100
 nbatch = 50
