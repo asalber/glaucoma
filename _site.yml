@@ -24,8 +24,8 @@ navbar:
     href: clasificacion-macula-redes.html
   - text: Clasificación Mácula
     href: clasificacion-macula.html
-  - text: Aplicación
-    href: http://nube.aprendeconalf.es/shiny/glaucoma-app/
+  - text: Calculadora
+    href: https://asalber.shinyapps.io/GlaucomaApp/
   right:
   - icon: fa-home fa-lg
     href: http://aprendeconalf.es/
