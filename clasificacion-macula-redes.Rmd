@@ -410,14 +410,14 @@ train.stages <- function(input, epochs=nepochs, batch_size=nbatch){
       # Accuracy
       acu <- c(acu, confusion$overall["Accuracy"])
     }
-    mean.sen <- rbind(mean.sen, colMeans(sen))
-    mean.spe <- rbind(mean.spe, colMeans(spe))
-    mean.bacu <- rbind(mean.bacu, colMeans(bacu))
-    mean.acu <- c(mean.acu, mean(acu))
+    mean.sen <- rbind(mean.sen, colMeans(sen, na.rm = T))
+    mean.spe <- rbind(mean.spe, colMeans(spe, na.rm = T))
+    mean.bacu <- rbind(mean.bacu, colMeans(bacu, na.rm = T))
+    mean.acu <- c(mean.acu, mean(acu, na.rm = T))
   }
-  mean.sen <- as.tibble(mean.sen) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
-  mean.spe <- as.tibble(mean.spe) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
-  mean.bacu <- as.tibble(mean.bacu) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
+  mean.sen <- as_tibble(mean.sen) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
+  mean.spe <- as_tibble(mean.spe) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
+  mean.bacu <- as_tibble(mean.bacu) %>% rename(EstadioI = `Class: 0`, EstadioII = `Class: 1`, EstadioIII = `Class: 2`, EstadioIV = `Class: 3`)
   # Summarise results
   acu <- groupwiseMean(Precisión.global~1, data = data.frame("Precisión.global" = mean.acu)) %>% rename(Medida = `.id`)
   acu$Medida <- "Precisión.global"
@@ -471,14 +471,14 @@ train.stages.glaucoma <- function(input, epochs=nepochs, batch_size=nbatch){
       # Accuracy
       acu <- c(acu, confusion$overall["Accuracy"])
     }
-    mean.sen <- rbind(mean.sen, colMeans(sen))
-    mean.spe <- rbind(mean.spe, colMeans(spe))
-    mean.bacu <- rbind(mean.bacu, colMeans(bacu))
-    mean.acu <- c(mean.acu, mean(acu))
+    mean.sen <- rbind(mean.sen, colMeans(sen, na.rm = T))
+    mean.spe <- rbind(mean.spe, colMeans(spe, na.rm = T))
+    mean.bacu <- rbind(mean.bacu, colMeans(bacu, na.rm = T))
+    mean.acu <- c(mean.acu, mean(acu, na.rm = T))
   }
-  mean.sen <- as.tibble(mean.sen) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
-  mean.spe <- as.tibble(mean.spe) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
-  mean.bacu <- as.tibble(mean.bacu) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
+  mean.sen <- as_tibble(mean.sen) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
+  mean.spe <- as_tibble(mean.spe) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
+  mean.bacu <- as_tibble(mean.bacu) %>% rename(Sano = `Class: 0`, EstadioI = `Class: 1`, EstadioII = `Class: 2`, EstadioIII = `Class: 3`, EstadioIV = `Class: 4`)
   # Summarise results
   acu <- groupwiseMean(Precisión.global~1, data = data.frame("Precisión.global" = mean.acu)) %>% rename(Medida = `.id`)
   acu$Medida <- "Precisión.global"

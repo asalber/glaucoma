@@ -10,11 +10,11 @@
 
 
 
-<meta name="date" content="2022-03-07" />
+<meta name="date" content="2022-06-27" />
 
 <title>Clasifiación del Glaucoma mediante redes neuronales</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -67,6 +67,7 @@ if (window.hljs) {
 
 
 
+
 <link rel="stylesheet" href="custom-style.css" type="text/css" />
 
 
@@ -91,6 +92,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -316,7 +320,7 @@ div.tocify {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -350,7 +354,7 @@ div.tocify {
   <a href="clasificacion-macula.html">Clasificación Mácula</a>
 </li>
 <li>
-  <a href="http://nube.aprendeconalf.es/shiny/glaucoma-app/">Aplicación</a>
+  <a href="https://asalber.shinyapps.io/GlaucomaApp/">Calculadora</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -369,18 +373,28 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Clasifiación del Glaucoma mediante redes neuronales</h1>
-<h4 class="date">2022-03-07</h4>
+<h1 class="title toc-ignore">Clasifiación del Glaucoma mediante redes
+neuronales</h1>
+<h4 class="date">2022-06-27</h4>
 
 </div>
 
 
 <div id="resumen" class="section level1">
 <h1>Resumen</h1>
-<p>En este trabajo se presenta un estudio de detección del Glaucoma y clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos se han generado mediante el algoritmo de K-medias (<a href="https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html">más info</a>).</p>
-<p>Para cada capa o combinación de capas de la mácula se presenta primero un modelo de clasificación binaria (Sano o Glaucoma) para dectectar el Glaucoma y después un modelo de clasifiación múltiple para clasificar el glaucoma en estadíos (I, II, III y IV).</p>
+<p>En este trabajo se presenta un estudio de detección del Glaucoma y
+clasificación en estadíos (Sano, I, II, III y IV) a partir de las capas
+de fibras nerviosas de la mácula mediante redes neuronales. Los estadíos
+se han generado mediante el algoritmo de K-medias (<a
+href="https://aprendeconalf.es/glaucoma/glaucoma-clusters-izdo.html">más
+info</a>).</p>
+<p>Para cada capa o combinación de capas de la mácula se presenta
+primero un modelo de clasificación binaria (Sano o Glaucoma) para
+dectectar el Glaucoma y después un modelo de clasifiación múltiple para
+clasificar el glaucoma en estadíos (I, II, III y IV).</p>
 </div>
-<div id="parámetros-de-entrenamiento-de-las-redes" class="section level1">
+<div id="parámetros-de-entrenamiento-de-las-redes"
+class="section level1">
 <h1>Parámetros de entrenamiento de las redes</h1>
 <ul>
 <li>Número de iteraciones: 100</li>
@@ -391,7 +405,8 @@ div.tocify {
 <li>Número de repeticiones: 10</li>
 </ul>
 </div>
-<div id="clasificación-binaria-glaucoma-vs-no-glaucoma" class="section level1">
+<div id="clasificación-binaria-glaucoma-vs-no-glaucoma"
+class="section level1">
 <h1>Clasificación binaria (glaucoma vs no glaucoma)</h1>
 <div id="todas-las-capas-y-celdas" class="section level2">
 <h2>Todas las capas y celdas</h2>
@@ -405,25 +420,15 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_5 (Dense)                    (None, 1024)                    459776      
-                                                                                
  dense_4 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_3 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_3 (Dense)                    (None, 512)                     262656      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 2)                       258         
-                                                                                
 ================================================================================
 Total params: 1,411,714
 Trainable params: 1,411,714
@@ -434,7 +439,9 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en redes neuronales usando todas las capas y celdas la mácula
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación binario (sanos vs glaucomatosos) basado en redes
+neuronales usando todas las capas y celdas la mácula
 </caption>
 <thead>
 <tr>
@@ -458,13 +465,13 @@ lim.sup.ci
 AUC
 </td>
 <td style="text-align:right;">
-0.741
+0.736
 </td>
 <td style="text-align:right;">
-0.697
+0.722
 </td>
 <td style="text-align:right;">
-0.785
+0.750
 </td>
 </tr>
 <tr>
@@ -472,13 +479,13 @@ AUC
 Especificidad
 </td>
 <td style="text-align:right;">
-0.982
+0.984
 </td>
 <td style="text-align:right;">
-0.968
+0.981
 </td>
 <td style="text-align:right;">
-0.995
+0.988
 </td>
 </tr>
 <tr>
@@ -489,10 +496,10 @@ Precisión.global
 0.885
 </td>
 <td style="text-align:right;">
-0.858
+0.880
 </td>
 <td style="text-align:right;">
-0.911
+0.890
 </td>
 </tr>
 <tr>
@@ -500,13 +507,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.741
+0.736
 </td>
 <td style="text-align:right;">
-0.697
+0.722
 </td>
 <td style="text-align:right;">
-0.785
+0.750
 </td>
 </tr>
 <tr>
@@ -514,20 +521,21 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.501
+0.488
 </td>
 <td style="text-align:right;">
-0.426
+0.459
 </td>
 <td style="text-align:right;">
-0.575
+0.517
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="todas-las-capas-y-celdas-significativas" class="section level2">
+<div id="todas-las-capas-y-celdas-significativas"
+class="section level2">
 <h2>Todas las capas y celdas significativas</h2>
 <div id="parámetros-de-la-red-1" class="section level3">
 <h3>Parámetros de la red</h3>
@@ -539,25 +547,15 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_5 (Dense)                    (None, 1024)                    183296      
-                                                                                
  dense_4 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_3 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_3 (Dense)                    (None, 512)                     262656      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 2)                       258         
-                                                                                
 ================================================================================
 Total params: 1,135,234
 Trainable params: 1,135,234
@@ -568,7 +566,10 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en redes neuronales usando todas las capas de la mácula pero solo las celdas con diferencias significativas entre sanos y glaucomatosos.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación binario (sanos vs glaucomatosos) basado en redes
+neuronales usando todas las capas de la mácula pero solo las celdas con
+diferencias significativas entre sanos y glaucomatosos.
 </caption>
 <thead>
 <tr>
@@ -592,13 +593,13 @@ lim.sup.ci
 AUC
 </td>
 <td style="text-align:right;">
-0.739
+0.749
 </td>
 <td style="text-align:right;">
-0.720
+0.745
 </td>
 <td style="text-align:right;">
-0.758
+0.754
 </td>
 </tr>
 <tr>
@@ -606,13 +607,13 @@ AUC
 Especificidad
 </td>
 <td style="text-align:right;">
-0.977
+0.978
 </td>
 <td style="text-align:right;">
-0.975
+0.973
 </td>
 <td style="text-align:right;">
-0.979
+0.982
 </td>
 </tr>
 <tr>
@@ -620,13 +621,13 @@ Especificidad
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.882
+0.886
 </td>
 <td style="text-align:right;">
-0.871
+0.883
 </td>
 <td style="text-align:right;">
-0.893
+0.890
 </td>
 </tr>
 <tr>
@@ -634,13 +635,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.739
+0.749
 </td>
 <td style="text-align:right;">
-0.720
+0.745
 </td>
 <td style="text-align:right;">
-0.758
+0.754
 </td>
 </tr>
 <tr>
@@ -648,20 +649,21 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.502
+0.521
 </td>
 <td style="text-align:right;">
-0.466
+0.513
 </td>
 <td style="text-align:right;">
-0.537
+0.530
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="capas-significativas-y-todas-las-celdas" class="section level2">
+<div id="capas-significativas-y-todas-las-celdas"
+class="section level2">
 <h2>Capas significativas y todas las celdas</h2>
 <div id="parámetros-de-la-red-2" class="section level3">
 <h3>Parámetros de la red</h3>
@@ -673,25 +675,15 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_5 (Dense)                    (None, 1024)                    183296      
-                                                                                
  dense_4 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_3 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_3 (Dense)                    (None, 512)                     262656      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 2)                       258         
-                                                                                
 ================================================================================
 Total params: 1,135,234
 Trainable params: 1,135,234
@@ -702,7 +694,11 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en redes neuronales usando solo las capas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las celdas.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación binario (sanos vs glaucomatosos) basado en redes
+neuronales usando solo las capas de la mácula con diferencias
+significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y todas las
+celdas.
 </caption>
 <thead>
 <tr>
@@ -726,13 +722,13 @@ lim.sup.ci
 AUC
 </td>
 <td style="text-align:right;">
-0.748
+0.747
 </td>
 <td style="text-align:right;">
-0.725
+0.737
 </td>
 <td style="text-align:right;">
-0.771
+0.757
 </td>
 </tr>
 <tr>
@@ -740,13 +736,13 @@ AUC
 Especificidad
 </td>
 <td style="text-align:right;">
-0.975
+0.976
 </td>
 <td style="text-align:right;">
-0.958
+0.971
 </td>
 <td style="text-align:right;">
-0.992
+0.980
 </td>
 </tr>
 <tr>
@@ -757,10 +753,10 @@ Precisión.global
 0.885
 </td>
 <td style="text-align:right;">
-0.878
+0.881
 </td>
 <td style="text-align:right;">
-0.892
+0.890
 </td>
 </tr>
 <tr>
@@ -768,13 +764,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.748
+0.747
 </td>
 <td style="text-align:right;">
-0.725
+0.737
 </td>
 <td style="text-align:right;">
-0.771
+0.757
 </td>
 </tr>
 <tr>
@@ -782,20 +778,21 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.521
+0.518
 </td>
 <td style="text-align:right;">
-0.461
+0.499
 </td>
 <td style="text-align:right;">
-0.580
+0.538
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="capas-significativas-y-celdas-significativas" class="section level2">
+<div id="capas-significativas-y-celdas-significativas"
+class="section level2">
 <h2>Capas significativas y celdas significativas</h2>
 <div id="parámetros-de-la-red-3" class="section level3">
 <h3>Parámetros de la red</h3>
@@ -807,25 +804,15 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_5 (Dense)                    (None, 1024)                    183296      
-                                                                                
  dense_4 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_3 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_3 (Dense)                    (None, 512)                     262656      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 2)                       258         
-                                                                                
 ================================================================================
 Total params: 1,135,234
 Trainable params: 1,135,234
@@ -836,7 +823,10 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en redes neuronales usando solo las capas (RNFL, GCL e IPL) y las celdas de la mácula con diferencias significativas entre sanos y glaucomatosos.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación binario (sanos vs glaucomatosos) basado en redes
+neuronales usando solo las capas (RNFL, GCL e IPL) y las celdas de la
+mácula con diferencias significativas entre sanos y glaucomatosos.
 </caption>
 <thead>
 <tr>
@@ -860,13 +850,13 @@ lim.sup.ci
 AUC
 </td>
 <td style="text-align:right;">
-0.750
+0.746
 </td>
 <td style="text-align:right;">
-0.710
+0.739
 </td>
 <td style="text-align:right;">
-0.790
+0.753
 </td>
 </tr>
 <tr>
@@ -874,13 +864,13 @@ AUC
 Especificidad
 </td>
 <td style="text-align:right;">
-0.981
+0.974
 </td>
 <td style="text-align:right;">
-0.980
+0.971
 </td>
 <td style="text-align:right;">
-0.982
+0.977
 </td>
 </tr>
 <tr>
@@ -888,13 +878,13 @@ Especificidad
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.887
+0.884
 </td>
 <td style="text-align:right;">
-0.874
+0.881
 </td>
 <td style="text-align:right;">
-0.901
+0.886
 </td>
 </tr>
 <tr>
@@ -902,13 +892,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.750
+0.746
 </td>
 <td style="text-align:right;">
-0.710
+0.739
 </td>
 <td style="text-align:right;">
-0.790
+0.753
 </td>
 </tr>
 <tr>
@@ -916,21 +906,24 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.519
+0.518
 </td>
 <td style="text-align:right;">
-0.440
+0.503
 </td>
 <td style="text-align:right;">
-0.598
+0.534
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="capas-significativas-y-celdas-significativas-con-datos-balanceados" class="section level2">
-<h2>Capas significativas y celdas significativas con datos balanceados</h2>
+<div
+id="capas-significativas-y-celdas-significativas-con-datos-balanceados"
+class="section level2">
+<h2>Capas significativas y celdas significativas con datos
+balanceados</h2>
 <div id="parámetros-de-la-red-4" class="section level3">
 <h3>Parámetros de la red</h3>
 <ul>
@@ -941,25 +934,15 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_5 (Dense)                    (None, 1024)                    183296      
-                                                                                
  dense_4 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_3 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_3 (Dense)                    (None, 512)                     262656      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 2)                       258         
-                                                                                
 ================================================================================
 Total params: 1,135,234
 Trainable params: 1,135,234
@@ -970,7 +953,11 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación binario (sanos vs glaucomatosos) basado en redes neuronales usando solo las capas y las celdas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL), con el mismo número de ojos sanos y glaucomatosos.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación binario (sanos vs glaucomatosos) basado en redes
+neuronales usando solo las capas y las celdas de la mácula con
+diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e
+IPL), con el mismo número de ojos sanos y glaucomatosos.
 </caption>
 <thead>
 <tr>
@@ -994,13 +981,13 @@ lim.sup.ci
 AUC
 </td>
 <td style="text-align:right;">
-0.757
+0.763
 </td>
 <td style="text-align:right;">
-0.714
+0.754
 </td>
 <td style="text-align:right;">
-0.800
+0.772
 </td>
 </tr>
 <tr>
@@ -1008,13 +995,13 @@ AUC
 Especificidad
 </td>
 <td style="text-align:right;">
-0.831
+0.839
 </td>
 <td style="text-align:right;">
-0.620
+0.800
 </td>
 <td style="text-align:right;">
-1.040
+0.877
 </td>
 </tr>
 <tr>
@@ -1022,13 +1009,13 @@ Especificidad
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.758
+0.762
 </td>
 <td style="text-align:right;">
-0.706
+0.750
 </td>
 <td style="text-align:right;">
-0.810
+0.775
 </td>
 </tr>
 <tr>
@@ -1036,13 +1023,13 @@ Precisión.global
 Precisión.media
 </td>
 <td style="text-align:right;">
-0.757
+0.763
 </td>
 <td style="text-align:right;">
-0.714
+0.754
 </td>
 <td style="text-align:right;">
-0.800
+0.772
 </td>
 </tr>
 <tr>
@@ -1050,13 +1037,13 @@ Precisión.media
 Sensibilidad
 </td>
 <td style="text-align:right;">
-0.683
+0.687
 </td>
 <td style="text-align:right;">
-0.558
+0.657
 </td>
 <td style="text-align:right;">
-0.808
+0.718
 </td>
 </tr>
 </tbody>
@@ -1124,7 +1111,8 @@ Sensibilidad
 </div>
 </div>
 </div>
-<div id="clasificación-en-estadios-incluyendo-sanos" class="section level1">
+<div id="clasificación-en-estadios-incluyendo-sanos"
+class="section level1">
 <h1>Clasificación en estadios (incluyendo sanos)</h1>
 <div id="todas-las-capas-y-celdas-1" class="section level2">
 <h2>Todas las capas y celdas</h2>
@@ -1136,21 +1124,13 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_4 (Dense)                    (None, 1024)                    459776      
-                                                                                
  dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 5)                       645         
-                                                                                
 ================================================================================
 Total params: 1,149,445
 Trainable params: 1,149,445
@@ -1160,7 +1140,9 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en redes neuronales usando todas las capas y celdas la mácula.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en
+redes neuronales usando todas las capas y celdas la mácula.
 </caption>
 <thead>
 <tr>
@@ -1190,6 +1172,286 @@ Especificidad.EstadioI
 1.0000
 </td>
 <td style="text-align:right;">
+1.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.9930
+</td>
+<td style="text-align:right;">
+0.9910
+</td>
+<td style="text-align:right;">
+0.9950
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.9780
+</td>
+<td style="text-align:right;">
+0.9750
+</td>
+<td style="text-align:right;">
+0.9810
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.9850
+</td>
+<td style="text-align:right;">
+0.9820
+</td>
+<td style="text-align:right;">
+0.9880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.Sano
+</td>
+<td style="text-align:right;">
+0.4480
+</td>
+<td style="text-align:right;">
+0.4230
+</td>
+<td style="text-align:right;">
+0.4730
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioI
+</td>
+<td style="text-align:right;">
+0.5000
+</td>
+<td style="text-align:right;">
+0.5000
+</td>
+<td style="text-align:right;">
+0.5000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioII
+</td>
+<td style="text-align:right;">
+0.5250
+</td>
+<td style="text-align:right;">
+0.5170
+</td>
+<td style="text-align:right;">
+0.5330
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIII
+</td>
+<td style="text-align:right;">
+0.7480
+</td>
+<td style="text-align:right;">
+0.7200
+</td>
+<td style="text-align:right;">
+0.7760
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIV
+</td>
+<td style="text-align:right;">
+0.8620
+</td>
+<td style="text-align:right;">
+0.8260
+</td>
+<td style="text-align:right;">
+0.8970
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.Sano
+</td>
+<td style="text-align:right;">
+0.7210
+</td>
+<td style="text-align:right;">
+0.7080
+</td>
+<td style="text-align:right;">
+0.7340
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioI
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.0571
+</td>
+<td style="text-align:right;">
+0.0413
+</td>
+<td style="text-align:right;">
+0.0728
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.5180
+</td>
+<td style="text-align:right;">
+0.4620
+</td>
+<td style="text-align:right;">
+0.5740
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.7390
+</td>
+<td style="text-align:right;">
+0.6670
+</td>
+<td style="text-align:right;">
+0.8100
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.Sano
+</td>
+<td style="text-align:right;">
+0.9940
+</td>
+<td style="text-align:right;">
+0.9910
+</td>
+<td style="text-align:right;">
+0.9970
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.global
+</td>
+<td style="text-align:right;">
+0.8480
+</td>
+<td style="text-align:right;">
+0.8420
+</td>
+<td style="text-align:right;">
+0.8540
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="todas-las-capas-y-celdas-significativas-1"
+class="section level2">
+<h2>Todas las capas y celdas significativas</h2>
+<div id="parámetros-de-la-red-5" class="section level3">
+<h3>Parámetros de la red</h3>
+<ul>
+<li>Arquitectura</li>
+</ul>
+<pre><code>Model: &quot;sequential&quot;
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ dense_4 (Dense)                    (None, 1024)                    183296      
+ dense_3 (Dense)                    (None, 512)                     524800      
+ dropout_2 (Dropout)                (None, 512)                     0           
+ dense_2 (Dense)                    (None, 256)                     131328      
+ dropout_1 (Dropout)                (None, 256)                     0           
+ dense_1 (Dense)                    (None, 128)                     32896       
+ dropout (Dropout)                  (None, 128)                     0           
+ dense (Dense)                      (None, 5)                       645         
+================================================================================
+Total params: 872,965
+Trainable params: 872,965
+Non-trainable params: 0
+________________________________________________________________________________</code></pre>
+</div>
+<div id="evaluación-del-modelo-6" class="section level3">
+<h3>Evaluación del modelo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en
+redes neuronales usando todas las capas de la mácula pero solo las
+celdas con diferencias significativas entre sanos y glaucomatosos.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Medida
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+lim.inf.ci
+</th>
+<th style="text-align:right;">
+lim.sup.ci
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioI
+</td>
+<td style="text-align:right;">
+1.0000
+</td>
+<td style="text-align:right;">
+0.9990
+</td>
+<td style="text-align:right;">
 1.000
 </td>
 </tr>
@@ -1198,13 +1460,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.9920
-</td>
-<td style="text-align:right;">
 0.9870
 </td>
 <td style="text-align:right;">
-0.997
+0.9850
+</td>
+<td style="text-align:right;">
+0.989
 </td>
 </tr>
 <tr>
@@ -1212,13 +1474,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.9790
+0.9770
 </td>
 <td style="text-align:right;">
 0.9740
 </td>
 <td style="text-align:right;">
-0.985
+0.980
 </td>
 </tr>
 <tr>
@@ -1226,13 +1488,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.9880
+0.9910
 </td>
 <td style="text-align:right;">
-0.9690
+0.9900
 </td>
 <td style="text-align:right;">
-1.010
+0.993
 </td>
 </tr>
 <tr>
@@ -1240,13 +1502,13 @@ Especificidad.EstadioIV
 Especificidad.Sano
 </td>
 <td style="text-align:right;">
-0.4380
+0.4780
 </td>
 <td style="text-align:right;">
-0.3670
+0.4700
 </td>
 <td style="text-align:right;">
-0.509
+0.487
 </td>
 </tr>
 <tr>
@@ -1268,13 +1530,13 @@ Precisión.media.EstadioI
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.5390
+0.5400
 </td>
 <td style="text-align:right;">
-0.5210
+0.5250
 </td>
 <td style="text-align:right;">
-0.557
+0.555
 </td>
 </tr>
 <tr>
@@ -1282,13 +1544,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-NA
+0.8160
 </td>
 <td style="text-align:right;">
-NA
+0.7980
 </td>
 <td style="text-align:right;">
-NA
+0.834
 </td>
 </tr>
 <tr>
@@ -1296,581 +1558,13 @@ NA
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-NA
+0.8740
 </td>
 <td style="text-align:right;">
-NA
+0.8480
 </td>
 <td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.Sano
-</td>
-<td style="text-align:right;">
-0.7170
-</td>
-<td style="text-align:right;">
-0.6850
-</td>
-<td style="text-align:right;">
-0.748
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioI
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioII
-</td>
-<td style="text-align:right;">
-0.0869
-</td>
-<td style="text-align:right;">
-0.0461
-</td>
-<td style="text-align:right;">
-0.128
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioIII
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioIV
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.Sano
-</td>
-<td style="text-align:right;">
-0.9950
-</td>
-<td style="text-align:right;">
-0.9860
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.global
-</td>
-<td style="text-align:right;">
-0.8510
-</td>
-<td style="text-align:right;">
-0.8270
-</td>
-<td style="text-align:right;">
-0.875
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="todas-las-capas-y-celdas-significativas-1" class="section level2">
-<h2>Todas las capas y celdas significativas</h2>
-<div id="parámetros-de-la-red-5" class="section level3">
-<h3>Parámetros de la red</h3>
-<ul>
-<li>Arquitectura</li>
-</ul>
-<pre><code>Model: &quot;sequential&quot;
-________________________________________________________________________________
- Layer (type)                       Output Shape                    Param #     
-================================================================================
- dense_4 (Dense)                    (None, 1024)                    183296      
-                                                                                
- dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
- dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
- dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
- dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
- dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
- dropout (Dropout)                  (None, 128)                     0           
-                                                                                
- dense (Dense)                      (None, 5)                       645         
-                                                                                
-================================================================================
-Total params: 872,965
-Trainable params: 872,965
-Non-trainable params: 0
-________________________________________________________________________________</code></pre>
-</div>
-<div id="evaluación-del-modelo-6" class="section level3">
-<h3>Evaluación del modelo</h3>
-<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en redes neuronales usando todas las capas de la mácula pero solo las celdas con diferencias significativas entre sanos y glaucomatosos.
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Medida
-</th>
-<th style="text-align:right;">
-Media
-</th>
-<th style="text-align:right;">
-lim.inf.ci
-</th>
-<th style="text-align:right;">
-lim.sup.ci
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioI
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioII
-</td>
-<td style="text-align:right;">
-0.9900
-</td>
-<td style="text-align:right;">
-0.9840
-</td>
-<td style="text-align:right;">
-0.9960
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioIII
-</td>
-<td style="text-align:right;">
-0.9760
-</td>
-<td style="text-align:right;">
-0.9710
-</td>
-<td style="text-align:right;">
-0.9820
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioIV
-</td>
-<td style="text-align:right;">
-0.9890
-</td>
-<td style="text-align:right;">
-0.9820
-</td>
-<td style="text-align:right;">
-0.9960
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.Sano
-</td>
-<td style="text-align:right;">
-0.4640
-</td>
-<td style="text-align:right;">
-0.4340
-</td>
-<td style="text-align:right;">
-0.4940
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioI
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioII
-</td>
-<td style="text-align:right;">
-0.5200
-</td>
-<td style="text-align:right;">
-0.5060
-</td>
-<td style="text-align:right;">
-0.5340
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioIII
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioIV
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.Sano
-</td>
-<td style="text-align:right;">
-0.7280
-</td>
-<td style="text-align:right;">
-0.7110
-</td>
-<td style="text-align:right;">
-0.7440
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioI
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioII
-</td>
-<td style="text-align:right;">
-0.0499
-</td>
-<td style="text-align:right;">
-0.0155
-</td>
-<td style="text-align:right;">
-0.0842
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioIII
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.EstadioIV
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Sensibilidad.Sano
-</td>
-<td style="text-align:right;">
-0.9910
-</td>
-<td style="text-align:right;">
-0.9870
-</td>
-<td style="text-align:right;">
-0.9940
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.global
-</td>
-<td style="text-align:right;">
-0.8520
-</td>
-<td style="text-align:right;">
-0.8460
-</td>
-<td style="text-align:right;">
-0.8570
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="capas-significativas-y-todas-las-celdas-1" class="section level2">
-<h2>Capas significativas y todas las celdas</h2>
-<div id="parámetros-de-la-red-6" class="section level3">
-<h3>Parámetros de la red</h3>
-<ul>
-<li>Arquitectura</li>
-</ul>
-<pre><code>Model: &quot;sequential&quot;
-________________________________________________________________________________
- Layer (type)                       Output Shape                    Param #     
-================================================================================
- dense_4 (Dense)                    (None, 1024)                    197632      
-                                                                                
- dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
- dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
- dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
- dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
- dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
- dropout (Dropout)                  (None, 128)                     0           
-                                                                                
- dense (Dense)                      (None, 5)                       645         
-                                                                                
-================================================================================
-Total params: 887,301
-Trainable params: 887,301
-Non-trainable params: 0
-________________________________________________________________________________</code></pre>
-</div>
-<div id="evaluación-del-modelo-7" class="section level3">
-<h3>Evaluación del modelo</h3>
-<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en redes neuronales usando solo las capas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y tods las celdas.
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Medida
-</th>
-<th style="text-align:right;">
-Media
-</th>
-<th style="text-align:right;">
-lim.inf.ci
-</th>
-<th style="text-align:right;">
-lim.sup.ci
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioI
-</td>
-<td style="text-align:right;">
-0.9990
-</td>
-<td style="text-align:right;">
-0.9960
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioII
-</td>
-<td style="text-align:right;">
-0.9890
-</td>
-<td style="text-align:right;">
-0.9830
-</td>
-<td style="text-align:right;">
-0.994
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioIII
-</td>
-<td style="text-align:right;">
-0.9720
-</td>
-<td style="text-align:right;">
-0.9490
-</td>
-<td style="text-align:right;">
-0.994
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.EstadioIV
-</td>
-<td style="text-align:right;">
-0.9950
-</td>
-<td style="text-align:right;">
-0.9910
-</td>
-<td style="text-align:right;">
-0.999
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Especificidad.Sano
-</td>
-<td style="text-align:right;">
-0.4800
-</td>
-<td style="text-align:right;">
-0.4540
-</td>
-<td style="text-align:right;">
-0.506
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioI
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioII
-</td>
-<td style="text-align:right;">
-0.5420
-</td>
-<td style="text-align:right;">
-0.5050
-</td>
-<td style="text-align:right;">
-0.579
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioIII
-</td>
-<td style="text-align:right;">
-0.8420
-</td>
-<td style="text-align:right;">
-0.8060
-</td>
-<td style="text-align:right;">
-0.878
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Precisión.media.EstadioIV
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
+0.900
 </td>
 </tr>
 <tr>
@@ -1892,13 +1586,13 @@ Precisión.media.Sano
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-NA
+0.0000
 </td>
 <td style="text-align:right;">
-NA
+0.0000
 </td>
 <td style="text-align:right;">
-NA
+0.000
 </td>
 </tr>
 <tr>
@@ -1906,13 +1600,13 @@ NA
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.0961
+0.0924
 </td>
 <td style="text-align:right;">
-0.0164
+0.0616
 </td>
 <td style="text-align:right;">
-0.176
+0.123
 </td>
 </tr>
 <tr>
@@ -1920,13 +1614,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.7130
+0.6550
 </td>
 <td style="text-align:right;">
-0.6570
+0.6190
 </td>
 <td style="text-align:right;">
-0.768
+0.691
 </td>
 </tr>
 <tr>
@@ -1934,13 +1628,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-NA
+0.7570
 </td>
 <td style="text-align:right;">
-NA
+0.7060
 </td>
 <td style="text-align:right;">
-NA
+0.808
 </td>
 </tr>
 <tr>
@@ -1948,13 +1642,13 @@ NA
 Sensibilidad.Sano
 </td>
 <td style="text-align:right;">
-0.9860
+0.9880
 </td>
 <td style="text-align:right;">
-0.9690
+0.9840
 </td>
 <td style="text-align:right;">
-1.000
+0.991
 </td>
 </tr>
 <tr>
@@ -1962,22 +1656,23 @@ Sensibilidad.Sano
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.8520
+0.8530
 </td>
 <td style="text-align:right;">
-0.8330
+0.8500
 </td>
 <td style="text-align:right;">
-0.872
+0.857
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="capas-significativas-y-celdas-significativas-1" class="section level2">
-<h2>Capas significativas y celdas significativas</h2>
-<div id="parámetros-de-la-red-7" class="section level3">
+<div id="capas-significativas-y-todas-las-celdas-1"
+class="section level2">
+<h2>Capas significativas y todas las celdas</h2>
+<div id="parámetros-de-la-red-6" class="section level3">
 <h3>Parámetros de la red</h3>
 <ul>
 <li>Arquitectura</li>
@@ -1986,33 +1681,29 @@ Precisión.global
 ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
- dense_4 (Dense)                    (None, 1024)                    183296      
-                                                                                
+ dense_4 (Dense)                    (None, 1024)                    197632      
  dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 5)                       645         
-                                                                                
 ================================================================================
-Total params: 872,965
-Trainable params: 872,965
+Total params: 887,301
+Trainable params: 887,301
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 </div>
-<div id="evaluación-del-modelo-8" class="section level3">
+<div id="evaluación-del-modelo-7" class="section level3">
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en redes neuronales usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en
+redes neuronales usando solo las capas de la mácula con diferencias
+significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y tods las
+celdas.
 </caption>
 <thead>
 <tr>
@@ -2053,10 +1744,10 @@ Especificidad.EstadioII
 0.9870
 </td>
 <td style="text-align:right;">
-0.9840
+0.9820
 </td>
 <td style="text-align:right;">
-0.990
+0.991
 </td>
 </tr>
 <tr>
@@ -2064,13 +1755,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.9760
+0.9740
 </td>
 <td style="text-align:right;">
-0.9630
+0.9710
 </td>
 <td style="text-align:right;">
-0.989
+0.977
 </td>
 </tr>
 <tr>
@@ -2081,10 +1772,10 @@ Especificidad.EstadioIV
 0.9890
 </td>
 <td style="text-align:right;">
-0.9790
+0.9870
 </td>
 <td style="text-align:right;">
-0.999
+0.991
 </td>
 </tr>
 <tr>
@@ -2092,13 +1783,13 @@ Especificidad.EstadioIV
 Especificidad.Sano
 </td>
 <td style="text-align:right;">
-0.4700
+0.4890
 </td>
 <td style="text-align:right;">
-0.3830
+0.4760
 </td>
 <td style="text-align:right;">
-0.557
+0.502
 </td>
 </tr>
 <tr>
@@ -2106,13 +1797,13 @@ Especificidad.Sano
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-NA
+0.5000
 </td>
 <td style="text-align:right;">
-NA
+0.5000
 </td>
 <td style="text-align:right;">
-NA
+0.500
 </td>
 </tr>
 <tr>
@@ -2120,10 +1811,10 @@ NA
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.5110
+0.5310
 </td>
 <td style="text-align:right;">
-0.4780
+0.5180
 </td>
 <td style="text-align:right;">
 0.544
@@ -2134,13 +1825,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-NA
+0.8040
 </td>
 <td style="text-align:right;">
-NA
+0.7780
 </td>
 <td style="text-align:right;">
-NA
+0.830
 </td>
 </tr>
 <tr>
@@ -2148,13 +1839,13 @@ NA
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-NA
+0.8570
 </td>
 <td style="text-align:right;">
-NA
+0.8270
 </td>
 <td style="text-align:right;">
-NA
+0.887
 </td>
 </tr>
 <tr>
@@ -2162,13 +1853,13 @@ NA
 Precisión.media.Sano
 </td>
 <td style="text-align:right;">
-0.7300
+0.7380
 </td>
 <td style="text-align:right;">
-0.6900
+0.7330
 </td>
 <td style="text-align:right;">
-0.770
+0.744
 </td>
 </tr>
 <tr>
@@ -2176,13 +1867,13 @@ Precisión.media.Sano
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-NA
+0.0000
 </td>
 <td style="text-align:right;">
-NA
+0.0000
 </td>
 <td style="text-align:right;">
-NA
+0.000
 </td>
 </tr>
 <tr>
@@ -2190,13 +1881,13 @@ NA
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.0359
+0.0751
 </td>
 <td style="text-align:right;">
--0.0332
+0.0467
 </td>
 <td style="text-align:right;">
-0.105
+0.104
 </td>
 </tr>
 <tr>
@@ -2204,13 +1895,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-NA
+0.6340
 </td>
 <td style="text-align:right;">
-NA
+0.5810
 </td>
 <td style="text-align:right;">
-NA
+0.687
 </td>
 </tr>
 <tr>
@@ -2218,13 +1909,13 @@ NA
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-NA
+0.7250
 </td>
 <td style="text-align:right;">
-NA
+0.6650
 </td>
 <td style="text-align:right;">
-NA
+0.785
 </td>
 </tr>
 <tr>
@@ -2232,13 +1923,13 @@ NA
 Sensibilidad.Sano
 </td>
 <td style="text-align:right;">
-0.9890
+0.9880
 </td>
 <td style="text-align:right;">
-0.9820
+0.9840
 </td>
 <td style="text-align:right;">
-0.996
+0.992
 </td>
 </tr>
 <tr>
@@ -2246,22 +1937,23 @@ Sensibilidad.Sano
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.8480
+0.8490
 </td>
 <td style="text-align:right;">
-0.8400
+0.8470
 </td>
 <td style="text-align:right;">
-0.857
+0.851
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="capas-significativas-y-celdas-significativas-con-datos-balanceados-1" class="section level2">
-<h2>Capas significativas y celdas significativas con datos balanceados</h2>
-<div id="parámetros-de-la-red-8" class="section level3">
+<div id="capas-significativas-y-celdas-significativas-1"
+class="section level2">
+<h2>Capas significativas y celdas significativas</h2>
+<div id="parámetros-de-la-red-7" class="section level3">
 <h3>Parámetros de la red</h3>
 <ul>
 <li>Arquitectura</li>
@@ -2271,32 +1963,27 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_4 (Dense)                    (None, 1024)                    183296      
-                                                                                
  dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 5)                       645         
-                                                                                
 ================================================================================
 Total params: 872,965
 Trainable params: 872,965
 Non-trainable params: 0
 ________________________________________________________________________________</code></pre>
 </div>
-<div id="evaluación-del-modelo-9" class="section level3">
+<div id="evaluación-del-modelo-8" class="section level3">
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en redes neuronales usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos, y con un número de ojos sanos similar al de los demás estadios.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en
+redes neuronales usando solo las capas de la mácula (RNFL, GCL e IPL) y
+las celdas con diferencias significativas entre sanos y glaucomatosos.
 </caption>
 <thead>
 <tr>
@@ -2320,13 +2007,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.9910
+1.0000
 </td>
 <td style="text-align:right;">
-0.971
+1.0000
 </td>
 <td style="text-align:right;">
-1.0100
+1.000
 </td>
 </tr>
 <tr>
@@ -2334,13 +2021,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.8620
+0.9880
 </td>
 <td style="text-align:right;">
-0.775
+0.9860
 </td>
 <td style="text-align:right;">
-0.9500
+0.991
 </td>
 </tr>
 <tr>
@@ -2348,13 +2035,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.9300
+0.9760
 </td>
 <td style="text-align:right;">
-0.916
+0.9720
 </td>
 <td style="text-align:right;">
-0.9440
+0.979
 </td>
 </tr>
 <tr>
@@ -2362,13 +2049,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.9630
+0.9900
 </td>
 <td style="text-align:right;">
-0.945
+0.9880
 </td>
 <td style="text-align:right;">
-0.9810
+0.992
 </td>
 </tr>
 <tr>
@@ -2376,13 +2063,13 @@ Especificidad.EstadioIV
 Especificidad.Sano
 </td>
 <td style="text-align:right;">
-0.6440
+0.4740
 </td>
 <td style="text-align:right;">
-0.483
+0.4600
 </td>
 <td style="text-align:right;">
-0.8050
+0.488
 </td>
 </tr>
 <tr>
@@ -2390,13 +2077,13 @@ Especificidad.Sano
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-0.5040
+0.5000
 </td>
 <td style="text-align:right;">
-0.467
+0.5000
 </td>
 <td style="text-align:right;">
-0.5410
+0.500
 </td>
 </tr>
 <tr>
@@ -2404,13 +2091,13 @@ Precisión.media.EstadioI
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.6330
+0.5210
 </td>
 <td style="text-align:right;">
-0.536
+0.5090
 </td>
 <td style="text-align:right;">
-0.7310
+0.532
 </td>
 </tr>
 <tr>
@@ -2418,13 +2105,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.7420
+0.8200
 </td>
 <td style="text-align:right;">
-0.717
+0.7990
 </td>
 <td style="text-align:right;">
-0.7680
+0.842
 </td>
 </tr>
 <tr>
@@ -2432,13 +2119,13 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.8700
+0.8690
 </td>
 <td style="text-align:right;">
-0.844
+0.8430
 </td>
 <td style="text-align:right;">
-0.8970
+0.895
 </td>
 </tr>
 <tr>
@@ -2446,13 +2133,13 @@ Precisión.media.EstadioIV
 Precisión.media.Sano
 </td>
 <td style="text-align:right;">
-0.7700
+0.7320
 </td>
 <td style="text-align:right;">
-0.716
+0.7260
 </td>
 <td style="text-align:right;">
-0.8240
+0.737
 </td>
 </tr>
 <tr>
@@ -2460,13 +2147,13 @@ Precisión.media.Sano
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.0167
+0.0000
 </td>
 <td style="text-align:right;">
--0.055
+0.0000
 </td>
 <td style="text-align:right;">
-0.0884
+0.000
 </td>
 </tr>
 <tr>
@@ -2474,13 +2161,13 @@ Sensibilidad.EstadioI
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.4040
+0.0528
 </td>
 <td style="text-align:right;">
-0.122
+0.0277
 </td>
 <td style="text-align:right;">
-0.6870
+0.078
 </td>
 </tr>
 <tr>
@@ -2488,13 +2175,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.5550
+0.6650
 </td>
 <td style="text-align:right;">
-0.493
+0.6250
 </td>
 <td style="text-align:right;">
-0.6170
+0.706
 </td>
 </tr>
 <tr>
@@ -2502,13 +2189,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.7780
+0.7480
 </td>
 <td style="text-align:right;">
-0.730
+0.6950
 </td>
 <td style="text-align:right;">
-0.8260
+0.802
 </td>
 </tr>
 <tr>
@@ -2516,13 +2203,13 @@ Sensibilidad.EstadioIV
 Sensibilidad.Sano
 </td>
 <td style="text-align:right;">
-0.8960
+0.9890
 </td>
 <td style="text-align:right;">
-0.799
+0.9850
 </td>
 <td style="text-align:right;">
-0.9920
+0.993
 </td>
 </tr>
 <tr>
@@ -2530,13 +2217,296 @@ Sensibilidad.Sano
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.5340
+0.8520
 </td>
 <td style="text-align:right;">
-0.479
+0.8480
 </td>
 <td style="text-align:right;">
-0.5900
+0.856
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div
+id="capas-significativas-y-celdas-significativas-con-datos-balanceados-1"
+class="section level2">
+<h2>Capas significativas y celdas significativas con datos
+balanceados</h2>
+<div id="parámetros-de-la-red-8" class="section level3">
+<h3>Parámetros de la red</h3>
+<ul>
+<li>Arquitectura</li>
+</ul>
+<pre><code>Model: &quot;sequential&quot;
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ dense_4 (Dense)                    (None, 1024)                    183296      
+ dense_3 (Dense)                    (None, 512)                     524800      
+ dropout_2 (Dropout)                (None, 512)                     0           
+ dense_2 (Dense)                    (None, 256)                     131328      
+ dropout_1 (Dropout)                (None, 256)                     0           
+ dense_1 (Dense)                    (None, 128)                     32896       
+ dropout (Dropout)                  (None, 128)                     0           
+ dense (Dense)                      (None, 5)                       645         
+================================================================================
+Total params: 872,965
+Trainable params: 872,965
+Non-trainable params: 0
+________________________________________________________________________________</code></pre>
+</div>
+<div id="evaluación-del-modelo-9" class="section level3">
+<h3>Evaluación del modelo</h3>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (incluyendo ojos sanos) basado en
+redes neuronales usando solo las capas de la mácula (RNFL, GCL e IPL) y
+las celdas con diferencias significativas entre sanos y glaucomatosos, y
+con un número de ojos sanos similar al de los demás estadios.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Medida
+</th>
+<th style="text-align:right;">
+Media
+</th>
+<th style="text-align:right;">
+lim.inf.ci
+</th>
+<th style="text-align:right;">
+lim.sup.ci
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioI
+</td>
+<td style="text-align:right;">
+0.999
+</td>
+<td style="text-align:right;">
+0.996
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.831
+</td>
+<td style="text-align:right;">
+0.809
+</td>
+<td style="text-align:right;">
+0.852
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.924
+</td>
+<td style="text-align:right;">
+0.914
+</td>
+<td style="text-align:right;">
+0.934
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.958
+</td>
+<td style="text-align:right;">
+0.948
+</td>
+<td style="text-align:right;">
+0.968
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Especificidad.Sano
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+0.645
+</td>
+<td style="text-align:right;">
+0.712
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioI
+</td>
+<td style="text-align:right;">
+0.499
+</td>
+<td style="text-align:right;">
+0.498
+</td>
+<td style="text-align:right;">
+0.500
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioII
+</td>
+<td style="text-align:right;">
+0.635
+</td>
+<td style="text-align:right;">
+0.614
+</td>
+<td style="text-align:right;">
+0.656
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIII
+</td>
+<td style="text-align:right;">
+0.748
+</td>
+<td style="text-align:right;">
+0.731
+</td>
+<td style="text-align:right;">
+0.766
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.EstadioIV
+</td>
+<td style="text-align:right;">
+0.863
+</td>
+<td style="text-align:right;">
+0.845
+</td>
+<td style="text-align:right;">
+0.880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.media.Sano
+</td>
+<td style="text-align:right;">
+0.762
+</td>
+<td style="text-align:right;">
+0.750
+</td>
+<td style="text-align:right;">
+0.775
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioI
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioII
+</td>
+<td style="text-align:right;">
+0.439
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.498
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIII
+</td>
+<td style="text-align:right;">
+0.573
+</td>
+<td style="text-align:right;">
+0.531
+</td>
+<td style="text-align:right;">
+0.615
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.EstadioIV
+</td>
+<td style="text-align:right;">
+0.767
+</td>
+<td style="text-align:right;">
+0.726
+</td>
+<td style="text-align:right;">
+0.807
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sensibilidad.Sano
+</td>
+<td style="text-align:right;">
+0.846
+</td>
+<td style="text-align:right;">
+0.804
+</td>
+<td style="text-align:right;">
+0.888
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precisión.global
+</td>
+<td style="text-align:right;">
+0.541
+</td>
+<td style="text-align:right;">
+0.531
+</td>
+<td style="text-align:right;">
+0.551
 </td>
 </tr>
 </tbody>
@@ -2544,7 +2514,8 @@ Precisión.global
 </div>
 </div>
 </div>
-<div id="clasificación-en-estadios-sin-incluir-sanos" class="section level1">
+<div id="clasificación-en-estadios-sin-incluir-sanos"
+class="section level1">
 <h1>Clasificación en estadios (sin incluir sanos)</h1>
 <div id="todas-las-capas-y-celdas-2" class="section level2">
 <h2>Todas las capas y celdas</h2>
@@ -2556,21 +2527,13 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_4 (Dense)                    (None, 1024)                    459776      
-                                                                                
  dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 4)                       516         
-                                                                                
 ================================================================================
 Total params: 1,149,316
 Trainable params: 1,149,316
@@ -2580,7 +2543,10 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en redes neuronales usando todas las capas de la mácula pero solo las celdas con diferencias significativas entre sanos y glaucomatosos.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en
+redes neuronales usando todas las capas de la mácula pero solo las
+celdas con diferencias significativas entre sanos y glaucomatosos.
 </caption>
 <thead>
 <tr>
@@ -2604,13 +2570,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.880
+0.882
 </td>
 <td style="text-align:right;">
-0.823
+0.854
 </td>
 <td style="text-align:right;">
-0.938
+0.910
 </td>
 </tr>
 <tr>
@@ -2618,13 +2584,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.778
+0.784
 </td>
 <td style="text-align:right;">
-0.709
+0.764
 </td>
 <td style="text-align:right;">
-0.846
+0.804
 </td>
 </tr>
 <tr>
@@ -2632,13 +2598,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.902
+0.893
 </td>
 <td style="text-align:right;">
-0.848
+0.877
 </td>
 <td style="text-align:right;">
-0.956
+0.909
 </td>
 </tr>
 <tr>
@@ -2646,13 +2612,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.949
+0.941
 </td>
 <td style="text-align:right;">
-0.918
+0.928
 </td>
 <td style="text-align:right;">
-0.981
+0.954
 </td>
 </tr>
 <tr>
@@ -2660,13 +2626,13 @@ Especificidad.EstadioIV
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-0.765
+0.744
 </td>
 <td style="text-align:right;">
-0.715
+0.725
 </td>
 <td style="text-align:right;">
-0.815
+0.763
 </td>
 </tr>
 <tr>
@@ -2674,13 +2640,13 @@ Precisión.media.EstadioI
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.730
+0.712
 </td>
 <td style="text-align:right;">
-0.679
+0.683
 </td>
 <td style="text-align:right;">
-0.782
+0.741
 </td>
 </tr>
 <tr>
@@ -2688,13 +2654,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.729
+0.739
 </td>
 <td style="text-align:right;">
-0.638
+0.710
 </td>
 <td style="text-align:right;">
-0.819
+0.769
 </td>
 </tr>
 <tr>
@@ -2702,10 +2668,10 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.852
+0.873
 </td>
 <td style="text-align:right;">
-0.806
+0.847
 </td>
 <td style="text-align:right;">
 0.899
@@ -2716,13 +2682,13 @@ Precisión.media.EstadioIV
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.650
+0.605
 </td>
 <td style="text-align:right;">
-0.494
+0.569
 </td>
 <td style="text-align:right;">
-0.806
+0.640
 </td>
 </tr>
 <tr>
@@ -2730,13 +2696,13 @@ Sensibilidad.EstadioI
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.683
+0.639
 </td>
 <td style="text-align:right;">
-0.519
+0.588
 </td>
 <td style="text-align:right;">
-0.847
+0.691
 </td>
 </tr>
 <tr>
@@ -2744,13 +2710,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.555
+0.586
 </td>
 <td style="text-align:right;">
-0.412
+0.528
 </td>
 <td style="text-align:right;">
-0.698
+0.644
 </td>
 </tr>
 <tr>
@@ -2758,13 +2724,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.756
+0.805
 </td>
 <td style="text-align:right;">
-0.636
+0.760
 </td>
 <td style="text-align:right;">
-0.875
+0.850
 </td>
 </tr>
 <tr>
@@ -2772,20 +2738,21 @@ Sensibilidad.EstadioIV
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.643
+0.636
 </td>
 <td style="text-align:right;">
-0.592
+0.605
 </td>
 <td style="text-align:right;">
-0.695
+0.666
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="todas-las-capas-y-celdas-significativas-2" class="section level2">
+<div id="todas-las-capas-y-celdas-significativas-2"
+class="section level2">
 <h2>Todas las capas y celdas significativas</h2>
 <div id="parámetros-de-la-red-9" class="section level3">
 <h3>Parámetros de la red</h3>
@@ -2797,21 +2764,13 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_4 (Dense)                    (None, 1024)                    183296      
-                                                                                
  dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 4)                       516         
-                                                                                
 ================================================================================
 Total params: 872,836
 Trainable params: 872,836
@@ -2822,7 +2781,10 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en redes neuronales usando todas las capas de la mácula pero solo las celdas con diferencias significativas entre sanos y glaucomatosos.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en
+redes neuronales usando todas las capas de la mácula pero solo las
+celdas con diferencias significativas entre sanos y glaucomatosos.
 </caption>
 <thead>
 <tr>
@@ -2846,13 +2808,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.827
+0.870
 </td>
 <td style="text-align:right;">
-0.778
+0.845
 </td>
 <td style="text-align:right;">
-0.877
+0.895
 </td>
 </tr>
 <tr>
@@ -2860,13 +2822,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.745
+0.734
 </td>
 <td style="text-align:right;">
-0.687
+0.726
 </td>
 <td style="text-align:right;">
-0.803
+0.742
 </td>
 </tr>
 <tr>
@@ -2874,13 +2836,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.893
+0.885
 </td>
 <td style="text-align:right;">
-0.804
+0.875
 </td>
 <td style="text-align:right;">
-0.983
+0.895
 </td>
 </tr>
 <tr>
@@ -2888,13 +2850,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.955
+0.940
 </td>
 <td style="text-align:right;">
-0.883
+0.927
 </td>
 <td style="text-align:right;">
-1.030
+0.953
 </td>
 </tr>
 <tr>
@@ -2902,13 +2864,13 @@ Especificidad.EstadioIV
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-NA
+0.663
 </td>
 <td style="text-align:right;">
-NA
+0.631
 </td>
 <td style="text-align:right;">
-NA
+0.695
 </td>
 </tr>
 <tr>
@@ -2916,13 +2878,13 @@ NA
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.631
+0.678
 </td>
 <td style="text-align:right;">
-0.555
+0.657
 </td>
 <td style="text-align:right;">
-0.708
+0.700
 </td>
 </tr>
 <tr>
@@ -2930,13 +2892,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.762
+0.747
 </td>
 <td style="text-align:right;">
-0.639
+0.722
 </td>
 <td style="text-align:right;">
-0.884
+0.772
 </td>
 </tr>
 <tr>
@@ -2944,13 +2906,13 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.861
+0.837
 </td>
 <td style="text-align:right;">
-0.787
+0.824
 </td>
 <td style="text-align:right;">
-0.935
+0.850
 </td>
 </tr>
 <tr>
@@ -2958,13 +2920,13 @@ Precisión.media.EstadioIV
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-NA
+0.457
 </td>
 <td style="text-align:right;">
-NA
+0.379
 </td>
 <td style="text-align:right;">
-NA
+0.535
 </td>
 </tr>
 <tr>
@@ -2972,13 +2934,13 @@ NA
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.517
+0.622
 </td>
 <td style="text-align:right;">
-0.389
+0.579
 </td>
 <td style="text-align:right;">
-0.646
+0.666
 </td>
 </tr>
 <tr>
@@ -2986,13 +2948,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.630
+0.609
 </td>
 <td style="text-align:right;">
-0.305
+0.552
 </td>
 <td style="text-align:right;">
-0.955
+0.666
 </td>
 </tr>
 <tr>
@@ -3000,13 +2962,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.767
+0.735
 </td>
 <td style="text-align:right;">
-0.548
+0.708
 </td>
 <td style="text-align:right;">
-0.986
+0.762
 </td>
 </tr>
 <tr>
@@ -3014,20 +2976,21 @@ Sensibilidad.EstadioIV
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.580
+0.585
 </td>
 <td style="text-align:right;">
-0.541
+0.570
 </td>
 <td style="text-align:right;">
-0.619
+0.600
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="capas-significativas-y-todas-las-celdas-2" class="section level2">
+<div id="capas-significativas-y-todas-las-celdas-2"
+class="section level2">
 <h2>Capas significativas y todas las celdas</h2>
 <div id="parámetros-de-la-red-10" class="section level3">
 <h3>Parámetros de la red</h3>
@@ -3039,21 +3002,13 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_4 (Dense)                    (None, 1024)                    197632      
-                                                                                
  dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 4)                       516         
-                                                                                
 ================================================================================
 Total params: 887,172
 Trainable params: 887,172
@@ -3064,7 +3019,11 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en redes neuronales usando solo las capas de la mácula con diferencias significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y tods las celdas.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en
+redes neuronales usando solo las capas de la mácula con diferencias
+significativas entre sanos y glaucomatosos (RNFL, GCL e IPL) y tods las
+celdas.
 </caption>
 <thead>
 <tr>
@@ -3088,13 +3047,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.838
+0.854
 </td>
 <td style="text-align:right;">
-0.760
+0.816
 </td>
 <td style="text-align:right;">
-0.915
+0.892
 </td>
 </tr>
 <tr>
@@ -3105,10 +3064,10 @@ Especificidad.EstadioII
 0.751
 </td>
 <td style="text-align:right;">
-0.727
+0.720
 </td>
 <td style="text-align:right;">
-0.775
+0.781
 </td>
 </tr>
 <tr>
@@ -3116,13 +3075,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.898
+0.884
 </td>
 <td style="text-align:right;">
-0.870
+0.872
 </td>
 <td style="text-align:right;">
-0.927
+0.897
 </td>
 </tr>
 <tr>
@@ -3130,13 +3089,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.940
+0.946
 </td>
 <td style="text-align:right;">
-0.917
+0.937
 </td>
 <td style="text-align:right;">
-0.964
+0.955
 </td>
 </tr>
 <tr>
@@ -3144,13 +3103,13 @@ Especificidad.EstadioIV
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-0.656
+0.662
 </td>
 <td style="text-align:right;">
-0.628
+0.632
 </td>
 <td style="text-align:right;">
-0.684
+0.693
 </td>
 </tr>
 <tr>
@@ -3158,13 +3117,13 @@ Precisión.media.EstadioI
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.654
+0.672
 </td>
 <td style="text-align:right;">
-0.529
+0.643
 </td>
 <td style="text-align:right;">
-0.780
+0.701
 </td>
 </tr>
 <tr>
@@ -3172,13 +3131,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.763
+0.762
 </td>
 <td style="text-align:right;">
-0.734
+0.731
 </td>
 <td style="text-align:right;">
-0.791
+0.793
 </td>
 </tr>
 <tr>
@@ -3186,13 +3145,13 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.865
+0.846
 </td>
 <td style="text-align:right;">
-0.848
+0.829
 </td>
 <td style="text-align:right;">
-0.881
+0.863
 </td>
 </tr>
 <tr>
@@ -3200,13 +3159,13 @@ Precisión.media.EstadioIV
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.474
+0.471
 </td>
 <td style="text-align:right;">
-0.353
+0.374
 </td>
 <td style="text-align:right;">
-0.596
+0.568
 </td>
 </tr>
 <tr>
@@ -3214,13 +3173,13 @@ Sensibilidad.EstadioI
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.558
+0.593
 </td>
 <td style="text-align:right;">
-0.305
+0.525
 </td>
 <td style="text-align:right;">
-0.811
+0.660
 </td>
 </tr>
 <tr>
@@ -3228,13 +3187,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.627
+0.640
 </td>
 <td style="text-align:right;">
-0.544
+0.574
 </td>
 <td style="text-align:right;">
-0.709
+0.706
 </td>
 </tr>
 <tr>
@@ -3242,13 +3201,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.789
+0.747
 </td>
 <td style="text-align:right;">
-0.741
+0.710
 </td>
 <td style="text-align:right;">
-0.837
+0.783
 </td>
 </tr>
 <tr>
@@ -3256,20 +3215,21 @@ Sensibilidad.EstadioIV
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.580
+0.591
 </td>
 <td style="text-align:right;">
-0.493
+0.568
 </td>
 <td style="text-align:right;">
-0.667
+0.615
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="capas-significativas-y-celdas-significativas-2" class="section level2">
+<div id="capas-significativas-y-celdas-significativas-2"
+class="section level2">
 <h2>Capas significativas y celdas significativas</h2>
 <div id="parámetros-de-la-red-11" class="section level3">
 <h3>Parámetros de la red</h3>
@@ -3281,21 +3241,13 @@ ________________________________________________________________________________
  Layer (type)                       Output Shape                    Param #     
 ================================================================================
  dense_4 (Dense)                    (None, 1024)                    183296      
-                                                                                
  dense_3 (Dense)                    (None, 512)                     524800      
-                                                                                
  dropout_2 (Dropout)                (None, 512)                     0           
-                                                                                
  dense_2 (Dense)                    (None, 256)                     131328      
-                                                                                
  dropout_1 (Dropout)                (None, 256)                     0           
-                                                                                
  dense_1 (Dense)                    (None, 128)                     32896       
-                                                                                
  dropout (Dropout)                  (None, 128)                     0           
-                                                                                
  dense (Dense)                      (None, 4)                       516         
-                                                                                
 ================================================================================
 Total params: 872,836
 Trainable params: 872,836
@@ -3306,7 +3258,10 @@ ________________________________________________________________________________
 <h3>Evaluación del modelo</h3>
 <table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Medidas de evaluación de la capacidad predictiva del modelo de clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en redes neuronales usando solo las capas de la mácula (RNFL, GCL e IPL) y las celdas con diferencias significativas entre sanos y glaucomatosos.
+Medidas de evaluación de la capacidad predictiva del modelo de
+clasificación en estadios de glaucoma (sin incluir ojos sanos) basado en
+redes neuronales usando solo las capas de la mácula (RNFL, GCL e IPL) y
+las celdas con diferencias significativas entre sanos y glaucomatosos.
 </caption>
 <thead>
 <tr>
@@ -3330,13 +3285,13 @@ lim.sup.ci
 Especificidad.EstadioI
 </td>
 <td style="text-align:right;">
-0.851
+0.859
 </td>
 <td style="text-align:right;">
-0.807
+0.833
 </td>
 <td style="text-align:right;">
-0.895
+0.885
 </td>
 </tr>
 <tr>
@@ -3344,13 +3299,13 @@ Especificidad.EstadioI
 Especificidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.770
+0.735
 </td>
 <td style="text-align:right;">
-0.644
+0.693
 </td>
 <td style="text-align:right;">
-0.895
+0.778
 </td>
 </tr>
 <tr>
@@ -3358,13 +3313,13 @@ Especificidad.EstadioII
 Especificidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.900
+0.881
 </td>
 <td style="text-align:right;">
-0.897
+0.859
 </td>
 <td style="text-align:right;">
-0.903
+0.902
 </td>
 </tr>
 <tr>
@@ -3372,13 +3327,13 @@ Especificidad.EstadioIII
 Especificidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.947
+0.946
 </td>
 <td style="text-align:right;">
 0.936
 </td>
 <td style="text-align:right;">
-0.957
+0.956
 </td>
 </tr>
 <tr>
@@ -3386,13 +3341,13 @@ Especificidad.EstadioIV
 Precisión.media.EstadioI
 </td>
 <td style="text-align:right;">
-NA
+0.659
 </td>
 <td style="text-align:right;">
-NA
+0.625
 </td>
 <td style="text-align:right;">
-NA
+0.692
 </td>
 </tr>
 <tr>
@@ -3400,13 +3355,13 @@ NA
 Precisión.media.EstadioII
 </td>
 <td style="text-align:right;">
-0.681
+0.668
 </td>
 <td style="text-align:right;">
-0.633
+0.651
 </td>
 <td style="text-align:right;">
-0.729
+0.685
 </td>
 </tr>
 <tr>
@@ -3414,13 +3369,13 @@ Precisión.media.EstadioII
 Precisión.media.EstadioIII
 </td>
 <td style="text-align:right;">
-0.777
+0.743
 </td>
 <td style="text-align:right;">
-0.719
+0.724
 </td>
 <td style="text-align:right;">
-0.835
+0.761
 </td>
 </tr>
 <tr>
@@ -3428,13 +3383,13 @@ Precisión.media.EstadioIII
 Precisión.media.EstadioIV
 </td>
 <td style="text-align:right;">
-0.879
+0.855
 </td>
 <td style="text-align:right;">
-0.852
+0.840
 </td>
 <td style="text-align:right;">
-0.906
+0.871
 </td>
 </tr>
 <tr>
@@ -3442,13 +3397,13 @@ Precisión.media.EstadioIV
 Sensibilidad.EstadioI
 </td>
 <td style="text-align:right;">
-NA
+0.459
 </td>
 <td style="text-align:right;">
-NA
+0.372
 </td>
 <td style="text-align:right;">
-NA
+0.545
 </td>
 </tr>
 <tr>
@@ -3456,13 +3411,13 @@ NA
 Sensibilidad.EstadioII
 </td>
 <td style="text-align:right;">
-0.592
+0.600
 </td>
 <td style="text-align:right;">
-0.465
+0.549
 </td>
 <td style="text-align:right;">
-0.719
+0.652
 </td>
 </tr>
 <tr>
@@ -3470,13 +3425,13 @@ Sensibilidad.EstadioII
 Sensibilidad.EstadioIII
 </td>
 <td style="text-align:right;">
-0.653
+0.604
 </td>
 <td style="text-align:right;">
-0.538
+0.563
 </td>
 <td style="text-align:right;">
-0.769
+0.646
 </td>
 </tr>
 <tr>
@@ -3484,13 +3439,13 @@ Sensibilidad.EstadioIII
 Sensibilidad.EstadioIV
 </td>
 <td style="text-align:right;">
-0.811
+0.765
 </td>
 <td style="text-align:right;">
-0.763
+0.732
 </td>
 <td style="text-align:right;">
-0.859
+0.798
 </td>
 </tr>
 <tr>
@@ -3498,13 +3453,13 @@ Sensibilidad.EstadioIV
 Precisión.global
 </td>
 <td style="text-align:right;">
-0.606
+0.580
 </td>
 <td style="text-align:right;">
-0.500
+0.559
 </td>
 <td style="text-align:right;">
-0.711
+0.601
 </td>
 </tr>
 </tbody>
